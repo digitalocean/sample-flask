@@ -1,83 +1,33 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Imperva Managed Services">
+{% block content %}
 
-    <title>Imperva MS</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-</head>
+<div class="jumbotron">
+    <h1>Flask</h1>
+    <p class="lead">Flask is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://flask.pocoo.org/" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
 
-<body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="https://www.imperva.com/wp-content/uploads/2020/06/imperva_logo.svg" alt="Imperva"></a>\n')
-    </nav>
-
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link active" href="#"><span data-feather="home"></span>Dashboard<span class="sr-only">(current)</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="#"><span data-feather="users"></span>Visitors</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#"><span data-feather="bar-chart-2"></span>Reports</a></li>
-                    </ul>
-                </div>
-            </nav>
-
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <h4 class="h4">Sites</h4>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group mr-2">
-                        <button class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button class="btn btn-sm btn-outline-secondary">Export</button>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="countrySelector" data-bs-toggle="dropdown" aria-expanded="false">
-                            Country
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="countrySelector">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <h5>Visitor Data</h5>
-            <div class="table-responsive">
-                <div id="status" name="status">Status Message</div>
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-                <table class="table dark table-striped table-sm table-hover">
-                    <thead>
-                        <tr>
-                            <th><a href="#">DateTime</a></th>
-                            <th><a href="#">URL</a></th>
-                            <th><a href="#">Location</a></th>
-                            <th><a href="#">clientType</a></th>
-                        </tr>
-                    </thead>
-                    <tbody id="visitorData">
-                        -
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            Flask gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://flask.pocoo.org/docs/">Learn more &raquo;</a></p>
     </div>
-    <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
-    <script src='https://unpkg.com/feather-icons/dist/feather.min.js'></script>
-    <script>feather.replace()</script>
-</body>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>The Python Package Index is a repository of software for the Python programming language.</p>
+        <p><a class="btn btn-default" href="https://pypi.python.org/pypi">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Microsoft Azure</h2>
+        <p>You can easily publish to Microsoft Azure using Visual Studio. Find out how you can host your application using a free trial today.</p>
+        <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
+    </div>
+</div>
 
-</html>
+{% endblock %}
