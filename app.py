@@ -8,8 +8,7 @@ load_dotenv(find_dotenv())
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
-app = Flask(__name__, static_folder='../client',
-            static_url_path='', template_folder='../client')
+app = Flask(__name__)
 
 
 @app.route('/')
