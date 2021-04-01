@@ -22,7 +22,7 @@ stripe.api_key = stripe_keys["secret_key"]
 def index():
     domain = request.url_root.split(
         "https://")[-1].split("http://")[-1].replace("/", "")
-    return render_template("index.html", domain=domain)
+    return render_template("index.html", domain=domain, didkit_version=didkit.getVersion())
 
 
 @app.route("/success")
