@@ -1,59 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Developer Office Hours</title>
-        <link href="https://stripe-samples.github.io/developer-office-hours/demo.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <div id="main">
-            <div id="container">
-                <div id="panel">
-                    <h1>Welcome to the adriang.xyz community</h1>
-                    <button type="submit" id="btn">Click to subscribe to a Trustee</button>
-                </div>
-            </div>
-        </div>
-        <script src="https://js.stripe.com/v3/"></script>
-        <script charset="utf-8">
-            // TODO: fetch publishable key
-            var stripe;
-            fetch('/public-keys')
-                .then((response) => response.json())
-                .then((data) => {
-                    stripe = Stripe(data.key);
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+{% extends "base.html" %}
 
-            var btn = document.getElementById('btn');
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                fetch('/my-route', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        test: 'abc123',
-                        customer: 'cus_xxx',
-                        payment_method: 'pm_card_visa',
-                        address: {
-                            line1: 'Main St',
-                        }
-                    }),
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    stripe = Stripe(data.key);
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-            });
-        </script>
-    </body>
-</html>
+{% block content %}
+  <div class="flex flex-col items-center justify-center h-1/4 w-1/4 border rounded shadow-xl border-gray-300 border-opacity-40 p-8">
+    <h1 class="text-gray-700 text-2xl text-center">Welcome to the <span class="font-bold text-green-800">{{domain}}</span> community</h1>
+    <button class="bg-green-500 px-4 py-2 w-full text-white rounded mt-12 font-bold" id="submitBtn">Click to subscribe to a Trustee</button>
+  </div>
+{% endblock %}
