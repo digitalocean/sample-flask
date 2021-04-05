@@ -16,18 +16,5 @@ app = Flask(__name__, static_folder='./client', static_url_path='', template_fol
 def index():
     return render_template('index.html')
 
-
-@app.route('/public-keys')
-def public_keys():
-    return jsonify({ 'key': os.getenv('STRIPE_PUBLISHABLE_KEY') })
-
-
-@app.route('/my-route', methods=['POST'])
-def my_route():
-    print('This is `test`: ')
-    print(request.json['test'])
-    return jsonify({ 'request': request.json })
-
-    
 app.run(port=4242)
 
