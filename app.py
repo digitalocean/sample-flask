@@ -29,5 +29,6 @@ def my_route():
     return jsonify({ 'request': request.json })
 
     
-app.run(port=8080)
+if __name__ == '__main__':
+    app.run(port=8080)
 
