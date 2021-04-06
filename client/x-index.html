@@ -27,6 +27,33 @@
                 .catch((error) => {
                     console.error('Error:', error);
                 });
+
+            var btn = document.getElementById('btn');
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('/my-route', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        test: 'abc123',
+                        customer: 'cus_xxx',
+                        payment_method: 'pm_card_visa',
+                        address: {
+                            line1: 'Main St',
+                        }
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    stripe = Stripe(data.key);
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
         </script>
     </body>
 </html>
