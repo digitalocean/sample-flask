@@ -7,6 +7,7 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <script src="https://unpkg.com/credential-handler-polyfill@2.1.1/dist/credential-handler-polyfill.min.js"></script>
   </head>
   <body class="w-screen h-screen items-center justify-center flex">
     {% block content %}{% endblock %}

@@ -2,7 +2,11 @@ import os
 
 import stripe
 import didkit
+import errno
+import json
+from issue_credential import issueCredential
 from flask import Flask, jsonify, render_template, request
+from didkit import generateEd25519Key
 
 app = Flask(__name__)
 
@@ -27,8 +31,9 @@ def index():
 
 @app.route("/success")
 def success():
-    # mail guy
-    return 'Success'
+    credential = json.dumps(issueCredential(request), indent=2, sort_keys=True)
+
+    return render_template('credential.html', credential=credential, didkit_version=didkit.getVersion())
 
 
 @app.route("/cancelation")
@@ -76,3 +81,17 @@ def create_checkout_session():
         return jsonify({"sessionId": checkout_session["id"]})
     except Exception as e:
         return jsonify(error=str(e)), 403
+
+
+if __name__ == 'app':
+    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
+    try:
+        file_handle = os.open('key.jwk', flags)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            pass
+        else:
+            raise
+    else:
+        with os.fdopen(file_handle, 'w') as file_obj:
+            file_obj.write(generateEd25519Key())
