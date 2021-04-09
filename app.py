@@ -49,7 +49,7 @@ def get_publishable_key():
 
 @app.route("/create-checkout-session")
 def create_checkout_session():
-    domain_url = "http://localhost:5000/"
+    domain_url = request.url_root
     stripe.api_key = stripe_keys["secret_key"]
     subscription = stripe.Price.retrieve(stripe_prices["subscription"])
 
