@@ -1,27 +1,94 @@
-import stripe
 import os
 
-from flask import Flask, render_template, jsonify, request
-from dotenv import load_dotenv, find_dotenv
+import stripe
+import didkit
+import errno
+import json
+from issue_credential import issueCredential
+from flask import Flask, jsonify, render_template, request
+from didkit import generateEd25519Key
 
-load_dotenv(find_dotenv())
+app = Flask(__name__)
 
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+stripe_keys = {
+    "secret_key": os.environ["STRIPE_SECRET_KEY"],
+    "publishable_key": os.environ["STRIPE_PUBLISHABLE_KEY"],
+}
 
+stripe_prices = {
+    "subscription": os.environ["SUBSCRIPTION_PRICE_ID"],
+}
+
+<<<<<<< HEAD
 # print(stripe.Plan.list(limit=1))
 
 app = Flask(__name__, static_folder='./client', static_url_path='', template_folder='./client')
+=======
+stripe.api_key = stripe_keys["secret_key"]
+>>>>>>> 6d8a324b1259d6bc6dbeff8741cf12dbaeb517e5
 
-@app.route('/')
+
+@app.route("/")
 def index():
-    return render_template('index.html')
+    domain = request.url_root.split(
+        "https://")[-1].split("http://")[-1].replace("/", "")
+    return render_template("index.html", domain=domain, didkit_version=didkit.getVersion())
 
 
-@app.route('/public-keys')
-def public_keys():
-    return jsonify({ 'key': os.getenv('STRIPE_PUBLISHABLE_KEY') })
+@app.route("/success")
+def success():
+    credential = json.dumps(issueCredential(request), indent=2, sort_keys=True)
+
+    return render_template('credential.html', credential=credential, didkit_version=didkit.getVersion())
 
 
+@app.route("/cancelation")
+def cancelation():
+    return 'Canceled'
+
+
+@app.route("/config")
+def get_publishable_key():
+    stripe_config = {"publicKey": stripe_keys["publishable_key"]}
+    return jsonify(stripe_config)
+
+
+@app.route("/create-checkout-session")
+def create_checkout_session():
+    domain_url = request.url_root
+    stripe.api_key = stripe_keys["secret_key"]
+    subscription = stripe.Price.retrieve(stripe_prices["subscription"])
+
+    try:
+        # Create new Checkout Session for the order
+        # Other optional params include:
+        # [billing_address_collection] - to display billing address details on the page
+        # [customer] - if you have an existing Stripe Customer ID
+        # [payment_intent_data] - capture the payment later
+        # [customer_email] - prefill the email input in the form
+        # For full details see https://stripe.com/docs/api/checkout/sessions/create
+
+        # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+        checkout_session = stripe.checkout.Session.create(
+            success_url=domain_url +
+            "success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=domain_url + "cancelled",
+            payment_method_types=["card"],
+            mode="payment",
+            line_items=[
+                {
+                    "name": subscription["nickname"],
+                    "quantity": subscription["recurring"]["interval_count"],
+                    "currency": subscription["currency"],
+                    "amount": subscription["unit_amount"],
+                }
+            ]
+        )
+        return jsonify({"sessionId": checkout_session["id"]})
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
+<<<<<<< HEAD
 @app.route('/my-route', methods=['POST'])
 def my_route():
 #    print('This is `test`: ')
@@ -32,3 +99,18 @@ def my_route():
 if __name__ == '__main__':
     app.run(port=8080)
 
+=======
+
+if __name__ == 'app':
+    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
+    try:
+        file_handle = os.open('key.jwk', flags)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            pass
+        else:
+            raise
+    else:
+        with os.fdopen(file_handle, 'w') as file_obj:
+            file_obj.write(generateEd25519Key())
+>>>>>>> 6d8a324b1259d6bc6dbeff8741cf12dbaeb517e5
