@@ -8,7 +8,7 @@ load_dotenv(find_dotenv())
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
-print(stripe.Plan.list(limit=1))
+# print(stripe.Plan.list(limit=1))
 
 app = Flask(__name__, static_folder='./client', static_url_path='', template_folder='./client')
 
@@ -24,7 +24,7 @@ def public_keys():
 
 @app.route('/my-route', methods=['POST'])
 def my_route():
-    print('This is `test`: ')
+#    print('This is `test`: ')
     print(request.json['test'])
     return jsonify({ 'request': request.json })
 
