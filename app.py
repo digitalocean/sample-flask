@@ -55,4 +55,4 @@ def answer():
     return render_template("answer.html", t=t, data=data)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8001)
+    app.run()
