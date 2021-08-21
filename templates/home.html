@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="home">
+    <h1>Are you an asshole?</h1>
+    <p>Tell us what you did and davinci </p>
+    <form action="/answer" method="post">
+        <input type="text" name="sin" placeholder="Tell us your sin">
+        <input type="submit" value="Submit" />
+    </form>
+
+  </div>
+{% endblock %}
