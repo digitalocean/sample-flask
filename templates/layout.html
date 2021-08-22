@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Are you an asshole?</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <h1 class="logo">AssHOLE</h1>
-        <strong><nav>
-          <ul class="menu">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-          </ul>
-        </nav></strong>
-      </div>
-    </header>
+<html lang="en-US">
+
+<head>
+
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<!-- Responsive stylesheet -->
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+	<title>Una &#8211; One Page starter them</title>
+	<meta name='robots' content='max-image-preview:large' />
+	<link rel='dns-prefetch' href='//s.w.org' />
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://demos.onepagelove.com/una/wp-includes/css/dist/block-library/style.min.css?ver=5.8' type='text/css' media='all' />
+	<link rel='stylesheet' id='una-main-styles-css'  href='https://demos.onepagelove.com/una/wp-content/themes/una/style.css?ver=1.0.3' type='text/css' media='screen' />
+	<meta name="generator" content="WordPress 5.8" />
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="https://onepagelove-wpengine.netdna-ssl.com/wp-content/themes/onepagelove/img/favicons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="https://onepagelove-wpengine.netdna-ssl.com/wp-content/themes/onepagelove/img/favicons/favicon-16x16.png" sizes="16x16">
+
+	<!-- Google Analytics -->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-3920997-4', 'auto');
+	  ga('send', 'pageview');
+	</script>
+
+</head>
     <div class="container">
       {% block content %}
       {% endblock %}
