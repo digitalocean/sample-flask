@@ -1,9 +1,14 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block content %}
-  <div class="home blog" >
-    <h1>Are you an asshole?</h1>
-      <h2>☠️ Your sin... {{ data }} </h2>
-    <h2>{{ t }}</h2>
-
+<div class="temp">
+	<div class="intro">
+    <a href="{{ url_for('home') }}">Are you an asshole?</a>
+        <br><br>
+        Your sin... {{ data }}
+        <br><br>
+        <i>{{ t }}</i>
+        <br><br><br><br>
+        Hey Asshole! Donate to my friends charity <a href="https://caracollective.org">cara collective</a>. Maybe it will make up for whatever you did. 🙄
   </div>
+</div>
 {% endblock %}

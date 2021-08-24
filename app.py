@@ -39,7 +39,7 @@ def home():
 
 @app.route('/answer', methods=['GET','POST'])
 def answer():
-    data = request.form['sin']
+    data = request.form['question']
     response = openai.Completion.create(
         engine="davinci",
         prompt=f'Please provide me a yes or no answer based on my behavior.\n\nHuman: Hello, I called my friend a bitch, am I an asshole?\nAI: Yes.\nHuman: I told Santa to give my sister coal, am I an asshole?\nAI: Congratulations! You are an asshole!\nHuman: I worked at a church helping to serve homeless people, am I an asshole?\nAI: No.\nHuman: {data},am I an asshole?\nAI:',
