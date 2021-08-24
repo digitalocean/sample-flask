@@ -1,30 +1,48 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../../../Downloads/bootstrap-4.0.0%202/favicon.ico">
 
-<head>
+    <title>Cover Template for Bootstrap</title>
 
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-	<!-- Responsive stylesheet -->
-	<meta name="viewport" content="width=device-width,initial-scale=1" />
-
-	<title>Una &#8211; One Page starter them</title>
-	<meta name='robots' content='max-image-preview:large' />
-	<link rel='dns-prefetch' href='//s.w.org' />
-	<link rel='stylesheet' id='wp-block-library-css'  href='static/css/style.min.css' type='text/css' media='all' />
-	<link rel='stylesheet' id='una-main-styles-css'  href='static/css/style.css' type='text/css' media='screen' />
-	<meta name="generator" content="WordPress 5.8" />
-
-	<!-- Favicon -->
-	<link rel="icon" type="image/png" href="https://onepagelove-wpengine.netdna-ssl.com/wp-content/themes/onepagelove/img/favicons/favicon-32x32.png" sizes="32x32">
-	<link rel="icon" type="image/png" href="https://onepagelove-wpengine.netdna-ssl.com/wp-content/themes/onepagelove/img/favicons/favicon-16x16.png" sizes="16x16">
-
-
-</head>
-    <div class="container">
+    <!-- Custom styles for this template -->
+    <link href="static/css/cover.css" rel="stylesheet">
+  </head>
+	<body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Cover</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Contact</a>
+          </nav>
+        </div>
+      </header>
       {% block content %}
       {% endblock %}
+     <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>
+      </footer>
     </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../../../../../Downloads/bootstrap-4.0.0%202/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../../../../../Downloads/bootstrap-4.0.0%202/assets/js/vendor/popper.min.js"></script>
+    <script src="../../../../../../Downloads/bootstrap-4.0.0%202/dist/js/bootstrap.min.js"></script>
   </body>
 </html>

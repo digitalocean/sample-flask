@@ -1,11 +1,20 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block content %}
-  <div class="home">
-    <div class="intro"><a href="https://onepagelove.com/una">Are you an asshole?</a> After years of asking myself this question I've decided to stop caring and let a robot tell me. Come confess your sins in 21st century AI glory... the best part is this confessional doesn't include </div><form action="/answer" method="post">
-      <input type="text" name="sin" placeholder="Tell us your sin">
-      <input type="submit" value="Submit" />
-    </form><div class="instructions">Either start editing index.php or head over to...<ul><li>Dashboard</li><li>Settings</li><li>Reading</li><li>Front Page Displays</li><li>A Static Page</li><li>Front Page:</li><li>Choose a Page</li></ul>✌
-    </div>
+<div class="temp">
+	<div class="intro">
+		<a href="#">Asshole!</a> 'as·hōl After years of asking myself this question, I've decided to stop caring and let a robot tell me. Confess your sins in 21st century AI style... the best part is this confessional doesn't include a creepy priest.
+	</div>
 
-  </div>
+	<form action="/answer" method="post">
+  			<input type="text" name="name" class="question" id="nme" required autocomplete="off">
+  			<label for="nme"> <span>What did you do now?</span> </label>
+  			<input type="submit" value="Submit!">
+	</form>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="instructions">Hey Just FYI, my servers don't store any of your data ever, but your "sins" may be be reviewed or stored by the OpenAI project who hosts the wonderful ML model that you're harassing.</div>
+</div>
 {% endblock %}
