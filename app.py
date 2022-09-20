@@ -21,36 +21,12 @@ from logistica import asignacionZonas
 app.register_blueprint(asignacionZonas.lgAZ)
 from logistica import hojaRuta
 app.register_blueprint(hojaRuta.hojaRuta)
-from auth import auth
-app.register_blueprint(auth.auth)
-from facturacion import flexs
-app.register_blueprint(flexs.fb)
-from facturacion import gsolutions
-app.register_blueprint(gsolutions.fa)
 from usuarios import usuarios
 app.register_blueprint(usuarios.us)
-from logistica import logistica
-app.register_blueprint(logistica.lg)
-from logistica import mapa
-app.register_blueprint(mapa.lgMapa)
-from logistica import historial
-app.register_blueprint(historial.lgHS)
-from logistica import asignacionRetiros
-app.register_blueprint(asignacionRetiros.lgAR)
-from logistica import asignacionZonas
-app.register_blueprint(asignacionZonas.lgAZ)
-from logistica import hojaRuta
-app.register_blueprint(hojaRuta.hojaRuta)
-from MeLi import MeLi
-app.register_blueprint(MeLi.ML)
 from MeLi import upload_xlsx
 app.register_blueprint(upload_xlsx.upML)
 from envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
-from formatomms import formatomms
-app.register_blueprint(formatomms.formms)
-from NOML import NOML
-app.register_blueprint(NOML.NOML)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 
