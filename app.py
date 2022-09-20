@@ -8,7 +8,6 @@ app.config.from_mapping(
 
 
 @app.route("/")
-@auth.login_required
 def bienvenido():
     return "Hola Mundo"
 
