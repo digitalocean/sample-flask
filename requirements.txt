@@ -11,3 +11,4 @@ mysql-connector-python==8.0.29
 numpy==1.22.3
 openpyxl==3.0.9
 requests==2.27.1
+flask_cors
