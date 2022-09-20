@@ -14,7 +14,7 @@ def bienvenido():
     return "Hola Mundo"
 
 from database import database
-@app.route("/api/users/create",methods=["POST"])
+@app.route("/api/users/create",methods=["POST","GET"])
 def test():
     data = request.get_json()
     midb = database.connect_db()
@@ -25,7 +25,7 @@ def test():
     return "algo"
 
 
-@app.route("/api/users/login",methods=["POST"])
+@app.route("/api/users/login",methods=["POST","GET"])
 def loginAppMovil():
     dataLogin = request.get_json()
     midb = database.connect_db()
