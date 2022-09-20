@@ -54,6 +54,7 @@ actualizarMapa();
 
 
 
+
 function AddAsignacionesSiNoExiste(marker) {
   for (var i = 0; i < asignaciones.length; i++) {
       if (asignaciones[i].Paquete == marker.Paquete) {
