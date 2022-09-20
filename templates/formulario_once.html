@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{titulo}}</title>
+</head>
+<body>
+    {% if mensaje %}
+    <h3>{{mensaje}}</h3>
+    {% endif %}
+<form action="/alta_once" method="post">
+    <label>CUIT</label><br>
+    <input type="text" name="cuit" required><br>
+    <label>Razon social</label><br>
+    <input type="text" name="razon_social" required><br>
+    <label>Observacion</label><br>
+    <input type="text" name="Observacion"><br>
+    <label>direccion</label><br>
+    <input type="text" name="direccion" required><br>
+    <label>Altura</label><br>
+    <input type="text" name="altura" required><br>
+    <label>Localidad</label><br>
+    <input type="text" name="localidad" required><br>
+    <label>Piso</label><br>
+    <input type="text" name="piso"><br>
+    <label>Departamento</label><br>
+    <input type="text" name="dpto"><br>
+    <label>CP</label><br>
+    <input type="text" name="cp"><br>
+    <label>Telefono</label><br>
+    <input type="text" name="telefono" required><br>
+    <label>Celular</label><br>
+    <input type="text" name="celular"><br>
+    <label>Email</label><br>
+    <input type="text" name="email" required><br>
+    <label>Apodo de MercadoLibre</label><br>
+    <input type="text" name="apodo_ML" required><br>
+    <input type="submit" Value="Enviar">
+</form>
+</body>
+</html>

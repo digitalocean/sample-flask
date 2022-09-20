@@ -1,0 +1,102 @@
+{% extends "index.html" %}
+
+{% block content %}
+<script>
+    function confirmar(id){
+    if(confirm("¿Seguro?")){
+        document.getElementById("fila"+id).outerHTML = "";
+        window.location.href = "/logistica/historial/delete/"+id;
+    }   
+}
+function imprimir() {
+	  var ficha = document.getElementById("printableArea");
+	  var ventimp = window.open(' ', 'popimpr');
+	  ventimp.document.write( ficha.innerHTML );
+	  ventimp.document.close();
+	  ventimp.print( );
+	  ventimp.close();
+	}
+</script>
+<input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
+<!-- <a href="javascript:void(0);" id="printButton">Print</a>   -->
+<div id="printableArea" class="table-responsive">
+<style>
+    td{
+        border-left: solid;
+        border-top: solid ; 
+        border-color: #afafaf;
+    }
+</style>
+<table style="width: 100%; margin-top: 30px;" class="table">
+    {% if contador %}
+        <tr><h3>{{contador}} {{mensajeLogistica}}</h3></tr>
+    {% endif %}
+    {% if cobra %}
+        <h3>{{cobra}} a pagar</h3>
+    {% endif %}
+
+    {% if tablas %}
+    <a href="/logistica/historial/{{listaBotones[0]}}"><input type="button" value="{{listaBotones[0]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[1]}}"><input type="button" value="{{listaBotones[1]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[2]}}"><input type="button" value="{{listaBotones[2]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[3]}}"><input type="button" value="{{listaBotones[3]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[4]}}"><input type="button" value="{{listaBotones[4]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[5]}}"><input type="button" value="{{listaBotones[5]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[6]}}"><input type="button" value="{{listaBotones[6]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[7]}}"><input type="button" value="{{listaBotones[7]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[8]}}"><input type="button" value="{{listaBotones[8]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[9]}}"><input type="button" value="{{listaBotones[9]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[10]}}"><input type="button" value="{{listaBotones[10]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[11]}}"><input type="button" value="{{listaBotones[11]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[12]}}"><input type="button" value="{{listaBotones[12]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[13]}}"><input type="button" value="{{listaBotones[13]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[14]}}"><input type="button" value="{{listaBotones[14]}}"></a>
+    <a href="/logistica/historial/{{listaBotones[15]}}"><input type="button" value="{{listaBotones[15]}}"></a>
+    {% endif %}
+
+    <h4>{{mensaje_tabla}}</h4>
+    <tr>
+    {% for columna in columnas %}
+        <td>{{columna}}</td>
+    {% endfor %}
+    </tr>
+
+    {% for viaje in viajes %}
+        <tr id="fila{{viaje.2}}">
+            {% if historial %}
+                <td><input type="submit" value="Borrar" onclick="confirmar('{{viaje.2}}')"></td>
+            {% endif %}
+            <td>{{viaje.0}}</td>
+            <td>{{viaje.1}}</td>
+            <td>{{viaje.2}}</td>
+            <td>{{viaje.3}}</td>
+            <td>{{viaje.4}}</td>
+            <td>{{viaje.5}}</td>
+            {% if cant_columnas > 6 %}
+            <td>{{viaje.6}}</td>
+            <td>{{viaje.7}}</td>
+            <td>{{viaje.8}}</td>
+            <td>{{viaje.9}}</td>
+            {% endif %}
+            {% if cant_columnas > 9 %}
+            <td>{{viaje.10}}</td>
+            <td>{{viaje.11}}</td>
+            <td>{{viaje.12}}</td>
+            {% endif %}
+            {% if viaje.13 %}
+            <td>{{viaje.13}}</td>
+            {% endif %}
+            {% if viaje.14 %}
+            <td>{{viaje.14}}</td>
+            {% endif %}
+            {% if viaje.15 %}
+            <td>{{viaje.15}}</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+    {% if cobra %}
+    <h4>A cobrar: {{cobra}}</h4>
+    {% endif %}
+</div>
+{% endblock %}

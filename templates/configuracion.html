@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+{% if usuario == "MatyAcc" %}
+<ul>
+<li><a href="/testdev">Test</a></li>
+</ul>
+{% endif %}
+<body>
+    <form class="ingreso" action="/cambio_contrasena" method="POST">
+        
+        <h1>Cambiar contraseña</h1>
+        <label>Contraseña actual</label><br>
+        <input type="password" name="actual" placeholder="Ingresela contraseña actual"><BR>
+            <label>Nueva contraseña</label><br>
+            <input type="password" name="nueva" placeholder="Ingrese la contraseña nueva"><BR>
+                <input type="password" name="confirma" placeholder="Confirme la contraseña nueva"><BR>
+        
+
+        <input type="submit" value="Confirmar">
+        </form>
+</body>
+
+{% endblock %}

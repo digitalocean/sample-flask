@@ -1,0 +1,71 @@
+{% extends "index.html" %}
+
+{% block content %}
+<br><br>
+<form action="/logistica/hojaruta" method="post">
+    <select name=chofer id=chofer>
+        {% for chofer in choferes %}
+            <option value="{{chofer}}">{{chofer}}</option>
+        {% endfor %}
+    </select>
+    <input type="date" name="fecha" id="fecha"{% if fecha %}value="{{fecha}}"{% endif %}>
+    <input type="submit" value="Ver ruta">
+</form>
+<script>
+function imprimir() {
+    var ficha = document.getElementById("printableArea");
+    var ventimp = window.open(' ', 'popimpr');
+    ventimp.document.write( ficha.innerHTML );
+    ventimp.document.close();
+    ventimp.print( );
+    ventimp.close();
+  }
+</script>
+<input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
+<div id="printableArea" class="table-responsive">
+<style>
+    div
+    {
+        margin: 0%;
+    }
+    table
+    {
+        margin: 0%;
+        padding: 0%;
+        border: solid;
+        border-color: #afafaf
+    }
+    td{
+        margin: 0%;
+        padding: 0%;
+        border-top: solid ; 
+        border-left: dashed;
+        border-color: #afafaf
+    }
+</style>
+{% if choferSeleccionado %}
+{% endif %}
+<table style="width: 100%; margin-top: 30px;" class="table">
+    <tr>
+    {% for columna in columnas %}
+        <td>{{columna}}</td>
+    {% endfor %}
+    </tr>
+
+    {% for viaje in viajes %}
+        <tr>
+            <td>{{viaje.0}}</td>
+            <td>{{viaje.1}}, {{viaje.2}}</td>
+            <td>{{viaje.3}}</td>
+            <td>{{viaje.4}}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td><h3>Firma</h3></td>
+        <td></td>
+        <td><h3>{{fecha}} | {{choferSeleccionado}}</h3></td>
+        <td>{{total}} paquetes</td>
+    </tr>
+</table>
+</div>
+{% endblock %}

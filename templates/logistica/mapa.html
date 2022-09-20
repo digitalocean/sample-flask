@@ -1,0 +1,70 @@
+{% extends "logistica/navegadorLogistica.html" %}
+
+{% block listaViajes %}
+    <div>
+    <br><br>
+<div>
+<form action='/logistica/cambiozonamasivo' id="formzona" method="GET" name="formzona">
+    <select name = "zonamasiva" id='zonamasiva' class="selector">
+        <option value='null'>Limpiar zona</option>
+        {% for zn in zonas %}
+        <option value='{{zn}}'>{{zn}}</option>
+        {% endfor %}
+    </select>
+    <input type="hidden" name="enviosAzonificar" id="enviosAzonificar">
+    <div hidden><input type='submit' id="botonAsignacion" value='Confirmar'></div>
+</form>
+<input type="button" value="Asignar" onclick="zonificar()" class="boton">
+<input type="button" value="Actualizar mapa" onclick="initMap()" class="boton">
+<input type="button" value="Reset poligono" onclick="clearPolygon()" class="boton">
+<input type="button" value="Actualizar viajes" onclick="actualizarViajes()" class="boton">
+</div>
+<style>
+    .boton{
+        width: 150px;
+        height: 35px;
+    }
+    .selector{
+        width: 612px;
+        height: 35px;
+        font-size: medium;
+    }
+</style>
+<form action="/logistica/jsonPendientes" method="post">
+<input type="checkbox" name="listaParaRetirar" value="True">Lista para retirar.
+<input type="checkbox" name="retirado" value="True">Retirado
+<input type="checkbox" name="enDeposito" value="True">En deposito
+<input type="checkbox" name="enCamino" value="True">En camino
+<input type="checkbox" name="noEntregado" value="True">No entregado
+<input type="checkbox" name="entregado" value="True">Entregado
+<input type="date" name="fecha">
+<input type="text" name="extra">
+<input type="submit" value="Filtrar" value="True">
+</form>
+<div id="mensaje"></div>
+</div>
+    </div>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+/* Establezca siempre la altura del mapa explícitamente para definir el tamaño del div
+       * elemento que contiene el mapa. */
+       #map {
+  height: 80%;
+}
+
+/* Opcional: Hace que la página de muestra llene la ventana.*/
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+    </style>
+    <script src="{{url_for('static', filename='mapa.js')}}"></script>
+    <div id="map"></div>
+    <!-- El script asíncrono se ejecuta inmediatamente y debe estar después de cualquier elemento DOM utilizado en la devolución de llamada.  -->
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAt-xZYW0smZUbe2xh95M06EqmYPfnZRYQ&callback=initMap">
+</script>
+{% endblock %}
+

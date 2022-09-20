@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+          <style>
+      /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+             #map {
+        height: 100%;
+      }
+      
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+          </style>
+          <script src="../static/mapatest.js"></script>
+          <div id="map"></div>
+          <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+          <script async
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAt-xZYW0smZUbe2xh95M06EqmYPfnZRYQ&callback=initMap">
+      </script>
+</body>
+</html>

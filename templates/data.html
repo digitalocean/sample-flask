@@ -1,0 +1,59 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+<h4>Se analizaron {{analizados}} registros</h4>
+<h4>Se encontraron {{flex}} viajes Flex</h4>
+<h4>de los cuales {{repetido}} fueron agregados previamente</h4>
+<h3>Se agregaron {{agregados}} viajes flex con exito</h3>
+
+
+
+<table style="width: 100%; border: solid ;">
+    <tr>
+        {% if titulo_columna %}
+        {% for x in titulo_columna %}
+        <td>{{x}}</td>
+        {% endfor %}
+        {% else %}
+        <td>Estado</td>
+        <td>Comprador</td>
+        <td># Venta</td>
+        <td>direccion</td>    
+        <td>Localidad</td>
+        <td>ciudad</td>
+        <td>CP</td>
+        <td>Referencia</td>
+        <td>Pais</td>
+        <td>fecha1</td>
+        <td>Fecha2</td>
+        <td>Transportista</td>
+        <td>Nº de envio</td>
+        <td>Tipo de envio</td>
+        {% endif %}
+    </tr>
+
+    {% for viaje in data %}
+
+        <tr>
+        
+            <td>{{viaje.0}}</td>
+            <td>{{viaje.1}}</td>
+            <td>{{viaje.2}}</td>
+            <td>{{viaje.3}}</td>
+            <td>{{viaje.4}}</td>
+            <td>{{viaje.5}}</td>
+            <td>{{viaje.6}}</td>
+            <td>{{viaje.7}}</td>
+            <td>{{viaje.8}}</td>
+            <td>{{viaje.9}}</td>
+            <td>{{viaje.10}}</td>
+            <td>{{viaje.11}}</td>
+            <td>{{viaje.12}}</td>
+            <td>{{viaje.13}}</td>
+            <td>{{viaje.14}}</td>
+            <td>{{viaje.15}}</td>
+            
+        </tr>
+
+    {% endfor %}
+{% endblock %}

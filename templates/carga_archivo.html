@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+
+    <form class="" action="/{{url_post}}" method="POST" enctype="multipart/form-data">  
+    <p>
+    <input type="file" name="upload">
+    <input type="submit" value="Enviar">
+    <p>
+    </form><a href="https://www.google.com.ar"><button>Modificar</button></a>
+{% endblock %}
+

@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: no-repeat center;
+    background-size: cover;
+    font-family: sans-serif;
+}
+
+.login {
+    width: 326px;
+    height: 410px;
+    background: #020242;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 70px 30px;
+}
+
+.login .img {
+    width: 270px;
+    height: 150px;
+    position: absolute;
+    top: -50px;
+    left: calc(50% - 130px);
+}
+
+h1 {
+    text-align: center
+}
+
+#submit {
+    text-align: center;
+}
+

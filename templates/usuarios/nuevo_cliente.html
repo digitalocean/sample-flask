@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+    
+<body>
+    <ul>
+    <li><a href="/registro">Nuevo usuario Web</a></li>
+    <li><a href="/nuevo_cliente">Nuevo cliente</a></li>
+    <li><a href="/nuevo_empleado">Nuevo empleado</a></li>
+    </ul>
+
+    {% if confirmacion %}
+    <div>
+        <h4>Usuario creado </h4>
+    </div>
+    {% endif %}
+    <form action="/nuevo_cliente" method="POST">
+        <label>Razon social</label><br>
+        <input type="text" name="razon_social" required><br>
+        <label>Cuit</label><br>
+        <input type="text" name="cuit" required><br>
+        <label>Direccion</label><br>
+        <input type="text" name="direccion"><br>
+        <label>Correo electronico</label><br>
+        <input type="email" name="correo_electronico"><br>
+        <label>Telefono</label><br>
+        <input type="text" name="telefono"><br>
+
+        <label>Tarifa</label><br>
+        <select name="tarifa">        
+            <option value="1">Tarifa 1</option>
+            <option value="2">Tarifa 2</option>
+            <option value="3">Tarifa 3</option>
+            <option value="4">Tarifa 4</option>
+            <option value="5">Tarifa 5</option>
+            <option value="6">Tarifa 6</option>
+            <option value="7">Tarifa 7</option>
+            <option value="8">Tarifa 8</option>
+            <option value="9">Tarifa 9</option>
+        </select><br>
+        <label>Modalidad de cobro</label><br>
+        <select name="modalidad_cobro">
+            <option value="Semanal">Semanal</option>
+            <option value="Quincenal">Quincenal</option>
+            <option value="Quincenal">Quincenal(vencida)</option>
+            <option value="Mensual">Mensual</option>
+        </select>
+        
+        <input type="submit" value="Confirmar">
+    </form>
+</body>
+
+{% endblock %}

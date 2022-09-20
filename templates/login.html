@@ -1,0 +1,27 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{titulo}}{% endblock %}</title>
+    <link rel ="stylesheet" href="{{url_for('static', filename='login/login.css')}}">
+</head>
+
+<body>
+    <h3 style="text-align: center;">{{mensaje}}</h3>
+    <div class="Login"><img class="img" src="{{url_for('static', filename='login/logo.jpeg')}}" alt="Logo de MMS" width="30%" height="30%">
+    <h1 style="position: relative;">Iniciar sesión</h1>
+    <form class="ingreso" action="/login" method="POST">
+    
+    <LABEl for="usuario">usuario:</LABEl><br>
+    <input type="text" name="user" placeholder="Ingrese su usuario" required>
+    <BR>
+    
+    <label for="contraseña">contraseña:</label><br>
+    <input type="password" name="password" placeholder="Ingrese Contraseña" required>
+    <BR><br>
+    <input type="submit" value="Ingresar">
+    </form>
+    </div>
+</body>
+</html>

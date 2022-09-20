@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+<body>
+    <ul>
+    <li><a href="/registro">Nuevo usuario Web</a></li>
+    <li><a href="/nuevo_cliente">Nuevo cliente</a></li>
+    <li><a href="/nuevo_empleado">Nuevo empleado</a></li>
+    </ul>
+
+    {{mensaje}}
+    {% if confirmacion %}
+    <div>
+        <h4>Usuario creado </h4>
+    </div>
+    {% endif %}
+    <form action="/nuevo_empleado" method="POST">
+        <LABEl>Nombre/s</LABEl><br>
+        <input type="text" name="nombre" placeholder="Ingrese su nombre"><BR>
+        <LABEl>Apellido/s</LABEl><br>
+        <input type="text" name="apellido" placeholder="Ingrese su apellido"><BR>
+        <label>Direccion</label><br>
+        <input type="text" name="direccion"><br>
+        <label>Telefono</label><br>
+        <input type="text" name="telefono"><br>
+        <label>Correo electronico</label><br>
+        <input type="text" name="correo_electronico"><br>
+        <label>Vehiculo</label><br>
+        <input type="text" name="Vehiculo"><br>
+        <label>DNI</label><br>
+        <input type="text" name="dni"><br>
+
+        <input type="submit" value="Confirmar">
+    </form>
+</body>
+
+{% endblock %}

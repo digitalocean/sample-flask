@@ -1,0 +1,19 @@
+{% block content %}
+
+<ul id="barra">
+    <li><a href="/logout">Cerrar sesion</a></li>
+    {% if auth == "Logistica" or  auth == "Admin" or auth == "Chofer" %}
+    <li><a href="/ruteo">Ruteo</a></li>
+    {% endif %}
+    {% if auth == "Administracion" or auth == "Admin" %}
+    <li><a href="/consulta_almagro">Facturacion-Almagro</a></li>
+    <li><a href="/consulta_barracas">Facturacion-Barracas</a></li>
+    <li><a href="/nuevo_cliente">Nuevo cliente</a></li>
+    {% endif %}
+    {% if auth == "Admin" %}
+    <li><a href="/registro">Nuevo empleado</a></li>
+    <li><a href="/conf">configuracion</a></li>
+    {% endif %}
+</ul>
+
+{% endblock %}
