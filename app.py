@@ -23,8 +23,6 @@ from logistica import hojaRuta
 app.register_blueprint(hojaRuta.hojaRuta)
 from usuarios import usuarios
 app.register_blueprint(usuarios.us)
-from MeLi import upload_xlsx
-app.register_blueprint(upload_xlsx.upML)
 from envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
 from estadistica import estadistica
