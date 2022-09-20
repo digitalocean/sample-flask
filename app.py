@@ -4,7 +4,6 @@ app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY="abcd1234"
 )
-CORS(app)
 
 
 
