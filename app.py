@@ -1,10 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
-# encoding: utf-8
 
-from flask import Flask, render_template, request, session
-from flask_cors import CORS
-
+from flask import Flask
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY="abcd1234"
@@ -16,7 +11,7 @@ CORS(app)
 @app.route("/")
 @auth.login_required
 def bienvenido():
-    return render_template("index.html", titulo="Bienvenido", auth = session.get("user_auth"), usuario = session.get("user_id"))
+    return "Hola Mundo"
 
 from database import database
 @app.route("/api/users/create",methods=["POST"])
