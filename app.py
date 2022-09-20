@@ -22,7 +22,7 @@ def verificar_conexion(midb):
     return midb
 
 
-from flask import Flask
+from flask import Flask,request
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY="abcd1234"
