@@ -1,0 +1,824 @@
+2022-08-19 13:59:15.403603
+/facturacion_barracas
+
+    2022-08-19 13:59:15.403603
+    107 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-19 21:21:49.789488
+/facturacion_barracas
+
+    2022-08-19 21:21:49.788510
+    12 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-19 21:22:29.675787
+/facturacion_barracas
+
+    2022-08-19 21:22:29.674817
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-20 14:42:32.742129
+/facturacion_barracas
+
+    2022-08-20 14:42:32.741152
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-20 18:37:52.398482
+/facturacion_barracas
+
+    2022-08-20 18:37:52.397506
+    89 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-20 20:21:28.961545
+DescargaLogixs
+41599839619
+
+2022-08-20 20:21:29.420579
+DescargaLogixs
+1062 (23000): Duplicate entry '41599839619' for key 'PRIMARY'
+
+2022-08-20 20:21:30.568621
+DescargaLogixs
+41599841531
+
+2022-08-20 20:21:30.569600
+DescargaLogixs
+1062 (23000): Duplicate entry '41599841531' for key 'PRIMARY'
+
+2022-08-20 20:21:31.735719
+DescargaLogixs
+41599858259
+
+2022-08-20 20:21:31.735719
+DescargaLogixs
+1062 (23000): Duplicate entry '41599858259' for key 'PRIMARY'
+
+2022-08-20 20:21:32.898904
+DescargaLogixs
+41599877795
+
+2022-08-20 20:21:32.899882
+DescargaLogixs
+1062 (23000): Duplicate entry '41599877795' for key 'PRIMARY'
+
+2022-08-20 20:21:34.054280
+DescargaLogixs
+41599880507
+
+2022-08-20 20:21:34.055258
+DescargaLogixs
+1062 (23000): Duplicate entry '41599880507' for key 'PRIMARY'
+
+2022-08-20 20:21:35.232121
+DescargaLogixs
+41599899407
+
+2022-08-20 20:21:35.233097
+DescargaLogixs
+1062 (23000): Duplicate entry '41599899407' for key 'PRIMARY'
+
+2022-08-20 20:21:36.392867
+DescargaLogixs
+41599902865
+
+2022-08-20 20:21:36.393845
+DescargaLogixs
+1062 (23000): Duplicate entry '41599902865' for key 'PRIMARY'
+
+2022-08-20 20:21:37.555081
+DescargaLogixs
+41599934758
+
+2022-08-20 20:21:37.556059
+DescargaLogixs
+1062 (23000): Duplicate entry '41599934758' for key 'PRIMARY'
+
+2022-08-20 20:21:38.728038
+DescargaLogixs
+41599936623
+
+2022-08-20 20:21:38.729016
+DescargaLogixs
+1062 (23000): Duplicate entry '41599936623' for key 'PRIMARY'
+
+2022-08-20 20:21:39.882924
+DescargaLogixs
+41599940596
+
+2022-08-20 20:21:39.882924
+DescargaLogixs
+1062 (23000): Duplicate entry '41599940596' for key 'PRIMARY'
+
+2022-08-20 20:21:41.063693
+DescargaLogixs
+41599954213
+
+2022-08-20 20:21:41.064680
+DescargaLogixs
+1062 (23000): Duplicate entry '41599954213' for key 'PRIMARY'
+
+2022-08-20 20:21:42.225904
+DescargaLogixs
+41599969936
+
+2022-08-20 20:21:42.226888
+DescargaLogixs
+1062 (23000): Duplicate entry '41599969936' for key 'PRIMARY'
+
+2022-08-20 20:21:43.394466
+DescargaLogixs
+41599981871
+
+2022-08-20 20:21:43.395443
+DescargaLogixs
+1062 (23000): Duplicate entry '41599981871' for key 'PRIMARY'
+
+2022-08-20 20:21:44.539103
+DescargaLogixs
+41600015483
+
+2022-08-20 20:21:44.540075
+DescargaLogixs
+1062 (23000): Duplicate entry '41600015483' for key 'PRIMARY'
+
+2022-08-20 20:21:45.685689
+DescargaLogixs
+41600021447
+
+2022-08-20 20:21:45.686660
+DescargaLogixs
+1062 (23000): Duplicate entry '41600021447' for key 'PRIMARY'
+
+2022-08-20 20:21:46.827885
+DescargaLogixs
+41600034928
+
+2022-08-20 20:21:46.828853
+DescargaLogixs
+1062 (23000): Duplicate entry '41600034928' for key 'PRIMARY'
+
+2022-08-20 20:21:47.981298
+DescargaLogixs
+41600040663
+
+2022-08-20 20:21:47.982276
+DescargaLogixs
+1062 (23000): Duplicate entry '41600040663' for key 'PRIMARY'
+
+2022-08-20 20:21:49.136187
+DescargaLogixs
+41600123770
+
+2022-08-20 20:21:49.137163
+DescargaLogixs
+1062 (23000): Duplicate entry '41600123770' for key 'PRIMARY'
+
+2022-08-20 20:21:50.286684
+DescargaLogixs
+41600134470
+
+2022-08-20 20:21:50.287655
+DescargaLogixs
+1062 (23000): Duplicate entry '41600134470' for key 'PRIMARY'
+
+2022-08-20 20:21:51.458673
+DescargaLogixs
+41600151483
+
+2022-08-20 20:21:51.459634
+DescargaLogixs
+1062 (23000): Duplicate entry '41600151483' for key 'PRIMARY'
+
+2022-08-20 20:21:52.607197
+DescargaLogixs
+41600153385
+
+2022-08-20 20:21:52.608175
+DescargaLogixs
+1062 (23000): Duplicate entry '41600153385' for key 'PRIMARY'
+
+2022-08-20 20:21:53.764526
+DescargaLogixs
+41600122682
+
+2022-08-20 20:21:53.765502
+DescargaLogixs
+1062 (23000): Duplicate entry '41600122682' for key 'PRIMARY'
+
+2022-08-20 20:21:54.916970
+DescargaLogixs
+41600177019
+
+2022-08-20 20:21:54.916970
+DescargaLogixs
+1062 (23000): Duplicate entry '41600177019' for key 'PRIMARY'
+
+2022-08-20 20:21:56.078208
+DescargaLogixs
+41600177373
+
+2022-08-20 20:21:56.079189
+DescargaLogixs
+1062 (23000): Duplicate entry '41600177373' for key 'PRIMARY'
+
+2022-08-20 20:21:57.253116
+DescargaLogixs
+41600185769
+
+2022-08-20 20:21:57.254093
+DescargaLogixs
+1062 (23000): Duplicate entry '41600185769' for key 'PRIMARY'
+
+2022-08-20 20:21:58.415335
+DescargaLogixs
+41600187403
+
+2022-08-20 20:21:58.416306
+DescargaLogixs
+1062 (23000): Duplicate entry '41600187403' for key 'PRIMARY'
+
+2022-08-20 20:21:59.358285
+DescargaLogixs
+41600198379
+
+2022-08-20 20:21:59.358285
+DescargaLogixs
+1062 (23000): Duplicate entry '41600198379' for key 'PRIMARY'
+
+2022-08-20 20:22:00.048285
+DescargaLogixs
+41600188728
+
+2022-08-20 20:22:00.049269
+DescargaLogixs
+1062 (23000): Duplicate entry '41600188728' for key 'PRIMARY'
+
+2022-08-20 20:22:01.210011
+DescargaLogixs
+41600270221
+
+2022-08-20 20:22:01.210987
+DescargaLogixs
+1062 (23000): Duplicate entry '41600270221' for key 'PRIMARY'
+
+2022-08-20 20:22:01.945426
+DescargaLogixs
+41600291808
+
+2022-08-20 20:22:01.945426
+DescargaLogixs
+1062 (23000): Duplicate entry '41600291808' for key 'PRIMARY'
+
+2022-08-20 20:22:02.663756
+DescargaLogixs
+41600303662
+
+2022-08-20 20:22:02.666687
+DescargaLogixs
+1062 (23000): Duplicate entry '41600303662' for key 'PRIMARY'
+
+2022-08-20 20:22:03.383054
+DescargaLogixs
+41600310504
+
+2022-08-20 20:22:03.384032
+DescargaLogixs
+1062 (23000): Duplicate entry '41600310504' for key 'PRIMARY'
+
+2022-08-20 20:22:04.075498
+DescargaLogixs
+41600310491
+
+2022-08-20 20:22:04.076474
+DescargaLogixs
+1062 (23000): Duplicate entry '41600310491' for key 'PRIMARY'
+
+2022-08-21 20:24:19.977988
+/facturacion_barracas
+
+    2022-08-21 20:24:19.977011
+    12 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:26:12.482707
+/facturacion_barracas
+
+    2022-08-21 20:26:12.481724
+    2 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:27:17.715894
+/facturacion_barracas
+
+    2022-08-21 20:27:17.715894
+    9 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:39:57.162741
+/facturacion_barracas
+
+    2022-08-21 20:39:57.162741
+    219 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:41:26.996788
+/facturacion_barracas
+
+    2022-08-21 20:41:26.996788
+    219 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:43:04.104993
+/facturacion_barracas
+
+    2022-08-21 20:43:04.104023
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:44:34.111004
+/facturacion_barracas
+
+    2022-08-21 20:44:34.111004
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:46:00.571294
+/facturacion_barracas
+
+    2022-08-21 20:46:00.570323
+    20 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:47:27.488669
+/facturacion_barracas
+
+    2022-08-21 20:47:27.488669
+    20 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:50:53.618001
+/facturacion_barracas
+
+    2022-08-21 20:50:53.617032
+    20 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:53:55.331995
+/facturacion_barracas
+
+    2022-08-21 20:53:55.331995
+    12 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 20:55:30.918687
+/facturacion_barracas
+
+    2022-08-21 20:55:30.918687
+    24 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:06:49.946471
+/facturacion_barracas
+
+    2022-08-21 21:06:49.946471
+    89 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:09:11.322214
+/facturacion_barracas
+
+    2022-08-21 21:09:11.322214
+    89 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:09:46.144857
+/facturacion_barracas
+
+    2022-08-21 21:09:46.144857
+    89 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:10:21.657019
+/facturacion_barracas
+
+    2022-08-21 21:10:21.657019
+    219 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:12:20.439287
+/facturacion_barracas
+
+    2022-08-21 21:12:20.438317
+    219 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:12:37.903836
+/facturacion_barracas
+
+    2022-08-21 21:12:37.902866
+    219 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:14:36.814070
+/facturacion_barracas
+
+    2022-08-21 21:14:36.814070
+    1 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:15:11.136674
+/facturacion_barracas
+
+    2022-08-21 21:15:11.136674
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:16:03.500048
+/facturacion_barracas
+
+    2022-08-21 21:16:03.499079
+    89 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:18:18.201817
+/facturacion_barracas
+
+    2022-08-21 21:18:18.201817
+    1 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:18:23.571956
+/facturacion_barracas
+
+    2022-08-21 21:18:23.571956
+    408 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:18:59.295562
+/facturacion_barracas
+
+    2022-08-21 21:18:59.294593
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:20:03.477438
+/facturacion_barracas
+
+    2022-08-21 21:20:03.477438
+    408 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 21:20:25.552782
+/facturacion_barracas
+
+    2022-08-21 21:20:25.551803
+    408 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 22:40:48.589158
+/facturacion_barracas
+
+    2022-08-21 22:40:48.588173
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 22:41:57.519583
+/facturacion_barracas
+
+    2022-08-21 22:41:57.518614
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 22:42:24.709504
+/facturacion_barracas
+
+    2022-08-21 22:42:24.709504
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 22:43:42.920577
+/facturacion_barracas
+
+    2022-08-21 22:43:42.919607
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-21 23:06:29.446475
+/facturacion_barracas
+
+    2022-08-21 23:06:29.445505
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-22 23:21:17.423243
+/facturacion_barracas
+
+    2022-08-22 23:21:17.422267
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-22 23:21:38.191739
+/facturacion_barracas
+
+    2022-08-22 23:21:38.190760
+    20 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-22 23:38:49.024099
+/facturacion_barracas
+
+    2022-08-22 23:38:49.023125
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-23 08:42:59.108460
+/facturacion_barracas
+
+    2022-08-23 08:42:59.108460
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 07:40:53.882736
+/facturacion_barracas
+
+    2022-08-24 07:40:53.882736
+    28 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 08:05:55.891244
+/facturacion_barracas
+
+    2022-08-24 08:05:55.890267
+    28 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 09:28:44.437661
+/facturacion_barracas
+
+    2022-08-24 09:28:44.351226
+    28 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 12:27:56.681538
+/facturacion_barracas
+
+    2022-08-24 12:27:56.681538
+    35 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 12:35:06.436322
+/facturacion_barracas
+
+    2022-08-24 12:35:06.435346
+    44 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 12:46:46.786380
+/facturacion_barracas
+
+    2022-08-24 12:46:46.785408
+    44 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 13:35:24.557581
+/facturacion_barracas
+
+    2022-08-24 13:35:24.555623
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 13:59:57.717763
+/facturacion_barracas
+
+    2022-08-24 13:59:57.717763
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:03:05.803705
+/facturacion_barracas
+
+    2022-08-24 14:03:05.802734
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:04:24.691678
+/facturacion_barracas
+
+    2022-08-24 14:04:24.690703
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:05:25.703437
+/facturacion_barracas
+
+    2022-08-24 14:05:25.703437
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:06:29.485981
+/facturacion_barracas
+
+    2022-08-24 14:06:29.485981
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:06:52.508236
+/facturacion_barracas
+
+    2022-08-24 14:06:52.508236
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:07:46.087669
+/facturacion_barracas
+
+    2022-08-24 14:07:46.086692
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:13:14.497274
+/facturacion_barracas
+
+    2022-08-24 14:13:14.496302
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:14:17.879960
+/facturacion_barracas
+
+    2022-08-24 14:14:17.879960
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:15:03.814641
+/facturacion_barracas
+
+    2022-08-24 14:15:03.813671
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:15:32.101109
+/facturacion_barracas
+
+    2022-08-24 14:15:32.101109
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:15:50.215770
+/facturacion_barracas
+
+    2022-08-24 14:15:50.214718
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:18:42.981202
+/facturacion_barracas
+
+    2022-08-24 14:18:42.980232
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:20:02.122774
+/facturacion_barracas
+
+    2022-08-24 14:20:02.122774
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:22:20.783864
+/facturacion_barracas
+
+    2022-08-24 14:22:20.782892
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:23:01.495874
+/facturacion_barracas
+
+    2022-08-24 14:23:01.495874
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:23:30.952380
+/facturacion_barracas
+
+    2022-08-24 14:23:30.952380
+    0 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:51:20.566620
+/facturacion_barracas
+
+    2022-08-24 14:51:20.565642
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 14:52:05.808396
+/facturacion_barracas
+
+    2022-08-24 14:52:05.807426
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 15:17:00.777469
+/facturacion_barracas
+
+    2022-08-24 15:17:00.777469
+    3 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 15:49:10.673979
+/facturacion_barracas
+
+    2022-08-24 15:49:10.673006
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 15:59:24.790053
+/facturacion_barracas
+
+    2022-08-24 15:59:24.789077
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
+2022-08-24 15:59:53.974521
+/facturacion_barracas
+
+    2022-08-24 15:59:53.974521
+    10 Viajes sin precio
+    0 Viajes con precio $0
+    
+
