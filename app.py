@@ -60,3 +60,4 @@ def loginAppMovil():
         return "{success:True,message:'usuario validado',data:""'}"
     else:
         return "Contraseña incorrecta"
+app.run()

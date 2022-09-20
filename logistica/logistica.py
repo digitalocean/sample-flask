@@ -23,7 +23,7 @@ def descargaLogixsBoton():
     print(f"Tiempo de geolocalizacion: {tiempofinal - finDescargaLogixs}")
     duracion = tiempofinal - tiempoinicio
     print(f"Tiempo total: {duracion}")
-    return redirect ("/logistica/vistamapa")
+    return redirect ("vistamapa")
 
 
 @lg.route("/busquedaAdmin")
@@ -62,11 +62,11 @@ def busqueda():
         lista = (resultado,)
         mjstbla = "No se registro historial de este envio"
         cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor"]
-        return render_template("/logistica/vistaTabla.html", titulo="Busqueda", viajes=lista ,columnas = cabezeras, cant_columnas = len(cabezeras), mensaje_tabla = mjstbla, auth = session.get("user_auth"))
+        return render_template("vistaTabla.html", titulo="Busqueda", viajes=lista ,columnas = cabezeras, cant_columnas = len(cabezeras), mensaje_tabla = mjstbla, auth = session.get("user_auth"))
     lista = []
     cobra = 0
     print(sql)
     for x in resultado:
         lista.append(x)
     print(range(len(cabezeras)))
-    return render_template("/logistica/vistaTabla.html", titulo="Busqueda", viajes=lista,cobra = cobra ,columnas = cabezeras, cant_columnas = len(cabezeras),contador = 0, historial = True, auth = session.get("user_auth"))
+    return render_template("vistaTabla.html", titulo="Busqueda", viajes=lista,cobra = cobra ,columnas = cabezeras, cant_columnas = len(cabezeras),contador = 0, historial = True, auth = session.get("user_auth"))

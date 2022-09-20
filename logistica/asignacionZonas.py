@@ -19,7 +19,7 @@ def asignacion():
     choferesAsignados = {}
     for x in cursor.fetchall():
         choferesAsignados[x[0]] = x[1]
-    return render_template("logistica/asignacionChoferes.html",zonas = zonas, choferes = correoChoferes(midb).keys(),asignados = choferesAsignados,auth = session.get("user_auth"))
+    return render_template("asignacionChoferes.html",zonas = zonas, choferes = correoChoferes(midb).keys(),asignados = choferesAsignados,auth = session.get("user_auth"))
 
 
 

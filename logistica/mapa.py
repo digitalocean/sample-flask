@@ -108,7 +108,7 @@ def carga_mapa():
     zonas = []
     for x in cursor.fetchall():
         zonas.append(x[0])
-    return render_template("logistica/mapa.html", auth = session.get("user_auth"),mapa=True,zonas=zonas)
+    return render_template("mapa.html", auth = session.get("user_auth"),mapa=True,zonas=zonas)
 
 
 @lgMapa.route("/cambiozona/", methods=["GET","POST"])
