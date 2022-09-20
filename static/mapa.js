@@ -1,4 +1,4 @@
-const ruta = "http://localhost";
+const ruta = "https://whale-app-suwmc.ondigitalocean.app/";
 var map;
 var asignaciones = [];
 var poligonoZonificador
