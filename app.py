@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session
 from flask_cors import CORS
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash,check_password_hash
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -57,7 +57,7 @@ def loginAppMovil():
     if res is None:
         return "Usuario y/o contraseña incorrectos"
     midb.close()
-    if dataLogin["password"] == res[2]:
+    if check_password_hash(dataLogin["password"]) == res[2]:
         print("True")
         return "{success:True,message:'usuario validado',data:""'}"
     else:
