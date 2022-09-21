@@ -52,18 +52,27 @@ def registro_confirmado():
 def crear_empleado():
     if(request.method == "POST"):
         nombre = request.form.get("nombre")
-        apellido = request.form.get("apellido")
-        dni = request.form.get("dni")
-        direccion = request.form.get("direccion")
-        telefono = request.form.get("telefono")
-        correo_electronico = request.form.get("correo_electronico")
+        puesto = request.form.get("puesto")
         vehiculo = request.form.get("vehiculo")
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        cursor.execute(f"insert into empleado (`nombre` ,`vehiculo` ,`correo` ,`dni` ,`telefono`,`direccion`,`fecha_alta`) values ('{nombre} {apellido}','{vehiculo}','{correo_electronico}','{dni}','{telefono}','{direccion}',current_date())")
-        midb.commit()
-        midb.close()
-        return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
+        patente = request.form.get("patente")
+        correo = request.form.get("correo")
+        dni = request.form.get("dni")
+        cbu = request.form.get("cbu")
+        telefono = request.form.get("telefono")
+        direccion = request.form.get("direccion")
+        localidad = request.form.get("localidad")
+        password = request.form.get("password")
+        confirmpassword = request.form.get("confirmpassword")
+        if password == confirmpassword:
+            midb = database.connect_db()
+            cursor = midb.cursor()
+            sql = f"""INSERT INTO `mmslogis_MMSPack`.`empleado`(`nombre`,`puesto`,`vehiculo`,`patente`,`correo`,`dni`,`cbu`,`telefono`,`direccion`,`localidad`,`fecha_alta`,`password`) VALUES({nombre: },{puesto: },{vehiculo: },{patente: },{correo: },{dni: },{cbu: },{telefono: },{direccion: },{localidad: },current_date(),{password});"""
+            cursor.execute(sql)
+            midb.commit()
+            midb.close()
+            return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
+        else:
+            return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Error al agregar")
     else:
         return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"))
 
