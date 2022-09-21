@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -39,7 +40,8 @@ def test():
     data = request.get_json()
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"insert into empleado (nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password) values('{data['nombre']}','{data['puesto']}','{data['vehiculo']}','{data['patente']}','{data['correo']}','{data['dni']}','{data['cbu']}','{data['telefono']}','{data['direccion']}','{data['localidad']}','{data['password']}')")
+    passw = generate_password_hash(data['password'])
+    cursor.execute(f"insert into empleado (nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password) values('{data['nombre']}','{data['puesto']}','{data['vehiculo']}','{data['patente']}','{data['correo']}','{data['dni']}','{data['cbu']}','{data['telefono']}','{data['direccion']}','{data['localidad']}','{passw}')")
     midb.commit()
     midb.close()
     return "algo"
