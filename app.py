@@ -57,7 +57,7 @@ def loginAppMovil():
     if res is None:
         return "Usuario y/o contraseña incorrectos"
     midb.close()
-    if check_password_hash(dataLogin["password"]) == res[2]:
+    if check_password_hash(res[2],dataLogin["password"]):
         print("True")
         return "{success:True,message:'usuario validado',data:""'}"
     else:
