@@ -336,34 +336,34 @@ function getPinIcon(zona,est){
   var zn = zona.slice(3)
   switch (zn) {
     case "1":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//01.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/01.PNG");
       return icon;
     case "2":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//02.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/02.PNG");
       return icon;
     case "3":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//03.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/03.PNG");
       return icon;
     case "4":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//04.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/04.PNG");
       return icon;
     case "5":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//05.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/05.PNG");
       return icon;
     case "6":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//06.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/06.PNG");
       return icon;
     case "7":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//07.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/07.PNG");
       return icon;
     case "8":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//08.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/08.PNG");
       return icon;
     case "9":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//09.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/09.PNG");
       return icon;
     case "0":
-      icon = new google.maps.MarkerImage(ruta + "/static//icon//00.PNG");
+      icon = new google.maps.MarkerImage(ruta + "/static/icon/00.PNG");
       return icon;
 
     default:
