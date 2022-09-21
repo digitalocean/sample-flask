@@ -1,6 +1,12 @@
-from flask import Flask, render_template, request, session
+import datetime
+from email import message
+from telnetlib import STATUS
+from urllib import response
+from flask import Flask, render_template, request, session, jsonify, make_response
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+import jwt
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -37,28 +43,37 @@ def bienvenido():
 from database import database
 @app.route("/api/users/create",methods=["POST"])
 def test():
-    data = request.get_json()
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    passw = generate_password_hash(data['password'])
-    cursor.execute(f"insert into empleado (nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password) values('{data['nombre']}','{data['puesto']}','{data['vehiculo']}','{data['patente']}','{data['correo']}','{data['dni']}','{data['cbu']}','{data['telefono']}','{data['direccion']}','{data['localidad']}','{passw}')")
-    midb.commit()
-    midb.close()
-    return "algo"
-
+    try:
+        data = request.get_json()
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        passw = generate_password_hash(data['password'])
+        cursor.execute(f"insert into empleado (nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password) values('{data['nombre']}','{data['puesto']}','{data['vehiculo']}','{data['patente']}','{data['correo']}','{data['dni']}','{data['cbu']}','{data['telefono']}','{data['direccion']}','{data['localidad']}','{passw}')")
+        midb.commit()
+        midb.close()
+        return jsonify(success=True,message="Usuario Creado",data=None)
+    except:
+        return jsonify(success=False,message="Se produjo un error al intentar crear el usuario",data=None)
 
 @app.route("/api/users/login",methods=["POST"])
-def loginAppMovil():
+def test2():
     dataLogin = request.get_json()
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select id,nombre,password from empleado where dni = {dataLogin['dni']}")
+    sql =f"select password,id,nombre,correo from empleado where dni = {dataLogin['dni']}"
+    cursor.execute(sql)
     res = cursor.fetchone()
     if res is None:
-        return "Usuario y/o contraseña incorrectos"
+        return jsonify(success=False,message="Usuario inexistente",data=None)
     midb.close()
-    if check_password_hash(res[2],dataLogin["password"]):
-        print("True")
-        return "{success:True,message:'usuario validado',data:""'}"
+    if check_password_hash(res[0],dataLogin["password"]):
+        data = {
+            'id':res[1],
+            'nombre':res[2],
+            'correo':res[3],
+            'session_token': None
+        }
+        return jsonify(success=True,message="Inicio de sesion correcto",data=data)
     else:
-        return "Contraseña incorrecta"
+        return jsonify(success=False,message="Contraseña incorrecta",data=None)
+
