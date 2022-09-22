@@ -41,7 +41,7 @@ def historial(pagina):
     for x in range(20):
         listaBotones.append(pagina-7)
         pagina = pagina + 1
-    return render_template("VistaTabla.html", titulo="Busqueda", viajes=viajes,tablas=True,listaBotones = listaBotones,contador = 0, columnas = cabezeras, cant_columnas = len(cabezeras), auth = session.get("user_auth"),historial = True)
+    return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=viajes,tablas=True,listaBotones = listaBotones,contador = 0, columnas = cabezeras, cant_columnas = len(cabezeras), auth = session.get("user_auth"),historial = True)
 
     
 @lgHS.route("/logistica/historial/delete/<id>")

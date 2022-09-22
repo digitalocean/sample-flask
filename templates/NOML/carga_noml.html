@@ -4,7 +4,9 @@
     
 <body>
     <div style="text-align: left; width: 30%;">
+        {% if nro_envio %}
         <h1>El envio {{nro_envio}} fue cargado exitosamente</h1>
+        {%endif%}
     </div>
     <form class="" action="/carga_noml" method="POST" style="width: 25%; margin-top: 20px;">
         <fieldset>    

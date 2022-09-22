@@ -1,4 +1,5 @@
 const ruta = "https://whale-app-suwmc.ondigitalocean.app";
+//const ruta = "192.168.0.148"
 var map;
 var asignaciones = [];
 var poligonoZonificador
@@ -8,12 +9,11 @@ var globales = {
   polygon:[],
   polygonMarkers : [],
   polygonLocations : []
-}
+} 
 
 
 function initMap() {
   actualizarViajes()
-  console.log("TEST")
   globales.markers = []
   const mapOptions = {
     zoom: 10,
@@ -333,37 +333,38 @@ function getPinIcon(zona,est){
     icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + getPinColor(est))
     return(icon)
   }
+  
   var zn = zona.slice(3)
   switch (zn) {
     case "1":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/01.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "FFFFFF");
       return icon;
     case "2":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/02.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "EEEEEE");
       return icon;
     case "3":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/03.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "DDDDDD");
       return icon;
     case "4":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/04.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "CCCCCC");
       return icon;
     case "5":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/05.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "BBBBBB");
       return icon;
     case "6":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/06.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "AAAAAA");
       return icon;
     case "7":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/07.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "/static/icon/07.PNG");
       return icon;
     case "8":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/08.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "/static/icon/08.PNG");
       return icon;
     case "9":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/09.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "/static/icon/09.PNG");
       return icon;
     case "0":
-      icon = new google.maps.MarkerImage(ruta + "/static/icon/00.PNG");
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + "/static/icon/00.PNG");
       return icon;
 
     default:

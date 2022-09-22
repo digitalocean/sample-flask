@@ -108,7 +108,7 @@ def carga_mapa():
     zonas = []
     for x in cursor.fetchall():
         zonas.append(x[0])
-    return render_template("mapa.html", auth = session.get("user_auth"),mapa=True,zonas=zonas)
+    return render_template("logistica/mapa.html", auth = session.get("user_auth"),mapa=True,zonas=zonas)
 
 
 @lgMapa.route("/cambiozona/", methods=["GET","POST"])
@@ -116,8 +116,6 @@ def carga_mapa():
 def cambioZona():
     hoy = str(datetime.now())[0:10]
     if request.method == "GET":
-        print(type(request))
-        print(response)
         zona = request.args.get("zona")
         envio = request.args.get("envio")
         midb = database.connect_db()
@@ -145,15 +143,12 @@ def cambioZonaMasivo():
         envios = envios[0:-1]
         if zona != "null":
             zona = "'" + zona + "'"
-        sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"
-        print(sql)
-        
+        sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"        
         cursor.execute(sql)
         midb.commit()
         return redirect("/logistica/vistamapa")
     else:
         post = request.form.keys() 
-        print(post)
         zona = request.form.get("zonamasiva")
         envios = request.form.get("enviosAzonificar")
         listaEnvios = envios.split(",")

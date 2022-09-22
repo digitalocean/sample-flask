@@ -3,11 +3,7 @@
 {% block content %}
     
 <body>
-    <ul>
-    <li><a href="/registro">Nuevo usuario Web</a></li>
-    <li><a href="/nuevo_cliente">Nuevo cliente</a></li>
-    <li><a href="/nuevo_empleado">Nuevo empleado</a></li>
-    </ul>
+
 
     {% if confirmacion %}
     <div>
@@ -15,6 +11,9 @@
     </div>
     {% endif %}
     <form action="/nuevo_cliente" method="POST">
+        <label>Nombre</label><br>
+        <input type="text" name="nombre" placeholder="Ingrese el nombre de usuario que va a utilizar"><BR>
+
         <label>Razon social</label><br>
         <input type="text" name="razon_social" required><br>
         <label>Cuit</label><br>
@@ -24,7 +23,16 @@
         <label>Correo electronico</label><br>
         <input type="email" name="correo_electronico"><br>
         <label>Telefono</label><br>
-        <input type="text" name="telefono"><br>
+        <input type="text" name="telefono"><br>        
+        <LABEl>Contraseña</LABEl><br>
+        <input type="password" name="password" alt="strongPass" placeholder="Ingrese su contraseña" required><BR><BR>
+        <select name="tipo_usuario">
+            <option value="Admin">Admin</option>
+            <option value="Administracion">Administracion</option>
+            <option value="Logistica">Logistica</option>
+            <option value="Cliente">Cliente</option>
+            <option value="Chofer">Chofer</option>
+        </select>
 
         <label>Tarifa</label><br>
         <select name="tarifa">        

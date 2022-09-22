@@ -3,8 +3,10 @@
 # encoding: utf-8
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session
+    Blueprint, jsonify, g, redirect, render_template, request, session
 )
+from werkzeug.security import generate_password_hash,check_password_hash
+
 from auth import auth
 from datetime import datetime
 
@@ -18,34 +20,6 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 
 us = Blueprint('usuarios', __name__, url_prefix='/')
 
-@us.route("/usuarios")
-@auth.login_required
-def usuarios():
-    return render_template ("usuarios/usuarios.html", titulo="Usuarios", auth = session.get("user_auth"))
-
-@us.route("/registro", methods=["GET","POST"])
-@auth.login_required
-def registro_confirmado():
-    if request.method == "POST":
-        nickname = request.form.get("nickname")
-        session["nw_user_nombre"] = nickname
-        correo_electronico = request.form.get("correo_electronico")
-        session["nw_user_correo"] = correo_electronico
-        password = request.form.get("password")
-        tipo_usuario = request.form.get("tipo_usuario")    
-        midb = database.connect_db()
-        cursor=midb.cursor()
-        sql="insert into usuario (nickname,`password`,tipoUsuario) values(%s,%s,%s)"
-        values=(nickname,password,tipo_usuario)
-        cursor.execute(sql,values)
-        midb.commit()
-        midb.close()
-        if tipo_usuario == "Chofer":
-            return render_template("usuarios/nuevo_empleado.html", titulo="Registro", auth = session.get("user_auth"))
-        elif tipo_usuario == "Cliente":
-            return render_template("usuarios/nuevo_cliente.html", titulo="Registro", auth = session.get("user_auth"))
-    else:
-        return render_template("usuarios/nuevo_usuario.html", titulo="Registro", auth = session.get("user_auth"))
 
 @us.route("/nuevo_empleado", methods=["GET","POST"])
 @auth.login_required
@@ -70,11 +44,11 @@ def crear_empleado():
             cursor.execute(sql)
             midb.commit()
             midb.close()
-            return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
+            return render_template("nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
         else:
-            return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Error al agregar")
+            return render_template("nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Error al agregar")
     else:
-        return render_template("usuarios/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"))
+        return render_template("nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"))
 
 @us.route('/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required
@@ -95,7 +69,7 @@ def crear_cliente():
         midb.commit()
         midb.close()
         session.pop("nw_user_nombre",None)
-    return render_template("usuarios/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"))
+    return render_template("nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"))
 
 
 
@@ -125,3 +99,43 @@ def cambio_contrasena():
             return 'revise las contraseñas ingresadas<a href="/conf">Volver atras</a>'
     else:
         return redirect("/")
+
+
+
+from database import database
+@us.route("/api/users/create",methods=["POST"])
+def nuevoEmpleado():
+    try:
+        data = request.get_json()
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        passw = generate_password_hash(data['password'])
+        cursor.execute(f"insert into empleado (nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password) values('{data['nombre']}','{data['puesto']}','{data['vehiculo']}','{data['patente']}','{data['correo']}','{data['dni']}','{data['cbu']}','{data['telefono']}','{data['direccion']}','{data['localidad']}','{passw}')")
+        midb.commit()
+        midb.close()
+        return jsonify(success=True,message="Usuario Creado",data=None)
+    except:
+        return jsonify(success=False,message="Se produjo un error al intentar crear el usuario",data=None)
+
+@us.route("/api/users/login",methods=["POST"])
+def loginEmpleado():
+    dataLogin = request.get_json()
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    sql =f"select password,id,nombre,correo from empleado where dni = {dataLogin['dni']}"
+    cursor.execute(sql)
+    res = cursor.fetchone()
+    if res is None:
+        return jsonify(success=False,message="Usuario inexistente",data=None)
+    midb.close()
+    if check_password_hash(res[0],dataLogin["password"]):
+        data = {
+            'id':res[1],
+            'nombre':res[2],
+            'correo':res[3],
+            'session_token': None
+        }
+        return jsonify(success=True,message="Inicio de sesion correcto",data=data)
+    else:
+        return jsonify(success=False,message="Contraseña incorrecta",data=None)
+

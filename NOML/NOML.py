@@ -46,9 +46,9 @@ def carga_noml():
         values = (hoy,nro_envio,ref_int,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,caba,cp,vendedor, "Listo Para Retirar(Carga manual)",direccion_concatenada)
         cursor.execute(sql,values)
         midb.commit()
-        return render_template("carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=obtenerClientes())
+        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=obtenerClientes())
 
     else:
-        return render_template("carga_noml.html",titulo="Carga", auth = session.get("user_auth"), clientes=obtenerClientes())
+        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), clientes=obtenerClientes())
 
 
