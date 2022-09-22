@@ -1,5 +1,6 @@
-const ruta = "https://whale-app-suwmc.ondigitalocean.app";
-// const ruta = "192.168.0.148"
+// const ruta = "https://whale-app-suwmc.ondigitalocean.app";
+// const ruta = "http://192.168.0.148"
+const ruta = "http://localhost"
 var map;
 var asignaciones = [];
 var poligonoZonificador
@@ -328,8 +329,6 @@ async function actualizarViajes(){
 
 
 function getPinIcon(zona,est){
-  icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFFFF")
-  return(icon)
   var icon = "";
   if (est == "Entregado" || est == "No entregado" ||  est == "No Entregado" || est == "En Camino" || zona === null){
     icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + getPinColor(est))
