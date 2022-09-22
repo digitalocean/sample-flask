@@ -9,51 +9,82 @@
         {%endif%}
     </div>
     <form class="" action="/carga_noml" method="POST" style="width: 25%; margin-top: 20px;">
-        <fieldset>    
+       
+        <table>
         {% if auth != "Cliente" %}
-        <label>Vendedor</label><br>
-        <select name="nombre_cliente">
-            {% for cliente in clientes %}
-            <option value="{{cliente}}">{{cliente}}</option>
-            {% endfor %}
-        </select><br>
-        {% endif %}
-        <label>Referencia interna</label><br>
-        <input type="text" name="referencia_interna" placeholder="# referencia interna"><BR>
+        <tr>
+            <td>Vendedor</td>
+            <td>
+                <select name="nombre_cliente">
+                    {% for cliente in clientes %}
+                    <option value="{{cliente}}">{{cliente}}</option>
+                    {% endfor %}
+                </select><br>
+            </td>
+        </tr>
+        <tr>
+            <td>Numero de envio</td>
+            <td><input type="text" name="nro_envio" placeholder="Identificador del paquete"></td>
+        </tr>
         
-        <LABEl>Nombre/s</LABEl><br>
-        <input type="text" name="nombre" placeholder="Nombre" required><BR>
-        
-        <LABEl>Apellido/s</LABEl><br>
-        <input type="text" name="apellido" placeholder="Apellido" required><BR>
 
-        <LABEl>Telefono</LABEl><br>
-        <input type="number" name="telefono" placeholder="Telefono" required><BR>            
-    </fieldset>
-    <fieldset>
+        {% endif %}
+
         
-        <LABEl>Calle</LABEl><br>
-        <input type="text" name="calle" placeholder="Calle" required><BR>
-        <LABEl>Numero</LABEl><br>
-        <input type="number" name="altura" placeholder="Altura" required><br>
-        <LABEl>Piso</LABEl><br>
-        <input type="text" name="piso" placeholder="Piso"><br>
-        <LABEl>Depto</LABEl><br>
-        <input type="text" name="dpto" placeholder="Departamento"><br>
-        <LABEl>Entre calles</LABEl><br>
-        <input type="text" name="e/1" placeholder="Entre calle 1"><br>
-        <input type="text" name="e/2" placeholder="Entre calle 2"><br>
-        <LABEl>CP</LABEl><br>
-        <input type="text" name="cp" placeholder="Codigo Postal"><br>
-        <LABEl>Localidad</LABEl><br>
-        <input type="text" name="localidad" placeholder="Localidad" required>
-        <label>Monto a cobrar</label>
-        <input type="text" name="cobrar" id=""><br>
-        <LABEl>Referencia</LABEl><br>
-        <input type="text" name="referencia" placeholder="Referencia"><br>
-        
+            <tr>
+                <td>Nombre/s</td>
+                <td><input type="text" name="nombre" placeholder="Nombre"{% if auth == "Cliente"%} required>{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Apellido/s</td>
+                <td><input type="text" name="apellido" placeholder="Apellido"></td>
+            </tr>
+            <tr>
+                <td>Telefono</td>
+                <td><input type="number" name="telefono" placeholder="Telefono"></td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>Calle</td>
+                <td><input type="text" name="calle" placeholder="Calle" required></td>
+            </tr>
+            <tr>
+                <td>Altura</td>
+                <td><input type="number" name="altura" placeholder="Altura" required></td>
+            </tr>
+            <tr>
+                <td>piso</td>
+                <td><input type="text" name="piso" placeholder="Piso"></td>
+            </tr>
+            <tr>
+                <td>Departamento</td>
+                <td> <input type="text" name="dpto" placeholder="Departamento"></td>
+            </tr>
+            <tr>
+                <td>Entre calles</td>
+                <td><input type="text" name="e/1" placeholder="Entre calle 1"><br></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="text" name="e/2" placeholder="Entre calle 2"><br></td>            </tr>
+            <tr>
+                <td>CP</td>
+                <td><input type="text" name="cp" placeholder="Codigo Postal"></td>
+            </tr>
+            <tr>
+                <td>Localidad</td>
+                <td><input type="text" name="localidad" placeholder="Localidad" required></td>
+            </tr>
+            <tr>
+                <td>Monto a cobrar</td>
+                <td><input type="text" name="cobrar" placeholder="$"></td>
+            </tr>
+            <tr>
+                <td>Referencia</td>
+                <td><input type="text" name="referencia" placeholder="Referencia"></td>
+            </tr>
+        </table>      
         <input type="submit" value="Confirmar">
-    </fieldset>
     </form>
 
 

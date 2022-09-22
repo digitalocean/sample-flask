@@ -82,9 +82,13 @@ def retiroDeProductos():
 def retiroconfirmadoss():
     midb = database.connect_db()
     cursor = midb.cursor()
+    levantadas = {}
+    cursor.execute("select zona,costo from tarifa where localidad like '%flex a base%'")
+    for x in cursor.fetchall():
+        levantadas[str(x[0]).lower()] = x[1]
+    levantadas["flex a base ezeiza"] = 2000
     fecha = request.form.get("fecha")
     precio = 0
-    costo = 250
     choferesAsignados = ""
     for x in request.form.keys():
         if not str(x) in ["fecha", "None", ""]: 
@@ -93,7 +97,7 @@ def retiroconfirmadoss():
                 cotizacion = actualizarTablas(midb)[2]
                 localidad = cotizacion[x]
                 correoChofer = correoChoferes(midb)[chofer]
-                choferesAsignados += f"('Flex a base {x} {str(datetime.now())[0:19]}','{x}','{localidad}','{chofer}','{correoChofer}',{precio},{costo},'{fecha}','Levantada','Modifico: {session.get('user_id')}','Retiro de productos en {x}'),"
+                choferesAsignados += f"('Flex a base {x} {str(datetime.now())[0:19]}','{x}','{localidad}','{chofer}','{correoChofer}',{precio},{levantadas[str(localidad).lower()]},'{fecha}','Levantada','Modifico: {session.get('user_id')}','Retiro de productos en {x}'),"
     choferesAsignados = choferesAsignados[0:-1]
     sql = f"insert into historial_estados (Numero_envío,Vendedor,Localidad,Chofer,Correo_chofer,Precio,Costo,Fecha,estado_envio,Foto_domicilio,Direccion_completa) values {choferesAsignados}"
     print(sql)

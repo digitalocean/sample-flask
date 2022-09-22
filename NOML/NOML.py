@@ -7,7 +7,7 @@ def obtenerClientes():
     midb = database.connect_db()
     clientes = []
     cursor = midb.cursor()
-    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes`;")
+    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes` group by Cliente order by Cliente;")
     for x in cursor:
         clientes.append(x[0])
     midb.close()
