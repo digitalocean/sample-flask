@@ -136,9 +136,9 @@ def loginEmpleado():
             'vehiculo':res[3],
             'patente':res[4],
             'correo':res[5],
-            'dni':res[6],
-            'cbu':res[7],
-            'telefono':res[8],
+            'dni':str(res[6]),
+            'cbu':str(res[7]),
+            'telefono':str(res[8]),
             'direccion':res[9],
             'localidad':res[10],
             'session_token': None
