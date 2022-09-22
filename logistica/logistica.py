@@ -23,7 +23,7 @@ def descargaLogixsBoton():
     print(f"Tiempo de geolocalizacion: {tiempofinal - finDescargaLogixs}")
     duracion = tiempofinal - tiempoinicio
     print(f"Tiempo total: {duracion}")
-    return redirect ("vistamapa")
+    return redirect ("logistica/vistamapa")
 
 
 @lg.route("/busquedaAdmin")
