@@ -122,17 +122,25 @@ def loginEmpleado():
     dataLogin = request.get_json()
     midb = database.connect_db()
     cursor = midb.cursor()
-    sql =f"select password,id,nombre,correo from empleado where dni = {dataLogin['dni']}"
+    sql =f"select id,nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password from empleado where dni = {dataLogin['dni']}"
     cursor.execute(sql)
     res = cursor.fetchone()
     if res is None:
         return jsonify(success=False,message="Usuario inexistente",data=None)
     midb.close()
-    if check_password_hash(res[0],dataLogin["password"]):
+    if check_password_hash(res[11],dataLogin["password"]):
         data = {
-            'id':res[1],
-            'nombre':res[2],
-            'correo':res[3],
+            'id':res[0],
+            'nombre':res[1],
+            'puesto':res[2],
+            'vehiculo':res[3],
+            'patente':res[4],
+            'correo':res[5],
+            'dni':res[6],
+            'cbu':res[7],
+            'telefono':res[8],
+            'direccion':res[9],
+            'localidad':res[10],
             'session_token': None
         }
         return jsonify(success=True,message="Inicio de sesion correcto",data=data)
