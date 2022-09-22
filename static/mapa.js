@@ -1,6 +1,7 @@
 // const ruta = "https://whale-app-suwmc.ondigitalocean.app";
 // const ruta = "http://192.168.0.148"
-const ruta = "http://localhost"
+// const ruta = "http://localhost"
+const ruta = "http://mmslogistica.com"
 var map;
 var asignaciones = [];
 var poligonoZonificador
