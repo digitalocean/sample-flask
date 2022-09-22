@@ -37,11 +37,11 @@
             </tr>
             <tr>
                 <td>Apellido/s</td>
-                <td><input type="text" name="apellido" placeholder="Apellido"></td>
+                <td><input type="text" name="apellido" placeholder="Apellido" {% if auth == "Cliente"%} required>{% endif %}></td>
             </tr>
             <tr>
                 <td>Telefono</td>
-                <td><input type="number" name="telefono" placeholder="Telefono"></td>
+                <td><input type="number" name="telefono" placeholder="Telefono" {% if auth == "Cliente"%} required>{% endif %}></td>
             </tr>
             <tr></tr>
             <tr>
@@ -66,7 +66,8 @@
             </tr>
             <tr>
                 <td></td>
-                <td><input type="text" name="e/2" placeholder="Entre calle 2"><br></td>            </tr>
+                <td><input type="text" name="e/2" placeholder="Entre calle 2"><br></td>
+            </tr>
             <tr>
                 <td>CP</td>
                 <td><input type="text" name="cp" placeholder="Codigo Postal"></td>
@@ -86,11 +87,6 @@
         </table>      
         <input type="submit" value="Confirmar">
     </form>
-
-
-
-
-    
 </body>
     
         

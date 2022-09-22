@@ -36,6 +36,7 @@ app.register_blueprint(estadistica.est)
 from NOML import NOML
 app.register_blueprint(NOML.NOML)
 
+
 @app.route("/")
 @auth.login_required
 def bienvenido():

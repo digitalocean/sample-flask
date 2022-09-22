@@ -13,7 +13,7 @@ from openpyxl import Workbook
 
 from database import database
 from .script import consultar_clientes,quitarAcento
-fb = Blueprint('fc_barracas', __name__, url_prefix='/')
+fb = Blueprint('facturacion', __name__, url_prefix='/')
 
 
 
