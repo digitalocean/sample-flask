@@ -18,8 +18,10 @@ NOML = Blueprint('NOML', __name__, url_prefix='/')
 @auth.login_required
 def carga_noml():
     if request.method == "POST": 
-        hoy = str(datetime.now())[0:10]
-        ref_int = request.form.get("referencia_interna")
+        if "nro_envio" in request.form.keys():
+            nro_envio = request.form.get("nro_envio")
+        else:
+            nro_envio = f"NoMl-{random(1,9999999999)}"
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
         telefono = request.form.get("telefono")
@@ -38,12 +40,11 @@ def carga_noml():
             vendedor = session.get("user_id")
         else:
             vendedor = request.form.get("nombre_cliente")
-        nro_envio = str(random.randint(0,9999999999))
         direccion_concatenada = calle + " " + str(altura) + localidad + ", Buenos Aires"
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = "insert into ViajesFlexs (Fecha, Numero_envío, nro_venta, comprador, Telefono, Direccion, Referencia, Localidad, capital, CP, Vendedor, estado_envio, Direccion_completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        values = (hoy,nro_envio,ref_int,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,caba,cp,vendedor, "Listo Para Retirar(Carga manual)",direccion_concatenada)
+        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, capital, CP, Vendedor, estado_envio, Direccion_completa) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        values = (nro_envio,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,caba,cp,vendedor, "Listo Para Retirar(Carga manual)",direccion_concatenada)
         cursor.execute(sql,values)
         midb.commit()
         return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=obtenerClientes())
