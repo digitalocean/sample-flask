@@ -141,6 +141,7 @@ def loginEmpleado():
             'telefono':str(res[8]),
             'direccion':res[9],
             'localidad':res[10],
+            'password':res[11],
             'session_token': None
         }
         return jsonify(success=True,message="Inicio de sesion correcto",data=data)

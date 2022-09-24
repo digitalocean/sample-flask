@@ -27,6 +27,8 @@ from logistica import asignacionZonas
 app.register_blueprint(asignacionZonas.lgAZ)
 from logistica import hojaRuta
 app.register_blueprint(hojaRuta.hojaRuta)
+from logistica import appChofer
+app.register_blueprint(appChofer.pd)
 from usuarios import usuarios
 app.register_blueprint(usuarios.us)
 from envios_cliente import envios_cliente
@@ -35,7 +37,10 @@ from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 from NOML import NOML
 app.register_blueprint(NOML.NOML)
-
+from facturacion import flexs
+app.register_blueprint(flexs.fb)
+from facturacion import gsolutions
+app.register_blueprint(gsolutions.fa)
 @app.route("/")
 @auth.login_required
 def bienvenido():
