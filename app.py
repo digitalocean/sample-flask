@@ -1,9 +1,8 @@
-from flask import Flask
-from flask import render_template
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
-app = Flask(__name__)
+app = FastAPI()
 
-
-@app.route("/")
-def hello_world():
-    return render_template("index.html")
+@app.get("/ping")
+async def ping():
+    return {"message":"pong"}
