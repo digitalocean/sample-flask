@@ -2,5 +2,5 @@ name: sample-flask
 services:
 - name: web
   github:
-    repo: digitalocean/sample-flask
+    repo: qintera-marketplace/digital-ocean-deployment-test
     branch: main
