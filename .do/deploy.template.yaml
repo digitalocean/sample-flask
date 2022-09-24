@@ -4,4 +4,4 @@ spec:
   - name: web
     git:
       branch: main
-      repo_clone_url: https://github.com/digitalocean/sample-flask.git
+      repo_clone_url: https://github.com/qintera-marketplace/digital-ocean-deployment-test.git
