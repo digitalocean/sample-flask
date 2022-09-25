@@ -5,7 +5,7 @@
 <body>
     <br><br>
     <form action="/facturacion/verprecio" method="POST">
-        <select name="tarifa">
+        Tarifa: <select name="tarifa">
             {% if tarifa%}
             <option value="{{tarifa}}">{{tarifa}}</option>
             {% endif %}
@@ -17,11 +17,11 @@
     </form>
     
     <form action="/facturacion/cambioprecio/" method="POST">
-    <table>
+    <table style="width: 50%; text-align: center;">
         <tr> 
-            <td>Zona</td>
-            <td>Precio actual</td>
-            <td>Precio nuevo</td>
+            <td style="text-align: center;">Zona</td>
+            <td style="text-align: center;">Precio actual</td>
+            <td style="text-align: center;">Precio nuevo</td>
         </tr>
     {% for x in viajes %}
     <form action="/facturacion/cambioprecio" method="post">

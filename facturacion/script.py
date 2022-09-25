@@ -3,7 +3,7 @@ def consultar_clientes():
     midb = database.connect_db()
     cursor = midb.cursor()
     lista_clientes = []
-    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes`")
+    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes` group by Cliente")
     for cliente in cursor.fetchall():
         Cliente = cliente
         lista_clientes.append(Cliente)

@@ -32,7 +32,7 @@ def estadistica():
         hasta = request.form.get("hasta")
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = "select Fecha, Numero_envío, Localidad, Vendedor from historial_estados where estado_envio in ('En Camino', 'En camino', 'en camino','Reasignado') and Fecha BETWEEN %s AND %s order by Vendedor"
+        sql = "select Fecha, Numero_envío, Localidad, Vendedor from historial_estados where lower(estado_envio) in ('en camino') and Fecha BETWEEN %s AND %s order by Vendedor"
         values = (desde,hasta)
         cursor.execute(sql, values)
         resultado = []
@@ -44,71 +44,6 @@ def estadistica():
             vendedor = x[3]
             paquete = [fecha,nenvio,loc,vendedor]
             resultado.append(paquete)
-        clientes = []
-        cursor.execute("select localidad, zona from tarifa")
-        zonas = []
-        localidadyzona = {}
-        for x in cursor.fetchall():
-            localidad = str(x[0]).lower()
-            localidad = quitarAcento(localidad)
-            zona = x[1]
-            localidadyzona[localidad] = zona
-            locyzona = [localidad,zona]
-            zonas.append(locyzona)
-        total = 0 
-        cancelado = 0
-        errores = 0
-        lista_error = []
-        caba = 0
-        z1 = 0 
-        z2 = 0
-        for x in resultado:
-            total += 1
-            localidad = str(x[2]).lower()
-            localidad = quitarAcento(localidad)
-            try:
-                if localidad in localidadyzona.keys():
-                    zona = localidadyzona[localidad]
-                    if zona == "Flex CABA":
-                        caba += 1
-                    elif zona == "Flex Zona (1)":
-                        z1 += 1
-                    elif zona == "Flex Zona (2)":
-                        z2 += 1
-                else:
-                    errores += 1
-                    if localidad not in lista_error:
-                        lista_error.append(localidad)
-                if str(x[3]) in str(clientes):
-                    for y in clientes:
-                        if y[0] == x[3]:
-                            y[1] += 1
-                            if zona == "Flex CABA":
-                                y[2] += 1
-                            elif zona == "Flex Zona (1)":
-                                y[3] += 1
-                            elif zona == "Flex Zona (2)":
-                                y[4] +=1
-                else:
-                    if zona == "Flex CABA":
-                        flex_caba = 1
-                    else:
-                        flex_caba = 0
-                    if zona == "Flex Zona (1)":
-                        flex_zona1 = 1
-                    else:
-                        flex_zona1 = 0
-                    if zona == "Flex Zona (2)":
-                        flex_zona2 =1
-                    else:
-                        flex_zona2 = 0
-                    cliente = x[3]
-                    cantidad = 1
-                    paquete = [cliente,cantidad,flex_caba,flex_zona1,flex_zona2]
-                    clientes.append(paquete)
-            except Exception as estadistica:
-                informeErrores.informeErrores(estadistica)
-                errores += 1
-        return render_template("estadistica.html", titulo="Estadistica", data=clientes, total=str(total),caba=str(caba),z1=str(z1),z2=str(z2),cancelado=str(cancelado),error = errores, mensaje_error=sorted(lista_error), auth = session.get("user_auth"))
+        return render_template("estadistica.html", titulo="Estadistica", data=None, total=str(None),caba=str(None),z1=str(None),z2=str(None),cancelado=str(None),error = None, mensaje_error=None, auth = session.get("user_auth"))
     else:
         return render_template("estadistica.html", titulo="Estadistica", auth = session.get("user_auth"))
