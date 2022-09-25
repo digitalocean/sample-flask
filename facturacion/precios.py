@@ -30,7 +30,6 @@ def consultarPrecio():
         for x in cursor.fetchall():
             zona = [x[0],x[1],x[2],x[3]]
             zonas.append(zona)
-            print(zona)
         tarifas = obtenerTarifas(midb)
         return render_template("facturacion/tarifas.html",viajes=zonas,cant_columnas = 2,tarifa=tarifa,tarifas=tarifas,auth = session.get("user_auth"))
     else:
@@ -41,12 +40,20 @@ def consultarPrecio():
 @auth.login_required
 @auth.admin_required
 def cambiarprecio():
+    midb = database.connect_db()
+    cursor = midb.cursor()
     if request.method == "POST":
         tarifa = request.form["tarifa"]
-        zona = request.form["zona"]
+        cursor.execute(f"select (select nombre from zona where id = indicePrecio.id_zona) as Zona,(select precio from zonaTarifaPrecio where id_tarifa = {tarifa} and id_zona = indicePrecio.id_zona),indicePrecio.id_tarifa,indicePrecio.id_zona from indicePrecio where id_tarifa = {tarifa} group by Zona")
+        zonas = []
+        for x in cursor.fetchall():
+            zona = [x[0],x[1],x[2],x[3]]
+            zonas.append(zona)
+        zonaCambia = request.form["zona"]
         nuevoprecio = request.form["nuevoprecio"]
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute(f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zona}")
+        cursor.execute(f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}")
         midb.commit()
-        return render_template("facturacion/tarifas.html",cant_columnas = 2,tarifas=obtenerTarifas(database.connect_db()),auth = session.get("user_auth"))
+        tarifas = obtenerTarifas(midb)
+        return render_template("facturacion/tarifas.html",viajes=zonas,cant_columnas = 2,tarifa=tarifa,tarifas=tarifas,auth = session.get("user_auth"))

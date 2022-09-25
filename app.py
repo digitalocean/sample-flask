@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, make_response
+from flask import Flask, render_template, session
 from flask_cors import CORS
 
 app = Flask(__name__)
