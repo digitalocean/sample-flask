@@ -41,6 +41,8 @@ from facturacion import flexs
 app.register_blueprint(flexs.fb)
 from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
+from facturacion import precios
+app.register_blueprint(precios.precios)
 @app.route("/")
 @auth.login_required
 def bienvenido():

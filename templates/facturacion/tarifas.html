@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+    
+<body>
+    <br><br>
+    <form action="/facturacion/verprecio" method="POST">
+        <select name="tarifa">
+            {%for tar in tarifas%}
+            <option value="{{tar}}">{{tar}}</option>
+            {%endfor%}
+        </select>
+        <input type="submit">
+    </form>
+    
+    <form action="/facturacion/cambioprecio/" method="POST">
+    <table>
+        <tr> 
+            {%if conLocalidad%}
+            <td>Localidad</td>
+            {%endif%}
+            <td>Zona</td>
+            <td>Precio actual</td>
+            <td>Precio nuevo</td>
+        </tr>
+    {% for x in viajes %}
+    <tr>
+        <input type="hidden" name="{{x.0}}" value="{{x.3}}">
+        <td>{{x.0}}</td>
+        <td>{{x.1}}</td>
+        <td>{{x.2}}</td>
+        <td><input type="text" name="nuevoprecio"></td>
+    </tr>
+    {% endfor %}    
+    </table>
+    <input type="submit" confirmar>
+    </form>
+    
+</body>
+    
+        
+
+{% endblock %}
