@@ -12,8 +12,8 @@ def historial(pagina):
     pagina = int(pagina)
     opcion = pagina-1
     limiteMinimo = opcion*300
-    cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","Ubicacion estado","Modifico","Tiene Foto"]
-    sql = f"select Fecha, Hora, id, Numero_envío,Direccion_completa,Vendedor,Localidad,Chofer,estado_envio,motivo_noenvio,Ubicacion_ultimoestado,Correo_chofer,Foto_domicilio from historial_estados where estado_envio != 'Listo para salir (Sectorizado)' order by id desc limit {limiteMinimo},300"
+    cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","precio","Costo","Ubicacion estado","Modifico","Tiene Foto"]
+    sql = f"select Fecha, Hora, id, Numero_envío,Direccion_completa,Vendedor,Localidad,Chofer,estado_envio,motivo_noenvio,Ubicacion_ultimoestado,Correo_chofer,Foto_domicilio,Precio,Costo from historial_estados where estado_envio != 'Listo para salir (Sectorizado)' order by id desc limit {limiteMinimo},300"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
@@ -32,9 +32,11 @@ def historial(pagina):
         ubicacion = x[10]
         correo = x[11]
         foto = x[12]
+        precio = x[13]
+        costo = x[14]
         if foto != "":
             foto = True
-        paquete = [fecha,hora,id,nenvio,direccion,vendedor,localidad,chofer,estado,motivo,ubicacion,correo,foto]
+        paquete = [fecha,hora,id,nenvio,direccion,vendedor,localidad,chofer,estado,motivo,precio,costo,ubicacion,correo,foto]
         viajes.append(paquete)
     if pagina < 10: pagina = 8
     listaBotones = []

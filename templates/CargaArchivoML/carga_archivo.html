@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+<br><br><br>
+    <form class="" action="/{{url_post}}" method="POST" enctype="multipart/form-data">  
+    {% if auth != "Cliente" %}
+    <tr>
+        <td>Vendedor</td>
+        <td>
+            <select name="nombre_cliente">
+                {% for cliente in clientes %}
+                <option value="{{cliente}}">{{cliente}}</option>
+                {% endfor %}
+            </select><br>
+        </td>
+    </tr>
+    {%endif%}
+    <p>
+    <input type="file" name="upload">
+    <input type="submit" value="Enviar">
+    <p>
+{% endblock %}
+
