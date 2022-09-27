@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block content %}
+<br><br>
+<form action="/logistica/reasignar" method="post">
+<table>
+    <tr>
+        <td>Fecha</td>
+        <td>Numero de envío</td>
+        <td>Chofer</td>
+    </tr>
+    <tr>
+        <td><input type="date" name="fecha" value="{{fecha}}"></td>
+        <td><input type="text" name="numeroEnvio"></td>
+        <td><select name="chofer" id="chofer">
+            {%for chofer in choferes%}
+            <option value="{{chofer}}">{{chofer}}</option>
+            {%endfor%}
+        </select></td>
+    </tr>
+    <tr><td><input type="submit" Value="Registrar"></td></tr>
+</table>
+</form>
+{%endblock%}

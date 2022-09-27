@@ -9,11 +9,7 @@
         <input type="date" name="hasta" value="{{hasta}}"><br>
         <select name="cliente" value="{{cliente}}">
             {% for cliente in clientes %}
-            {% if tipo_facturacion == "barracas" %}
-            <option value="{{cliente.0}}">{{cliente.0}}</option>
-            {% else %}
-            <option value="{{cliente.0}}">{{cliente.0}}</option>
-            {% endif %}
+            <option value="{{cliente}}">{{cliente}}</option>
             {% endfor %}
           </select>
         <input type="submit" value="Buscar">

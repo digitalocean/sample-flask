@@ -15,7 +15,7 @@ def hojaDeRuta():
         cursor = midb.cursor()    
         chofer = request.form["chofer"]
         fecha = request.form["fecha"]
-        sql = f"select Numero_envío, Direccion, Localidad, Referencia,Vendedor From ViajesFlexs where Numero_envío in (select Numero_envío from historial_estados where Fecha = '{fecha}' and estado_envio in ('En Camino', 'Reasignado') and Chofer = '{chofer}' )"
+        sql = f"select Numero_envío, Direccion, Localidad, Referencia,vendedor(Vendedor) From ViajesFlexs where Numero_envío in (select Numero_envío from historial_estados where Fecha = '{fecha}' and estado_envio in ('En Camino', 'Reasignado') and Chofer = '{chofer}' )"
         # sql  = F"select Numero_envío from historial_estados where Chofer = '{chofer}' and Fecha = '{fecha}' and estado_envio in ('En Camino', 'Reasignado')"
         print(sql)
         cursor.execute(sql)

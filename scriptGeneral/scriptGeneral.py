@@ -1,13 +1,20 @@
-from database import database
-def consultar_clientes():
-    midb = database.connect_db()
-    cursor = midb.cursor()
+def correoChoferes(database):
+  correoChoferes = {}
+  cursor = database.cursor()
+  cursor.execute("select nombre,correo from empleado where fecha_baja is null")
+  for x in cursor.fetchall():
+      if not x[0] in correoChoferes.keys():
+          correoChoferes[x[0]] = x[1]
+  return correoChoferes
+
+
+def consultar_clientes(database):
+    cursor = database.cursor()
     lista_clientes = []
     cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes` group by Cliente")
     for cliente in cursor.fetchall():
         Cliente = cliente
-        lista_clientes.append(Cliente)
-    midb.close()
+        lista_clientes.append(Cliente[0])
     return lista_clientes
 
 def quitarAcento(string):

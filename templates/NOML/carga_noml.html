@@ -7,6 +7,9 @@
         {% if nro_envio %}
         <h1>El envio {{nro_envio}} fue cargado exitosamente</h1>
         {%endif%}
+        {%if mensaje_error %}
+        <h1>{{mensaje_error}}</h1>
+        {%endif%}
     </div>
     <form class="" action="/carga_noml" method="POST" style="width: 25%; margin-top: 20px;">
        
@@ -24,7 +27,7 @@
         </tr>
         <tr>
             <td>Numero de envio</td>
-            <td><input type="text" name="nro_envio" placeholder="Identificador del paquete"></td>
+            <td><input type="text" name="nro_envio" placeholder="Identificador del paquete" value="{{numeroEnvio}}"></td>
         </tr>
         
 

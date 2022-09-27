@@ -1,22 +1,15 @@
 from flask import Blueprint, g, render_template, request, session
+from scriptGeneral import scriptGeneral
 from auth import auth
 from database import database
 from datetime import datetime
 import random
-def obtenerClientes():
-    midb = database.connect_db()
-    clientes = []
-    cursor = midb.cursor()
-    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes` group by Cliente order by Cliente;")
-    for x in cursor:
-        clientes.append(x[0])
-    midb.close()
-    return clientes
 NOML = Blueprint('NOML', __name__, url_prefix='/')
 
 @NOML.route("/carga_noml", methods = ["GET","POST"])
 @auth.login_required
 def carga_noml():
+    midb = database.connect_db()
     if request.method == "POST": 
         if "nro_envio" in request.form.keys():
             nro_envio = request.form.get("nro_envio")
@@ -41,15 +34,14 @@ def carga_noml():
         else:
             vendedor = request.form.get("nombre_cliente")
         direccion_concatenada = calle + " " + str(altura) + localidad + ", Buenos Aires"
-        midb = database.connect_db()
         cursor = midb.cursor()
         sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, capital, CP, Vendedor, estado_envio, Direccion_completa) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         values = (nro_envio,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,caba,cp,vendedor, "Listo Para Retirar(Carga manual)",direccion_concatenada)
         cursor.execute(sql,values)
         midb.commit()
-        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=obtenerClientes())
+        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=scriptGeneral.consultar_clientes(midb))
 
     else:
-        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), clientes=obtenerClientes())
+        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), clientes=scriptGeneral.consultar_clientes(midb))
 
 

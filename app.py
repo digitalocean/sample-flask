@@ -39,6 +39,9 @@ app.register_blueprint(precios.precios)
 app.register_blueprint(envios_cliente.envcl)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
+
+
+
 @app.route("/")
 @auth.login_required
 def bienvenido():

@@ -5,7 +5,7 @@ from flask import (
 )
 
 
-from .script import consultar_clientes,quitarAcento
+from scriptGeneral import scriptGeneral
 precios = Blueprint('precios', __name__, url_prefix='/')
 
 def obtenerIdTarifas(db):

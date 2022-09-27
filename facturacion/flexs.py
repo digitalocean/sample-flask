@@ -12,22 +12,26 @@ from openpyxl import Workbook
 
 
 from database import database
-from .script import consultar_clientes
+from scriptGeneral import scriptGeneral
 fb = Blueprint('facturacion', __name__, url_prefix='/')
 
 
 
 @fb.route('/consulta_flexs')
 @auth.login_required
-def fac_barracas():
+def consultaFlexs():
     hoy = str(datetime.now())[0:10]
-    clientes = consultar_clientes()
-    return render_template("tabla_viajes.html",desde=hoy,hasta=hoy,titulo="Busqueda", clientes=clientes, tipo_facturacion="barracas", auth = session.get("user_auth"))
+    return render_template("facturacion/tabla_viajes.html",
+                        titulo="Facturacion", 
+                        desde=hoy,
+                        hasta=hoy,
+                        clientes=scriptGeneral.consultar_clientes(database.connect_db()), 
+                        tipo_facturacion="flex", 
+                        auth = session.get("user_auth"))
 
-# para grabar los precios en DB comentar lineas 45, y 86 y descomentar 46:47,85,101 y 107:110
-@fb.route("/facturacion_barracas", methods=["GET"])
+@fb.route("/facturacion_flex", methods=["GET"])
 @auth.login_required
-def df_barracas():
+def facturacionFlex():
     midb = database.connect_db()
     cursor = midb.cursor()
     cliente = request.args.get("cliente")
@@ -44,7 +48,7 @@ def df_barracas():
     sheet["E1"] = "Precio"
     sheet["F1"] = "Cuenta"
     contador = 1
-    sql = f"select Fecha, Numero_envío,Direccion_Completa,Localidad,Precio,Vendedor from historial_estados where Vendedor in (select Apodo from mmslogis_MMSPack.`Apodos y Clientes` where Cliente = '{cliente}') and Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"    
+    sql = f"select Fecha, Numero_envío,Direccion_Completa,Localidad,Precio,Vendedor from historial_estados where Vendedor in (select Apodo from mmslogis_MMSPack.`Apodos y Clientes` where Cliente = '{cliente}') and Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"
     cursor.execute(sql)
     sinprecio = 0
     for viajeTupla in cursor.fetchall():
@@ -72,6 +76,15 @@ def df_barracas():
         viajes.append(viaje)
     sheet["F"+str(contador+1)] = "=SUM(E2:E"+str(contador)+")"
     book.save("Resumen.xlsx")
-    midb.close()
-    return render_template("tabla_viajes.html",cliente=cliente,desde=desde,hasta=hasta,titulo="Facturacion", tipo_facturacion="barracas", viajes=viajes, total=f"${suma} y {sinprecio} viajes sin precio", clientes = consultar_clientes(), auth = session.get("user_auth"))
+    return render_template("facturacion/tabla_viajes.html",
+                            cliente=cliente,
+                            desde=desde,
+                            hasta=hasta,
+                            titulo="Facturacion", 
+                            tipo_facturacion="flex", 
+                            viajes=viajes, 
+                            total=f"${suma} y {sinprecio} viajes sin precio", 
+                            clientes = scriptGeneral.consultar_clientes(midb), 
+                            auth = session.get("user_auth")
+                            )
 
