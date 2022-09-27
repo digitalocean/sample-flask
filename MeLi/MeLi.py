@@ -75,7 +75,7 @@ def recibirnotificacion():
         nros_envios = []
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute("select Numero_envío from ViajesFlexs2")
+        cursor.execute("select Numero_envío from ViajesFlexs")
         envios = cursor.fetchall()
         for x in envios:
             nros_envios.append(x[0])
@@ -108,30 +108,25 @@ def recibirnotificacion():
                 nro_venta = viaje[8]
                 direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
                 midb = database.connect_db()
-                while midb.open == False:
-                    midb = database.connect_db()
+                midb = database.verificar_conexion(midb)
                 cursor = midb.cursor()
-                cursor.execute("insert into ViajesFlexs2 (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
+                cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
                 midb.commit()
-                midb.close()
                 nros_envios.append(x[0])
             else:
                 midb = database.connect_db()
-                while midb.open == False:
-                    midb = database.connect_db()
+                midb = database.verificar_conexion(midb)
                 cursor = midb.cursor()
-                cursor.execute("select * from ViajesFlexs2 where Numero_envío = '%s'", (nro_envio,))
+                cursor.execute("select * from ViajesFlexs where Numero_envío = '%s'", (nro_envio,))
                 estado_db = cursor[0]
                 midb.commit()
-                midb.close()
                 if estado_db == "Entregado" or  estado_db == estado:
                     pass
                 else:
                     midb = database.connect_db()
-                    while midb.open == False:
-                        midb = database.connect_db()
+                    midb = database.verificar_conexion(midb)
                     cursor = midb.cursor()
-                    cursor.execute("UPDATE `viajesbarracas`.`ViajesFlexs2` SET `estado_envio` = '%s' WHERE (`Numero_envío` = '%s');", (estado,nro_envio))
+                    cursor.execute("UPDATE `viajesbarracas`.`ViajesFlexs` SET `estado_envio` = '%s' WHERE (`Numero_envío` = '%s');", (estado,nro_envio))
                     midb.commit()
                     midb.close()
                     
