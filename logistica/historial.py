@@ -1,8 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, session
 from auth import auth
 from database import database
-from datetime import datetime
-from .script import correoChoferes
 lgHS = Blueprint('historialEnvios', __name__, url_prefix='/')
 
 @lgHS.route("/logistica/historial/<pagina>")

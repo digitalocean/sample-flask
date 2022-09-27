@@ -2,15 +2,6 @@ from database import database
 from geopy.geocoders import GoogleV3 as api
 
 
-def correoChoferes(database):
-  correoChoferes = {}
-  cursor = database.cursor()
-  cursor.execute("select nombre,correo from empleado where fecha_baja is null")
-  for x in cursor.fetchall():
-      if not x[0] in correoChoferes.keys():
-          correoChoferes[x[0]] = x[1]
-  return correoChoferes
-
 def geocoder(dir):
     geolocator = api(user_agent="appmms", api_key="AIzaSyAL5RgvjJ6CwjnKgQXO921voodcystsUlQ")
     location = geolocator.geocode(dir)

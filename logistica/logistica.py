@@ -3,7 +3,7 @@ from flask import Blueprint, redirect, render_template, request, session
 from auth import auth
 from database import database
 from .script import  geolocalizarFaltantes
-from descargaLogixs import descargaLogixs,actualizarDesdeHistorial
+from descargaLogixs import descargaLogixs
 
 lg = Blueprint('logistica', __name__, url_prefix='/')
 

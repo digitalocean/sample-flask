@@ -18,7 +18,8 @@
         <tr>
             <td>Vendedor</td>
             <td>
-                <select name="nombre_cliente">
+                <select name="nombre_cliente" required>
+                    <option value="">Seleccione un Vendedor</option>
                     {% for cliente in clientes %}
                     <option value="{{cliente}}">{{cliente}}</option>
                     {% endfor %}

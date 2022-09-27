@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, request, session
 from auth import auth
 from database import database
 from datetime import datetime
-from .script import correoChoferes
+from scriptGeneral import scriptGeneral
 lgAR = Blueprint('asignacionRetiros', __name__, url_prefix='/')
 
 def actualizarTablas(database):
@@ -74,8 +74,8 @@ def retiroDeProductos():
                 midb.commit()
                 print(y + " " + chofer)
         levantadaspost,clienteChofer = actualizarTablas(midb)[0:2]
-        return render_template("logistica/levantadas.html",fecha=hoy,ruta = "confirmarRetiros",boton = "CONFIRMAR LEVANTADAS", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores, choferes =  correoChoferes(midb).keys(),asignados = clienteChofer,auth = session.get("user_auth"))
-    return render_template("logistica/levantadas.html",fecha=hoy,ruta = "retirodeproductos",boton = "Guardar en tabla temporal", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores, choferes = correoChoferes(midb).keys(),asignados = actualizarTablas(midb)[1],auth = session.get("user_auth"))
+        return render_template("logistica/levantadas.html",fecha=hoy,ruta = "confirmarRetiros",boton = "CONFIRMAR LEVANTADAS", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores, choferes =  scriptGeneral.correoChoferes(midb).keys(),asignados = clienteChofer,auth = session.get("user_auth"))
+    return render_template("logistica/levantadas.html",fecha=hoy,ruta = "retirodeproductos",boton = "Guardar en tabla temporal", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores, choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = actualizarTablas(midb)[1],auth = session.get("user_auth"))
 
 @lgAR.route("/logistica/asignar/confirmarRetiros", methods=["GET","POST"])
 @auth.login_required
@@ -96,7 +96,7 @@ def retiroconfirmadoss():
             if chofer != "None":
                 cotizacion = actualizarTablas(midb)[2]
                 localidad = cotizacion[x]
-                correoChofer = correoChoferes(midb)[chofer]
+                correoChofer = scriptGeneral.correoChoferes(midb)[chofer]
                 choferesAsignados += f"('Flex a base {x} {str(datetime.now())[0:19]}','{x}','{localidad}','{chofer}','{correoChofer}',{precio},{levantadas[str(localidad).lower()]},'{fecha}','Levantada','Modifico: {session.get('user_id')}','Retiro de productos en {x}'),"
     choferesAsignados = choferesAsignados[0:-1]
     sql = f"insert into historial_estados (Numero_envío,Vendedor,Localidad,Chofer,Correo_chofer,Precio,Costo,Fecha,estado_envio,Foto_domicilio,Direccion_completa) values {choferesAsignados}"

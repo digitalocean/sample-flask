@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, session
 from auth import auth
 from database import database
-from .script import correoChoferes
+from scriptGeneral import scriptGeneral
 
 hojaRuta = Blueprint('hojaRuta', __name__, url_prefix='/')
 
@@ -24,7 +24,7 @@ def hojaDeRuta():
             contador += 1
             viajes.append(x)
         cabezeras = ["Numero_envío","Direccion", "Referencia","Vendedor"]
-        return render_template("logistica/hojaDeRuta.html", titulo="Hoja de ruta", viajes=viajes,columnas = cabezeras,cant_columnas=len(cabezeras),fecha=fecha,total=contador,choferSeleccionado=chofer,choferes=correoChoferes(database.connect_db()),auth = session.get("user_auth"))
+        return render_template("logistica/hojaDeRuta.html", titulo="Hoja de ruta", viajes=viajes,columnas = cabezeras,cant_columnas=len(cabezeras),fecha=fecha,total=contador,choferSeleccionado=chofer,choferes=scriptGeneral.correoChoferes(database.connect_db()),auth = session.get("user_auth"))
     elif request.method == "GET":
         hoy = str(datetime.now())[0:10]
-        return render_template("logistica/hojaDeRuta.html",choferes=correoChoferes(database.connect_db()),fecha=hoy, auth = session.get("user_auth"))
+        return render_template("logistica/hojaDeRuta.html",choferes=scriptGeneral.correoChoferes(database.connect_db()),fecha=hoy, auth = session.get("user_auth"))
