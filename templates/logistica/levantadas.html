@@ -1,56 +1,119 @@
 {% extends "logistica/navegadorLogistica.html" %}
 {% block listaViajes %}
 <style>
-    table
-    { 
-        display: inline; 
+    .containerlv {
+               display : flex;
+              flex-direction : row;
+               
+            }
+        
+    .containerlv .box1 {
+        text-align:justify
+    }
+
+    .containerlv .box2 {
+        text-align:justify
+    }
+    .containerlv .box3 {
+        text-align:justify
     }
 </style>
-
-<form action="/logistica/asignar/{{ruta}}" method="post">
-    <input type="date" name="fecha" value="{{fecha}}"><br>
-
-    <table>
-        <tr>
-            <td>Vendedor</td>
-            <td>Chofer</td>
-        </tr>
-        {% for vendedor in vendedores1 %}
-            {% if vendedor in vendedoresHoy %}
-                <tr style="color: aqua; background-color: black;" ><td>{{vendedor}}</td>
-            {% else %}
-                <tr><td>{{vendedor}}</td>
-            {% endif %}
-                <td><select name="{{vendedor}}" id="{{vendedor}}">
-                    <option value="{{asignados[vendedor]}}">{{asignados[vendedor]}}</option>
-                    <option value="null">Limpiar</option>
-                    {% for chofer in choferes %}
-                    <option value="{{chofer}}">{{chofer}}</option>
-                    {% endfor %}</select>
-                </td></tr>
-        {% endfor %}
-    </table>
-    <table>
-        <tr>
-            <td>Vendedor</td>
-            <td>Chofer</td>
-        </tr>
-        {% for vendedor in vendedores2 %}
-            {% if vendedor in vendedoresHoy %}
-                <tr style="color: aqua; background-color: black;" ><td>{{vendedor}}</td>
-            {% else %}
-                <tr><td>{{vendedor}}</td>
-            {% endif %}
-                <td><select name="{{vendedor}}" id="{{vendedor}}">
-                    <option value="{{asignados[vendedor]}}">{{asignados[vendedor]}}</option>
-                    <option value="null">Limpiar</option>
-                    {% for chofer in choferes %}
-                    <option value="{{chofer}}">{{chofer}}</option>
-                    {% endfor %}</select>
-                </td></tr>
-        {% endfor %}
-    </table><br><br><br><br><br>
-    <input type="submit" Value="{{boton}}"><br><br>
-    <a href="/logistica/asignar/limpiarchoferes"><input type="button" value="Limpiar tabla temporal"></a>
-</form>
+<br><br>
+<div class="containerlv">
+    <div class="box1">
+        <form action="/logistica/asignar/{{ruta}}" method="post">
+            <table>
+                <tr>
+                    <td>Vendedor</td>
+                    <td>Chofer</td>
+                </tr>
+                {% for vendedor in vendedores1 %}
+                    {% if vendedor in vendedoresHoy %}
+                        <tr style="color: aqua; background-color: black;" ><td>{{vendedor}}</td>
+                    {% else %}
+                        <tr><td>{{vendedor}}</td>
+                    {% endif %}
+                        <td><select name="{{vendedor}}" id="{{vendedor}}">
+                            <option value="{{asignados[vendedor]}}">{{asignados[vendedor]}}</option>
+                            <option value="null">Limpiar</option>
+                            {% for chofer in choferes %}
+                            <option value="{{chofer}}">{{chofer}}</option>
+                            {% endfor %}</select>
+                        </td></tr>
+                {% endfor %}
+            </table>
+            <br>
+            <input type="date" name="fecha" value="{{fecha}}">
+            <a href="/logistica/asignar/limpiarchoferes"><input type="button" value="Limpiar tabla temporal"></a>
+            <input type="submit" Value="{{boton}}">
+            </div>
+            <div class="box2">
+            <table>
+                <tr>
+                    <td>Vendedor</td>
+                    <td>Chofer</td>
+                </tr>
+                {% for vendedor in vendedores2 %}
+                    {% if vendedor in vendedoresHoy %}
+                        <tr style="color: aqua; background-color: black;" ><td>{{vendedor}}</td>
+                    {% else %}
+                        <tr><td>{{vendedor}}</td>
+                    {% endif %}
+                        <td><select name="{{vendedor}}" id="{{vendedor}}">
+                            <option value="{{asignados[vendedor]}}">{{asignados[vendedor]}}</option>
+                            <option value="null">Limpiar</option>
+                            {% for chofer in choferes %}
+                            <option value="{{chofer}}">{{chofer}}</option>
+                            {% endfor %}</select>
+                        </td></tr>
+                {% endfor %}
+            </table>
+        </form>
+    </div>
+    <div class="box3">
+        <form action="/logistica/asignar/retirodeproductos/nuevalevantada" method="post">
+            <table>
+                <tr>
+                    <td>Agregar nuevo retiro</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="nuevoVendedor">
+                    </td>
+                    <td>
+                        <select name="zona">
+                            {%for zona in zonas%}
+                                <option value="{{zona}}">{{zona}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" value="Agregar">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br>
+        <form action="/logistica/asignar/retirodeproductos/eliminarlevantada" method="post">
+            <table>
+                <tr>
+                    <td>Eliminar retiro</td>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="borrarVendedor">
+                            <option value=""></option>
+                            {%for vendedor in vendedores%}
+                                <option value="{{vendedor}}">{{vendedor}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" value="Borrar">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 {% endblock %}

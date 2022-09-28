@@ -18,8 +18,8 @@ def actualizarTablas(database):
     contador = 0
     mitad = len(resultado)/2
     for x in resultado:
+        levantadas.append(x[0])
         if contador < mitad:
-            levantadas.append(x[0])
             parte1.append(x[0])
         else:
             parte2.append(x[0])
@@ -41,7 +41,7 @@ def retiroDeProductos():
     for w in cursor.fetchall():
         apodoCliente[w[0]] = w[1]
     hoy = str(datetime.now())[0:10]
-    cursor.execute(f"select Vendedor from ViajesFlexs where Fecha = '{hoy}' group by Vendedor")
+    cursor.execute(f"select vendedor(Vendedor) from ViajesFlexs where Fecha = '{hoy}' group by vendedor(Vendedor)")
     vendedores = []
     for z in cursor.fetchall():
         vendor = z[0]
@@ -57,7 +57,6 @@ def retiroDeProductos():
         sql = f"insert ignore into levantadas (vendedor) values {vend}"
         cursor.execute(sql)
         midb.commit()
-    print(sql)
     if request.method == "POST":
         for y in request.form.keys():
             chofer = request.form.get(y)
@@ -69,13 +68,11 @@ def retiroDeProductos():
                 if chofer != "null":
                     chofer = f"'{chofer}'"
                 sql = f"update mmslogis_MMSPack.levantadas set Chofer = {chofer} where vendedor = '{y}';"
-                print(sql)
                 cursor.execute(sql)
                 midb.commit()
-                print(y + " " + chofer)
         levantadaspost,clienteChofer = actualizarTablas(midb)[0:2]
-        return render_template("logistica/levantadas.html",fecha=hoy,ruta = "confirmarRetiros",boton = "CONFIRMAR LEVANTADAS", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores, choferes =  scriptGeneral.correoChoferes(midb).keys(),asignados = clienteChofer,auth = session.get("user_auth"))
-    return render_template("logistica/levantadas.html",fecha=hoy,ruta = "retirodeproductos",boton = "Guardar en tabla temporal", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores, choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = actualizarTablas(midb)[1],auth = session.get("user_auth"))
+        return render_template("logistica/levantadas.html",fecha=hoy,ruta = "confirmarRetiros",boton = "CONFIRMAR LEVANTADAS", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores,zonas=["Flex a base caba","Flex a base zona 1"], choferes =  scriptGeneral.correoChoferes(midb).keys(),asignados = clienteChofer,auth = session.get("user_auth"))
+    return render_template("logistica/levantadas.html",fecha=hoy,ruta = "retirodeproductos",boton = "Guardar en tabla temporal",vendedores=levantadas, vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores,zonas=["Flex a base caba","Flex a base zona 1"], choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = actualizarTablas(midb)[1],auth = session.get("user_auth"))
 
 @lgAR.route("/logistica/asignar/confirmarRetiros", methods=["GET","POST"])
 @auth.login_required
@@ -120,4 +117,26 @@ def limpiarChoferes():
     midb.commit()
     print(sql)
     hoy = str(datetime.now())[0:10]
+    return redirect("/logistica/asignar/retirodeproductos")
+
+@lgAR.route("/logistica/asignar/retirodeproductos/nuevalevantada", methods = ["GET","POST"])
+@auth.login_required
+def agregarLevantada():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    vendedor = request.form.get("nuevoVendedor")
+    zona = request.form.get("zona")
+    cursor.execute("insert into levantadas (vendedor,cotizacion) values(%s,%s)",(vendedor,zona))
+    midb.commit()
+    return redirect("/logistica/asignar/retirodeproductos")
+
+
+@lgAR.route("/logistica/asignar/retirodeproductos/eliminarlevantada", methods = ["GET","POST"])
+@auth.login_required
+def borrarLevantada():
+    vendedor = request.form.get("borrarVendedor")
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(f"delete from levantadas where Vendedor = '{vendedor}'")
+    midb.commit()
     return redirect("/logistica/asignar/retirodeproductos")
