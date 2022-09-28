@@ -83,10 +83,9 @@ def retiroconfirmadoss():
     midb = database.connect_db()
     cursor = midb.cursor()
     levantadas = {}
-    cursor.execute("select zona,costo from tarifa where localidad like '%flex a base%'")
-    for x in cursor.fetchall():
-        levantadas[str(x[0]).lower()] = x[1]
     levantadas["flex a base ezeiza"] = 2000
+    levantadas["flex a base caba"] = 420
+    levantadas["flex a base zona 1"] = 820
     fecha = request.form.get("fecha")
     precio = 0
     choferesAsignados = ""
