@@ -26,7 +26,7 @@ def envios_clientes():
     cursor.execute("select Fecha, Numero_envío, nro_venta, comprador, estado_envio from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
     for viaje in cursor:
         viajes.append(viaje)
-    return render_template("tabla_viajes.html", viajes=viajes, auth = session.get("user_auth"))
+    return render_template("envios_clientes/tabla_viajes.html", viajes=viajes, auth = session.get("user_auth"))
 
 
 @envcl.route("/buscar")
@@ -50,6 +50,6 @@ def busqueda():
             print("error")
         print(x)
         lista.append(x)
-    return render_template("tabla_viajes.html", titulo="Busqueda",infoviaje=infoviaje, viajes=lista, auth = session.get("user_auth"))
+    return render_template("envios_clientes/tabla_viajes.html", titulo="Busqueda",infoviaje=infoviaje, viajes=lista, auth = session.get("user_auth"))
 
 

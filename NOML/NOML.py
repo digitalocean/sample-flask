@@ -14,7 +14,7 @@ def carga_noml():
         if "nro_envio" in request.form.keys():
             nro_envio = request.form.get("nro_envio")
         else:
-            nro_envio = f"NoMl-{random(1,9999999999)}"
+            nro_envio = f"NoMl-{random.randint(1,9999999999)}"
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
         telefono = request.form.get("telefono")
@@ -26,7 +26,6 @@ def carga_noml():
         entre_calle2 = request.form.get("e/2")
         cp = request.form.get("cp")
         localidad = request.form.get("localidad")
-        caba  = request.form.get("caba")
         referencia = request.form.get("referencia")
         referencia_completa = referencia + "\n" + "piso: " + piso + "\nDpto: "+dpto + "\ne/ " + entre_calle1 + " y " + entre_calle2
         if session.get("user_auth") == "Cliente":
@@ -35,8 +34,8 @@ def carga_noml():
             vendedor = request.form.get("nombre_cliente")
         direccion_concatenada = calle + " " + str(altura) + localidad + ", Buenos Aires"
         cursor = midb.cursor()
-        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, capital, CP, Vendedor, estado_envio, Direccion_completa) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        values = (nro_envio,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,caba,cp,vendedor, "Listo Para Retirar(Carga manual)",direccion_concatenada)
+        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        values = (nro_envio,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor, "Listo Para Retirar",direccion_concatenada)
         cursor.execute(sql,values)
         midb.commit()
         return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=scriptGeneral.consultar_clientes(midb))
