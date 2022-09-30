@@ -23,12 +23,15 @@
     <br><br>
     <table style="width: 100%; border: solid ;">
         <tr>
-            <td>Fecha</td>
+            {%for x in cabezeras%}
+            <td>{{x}}</td>
+            {%endfor%}
+            <!-- <td>Fecha</td>
             <td>Remito</td>
             <td>Direccion</td>    
             <td>Localidad</td>
             <td>Precio</td>
-            <TD>Cuenta</TD>
+            <TD>Cuenta</TD> -->
 
         </tr>
     
@@ -41,6 +44,12 @@
             <td>{{viaje.4}}</td>
             <td>{{viaje.5}}</td>
             <td>{{viaje.6}}</td>
+            <td>{{viaje.7}}</td>
+            <td>{{viaje.8}}</td>
+            <td>{{viaje.9}}</td>
+            <td>{{viaje.10}}</td>
+            <td>{{viaje.11}}</td>
+            <td>{{viaje.12}}</td>
             </tr>
         {% endfor %}
     </table>

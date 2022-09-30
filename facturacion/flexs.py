@@ -41,47 +41,89 @@ def facturacionFlex():
     suma = 0
     book = Workbook()
     sheet = book.active
-    sheet["A1"] = "Fecha"
-    sheet["B1"] = "id envio"
-    sheet["C1"] = "Direccion"
-    sheet["D1"] = "Localidad"
-    sheet["E1"] = "Precio"
-    sheet["F1"] = "Cuenta"
+    sheet["A1"] = "id"
+    sheet["B1"] = "Numero_envío"
+    sheet["C1"] = "Vendedor"
+    sheet["D1"] = "Direccion_Completa"
+    sheet["E1"] = "Fecha"
+    sheet["F1"] = "Localidad"
+    sheet["G1"] = "Recibio"
+    sheet["H1"] = "Chofer"
+    sheet["I1"] = "Precio"
+    sheet["J1"] = "Costo"
+    sheet["K1"] = "Hora"
+    sheet["L1"] = "Currentlocation"
+    sheet["M1"] = "estado_envio"
+    sheet["N1"] = ""
+    
+    
     contador = 1
     # sql = f"select Fecha, Numero_envío,Direccion_Completa,Localidad,Precio,Vendedor from historial_estados where Vendedor in (select Apodo from mmslogis_MMSPack.`Apodos y Clientes` where Cliente = '{cliente}') and Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"
-    sql = f"select Fecha, Numero_envío,Direccion_Completa,Localidad,Precio,Vendedor from historial_estados where Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"
+    sql = f"select id,Numero_envío,Vendedor,Direccion_Completa,Fecha,Localidad,Recibio,Chofer,Precio,Costo,Hora,Currentlocation,estado_envio from historial_estados where Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"
     cursor.execute(sql)
     sinprecio = 0
     for viajeTupla in cursor.fetchall():
         viaje = list(viajeTupla)
         contador += 1
-        fecha = viaje[0]
-        nenvio = viaje[1]
-        direccionCompleta = viaje[2]
-        localidad = viaje[3]
-        precio = viaje[4]
-        apodo = viaje[5]
+        # fecha = viaje[5]
+        # nenvio = viaje[1]
+        # direccionCompleta = viaje[2]
+        # localidad = viaje[3]
+        # precio = viaje[4]
+        # apodo = viaje[5]
+        id = viaje[0]
+        nenvio = viaje[1] 
+        apodo = viaje[2]
+        direccionCompleta = viaje[3]
+        fecha = viaje[4]
+        localidad = viaje[5]
+        Recibio = viaje[6] 
+        Chofer = viaje[7]
+        precio = viaje[8] 
+        Costo = viaje[9] 
+        Hora = viaje[10]
+        Currentlocation = viaje[11]
+        estado_envio = viaje[12]
+
+
+
         if(precio == None):
             sinprecio = sinprecio +1
             viaje[4] = "Sin precio"
             suma = suma + 0
         else:
             suma = suma + float(precio)
-        sheet["A"+str(contador)] = fecha
+        # sheet["A"+str(contador)] = fecha
+        # sheet["B"+str(contador)] = nenvio
+        # sheet["C"+str(contador)] = direccionCompleta
+        # sheet["D"+str(contador)] = localidad
+        # sheet["E"+str(contador)] = apodo
+        # sheet["F"+str(contador)] = precio
+        sheet["A"+str(contador)] = id
         sheet["B"+str(contador)] = nenvio
-        sheet["C"+str(contador)] = direccionCompleta
-        sheet["D"+str(contador)] = localidad
-        sheet["E"+str(contador)] = apodo
-        sheet["F"+str(contador)] = precio
-        
+        sheet["C"+str(contador)] = apodo
+        sheet["D"+str(contador)] = direccionCompleta
+        sheet["E"+str(contador)] = fecha
+        sheet["F"+str(contador)] = localidad
+        sheet["G"+str(contador)] = Recibio
+        sheet["H"+str(contador)] = Chofer
+        sheet["I"+str(contador)] = precio
+        sheet["J"+str(contador)] = Costo
+        sheet["K"+str(contador)] = Hora
+        sheet["L"+str(contador)] = Currentlocation
+        sheet["M"+str(contador)] = estado_envio
+
         viajes.append(viaje)
-    sheet["F"+str(contador+1)] = "=SUM(E2:E"+str(contador)+")"
+    sheet["J"+str(contador+1)] = "=SUM(J2:j"+str(contador)+")"
+    sheet["K"+str(contador+1)] = "=SUM(K2:K"+str(contador)+")"
     book.save("Resumen.xlsx")
+    cabezeras = ["id","Numero_envío","Vendedor","Direccion_Completa","Fecha","Localidad","Recibio","Chofer","Precio","Costo","Hora","Currentlocation","estado_envio"]
     return render_template("facturacion/tabla_viajes.html",
                             cliente=cliente,
                             desde=desde,
                             hasta=hasta,
                             titulo="Facturacion", 
+                            cabezeras = cabezeras,
                             tipo_facturacion="flex", 
                             viajes=viajes, 
                             total=f"${suma} y {sinprecio} viajes sin precio", 
