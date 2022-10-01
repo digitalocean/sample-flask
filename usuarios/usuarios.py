@@ -6,7 +6,7 @@ from flask import (
     Blueprint, jsonify, g, redirect, render_template, request, session
 )
 from werkzeug.security import generate_password_hash,check_password_hash
-
+import json
 from auth import auth
 from datetime import datetime
 
@@ -120,9 +120,47 @@ def nuevoEmpleado():
 @us.route("/api/users/login",methods=["POST"])
 def loginEmpleado():
     dataLogin = request.get_json()
+    print(dataLogin['dni'])
     midb = database.connect_db()
     cursor = midb.cursor()
-    sql =f"select id,nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password from empleado where dni = {dataLogin['dni']}"
+    sql =f"""select 
+            em.id,em.nombre,em.puesto,em.vehiculo,em.patente,
+            em.correo,em.dni,em.cbu,em.telefono,em.direccion,
+            em.localidad,em.`password`, json_arrayagg(
+                json_object(
+                    "check",`vf`.`Check`,
+                    "zona",`vf`.`Zona`,
+                    "fecha",`vf`.`Fecha`,
+                    "numeroEnvio",`vf`.`Numero_envío`,
+                    "nro_venta",`vf`.`nro_venta`,
+                    "comprador",`vf`.`comprador`,
+                    "telefono",`vf`.`Telefono`,
+                    "direccion",`vf`.`Direccion`,
+                    "referencia",`vf`.`Referencia`,
+                    "localidad",`vf`.`Localidad`,
+                    "cp",`vf`.`CP`,
+                    "vendedor",`vf`.`Vendedor`,
+                    "chofer",`vf`.`Chofer`,
+                    "motivo",`vf`.`Motivo`,
+                    "latitud",`vf`.`Latitud`,
+                    "longitud",`vf`.`Longitud`,
+                    "precioCliente",`vf`.`Precio_Cliente`,
+                    "precioChofer",`vf`.`Precio_Chofer`,
+                    "estadoEnvio",`vf`.`estado_envio`,
+                    "fotoDomicilio",`vf`.`Foto_domicilio`,
+                    "tipoEnvio",`vf`.`tipo_envio`,
+                    "correoChofer",`vf`.`Correo_chofer`,
+                    "cobrar",`vf`.`Cobrar`,
+                    "reprogramaciones",`vf`.`Reprogramaciones`
+                )
+            ) 
+        as pending 
+    from empleado as em 
+    inner join ZonasyChoferes as ZC
+    on ZC.`Nombre Completo` = em.nombre  
+    inner join ViajesFlexs as vf 
+    on ZC.`Nombre Zona` = vf.Zona
+    where em.dni = {dataLogin['dni']}"""
     cursor.execute(sql)
     res = cursor.fetchone()
     if res is None:
@@ -142,8 +180,10 @@ def loginEmpleado():
             'direccion':res[9],
             'localidad':res[10],
             'password':res[11],
-            'session_token': None
+            'session_token': None,
+            'pending': json.dumps(str(res[12]))
         }
+        print(res[12])
         return jsonify(success=True,message="Inicio de sesion correcto",data=data)
     else:
         return jsonify(success=False,message="Contraseña incorrecta",data=None)

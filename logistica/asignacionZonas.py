@@ -59,21 +59,24 @@ def agregarRetiro():
     if request.method == "GET":
         fecha = str(datetime.now())[0:10]
         return render_template("logistica/nuevoRegistro.html", 
-        titulo="Asignar",
-        fecha=fecha,
-        choferes=correoChofer, 
-        auth = session.get("user_auth"))
+                                titulo="Asignar",
+                                fecha=fecha,
+                                choferes=correoChofer, 
+                                auth = session.get("user_auth")
+                                )
     elif request.method == "POST":
         fecha = request.form["fecha"]
         numeroEnvio = request.form["numeroEnvio"]
         chofer = request.form["chofer"]
         cursor = midb.cursor()
-        cursor.execute(f"""select Numero_envío,Direccion_completa,Localidad,Vendedor 
+        sql = """select Numero_envío,Direccion_completa,Localidad,Vendedor 
                         from historial_estados 
-                        where Numero_envío = '{numeroEnvio}' and estado_envio = 'En Camino'""")
+                        where Numero_envío = '%s' and estado_envio = 'En Camino'"""
+        cursor.execute(sql,(numeroEnvio,))
         resu = cursor.fetchone()
         if resu is None:
-            cursor.execute(f"select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = '{numeroEnvio}'")
+            sql = "select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = '%s'"
+            cursor.execute(sql(numeroEnvio,))
             res = cursor.fetchone()
             if res is None:
                 return render_template("NOML/carga_noml.html",

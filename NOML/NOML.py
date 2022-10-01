@@ -1,8 +1,7 @@
-from flask import Blueprint, g, render_template, request, session
+from flask import Blueprint,render_template, request, session
 from scriptGeneral import scriptGeneral
 from auth import auth
 from database import database
-from datetime import datetime
 import random
 NOML = Blueprint('NOML', __name__, url_prefix='/')
 
@@ -33,9 +32,10 @@ def carga_noml():
         else:
             vendedor = request.form.get("nombre_cliente")
         direccion_concatenada = calle + " " + str(altura) + localidad + ", Buenos Aires"
+        cobrar = request.form.get("cobrar")
         cursor = midb.cursor()
-        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        values = (nro_envio,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor, "Listo Para Retirar",direccion_concatenada)
+        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa,Cobrar) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        values = (nro_envio,nombre + " " + apellido,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor, "Listo Para Retirar",direccion_concatenada,cobrar)
         cursor.execute(sql,values)
         midb.commit()
         return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), nro_envio=nro_envio, clientes=scriptGeneral.consultar_clientes(midb))
