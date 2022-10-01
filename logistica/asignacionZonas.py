@@ -71,12 +71,14 @@ def agregarRetiro():
         cursor = midb.cursor()
         sql = """select Numero_envío,Direccion_completa,Localidad,Vendedor 
                         from historial_estados 
-                        where Numero_envío = '%s' and estado_envio = 'En Camino'"""
-        cursor.execute(sql,(numeroEnvio,))
+                        where Numero_envío = %s and estado_envio = 'En Camino'"""
+        values = (numeroEnvio,)
+        cursor.execute(sql,values)
         resu = cursor.fetchone()
         if resu is None:
-            sql = "select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = '%s'"
-            cursor.execute(sql(numeroEnvio,))
+            sql = "select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = %s"
+            values = (numeroEnvio,)
+            cursor.execute(sql,values)
             res = cursor.fetchone()
             if res is None:
                 return render_template("NOML/carga_noml.html",
@@ -103,7 +105,13 @@ def agregarRetiro():
             midb.commit()
             cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
-        return render_template("logistica/nuevoRegistro.html", titulo="Asignar",fecha=fecha,choferes=correoChofer, auth = session.get("user_auth"))
+        return render_template("logistica/nuevoRegistro.html", 
+                                titulo="Asignar",
+                                envio=numeroEnvio,
+                                chofer=chofer,
+                                fecha=fecha,
+                                choferes=correoChofer, 
+                                auth = session.get("user_auth"))
 
 
 # @lgAZ.route("/logistica/reasignar/<nro_envio>/<chofer>")
