@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\facturacion",
     "\\templates",
     "\\templates\\facturacion"
   ],
-  "SelectedNode": "\\templates\\facturacion\\tarifas.html",
+  "SelectedNode": "\\facturacion\\precios.py",
   "PreviewInSolutionExplorer": false
 }

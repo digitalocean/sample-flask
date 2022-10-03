@@ -95,10 +95,10 @@ def retiroconfirmadoss():
                 correoChofer = scriptGeneral.correoChoferes(midb)[chofer]
                 choferesAsignados += f"('Flex a base {x} {str(datetime.now())[0:19]}','{x}','{localidad}','{chofer}','{correoChofer}',{precio},{levantadas[str(localidad).lower()]},'{fecha}','Levantada','Modifico: {session.get('user_id')}','Retiro de productos en {x}'),"
     choferesAsignados = choferesAsignados[0:-1]
-    sql = "insert into historial_estados (Numero_envío,Vendedor,Localidad,Chofer,Correo_chofer,Precio,Costo,Fecha,estado_envio,Foto_domicilio,Direccion_completa) values '(%s)'"
+    sql = f"insert into historial_estados (Numero_envío,Vendedor,Localidad,Chofer,Correo_chofer,Precio,Costo,Fecha,estado_envio,Foto_domicilio,Direccion_completa) values {choferesAsignados}"
     print(sql)
     if choferesAsignados != "":
-        cursor.execute(sql,(choferesAsignados,))
+        cursor.execute(sql)
         midb.commit()
     return redirect("/logistica/asignar/retirodeproductos")
 
