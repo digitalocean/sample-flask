@@ -37,8 +37,8 @@ def carga_noml():
         cursor = midb.cursor()
         sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa,Cobrar) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         values = (nro_envio,comprador,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor, "Listo Para Retirar",direccion_concatenada,cobrar)
-        # cursor.execute(sql,values)
-        # midb.commit()
+        cursor.execute(sql,values)
+        midb.commit()
         return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 
                                 auth = session.get("user_auth"), 
