@@ -47,7 +47,13 @@ def busqueda():
     elif busqueda.lower() == "tercerasvueltas":
         sql = f"select {columnas} from historial_estados where Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' group by Numero_envío having count(Numero_envío) >2) order by Fecha desc, Hora desc, Numero_envío"
     elif busqueda.lower() == "sinencamino":
-        sql = f"select {columnas} from historial_estados where estado_envio in ('Entregado','No Entregado','No entregado','Listo para salir (Sectorizado)') and not Numero_envío in (select Numero_envío from historial_estados where estado_envio in ('En Camino') or motivo_noenvio in ('Cancelado'))"
+        sql = """
+        select H.Fecha,H.Hora,H.id,H.Zona,H.Numero_envío,H.Chofer,concat(V.Direccion,V.Localidad),V.Vendedor,H.Precio,H.Costo,H.estado_envio,H.motivo_noenvio,H.Correo_chofer,H.Foto_domicilio 
+	        from historial_estados as H join ViajesFlexs as V on H.Numero_envío = V.Numero_envío
+		        where lower(H.estado_envio) in ('entregado','no entregado','listo para salir (sectorizado)') 
+                and not H.Numero_envío in 
+			        (select Numero_envío from historial_estados where estado_envio in ('En Camino') or motivo_noenvio in ('Cancelado'))
+            """
     else:
         sql = f"select {columnas} from historial_estados where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion_completa like '%{busqueda}%' or estado_envio like '%{busqueda}%' or motivo_noenvio like '%{busqueda}%' order by Fecha desc, Hora desc;"
     cursor.execute(sql)
