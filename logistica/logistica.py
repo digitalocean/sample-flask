@@ -33,8 +33,8 @@ def busqueda():
     midb = database.connect_db()
     cursor = midb.cursor()
     busqueda = request.args.get("buscar")
-    columnas = "Fecha,Hora,id,Zona,Numero_envío,Chofer,Direccion_Completa,Vendedor,estado_envio,motivo_noenvio,Correo_chofer,Foto_domicilio,Ubicacion_ultimoestado"
-    cabezeras = ["Accion","Fecha","Hora","ID","Zona","Numero de envio","Chofer","Direccion","Vendedor","estado_envio","Motivo","Modifico","Tiene foto","Ubicacion estado"]
+    columnas = "Fecha,Hora,id,Zona,Numero_envío,Chofer,Direccion_Completa,Vendedor,Precio,Costo,estado_envio,motivo_noenvio,Correo_chofer,Foto_domicilio"
+    cabezeras = ["Accion","Fecha","Hora","ID","Zona","Numero de envio","Chofer","Direccion","Vendedor","Precio","Costo","estado_envio","Motivo","Modifico","Tiene foto"]
     #  order by Numero_envío, Fecha desc,Hora desc
     if busqueda.lower() == "entregadoduplicado":
         sql = f"select {columnas} from historial_estados where Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(Numero_envío) >1) and estado_envio = 'Entregado' order by Numero_envío"
@@ -50,18 +50,16 @@ def busqueda():
         sql = f"select {columnas} from historial_estados where estado_envio in ('Entregado','No Entregado','No entregado','Listo para salir (Sectorizado)') and not Numero_envío in (select Numero_envío from historial_estados where estado_envio in ('En Camino') or motivo_noenvio in ('Cancelado'))"
     else:
         sql = f"select {columnas} from historial_estados where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion_completa like '%{busqueda}%' or estado_envio like '%{busqueda}%' or motivo_noenvio like '%{busqueda}%' order by Fecha desc, Hora desc;"
-    print(sql)
     cursor.execute(sql)
     resultado = cursor.fetchall()
-    print(len(resultado))
     if len(resultado) == 0:
-        sql = f"select Fecha, Numero_envío, Direccion, Localidad, Vendedor from ViajesFlexs where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion like '%{busqueda}%' order by Fecha desc"
+        sql = f"select Fecha, Numero_envío, Direccion, Localidad, Vendedor,estado_envio,Motivo,ultimo_motivo from ViajesFlexs where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion like '%{busqueda}%' order by Fecha desc"
         cursor.execute(sql)
         print(sql)
         resultado = cursor.fetchone()
         lista = (resultado,)
         mjstbla = "No se registro historial de este envio"
-        cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor"]
+        cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor","Estado","Motivo","Ultimo motivo"]
         return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=lista ,columnas = cabezeras, cant_columnas = len(cabezeras), mensaje_tabla = mjstbla, auth = session.get("user_auth"))
     lista = []
     cobra = 0
