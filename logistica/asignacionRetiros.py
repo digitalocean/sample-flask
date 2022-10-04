@@ -92,6 +92,7 @@ def retiroconfirmadoss():
             if chofer != "None":
                 cotizacion = actualizarTablas(midb)[2]
                 localidad = cotizacion[x]
+                print(localidad)
                 correoChofer = scriptGeneral.correoChoferes(midb)[chofer]
                 choferesAsignados += f"('Flex a base {x} {str(datetime.now())[0:19]}','{x}','{localidad}','{chofer}','{correoChofer}',{precio},{levantadas[str(localidad).lower()]},'{fecha}','Levantada','Modifico: {session.get('user_id')}','Retiro de productos en {x}'),"
     choferesAsignados = choferesAsignados[0:-1]

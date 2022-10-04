@@ -83,7 +83,7 @@ on empleado.nombre = vf.Chofer and vf.Zona in
             'localidad':res[10],
             'password':res[13],
             'session_token': None,
-            'pending':res[14]
+            'pending':jsonify(res[14])
         }
         resultado = str(res[14])[14:-4].replace("\\","")
         print(resultado)
