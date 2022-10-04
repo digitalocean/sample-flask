@@ -195,8 +195,25 @@ def borrarRepetidos():
                 midb.commit()
             except Exception as err:
                 errores.add(err)
+    fechaEnvio = []
+    agregados = 0
+    cursor.execute(f"""select H.Fecha,H.Numero_envío,V.Localidad,V.Vendedor,V.Direccion,V.Precio_Cliente
+        from historial_estados as H join ViajesFlexs as V on H.Numero_envío = V.Numero_envío
+            where lower(H.estado_envio) in ('entregado','no entregado','listo para salir (sectorizado)') 
+            and not H.Numero_envío in 
+                (select Numero_envío from historial_estados where estado_envio in ('En Camino') or motivo_noenvio in ('Cancelado'))
+                """)
+    for x in cursor.fetchall():
+        datoEnvio = [x[0],x[1],x[2],x[3],x[4],x[5]]
+        fechaEnvio.append(datoEnvio)
+    for enCamino in fechaEnvio:
+        sql = f"insert into historial_estados (Fecha, Numero_envío,estado_envio,Localidad,Vendedor,Direccion_completa,Precio) values('{enCamino[0]}','{enCamino[1]}','En Camino','{enCamino[2]}','{enCamino[3]}','{enCamino[4]}','{enCamino[5]}');"
+        agregados += 1
+        cursor = midb.cursor()
+        cursor.execute(sql)
+        midb.commit()
     cant_err = len(errores)
     if cant_err != 0:
-        return f"Se borraron {borrados} En Camino y {entregadosBorrados} Entregados y se produjeron {cant_err} errores"
+        return f"Se borraron {borrados} En Camino, {entregadosBorrados} Entregados y se agregaron {agregados} En Camino faltantes.\nSe produjeron {cant_err} errores"
     else:
-        return f"Se borraron {borrados} En Camino y {entregadosBorrados} Entregados"
+        return f"Se borraron {borrados} En Camino, {entregadosBorrados} Entregados y se agregaron {agregados} En Camino faltantes."
