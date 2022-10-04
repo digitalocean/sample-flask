@@ -172,8 +172,31 @@ def borrarRepetidos():
                     midb.commit()
                 except Exception as err:
                     errores.append(err)
+
+    cursor = midb.cursor()
+    cursor.execute("select id, Numero_envío, estado_envio from historial_estados where estado_envio = 'Entregado' and Fecha >= '2022-09-01' group By Numero_envío having count(Numero_envío)>1 ")
+    envios = {}
+    entregadosBorrados = 0
+    mayor = 0
+    for y in cursor.fetchall():
+        cursor.execute(f"select id, Numero_envío, estado_envio from historial_estados where Numero_envío = '{y[1]}'")
+        for x in cursor.fetchall():
+            if x[0] > mayor:
+                sql = f"delete from historial_estados where id = {mayor}"
+                entregadosBorrados += 1
+                mayor = x[0]
+            else:
+                sql = f"delete from historial_estados where id = {x[0]}"
+                entregadosBorrados += 1
+            print(sql)
+            print(entregadosBorrados)
+            try:
+                cursor.execute(sql)
+                midb.commit()
+            except Exception as err:
+                errores.add(err)
     cant_err = len(errores)
     if cant_err != 0:
-        return f"Se borraron {borrados} y se produjeron {cant_err} errores"
+        return f"Se borraron {borrados} En Camino y {entregadosBorrados} Entregados y se produjeron {cant_err} errores"
     else:
-        return f"Se borraron {borrados}"
+        return f"Se borraron {borrados} En Camino y {entregadosBorrados} Entregados"
