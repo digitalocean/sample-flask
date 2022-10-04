@@ -131,3 +131,49 @@ def facturacionFlex():
                             auth = session.get("user_auth")
                             )
 
+@fb.route("/facturacion/borrar_repetido")
+@auth.login_required
+@auth.admin_required
+def borrarRepetidos():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select id, Numero_envío, estado_envio from historial_estados where Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'En Camino' group by Numero_envío having count(Numero_envío) >1) and estado_envio = 'En Camino'")
+    envios = {}
+    for x in cursor.fetchall():
+        if x[1] in envios.keys():
+            envios[str(x[1])].append(x[2])
+        else:
+            envios[x[1]] = [x[2]]
+    cantidad = 0
+    enviosDuplicados = []
+    for x in envios:
+        if (len(envios[x])) > 1:
+            enviosDuplicados.append(x)
+            cantidad += 1
+    print(f"{cantidad} a revisar antes de facturar")
+    borrados = 0
+    controlado = 0
+    errores = []
+    for y in enviosDuplicados:
+        controlado += 1
+        # midb = database.verificar_conexion(midb)
+        sql = f"select id from historial_estados where estado_envio = 'En Camino' and Numero_envío = '{y}'"
+        cursor.execute(sql)
+        enCaminos = 0
+        seGuarda = 99999999999999999999999999999999999999999999999999999999999999999999999
+        for x in cursor.fetchall():
+            if x[0] < seGuarda:
+                seGuarda = x[0]
+            else:
+                sql = f"DELETE FROM historial_estados WHERE id = '{x[0]}';"
+                borrados+=1
+                try:
+                    cursor.execute(sql)
+                    midb.commit()
+                except Exception as err:
+                    errores.append(err)
+    cant_err = len(errores)
+    if cant_err != 0:
+        return f"Se borraron {borrados} y se produjeron {cant_err} errores"
+    else:
+        return f"Se borraron {borrados}"
