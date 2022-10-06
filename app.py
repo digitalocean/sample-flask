@@ -26,6 +26,7 @@ app.register_blueprint(appChofer.pd)
 from usuarios import usuarios
 app.register_blueprint(usuarios.us)
 from envios_cliente import envios_cliente
+app.register_blueprint(envios_cliente.envcl)
 from MeLi import upload_xlsx
 app.register_blueprint(upload_xlsx.upML)
 from NOML import NOML
@@ -36,7 +37,8 @@ from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
 from facturacion import precios
 app.register_blueprint(precios.precios)
-app.register_blueprint(envios_cliente.envcl)
+from sueldo import sueldo
+app.register_blueprint(sueldo.MS)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 

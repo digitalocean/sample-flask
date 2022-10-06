@@ -19,7 +19,7 @@ def load_logged_in_user():
     else:
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute("select nickname, tipoUsuario from usuario where nickname = %s", (user_id,))
+        cursor.execute(f"SELECT nickname,tipoUsuario FROM mmslogis_MMSPack.usuario where nickname = '{user_id}' union SELECT nombre,'Chofer' FROM empleado where nombre = '{user_id}';")
         usuario = cursor.fetchone()
         g.user = usuario[0]
         g.auth = usuario[1]
@@ -55,15 +55,18 @@ def login():
         midb = database.connect_db()
         cursor = midb.cursor()
         try:
-            sql = f"select nickname, password, tipoUsuario from usuario where nickname = '{user}'"
+            sql = f"SELECT nickname,password,tipoUsuario FROM mmslogis_MMSPack.usuario where nickname = '{user}' union SELECT nombre,dni,'Chofer' FROM empleado where nombre = '{user}';"
             cursor.execute(sql)
             resultado = cursor.fetchall()
             midb.close()
             for x in resultado:
+                print(x)
                 if x[1] == password:
                     session.clear()
                     session['user_id'] = x[0]
                     session['user_auth'] = x[2]
+                    if x[2] == "Chofer":
+                        return redirect("/misueldo")
                     return redirect(url_for("bienvenido"))
                 else:
                     return render_template("login.html",titulo="Login", mensaje=U"Usuario y/o contraseña incorrecto")

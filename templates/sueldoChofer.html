@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi sueldo</title>
+</head>
+<body>
+    <form action="/misueldo" method="POST" style="position: initial; width: 30%;">
+        <label>Desde</label><br>
+        <input type="date" name="desde" value="{{desde}}"><br>
+        <label>Hasta</label><br>
+        <input type="date" name="hasta" value="{{hasta}}"><br>
+        <input type="submit" value="Buscar">
+    </form>
+    {%if total%}
+    <h4>Visitas: {{cantidad}}</h4>
+    <h4>Total: {{total}}</h4>
+    <h3>{{mensaje_error}}</h3>
+    <br><br>
+    <table style="width: 100%; border: solid ;">
+        <tr>
+            {%for x in cabezeras%}
+            <td>{{x}}</td>
+            {%endfor%}
+        </tr>
+    
+        {% for viaje in viajes %}
+            <tr>
+            <td>{{viaje.0}}</td>
+            <td>{{viaje.1}}</td>
+            <td>{{viaje.2}}</td>
+            <td>{{viaje.3}}</td>
+            <td>{{viaje.4}}</td>
+            <td>{{viaje.5}}</td>
+            <td>{{viaje.6}}</td>
+            <td>{{viaje.7}}</td>
+            <td>{{viaje.8}}</td>
+            <td>{{viaje.9}}</td>
+            <td>{{viaje.10}}</td>
+            <td>{{viaje.11}}</td>
+            <td>{{viaje.12}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {%endif%}
+</body>
+</html>
