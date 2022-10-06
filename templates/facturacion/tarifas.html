@@ -41,7 +41,7 @@
                 <td style="text-align: center;">Precio nuevo</td>
             </tr>
         {% for x in viajes %}
-        <tr>
+        <tr style="border: solid;">
             <input type="hidden" name="tarifa" value="{{x.2}}">
             <input type="hidden" name="zona" value="{{x.3}}">
             <td>{{x.0}}</td>
@@ -61,7 +61,7 @@
                 <td>Zona</td>
             </tr>
             {%for localidad in localidades %}
-            <tr>
+            <tr style="border: solid;">
                 <td>{{localidad.0}}</td>
                 <td>{{localidad.1}}</td>
             </tr>
