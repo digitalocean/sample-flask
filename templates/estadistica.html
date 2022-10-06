@@ -9,61 +9,18 @@
     <input type="date" name="hasta"><br>
     <input type="submit" value="Enviar">
 </form>
-
-{% if data %}
-<h6>Error = {{mensaje_error}}</h6>
+{%if data%}
 <table>
     <tr>
-        <td>Cantidad Total</td>
-        <td>{{total}}</td>
-    </tr>
-    <tr>
-        <td>CABA</td>
-        <td>{{caba}}</td>
-    </tr>
-    <tr>
-        <td>Zona 1</td>
-        <td>{{z1}}</td>
-    </tr>
-    <tr>
-        <td>Zona 2</td>
-        <td>{{z2}}</td>
-    </tr>
-    {% if cancelado %}
-    <tr>
-        <td>Cancelados</td>
-        <td>{{cancelado}}</td>
-    </tr>
-    {% endif %}
-    {% if error %}
-    <tr>
-        <td>Errores</td>
-        <td>{{error}}</td>
-    </tr>
-    {% endif %}
-</table>
-
-<br><br>
-
-<table>
-    <tr>
-        <td>Cliente</td>
-        <td>Total</td>
-        <td>caba</td>
-        <td>Zona 1</td>
-        <td>Zona 2</td>
+        <td>Localidad</td>
+        <td>Cantidad</td>
     </tr>
 {% for x in data %}
 <tr>
     <td>{{x[0]}}</td>
     <td>{{x[1]}}</td>
-    <td>{{x[2]}}</td>
-    <td>{{x[3]}}</td>
-    <td>{{x[4]}}</td>
-    <td>{{x[5]}}</td>
 </tr>
 {% endfor %}
 </table>
-{% endif %}
-
+{%endif%}
 {% endblock %}

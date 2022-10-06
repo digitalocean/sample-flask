@@ -32,18 +32,24 @@ def estadistica():
         hasta = request.form.get("hasta")
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = "select Fecha, Numero_envío, Localidad, Vendedor from historial_estados where lower(estado_envio) in ('en camino') and Fecha BETWEEN %s AND %s order by Vendedor"
+        sql = "select Localidad, count(Localidad) as Cantidad from historial_estados where estado_envio = 'En Camino' and Fecha BETWEEN %s AND %s group by Localidad"
         values = (desde,hasta)
         cursor.execute(sql, values)
         resultado = []
         for x in cursor:
-            fecha = x[0]
-            nenvio= x[1]
-            loc = str(x[2]).lower()
-            loc = quitarAcento(loc)
-            vendedor = x[3]
-            paquete = [fecha,nenvio,loc,vendedor]
-            resultado.append(paquete)
-        return render_template("estadistica.html", titulo="Estadistica", data=None, total=str(None),caba=str(None),z1=str(None),z2=str(None),cancelado=str(None),error = None, mensaje_error=None, auth = session.get("user_auth"))
+            resultado.append(x)
+        return render_template("estadistica.html", 
+                                titulo="Estadistica", 
+                                data=resultado, 
+                                total=str(None),
+                                caba=str(None),
+                                z1=str(None),
+                                z2=str(None),
+                                cancelado=str(None),
+                                error = None, 
+                                mensaje_error=None, 
+                                auth = session.get("user_auth"))
     else:
-        return render_template("estadistica.html", titulo="Estadistica", auth = session.get("user_auth"))
+        return render_template("estadistica.html", 
+                                titulo="Estadistica", 
+                                auth = session.get("user_auth"))

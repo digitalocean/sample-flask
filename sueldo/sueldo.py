@@ -29,7 +29,7 @@ def sueldoChofer():
         desde = request.form["desde"]
         hasta = request.form["hasta"]
         columnasConsulta = "Fecha,Numero_envío,Direccion_Completa,Vendedor,estado_envio,motivo_noenvio,Costo"
-        cabezeras = ["Fecha","Numero de envío","Direccion","Vendedor","Estadi","Motivo","A cobrar"]
+        cabezeras = ["Fecha","Numero de envío","Direccion","Vendedor","Estado","Motivo","A cobrar"]
         viajes = []
         sql = f"SELECT {columnasConsulta} FROM mmslogis_MMSPack.sueldo where Chofer = '{chofer}' and Fecha between '{desde}' and '{hasta}' union SELECT {columnasConsulta} FROM mmslogis_MMSPack.sabado where Chofer = '{chofer}' and motivo_noenvio in ('Entregado sin novedades','Nadie en Domicilio (Reprogramado)','Rechazado por el comprador') and Fecha between '{desde}' and '{hasta}' ;"
         cursor.execute(sql)
