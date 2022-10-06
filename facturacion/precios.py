@@ -3,8 +3,6 @@ from auth import auth
 from flask import (
     Blueprint, g, render_template, request, session,redirect
 )
-
-
 from scriptGeneral import scriptGeneral
 precios = Blueprint('precios', __name__, url_prefix='/')
 
@@ -40,6 +38,13 @@ def obtenerPrecios(tarifa,db):
         zonas.append(zona)
     return zonas
 
+def obtenerZonas(tarifa,db):
+    cursor = db.cursor()
+    cursor.execute(f"select L.localidad,Z.nombre from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id")
+    localidades = []
+    for x in cursor.fetchall():
+        localidades.append(x)
+    return localidades
 @precios.route('/facturacion/verprecio', methods=["GET","POST"])
 @auth.login_required
 @auth.admin_required
@@ -50,10 +55,19 @@ def consultarPrecio():
         tarifa = request.form["tarifa"]
         zonas = obtenerPrecios(tarifa,midb)
         tarifas = obtenerIdTarifas(midb)
-        return render_template("facturacion/tarifas.html",viajes=zonas,cant_columnas = 2,tarifa=tarifa,tarifas=tarifas,auth = session.get("user_auth"))
+        return render_template("facturacion/tarifas.html",
+                                localidades = obtenerZonas(tarifa,midb),
+                                viajes=zonas,
+                                cant_columnas = 2,
+                                tarifa=tarifa,
+                                tarifas=tarifas,
+                                auth = session.get("user_auth"))
     else:
         tarifas = obtenerIdTarifas(midb)
-        return render_template("facturacion/tarifas.html",cant_columnas = 2,tarifas=tarifas,auth = session.get("user_auth"))
+        return render_template("facturacion/tarifas.html",
+                                cant_columnas = 2,
+                                tarifas=tarifas,
+                                auth = session.get("user_auth"))
 
 @precios.route('facturacion/cambioprecio/', methods=["POST"])
 @auth.login_required
@@ -69,4 +83,10 @@ def cambiarprecio():
         cursor.execute(f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}")
         midb.commit()
         tarifas = obtenerIdTarifas(midb)
-        return render_template("facturacion/tarifas.html",viajes=zonas,cant_columnas = 2,tarifa=tarifa,tarifas=tarifas,auth = session.get("user_auth"))
+        return render_template("facturacion/tarifas.html",
+                                viajes=zonas,
+                                cant_columnas = 2,
+                                tarifa=tarifa,
+                                tarifas=tarifas,
+                                localidades = [["caba","Flex caba"],["canning","Flex Zona 2"]],
+                                auth = session.get("user_auth"))

@@ -1,10 +1,26 @@
 {% extends "index.html" %}
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
+    <style>
+    .containerlv {
+        display : flex;
+        flex-direction : row;
+        
+    }
+
+    .containerlv .box1 {
+        text-align:justify
+    }
+
+    .containerlv .box2 {
+        text-align:justify
+    }
+
+    </style>
+<body><div class="containerlv">
     
-<body>
     <br><br>
-    <div>
+    <div class="box1">
         <form action="/facturacion/verprecio" method="POST">
             Tarifa: <select name="tarifa">
                 {% if tarifa%}
@@ -20,7 +36,7 @@
         <form action="/facturacion/cambioprecio" method="POST">
         <table style="width: 50%; text-align: center;">
             <tr> 
-                <td style="text-align: center;">Zona</td>
+                <td style="text-align: justify;">Zona</td>
                 <td style="text-align: center;">Precio actual</td>
                 <td style="text-align: center;">Precio nuevo</td>
             </tr>
@@ -38,7 +54,7 @@
         </table>
         </form>
     </div>
-    <div>
+    <div class="box2">
         <table>
             <tr>
                 <td>Localidad</td>
@@ -52,6 +68,7 @@
             {%endfor%}
         </table>
     </div>
+</div>
 </body>
     
         
