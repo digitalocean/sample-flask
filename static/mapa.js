@@ -321,7 +321,6 @@ async function actualizarViajes(){
   $.ajax({
     url:'/descargalogixs',
     type:'get',
-    data:$('#formzona').serialize(),
     success:function(){
         console.log("worked");
     }
