@@ -22,40 +22,38 @@ def jsonPendientes():
     if request.method == "POST":
         estados = ""
         if "listaParaRetirar" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where estado_envio in ("
-            estados += "'Lista Para Retirar','Listo para Retirar','Listo para Retirar',"
+            estados += " where (Fecha = current_date() and estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar')) "
         if "enDeposito" in request.form.keys():
             if len(estados) < 5:
-                estados += " where estado_envio in ("
-            estados += "'Listo para salir (Sectorizado)',"
+                estados += " where estado_envio = 'Listo para salir (Sectorizado)' or lower(Zona) = '~en deposito'"
+            else:
+                estados += " or estado_envio = 'Listo para salir (Sectorizado)'"
         if "enCamino" in request.form.keys():
             if len(estados) < 5:
-                estados += " where estado_envio in ("
-            estados += "'En Camino',"
+                estados += " where estado_envio = 'En Camino'"
+            else:
+                estados += " or estado_envio = 'En Camino'"
         if "noEntregado" in request.form.keys():
             if len(estados) < 5:
-                estados += " where estado_envio in ("
-            estados += "'No Entregado',"
+                estados += " where Motivo in ('Nadie en Domicilio (Reprogramado)','Domicilio no visitado')"
+            else:
+                estados += " or Motivo in ('Nadie en Domicilio (Reprogramado)','Domicilio no visitado')"
         if "retirado" in request.form.keys():
             if len(estados) < 5:
-                estados += " where estado_envio in ("
-            estados += "'Retirado',"
+                estados += " where estado_envio = 'Retirado'"
+            else:
+                estados += " or estado_envio = 'Retirado'"
         if "entregado" in request.form.keys():
             if len(estados) < 5:
-                estados += " where estado_envio in ("
-            estados += "'Entregado',"
-        estados = estados[0:-1]
-        if len(estados) > 5:
-            estados += ")"
-        if "noEntregado" in request.form.keys():
-            estados += " and Motivo != 'Cancelado'"
+                estados += " where estado_envio = 'Entregado'"
+            else:
+                estados += " or estado_envio = 'Entregado'"
         if "listaParaRetirar" in request.form.keys():
             if len(estados) < 5:
                 estados += " where not "
             else:
                 estados += " and not " 
-            estados += "(Vendedor = 'ONEARTARGENTINA' and estado_envio = 'Lista Para Retirar')"
+            estados += "(Vendedor in ('ONEARTARGENTINA') and estado_envio = 'Lista Para Retirar')"
         if  request.form["fecha"] != "":
             if len(estados) < 5:
                 estados += " where "
@@ -107,7 +105,10 @@ def carga_mapa():
     zonas = []
     for x in cursor.fetchall():
         zonas.append(x[0])
-    return render_template("logistica/mapa.html", auth = session.get("user_auth"),mapa=True,zonas=zonas)
+    return render_template("logistica/mapa.html", 
+                            auth = session.get("user_auth"),
+                            mapa=True,
+                            zonas=zonas)
 
 
 @lgMapa.route("/cambiozona/", methods=["GET","POST"])

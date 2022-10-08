@@ -9,7 +9,7 @@ def geocoder(dir):
 
 def geolocalizarFaltantes(midatabase):
     cursor = midatabase.cursor()
-    cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa from ViajesFlexs where latitud is null and not estado_envio in ('Entregado','Cancelado','No Vino') and not Motivo in ('Cancelado')")
+    cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa from ViajesFlexs where latitud is null and Fecha >= current_date()-3")
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
