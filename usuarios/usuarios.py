@@ -44,11 +44,11 @@ def crear_empleado():
             cursor.execute(sql)
             midb.commit()
             midb.close()
-            return render_template("nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
+            return render_template("usuario/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
         else:
-            return render_template("nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Error al agregar")
+            return render_template("usuario/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Error al agregar")
     else:
-        return render_template("nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"))
+        return render_template("usuario/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"))
 
 @us.route('/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required
@@ -69,7 +69,7 @@ def crear_cliente():
         midb.commit()
         midb.close()
         session.pop("nw_user_nombre",None)
-    return render_template("nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"))
+    return render_template("usuario/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"))
 
 
 
