@@ -40,7 +40,7 @@ def crear_empleado():
         if password == confirmpassword:
             midb = database.connect_db()
             cursor = midb.cursor()
-            sql = f"""INSERT INTO `mmslogis_MMSPack`.`empleado`(`nombre`,`puesto`,`vehiculo`,`patente`,`correo`,`dni`,`cbu`,`telefono`,`direccion`,`localidad`,`fecha_alta`,`password`) VALUES({nombre: },{puesto: },{vehiculo: },{patente: },{correo: },{dni: },{cbu: },{telefono: },{direccion: },{localidad: },current_date(),{password});"""
+            sql = f"""INSERT INTO `mmslogis_MMSPack`.`empleado`(`nombre`,`puesto`,`vehiculo`,`patente`,`correo`,`dni`,`cbu`,`telefono`,`direccion`,`localidad`,`fecha_alta`,`password`) VALUES({nombre},{puesto},{vehiculo},{patente},{correo},{dni},{cbu},{telefono},{direccion},{localidad},current_date(),{password});"""
             cursor.execute(sql)
             midb.commit()
             midb.close()
