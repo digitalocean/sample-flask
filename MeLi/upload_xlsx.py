@@ -6,16 +6,7 @@ from flask import Blueprint, render_template, request, session
 from auth import auth
 import openpyxl
 from database import database
-
-def obtenerClientes():
-    midb = database.connect_db()
-    clientes = []
-    cursor = midb.cursor()
-    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes` group by Cliente;")
-    for x in cursor:
-        clientes.append(x[0])
-    midb.close()
-    return clientes
+from scriptGeneral import scriptGeneral
 
 
 upML = Blueprint('uploadML', __name__, url_prefix='/')
@@ -96,6 +87,17 @@ def upload():
                         midb.commit()
                         lista_viajes.append(paquete)
         midb.close()
-        return render_template("CargaArchivoML/data.html",titulo="Carga", data=lista_viajes, analizados=cant_viajes, agregados=flex_agregado, flex=flex, repetido=repetido, auth = session.get("user_auth"))
+        return render_template("CargaArchivo/data.html",
+                                titulo="Carga", 
+                                data=lista_viajes, 
+                                analizados=cant_viajes, 
+                                agregados=flex_agregado, 
+                                flex=flex, 
+                                repetido=repetido, 
+                                auth = session.get("user_auth"))
     else:
-        return render_template("CargaArchivoML/carga_archivo.html",titulo="Carga", auth = session.get("user_auth"), clientes=obtenerClientes(), url_post="upload")
+        return render_template("CargaArchivo/carga_archivo.html",
+                                    titulo="Carga", 
+                                    auth = session.get("user_auth"), 
+                                    clientes=scriptGeneral.consultar_clientes(), 
+                                    url_post="upload")

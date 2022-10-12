@@ -33,6 +33,8 @@ from NOML import NOML
 app.register_blueprint(NOML.NOML)
 from facturacion import flexs
 app.register_blueprint(flexs.fb)
+from facturacion import cobrados
+app.register_blueprint(cobrados.cb)
 from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
 from facturacion import precios
@@ -41,11 +43,13 @@ from sueldo import sueldo
 app.register_blueprint(sueldo.MS)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
-
+from formatomms import formatomms
+app.register_blueprint(formatomms.formms)
 
 
 @app.route("/")
 @auth.login_required
 def bienvenido():
     return render_template("index.html", titulo="Bienvenido", auth = session.get("user_auth"), usuario = session.get("user_id"))
+
 

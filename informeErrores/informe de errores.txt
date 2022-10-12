@@ -822,3 +822,7 @@ DescargaLogixs
     0 Viajes con precio $0
     
 
+2022-10-09 10:06:24.645243
+/carga_formms
+local variable 'cant_columnas' referenced before assignment
+

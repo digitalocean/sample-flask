@@ -2,14 +2,13 @@
 # -*- coding: utf-8 -*- 
 # encoding: utf-8
 
-from lib2to3.pytree import type_repr
-from threading import local
 from flask import Blueprint, render_template, request, session
 from datetime import datetime
 from auth import auth
 from database import database
 from informeErrores import informeErrores
 import openpyxl
+from scriptGeneral import scriptGeneral
 
 
 formms = Blueprint('formms', __name__, url_prefix='/')
@@ -29,43 +28,51 @@ def subir_exel_formms():
                 nros_envios.append(str(x[0]).lower())
         except:
             print(u"Error al conectar DB!\n")
+    # try:
+        archivo_xlsx = request.files["upload"]
+        libro = openpyxl.load_workbook(archivo_xlsx)
+        sheet_obj = libro.active 
+        cant_columnas = 14
+        contador = 0
+    # except:
+        print(u"\nerror en la lectura del archivo\n")
         try:
-            archivo_xlsx = request.files["upload"]
-            libro = openpyxl.load_workbook(archivo_xlsx)
-            sheet_obj = libro.active 
-            cant_columnas = 14
-            contador = 0
-        except:
-            print(u"\nerror en la lectura del archivo\n")
-        try:
+            # Numero_envío = Order Number
+            # nro_venta = Order Number
+            # comprador = First Name (Shipping) +	Last Name (Shipping)
+            # Telefono = Phone (Billing)
+            # Direccion = Address 1&2 (Shipping)
+            # Referencia = Customer Note
+            # Localidad = City (Shipping)
+            # CP = Postcode (Shipping)
+            # Cobrar = Order Total Amount
+            # Reprogramaciones = 0
             for x in range(cant_columnas):
                 contador += 1
                 cab = str(sheet_obj.cell(row = 1, column = contador).value)
                 if cab.lower() == "fecha":
                     col_fecha = contador
-                elif cab.lower() in ("numero de envio", "numero de envío", "nro de envio"):
+                elif cab.lower() in ("numero de envio", "numero de envío", "nro de envio","order number"):
                     col_numero_envio = contador
-                elif cab.lower() == "cliente":
+                elif cab.lower() in ("cliente","first Name (shipping)","comprador"):
                     col_cliente = contador
-                elif cab.lower() == "quien recibe" or cab.lower() == "referencia interna" or cab.lower() == "nickname":
-                    col_ref_int = contador
-                elif cab.lower() == "direccion":
+                elif cab.lower() in ("direccion","address 1&2 (Shipping)"):
                     col_direccion = contador
-                elif cab.lower() == "localidad":
+                elif cab.lower() in ("localidad","city (shipping)"):
                     col_localidad = contador
-                elif cab.lower() == "vendedor":
+                elif cab.lower() in ("vendedor"):
                     col_vendedor = contador
-                elif cab.lower() == "cp":
+                elif cab.lower() in ("cp","postcode (shipping)"):
                     col_cp = contador
-                elif cab.lower() == "telefono":
+                elif cab.lower() in ("telefono","phone (billing)"):
                     col_telefono = contador
-                elif cab.lower() == "referencia":
+                elif cab.lower() in ("referencia","customer note"):
                     col_referencia = contador
-                elif cab.lower() == "estado":
+                elif cab.lower() in ("estado"):
                     col_estado = contador
-                elif cab.lower() == "observacion":
+                elif cab.lower() in ("observacion"):
                     col_observacion = contador
-                elif cab.lower() == "chofer":
+                elif cab.lower() in ("chofer"):
                     col_chofer = contador
             print("\nasignacion completa\n")
         except Exception as cabezeras:
@@ -92,10 +99,6 @@ def subir_exel_formms():
                 fecha = str(ahora)[0:10]
                 if col_fecha:
                     fecha = str(sheet_obj.cell(row = n_row, column = col_fecha).value)
-                if col_ref_int:
-                    ref_int = str(sheet_obj.cell(row = n_row, column = col_ref_int).value)
-                else:
-                    ref_int = ""
                 if col_cliente:
                     cliente = str(sheet_obj.cell(row = n_row, column = col_cliente).value)
                 else:
@@ -145,12 +148,26 @@ def subir_exel_formms():
                     flex_agregado += 1
                     
                     
-                paquete = [fecha,nro_envio,ref_int,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,"listo para retirar"]
+                paquete = [fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,"listo para retirar"]
                 lista_viajes.append(paquete)
         print(actualizados)
         cabezera = ["Fecha","Numero de envio","Cliente","Numero de venta","Telefono","Direccion","Referencia","Localidad","cp","Vendedor"]
         midb.close()
-        return render_template("data.html",titulo="Carga", data=lista_viajes, analizados=total, agregados=flex_agregado, flex=flex_agregado, repetido=omitido, auth = session.get("user_auth"), titulo_columna=cabezera)
+        return render_template("data.html",
+                                titulo="Carga", 
+                                titulo_columna=cabezera, 
+                                data=lista_viajes, 
+                                nalizados=total, 
+                                agregados=flex_agregado, 
+                                flex=flex_agregado, 
+                                repetido=omitido, 
+                                auth = session.get("user_auth"))
 
     else:
-        return render_template("carga_archivo.html",titulo="Carga", auth = session.get("user_auth"), url_post="carga_formms")
+        return render_template("CargaArchivo/carga_archivo.html",
+                                titulo="Carga", 
+                                clientes=scriptGeneral.consultar_clientes(database.connect_db()), 
+                                auth = session.get("user_auth"), 
+                                url_post="carga_formms")
+
+
