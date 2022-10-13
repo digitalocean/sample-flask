@@ -1,7 +1,7 @@
 def correoChoferes(database):
   correoChoferes = {}
   cursor = database.cursor()
-  cursor.execute("select nombre,correo from empleado where fecha_baja is null")
+  cursor.execute("select nombre,correo from empleado where fecha_baja is null order by nombre")
   for x in cursor.fetchall():
       if not x[0] in correoChoferes.keys():
           correoChoferes[x[0]] = x[1]

@@ -65,7 +65,7 @@ def crear_cliente():
         modo_cobro = request.form.get("modalidad_cobro")
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute("insert into Clientes (nombre_cliente, razon_social, CUIT, Direccion,correo_electronico, telefono, tipo_cotizacion,Modalidad_cobro,Fecha_Alta) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (nombre,razon_social,cuit,direccion,correo_electronico,telefono,tarifa,modo_cobro,fecha_hoy_db))
+        cursor.execute("insert into Clientes (nombre_cliente, razon_social, CUIT, Direccion,correo_electronico, telefono, tipo_cotizacion,Modalidad_cobro,Fecha_Alta) values (%s,%s,%s,%s,%s,%s,%s,%s,current_date())", (nombre,razon_social,cuit,direccion,correo_electronico,telefono,tarifa,modo_cobro))
         midb.commit()
         midb.close()
         session.pop("nw_user_nombre",None)

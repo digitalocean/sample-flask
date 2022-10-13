@@ -114,6 +114,40 @@ def agregarRetiro():
                                 auth = session.get("user_auth"))
 
 
+@lgAZ.route("/logistica/ayudadeposito", methods=["GET","POST"])
+@auth.login_required
+def horasExtra():
+    midb = database.connect_db()
+    correoChofer = scriptGeneral.correoChoferes(midb)
+    if request.method == "GET":
+        fecha = str(datetime.now())[0:10]
+        return render_template("logistica/horasTrabajadas.html", 
+                                titulo="Asignar",
+                                fecha=fecha,
+                                choferes=correoChofer, 
+                                auth = session.get("user_auth")
+                                )
+    elif request.method == "POST":
+        fecha = request.form["fecha"]
+        horas = request.form["horas"]
+        chofer = request.form["chofer"]
+        envio = f"{fecha}-{horas}-{str(chofer)[0:4]}"
+        costo = (int(horas) * 750)
+        
+        sql = f"insert into historial_estados (Numero_envío,Fecha,Direccion_completa,estado_envio,Chofer,Correo_chofer,Costo) values('{envio}','{fecha}','{horas} horas trabajadas','ayuda deposito','{chofer}','{correoChofer[chofer]}',{costo})"
+        cursor = midb.cursor()
+        cursor.execute(sql)
+        midb.commit()
+       
+        return render_template("logistica/horasTrabajadas.html", 
+                                titulo="Asignar",
+                                envio=horas,
+                                chofer=chofer,
+                                fecha=fecha,
+                                choferes=correoChofer, 
+                                auth = session.get("user_auth"))
+
+
 # @lgAZ.route("/logistica/reasignar/<nro_envio>/<chofer>")
 # @auth.login_required
 # def historial(nro_envio,chofer):

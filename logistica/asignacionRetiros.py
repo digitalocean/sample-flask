@@ -72,7 +72,17 @@ def retiroDeProductos():
                 midb.commit()
         levantadaspost,clienteChofer = actualizarTablas(midb)[0:2]
         return render_template("logistica/levantadas.html",fecha=hoy,ruta = "confirmarRetiros",boton = "CONFIRMAR LEVANTADAS", vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores,zonas=["Flex a base caba","Flex a base zona 1"], choferes =  scriptGeneral.correoChoferes(midb).keys(),asignados = clienteChofer,auth = session.get("user_auth"))
-    return render_template("logistica/levantadas.html",fecha=hoy,ruta = "retirodeproductos",boton = "Guardar en tabla temporal",vendedores=levantadas, vendedores1 = parte1,vendedores2 = parte2,vendedoresHoy = vendedores,zonas=["Flex a base caba","Flex a base zona 1"], choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = actualizarTablas(midb)[1],auth = session.get("user_auth"))
+    return render_template("logistica/levantadas.html",
+                            fecha=hoy,ruta = "retirodeproductos",
+                            boton = "Guardar en tabla temporal",
+                            vendedores=levantadas, 
+                            vendedores1 = parte1,
+                            vendedores2 = parte2,
+                            vendedoresHoy = vendedores,
+                            zonas=["Flex a base caba","Flex a base zona 1"], 
+                            choferes = scriptGeneral.correoChoferes(midb).keys(),
+                            asignados = actualizarTablas(midb)[1],
+                            auth = session.get("user_auth"))
 
 @lgAR.route("/logistica/asignar/confirmarRetiros", methods=["GET","POST"])
 @auth.login_required

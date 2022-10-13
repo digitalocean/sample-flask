@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+
+{% block content %}
+<br><br>
+<form action="/logistica/ayudadeposito" method="post">
+<table>
+    <tr>
+        <td>Fecha</td>
+        <td>Horas</td>
+        <td>Chofer</td>
+    </tr>
+    <tr>
+        <td><input type="date" name="fecha" value="{{fecha}}"></td>
+        <td><input type="number" name="horas"></td>
+        <td><select name="chofer" id="chofer">
+            {%for chofer in choferes%}
+            <option value="{{chofer}}">{{chofer}}</option>
+            {%endfor%}
+        </select></td>
+    </tr>
+    <tr><td><input type="submit" Value="Registrar"></td></tr>
+</table>
+</form>
+<br><br>
+{%if envio %}<h3>se asignaron {{envio}} horas a {{chofer}}</h3>{%endif%}
+{%endblock%}
