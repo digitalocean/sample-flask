@@ -26,7 +26,7 @@ def descargaLogixs(midatabase):
         if nroEnvio in dicNrosEnviosDB.keys():
             if estado == "Lista Para Retirar":
                 continue
-            if dicNrosEnviosDB[nroEnvio].lower() in ("lista para retirar", "No Vino"):
+            if dicNrosEnviosDB[nroEnvio].lower() in ("listo para retirar","lista para retirar", "No Vino"):
                 enviosLogixs += f"'{nroEnvio}',"
                 contadorActualizadosLogixs += 1
         #si el numero de envio del json no se encuentra en DB
@@ -46,7 +46,7 @@ def descargaLogixs(midatabase):
             longitud = str(x['Lng']).replace("'"," ")
             referencia = str(referencia).replace("\n", " ")
             direccionCompleta = f"{direccion}, {localidad}, Buenos aires"
-            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}', '{estado}','LOGIXS'),"
+            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}', '{estado}',2),"
     if len(enviosLogixsNuevos) > 0:
         enviosLogixsNuevos = enviosLogixsNuevos[0:-1]
         sql_insert = f"INSERT IGNORE INTO ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, Direccion_Completa, Latitud, Longitud, estado_envio, tipo_envio) VALUES {enviosLogixsNuevos}"

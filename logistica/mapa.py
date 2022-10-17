@@ -67,7 +67,13 @@ def jsonPendientes():
                     estados += " where "
                 else:
                     estados += " and " 
+         
                 estados += request.form["extra"]
+        if len(estados) < 5:
+                    estados += " where "
+        else:
+            estados += " and "
+        estados += "tipo_envio = 2"
         session["consultaMapa"] = consultaTodoMapa+estados
         print(session["consultaMapa"])
         return redirect("/logistica/vistamapa")

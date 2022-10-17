@@ -35,8 +35,8 @@ def carga_noml():
         comprador = nombre + " " + apellido
         cobrar = request.form.get("cobrar")
         cursor = midb.cursor()
-        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa,Cobrar) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        values = (nro_envio,comprador,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor, "Listo Para Retirar",direccion_concatenada,cobrar)
+        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa,Cobrar,tipo_envio) values(current_date(),%s,%s,%s,%s,%s,%s,%s,'Listo Para Retirar',%s,%s,%s,2)"
+        values = (nro_envio,comprador,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor,direccion_concatenada,cobrar)
         cursor.execute(sql,values)
         midb.commit()
         return render_template("NOML/etiqueta.html",

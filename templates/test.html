@@ -1,45 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-   
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <body>
-    <script>
-        var editBtn = document.getElementById('editBtn');
-var editables = document.querySelectorAll('#title, #author, #content')
- 
-editBtn.addEventListener('click', function(e) {
-  if (!editables[0].isContentEditable) {
-    editables[0].contentEditable = 'true';
-    editables[1].contentEditable = 'true';
-    editables[2].contentEditable = 'true';
-    editBtn.innerHTML = 'Save Changes';
-    editBtn.style.backgroundColor = '#6F9';
-  } else {
-    // Disable Editing
-    editables[0].contentEditable = 'false';
-    editables[1].contentEditable = 'false';
-    editables[2].contentEditable = 'false';
-    // Change Button Text and Color
-    editBtn.innerHTML = 'Enable Editing';
-    editBtn.style.backgroundColor = '#F96';
-    // Save the data in localStorage 
-    for (var i = 0; i < editables.length; i++) {
-      localStorage.setItem(editables[i].getAttribute('id'), editables[i].innerHTML);
-    }
-  }
-});
-    </script>
-<button id="editBtn" type="button">Edit Document</button>
- 
-<div id="editor">
-    <h1 id="title">A Nice Heading.</h1>
-    <p>Last Edited By - <span id="author">Monty Shokeen</span></p>
-    <p id="content">Some content that needs correction.</p>
-</div>
+  <img src="https://chart.googleapis.com/chart?chs=450x450&cht=qr&chl=41548007941" alt="">
+  
 </body>
 </html>
