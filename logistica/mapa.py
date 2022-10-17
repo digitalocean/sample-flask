@@ -124,7 +124,7 @@ def cambioZona():
         envio = request.args.get("envio")
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = f"update ViajesFlexs set Zona = '{zona}', nro_venta = '{hoy}' where Numero_envío = '{envio}'"
+        sql = f"update ViajesFlexs set Zona = '{zona}/2' where Numero_envío = '{envio}'"
         cursor.execute(sql)
         midb.commit()
         print(sql)
@@ -147,7 +147,7 @@ def cambioZonaMasivo():
         envios = envios[0:-1]
         if zona != "null":
             zona = "'" + zona + "'"
-        sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"        
+        sql = f"update ViajesFlexs set Zona = '{zona}/2' where Numero_envío in ({envios})"        
         cursor.execute(sql)
         midb.commit()
         return redirect("/logistica/vistamapa")
@@ -162,7 +162,7 @@ def cambioZonaMasivo():
         envios = envios[0:-1]
         if zona != "null":
             zona = "'" + zona + "'"
-        sql = f"update ViajesFlexs set Zona = {zona}/2 where Numero_envío in ({envios})"
+        sql = f"update ViajesFlexs set Zona = '{zona}/2' where Numero_envío in ({envios})"
         cursor.execute(sql)
         midb.commit()
         return "NO ES GET"
