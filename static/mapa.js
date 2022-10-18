@@ -333,7 +333,7 @@ function getPinIcon(zona,est){
     return(icon)
   }
   
-  var zn = zona.slice(3)
+  var zn = zona.charAt(3)
   switch (zn) {
     case "1":
       icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|CFCFCF");
