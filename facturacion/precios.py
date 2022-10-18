@@ -69,9 +69,8 @@ def consultarPrecio():
                                 tarifas=tarifas,
                                 auth = session.get("user_auth"))
 
-@precios.route('facturacion/cambioprecio/', methods=["POST"])
+@precios.route('facturacion/cambioprecio/', methods=["POST","GET"])
 @auth.login_required
-@auth.admin_required
 def cambiarprecio():
     midb = database.connect_db()
     cursor = midb.cursor()
@@ -80,7 +79,9 @@ def cambiarprecio():
         zonas = obtenerPrecios(tarifa,midb)
         zonaCambia = request.form["zona"]
         nuevoprecio = request.form["nuevoprecio"]
-        cursor.execute(f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}")
+        sql = f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}"
+        print(sql)
+        cursor.execute(sql)
         midb.commit()
         tarifas = obtenerIdTarifas(midb)
         return render_template("facturacion/tarifas.html",
@@ -88,5 +89,5 @@ def cambiarprecio():
                                 cant_columnas = 2,
                                 tarifa=tarifa,
                                 tarifas=tarifas,
-                                localidades = [["caba","Flex caba"],["canning","Flex Zona 2"]],
+                                localidades = obtenerZonas(tarifa,midb),
                                 auth = session.get("user_auth"))

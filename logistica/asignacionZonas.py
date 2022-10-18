@@ -87,22 +87,9 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(midb))
-            cursor.execute(f"""insert into historial_estados (Fecha,Numero_envío,Direccion_completa,Localidad,Vendedor,Chofer,correo_chofer,
-            estado_envio,motivo_noenvio) 
-            values ('{fecha}','{numeroEnvio}',
-            '{str(res[0]).replace(',',' ')}','{str(res[1]).replace(',',' ')}','{str(res[2]).replace(',',' ')}','{chofer}','{correoChofer[chofer]}',
-            'En Camino','En Camino')""")
-            midb.commit()
             cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
         else:
-            cursor.execute(f"""insert into historial_estados 
-                        (Fecha,Numero_envío,Direccion_completa,Localidad,Vendedor,Chofer,correo_chofer,estado_envio,motivo_noenvio) 
-                        values 
-                        ('{fecha}','{numeroEnvio}','{str(resu[1]).replace(',',' ')}',
-                        '{str(resu[2]).replace(',',' ')}','{str(resu[3]).replace(',',' ')}',
-                        '{chofer}','{correoChofer[chofer]}','Reasignado','Reasignado')""")
-            midb.commit()
             cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
         return render_template("logistica/nuevoRegistro.html", 
