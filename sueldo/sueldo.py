@@ -38,7 +38,10 @@ def sueldoChofer():
         cantidad = 0
         for viajeTupla in cursor.fetchall():
             cantidad += 1
-            suma += viajeTupla[6]
+            try:
+                suma += viajeTupla[6]
+            except Exception as err:
+                print(err)
             viaje = list(viajeTupla)
             if viajeTupla[6] == 0:
                 viajeSabado +=1

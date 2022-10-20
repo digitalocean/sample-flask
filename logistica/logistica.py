@@ -37,7 +37,7 @@ def busqueda():
     cabezeras = ["Accion","Fecha","Hora","ID","Zona","Numero de envio","Chofer","Direccion","Vendedor","Precio","Costo","estado_envio","Motivo","Modifico","Tiene foto"]
     #  order by Numero_envío, Fecha desc,Hora desc
     if busqueda.lower() == "entregadoduplicado":
-        sql = f"select {columnas} from historial_estados where Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(Numero_envío) >1) and estado_envio = 'Entregado' order by Numero_envío"
+        sql = f"select {columnas} from historial_estados where Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(Numero_envío) >1) and estado_envio = 'Entregado' and Fecha > '2022-09-01' order by Numero_envío"
     elif busqueda.lower() == "noentregadoduplicado":
         sql = f"select {columnas} from historial_estados where Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'No Entregado' group by Numero_envío having count(Numero_envío) >1) and motivo_noenvio in ('Nadie en Domicilio (Reprogramado)','Rechazado por el comprador') order by Numero_envío"
     elif busqueda.lower() == "encaminoduplicado":
