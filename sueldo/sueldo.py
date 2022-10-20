@@ -39,7 +39,7 @@ def sueldoChofer():
         cantidad = 0
         for viajeTupla in cursor.fetchall():
             cantidad += 1
-            if type(viajeTupla[6]) == Float:
+            if type(viajeTupla[6]) == float:
                 suma += viajeTupla[6]
             viaje = list(viajeTupla)
             if viajeTupla[6] == 0:
