@@ -73,11 +73,10 @@ def agregarRetiro():
                         from historial_estados 
                         where Numero_envío = %s and estado_envio = 'En Camino'"""
         values = (numeroEnvio,)
-        midb = database.verificar_conexion(midb)
         cursor.execute(sql,values)
         resu = cursor.fetchone()
         if resu is None:
-            sql = "select Direccion,Localidad,Vendedor from ViajesFlexs where Numero_envío = '%s'"
+            sql = "select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = %s"
             values = (numeroEnvio,)
             cursor.execute(sql,values)
             res = cursor.fetchone()
@@ -88,32 +87,18 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(midb))
-            sql = f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'"
-            print(sql)
-            midb = database.verificar_conexion(midb)
-            cursor.execute(sql)
+            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
-            return render_template("logistica/nuevoRegistro.html", 
-                                    titulo="Asignar",
-                                    envio=numeroEnvio,
-                                    chofer=chofer,
-                                    fecha=fecha,
-                                    choferes=correoChofer, 
-                                    auth = session.get("user_auth"))
-
         else:
-            sql = f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'"
-            print(sql)
-            cursor.execute(sql)
-            midb = database.verificar_conexion(midb)
+            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
-            return render_template("logistica/nuevoRegistro.html", 
-                                    titulo="Asignar",
-                                    envio=numeroEnvio,
-                                    chofer=chofer,
-                                    fecha=fecha,
-                                    choferes=correoChofer, 
-                                    auth = session.get("user_auth"))
+        return render_template("logistica/nuevoRegistro.html", 
+                                titulo="Asignar",
+                                envio=numeroEnvio,
+                                chofer=chofer,
+                                fecha=fecha,
+                                choferes=correoChofer, 
+                                auth = session.get("user_auth"))
 
 
 @lgAZ.route("/logistica/ayudadeposito", methods=["GET","POST"])
