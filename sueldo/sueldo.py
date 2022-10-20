@@ -1,6 +1,7 @@
 from flask import (
     Blueprint, g, render_template, request, session
 )
+from sqlalchemy import Float
 from auth import auth
 from datetime import datetime
 
@@ -38,10 +39,8 @@ def sueldoChofer():
         cantidad = 0
         for viajeTupla in cursor.fetchall():
             cantidad += 1
-            try:
+            if type(viajeTupla[6]) == Float:
                 suma += viajeTupla[6]
-            except Exception as err:
-                print(err)
             viaje = list(viajeTupla)
             if viajeTupla[6] == 0:
                 viajeSabado +=1
