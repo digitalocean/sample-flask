@@ -15,7 +15,6 @@ def verificar_conexion(midb):
     while midb.is_connected() == False:
         try:
             midb = connect_db()
-            conexion = midb.is_connected()
             print("Conexion exitosa")
         except:
             print("Error en la coneccion")

@@ -45,6 +45,8 @@ from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 from formatomms import formatomms
 app.register_blueprint(formatomms.formms)
+from empleado import empleado
+app.register_blueprint(empleado.em)
 
 
 @app.route("/")

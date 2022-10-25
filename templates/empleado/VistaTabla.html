@@ -1,0 +1,64 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div>
+<style>
+    td{
+        border-left: solid;
+        border-top: solid ; 
+        border-color: #afafaf;
+    }
+</style>
+<table style="width: 100%; margin-top: 30px;" class="table">
+    {% if contador %}
+        <tr><h3>{{contador}} {{mensajeLogistica}}</h3></tr>
+    {% endif %}
+    {% if cobra %}
+        <h3>{{cobra}} a pagar</h3>
+    {% endif %}
+
+
+    <h4>{{mensaje_tabla}}</h4>
+    <tr>
+    {% for columna in columnas %}
+        <td>{{columna}}</td>
+    {% endfor %}
+    </tr>
+    <tr>
+        {% for columna in cabezeras %}
+            <td>{{columna}}</td>
+        {% endfor %}
+    </tr>
+    {% for empleado in empleados %}
+        <tr>
+            <td>{{empleado.0}}</td>
+            <td>{{empleado.1}}</td>
+            <td>{{empleado.2}}</td>
+            <td>{{empleado.3}}</td>
+            <td>{{empleado.4}}</td>
+            <td>{{empleado.5}}</td>
+            <td>{{empleado.6}}</td>
+            <td>{{empleado.7}}</td>
+            <td>{{empleado.8}}</td>
+            <td>{{empleado.9}}</td>
+            <td>{{empleado.10}}</td>
+            <td>{{empleado.11}}</td>
+            <td>{{empleado.12}}</td>
+            {% if empleado.12 == None %}
+            <form action="/empleado/baja" method="post">
+                <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{empleado.0}}">
+                <td><input type="submit" value="Dar de baja"></td>
+            </form>
+            {%endif%}
+            {%if empleado.12 != None %}
+            <form action="/empleado/alta" method="post">
+                <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{empleado.0}}">
+                <td><input type="submit" value="Dar de alta"></td>
+            </form>
+            {%endif%}
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}
