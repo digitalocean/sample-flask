@@ -125,12 +125,13 @@ def recibirnotificacion():
                 if estado_db == "Entregado" or  estado_db == estado:
                     pass
                 else:
-                    midb = database.connect_db()
-                    midb = database.verificar_conexion(midb)
-                    cursor = midb.cursor()
-                    cursor.execute("UPDATE `viajesbarracas`.`ViajesFlexs` SET `estado_envio` = '%s' WHERE (`Numero_envío` = '%s');", (estado,nro_envio))
-                    midb.commit()
-                    midb.close()
+                    # midb = database.connect_db()
+                    # cursor = midb.cursor()
+                    sql = f"UPDATE `viajesbarracas`.`ViajesFlexs` SET `estado_envio` = '{estado}' WHERE Numero_envío = '{nro_envio}');"
+                    print(sql)
+                    # cursor.execute(sql)
+                    # midb.commit()
+                    # midb.close()
         file.write("\nJson guardado en DB")
         return  "Json guardado en base de datos"
 
