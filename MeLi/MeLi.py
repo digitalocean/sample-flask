@@ -97,17 +97,17 @@ def recibirnotificacion():
             # midb.close()
             nro_envio = (resource.split("/"))[2]
             #nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
+            viaje = consultar_envio(nro_envio, user_id)
+            tipo_envio= viaje[1] 
+            direccion= viaje[2] 
+            localidad= viaje[3] 
+            referencia= viaje[4] 
+            estado = viaje[5]
+            comprador = viaje[6]
+            fecha_creacion = viaje[7]
+            nro_venta = viaje[8]
+            direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
             if str(nro_envio) not in str(nros_envios):
-                viaje = consultar_envio(nro_envio, user_id)
-                tipo_envio= viaje[1] 
-                direccion= viaje[2] 
-                localidad= viaje[3] 
-                referencia= viaje[4] 
-                estado = viaje[5]
-                comprador = viaje[6]
-                fecha_creacion = viaje[7]
-                nro_venta = viaje[8]
-                direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
                 # midb = database.connect_db()
                 # midb = database.verificar_conexion(midb)
                 # cursor = midb.cursor()
