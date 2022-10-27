@@ -27,6 +27,8 @@ from usuarios import usuarios
 app.register_blueprint(usuarios.us)
 from envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
+from MeLi import MeLi
+app.register_blueprint(MeLi.ML)
 from MeLi import upload_xlsx
 app.register_blueprint(upload_xlsx.upML)
 from NOML import NOML

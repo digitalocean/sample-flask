@@ -1,16 +1,10 @@
-import pymysql
 import requests
+from database import database
 from datetime import datetime
 
 def actualizar_token(nickname):
 
-    midb = pymysql.connect(
-        host='190.228.29.62', 
-        user='matyacc', 
-        passwd='Agustin_1504', 
-        db='viajesbarracas', 
-        charset = 'utf8mb4')
-
+    midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute("select user_id, refresh_token from usuario where nickname = '" + nickname + "'")
     user = []
