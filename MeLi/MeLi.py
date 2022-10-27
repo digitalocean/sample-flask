@@ -86,6 +86,7 @@ def recibirnotificacion():
         attempts = data.get("attempts")
         application_id = data.get("application_id")
         sent = data.get("sent")
+        print(f"resource: {resource},user_id: {user_id},topic: {topic},sent: {sent},received: {received},attempts: {attempts},application_id: {application_id}")
         file.write("\nRecursos obtenidos\n")
         file.write(str(topic))
         if str(topic) == "shipments":
@@ -116,9 +117,8 @@ def recibirnotificacion():
                 nros_envios.append(x[0])
             else:
                 midb = database.connect_db()
-                midb = database.verificar_conexion(midb)
                 cursor = midb.cursor()
-                cursor.execute("select * from ViajesFlexs where Numero_envío = '%s'", (nro_envio,))
+                cursor.execute(f"select * from ViajesFlexs where Numero_envío = '{nro_envio}'")
                 estado_db = cursor[0]
                 midb.commit()
                 if estado_db == "Entregado" or  estado_db == estado:
