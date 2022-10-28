@@ -40,9 +40,6 @@ def actualizar_token(idUser):
             print(respuesta_ML)
             access_token = respuesta_ML["access_token"]
             refresh_token = respuesta_ML["refresh_token"]
-        except Exception as postML:
-            print(postML)
-        try:
             cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
             midb.commit()
             cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
