@@ -25,7 +25,9 @@ def actualizar_token(idUser):
         user_id = respuesta_ML["user_id"]
         access_token = respuesta_ML["access_token"]
         refresh_token = respuesta_ML["refresh_token"]
-        cursor.execute(f"UPDATE usuario SET user_id = {user_id}, access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};")
+        sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};"
+        print(sql)
+        cursor.execute(sql)
         midb.commit()
     except:
         try:
