@@ -13,22 +13,14 @@ from datetime import datetime
 secret_key = "abcd1234"
 @ML.route("/callbacks", methods=["GET","POST"])
 def vinculacion():
-    file = open("MeLi/logcallbacks.txt", "a")
-    file.write("\n\n-.-.-.-callbacks-.-.-.-\n")
-    file.write(str(datetime.now()))
-    file.write("\nMetodo = " + str(request.method) + "\n")
     if request.method == "POST":
-        file.close()
         return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://www.mmspack.com/callbacks")
     elif request.method == "GET":
         data = request.args
-        for x in data:
-            file.write(str(x + " = " + data[x] + "\n"))
         try:
             code = data["code"]
             state = data["state"]
             return render_template ("MeLi/usuario_web.html", code=code, state=state)
-
         except Exception as ErrorEnPOST:
             informeErrores.reporte(str(ErrorEnPOST) + "FUNCIONA A FUERZA BRUTA","/Callbacks")
             try:
@@ -39,8 +31,6 @@ def vinculacion():
             except Exception as errorEnVinculacion:
                 informeErrores.reporte(errorEnVinculacion,"/Callbacks 2do except")
                 return "fallo la vinculacion"
-
-
 @ML.route("/usuario_vinculado", methods=["POST"])
 def usuario_vinculado():
     if request.method == "POST":
@@ -62,15 +52,10 @@ def usuario_vinculado():
     else:
         return "Metodo GET"
 
+
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
-    file = open("MeLi/log.txt", "a")
-    file.write("\n\n\nNueva notificacion!!\n-.-.-"+str(datetime.now())[0:19]+".-.-.-")
-    file.write("\nMetodo = "+ request.method +"\n")
     data = request.get_json()
-    file.write("JSON recibido\n")
-    file.write(str(data))
-
     if request.method == "POST":
         nros_envios = []
         midb = database.connect_db()
@@ -87,8 +72,6 @@ def recibirnotificacion():
         application_id = data.get("application_id")
         sent = data.get("sent")
         print(f"resource: {resource},user_id: {user_id},topic: {topic},sent: {sent},received: {received},attempts: {attempts},application_id: {application_id}")
-        file.write("\nRecursos obtenidos\n")
-        file.write(str(topic))
         if str(topic) == "shipments":
             # midb = database.connect_db()
             # cursor = midb.cursor()
@@ -134,7 +117,6 @@ def recibirnotificacion():
                     # cursor.execute(sql)
                     # midb.commit()
                     # midb.close()
-        file.write("\nJson guardado en DB")
         return  "Json guardado en base de datos"
 
 

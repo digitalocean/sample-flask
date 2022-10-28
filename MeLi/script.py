@@ -56,7 +56,6 @@ def consultar_envio(nro_envio,idUser):
         estado = response_json["status"]
         print(str(nro_envio) + " " + str(direccion) + " " + str(estado + " " + tipo_envio))
         return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
-
     except:
         try:
             actualizar_token(idUser)

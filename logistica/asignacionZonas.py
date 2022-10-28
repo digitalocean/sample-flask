@@ -15,10 +15,10 @@ def asignacion():
     zonas = []
     for x in cursor.fetchall():
         zonas.append(x[0])
-    cursor.execute("select `Nombre Zona`, `Nombre Completo` from ZonasyChoferes")
+    cursor.execute("select `Nombre Zona`, `Nombre Completo` from ZonasyChoferes where tipoEnvio = 2")
     choferesAsignados = {}
     for x in cursor.fetchall():
-        choferesAsignados[x[0]] = x[1]
+        choferesAsignados[f"{x[0]}/2"] = x[1]
     return render_template("logistica/asignacionChoferes.html",zonas = zonas, choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = choferesAsignados,auth = session.get("user_auth"))
 
 
