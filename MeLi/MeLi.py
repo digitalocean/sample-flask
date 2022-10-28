@@ -121,7 +121,7 @@ def recibirnotificacion():
                 cursor.execute(f"select estado_envio from ViajesFlexs where Numero_envío = '{nro_envio}'")
                 resultado = cursor.fetchone()
                 estado_db = resultado[0]
-                print(estado_db)
+                print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
                 midb.commit()
                 if estado_db == "Entregado" or  estado_db == estado:
                     pass
