@@ -30,23 +30,20 @@ def actualizar_token(idUser):
         cursor.execute(sql)
         midb.commit()
     except:
-        try:
-            data = {
-                "grant_type":"refresh_token",
-                "client_id":4857198121733101,
-                "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
-                "refresh_token": id_user[1]
-            }
-            respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
-            print(respuesta_ML)
-            access_token = respuesta_ML["access_token"]
-            refresh_token = respuesta_ML["refresh_token"]
-            cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
-            midb.commit()
-            cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
-            midb.commit()
-        except Exception as a:
-            print(a)
+        data = {
+            "grant_type":"refresh_token",
+            "client_id":4857198121733101,
+            "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
+            "refresh_token": id_user[1]
+        }
+        respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
+        print(respuesta_ML)
+        access_token = respuesta_ML["access_token"]
+        refresh_token = respuesta_ML["refresh_token"]
+        cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
+        midb.commit()
+        cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
+        midb.commit()
     midb.close()
     print(idUser)
     print("actualizado")
