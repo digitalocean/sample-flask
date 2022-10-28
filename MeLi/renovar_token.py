@@ -7,8 +7,9 @@ def actualizar_token(idUser):
     cursor = midb.cursor()
     cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
     user = []
-    resultado = cursor.fetchone()    
-    if resultado[1] != None:
+    resultado = cursor.fetchone()   
+    print(resultado) 
+    if resultado != None:
         id_user = [resultado[0],resultado[1]]
         user.append(id_user)
     print(user)
@@ -44,7 +45,6 @@ def actualizar_token(idUser):
             midb.commit()
             cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
             midb.commit()
-
         except Exception as a:
             print(a)
     midb.close()
