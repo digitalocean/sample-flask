@@ -34,7 +34,7 @@ def choferesAsignados():
         if chofer != '':
             midb = database.verificar_conexion(midb)
             cursor = midb.cursor()
-            sql = f"update ZonasyChoferes set `Nombre Completo` = '{chofer}' where `Nombre Zona` = '{zona}'"
+            sql = f"update ZonasyChoferes set `Nombre Completo` = '{chofer}' where `Nombre Zona` = '{zona}/2'"
             cursor.execute(sql)
             midb.commit()
     return redirect("/logistica/asignacionChoferes")
