@@ -13,9 +13,6 @@ def actualizar_token(idUser):
         iduser = [resultado[0],resultado[1]]
         user.append(iduser)
     print(user)
-    file = open("refres_token.txt", "a")
-    file.write(str(datetime.now()))
-    file.write("\n")
     try:
         data = {
             "grant_type":"authorization_code",
@@ -28,39 +25,30 @@ def actualizar_token(idUser):
         user_id = respuesta_ML["user_id"]
         access_token = respuesta_ML["access_token"]
         refresh_token = respuesta_ML["refresh_token"]
-        file.write("intento de cargar db = ")
         cursor.execute(f"UPDATE usuario SET user_id = {user_id}, access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};")
         midb.commit()
-        file.write("exito\n")
-        file.write("datos guardados")
     except:
         try:
-            try:
-                data = {
-                    "grant_type":"refresh_token",
-                    "client_id":4857198121733101,
-                    "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
-                    "refresh_token": iduser[1]
-                }
-                respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
-                print(respuesta_ML)
-                access_token = respuesta_ML["access_token"]
-                refresh_token = respuesta_ML["refresh_token"]
-            except:
-                file.write("\nerror de llaves")
-            try:
-                cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
-                midb.commit()
-                cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
-                midb.commit()
-                file.write("exito\n")
-                file.write("datos guardados")
-            except:
-                file.write("\nError al interactuar con la base de datos al intentar refrescar token")
-        
-        except:
-            file.write("\nFallo refrescar access_token")
-        file.close()
+            data = {
+                "grant_type":"refresh_token",
+                "client_id":4857198121733101,
+                "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
+                "refresh_token": iduser[1]
+            }
+            respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
+            print(respuesta_ML)
+            access_token = respuesta_ML["access_token"]
+            refresh_token = respuesta_ML["refresh_token"]
+        except Exception as postML:
+            print(postML)
+        try:
+            cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
+            midb.commit()
+            cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
+            midb.commit()
+
+        except Exception as a:
+            print(a)
     midb.close()
     print(idUser)
     print("actualizado")
