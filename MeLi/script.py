@@ -30,16 +30,16 @@ from .renovar_token import actualizar_token
 #     return nros_envios_user_id
             
 
-def consultar_envio(nro_envio,nickname):
+def consultar_envio(nro_envio,idUser):
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select access_token from usuario where nickname = '" + nickname + "';")
+    cursor.execute(f"select access_token from usuario where user_id = {idUser}")
     for x in cursor:
         authorization = x[0]
     midb.close()
-    url = "https://api.mercadolibre.com/shipments/"+str(nro_envio)
+    url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
     payload = ""
-    headers = {"Authorization": "Bearer " + authorization}
+    headers = {"Authorization": f"Bearer {authorization}"}
     response = requests.request("GET", url, data=payload, headers=headers)
     response_json = response.json()
     try:
@@ -59,13 +59,12 @@ def consultar_envio(nro_envio,nickname):
 
     except:
         try:
-            actualizar_token(nickname)
+            actualizar_token(idUser)
             try:
-                return consultar_envio(nro_envio,nickname)
+                return consultar_envio(nro_envio,idUser)
             except:
-                print("Se actualizo el access_token pero aun asi no se pudo consultar sobre el envio " + nro_envio)
+                print(f"Se actualizo el access_token pero aun asi no se pudo consultar sobre el envio {nro_envio}")
         except:
-            print(5)
             return "fallo la consulta del envio: " + str(nro_envio)
     
 
