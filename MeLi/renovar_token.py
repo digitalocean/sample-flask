@@ -3,15 +3,14 @@ from database import database
 from datetime import datetime
 
 def actualizar_token(idUser):
-
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
     user = []
     resultado = cursor.fetchone()    
     if resultado[1] != None:
-        iduser = [resultado[0],resultado[1]]
-        user.append(iduser)
+        id_user = [resultado[0],resultado[1]]
+        user.append(id_user)
     print(user)
     try:
         data = {
@@ -35,7 +34,7 @@ def actualizar_token(idUser):
                 "grant_type":"refresh_token",
                 "client_id":4857198121733101,
                 "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
-                "refresh_token": iduser[1]
+                "refresh_token": id_user[1]
             }
             respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
             print(respuesta_ML)
