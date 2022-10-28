@@ -96,8 +96,9 @@ def recibirnotificacion():
             # midb.commit()
             # midb.close()
             nro_envio = (resource.split("/"))[2]
-            #nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
             viaje = consultar_envio(nro_envio, user_id)
+            if viaje == None:
+                return "error en consulta"
             tipo_envio= viaje[1] 
             direccion= viaje[2] 
             localidad= viaje[3] 
@@ -136,15 +137,5 @@ def recibirnotificacion():
         file.write("\nJson guardado en DB")
         return  "Json guardado en base de datos"
 
-    else:
-        try:
-            file.write("request.args")
-            for x in request.args:
-                file.write(x)
-                file.write("\n")
-                file.close()
-        except Exception as getInCallbacks:
-            informeErrores.reporte(getInCallbacks,"/CallbacksGET")
-        return "GET"
 
 
