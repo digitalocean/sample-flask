@@ -2,11 +2,11 @@ import requests
 from database import database
 from datetime import datetime
 
-def actualizar_token(nickname):
+def actualizar_token(idUser):
 
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select user_id, refresh_token from usuario where nickname = '" + nickname + "'")
+    cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
     user = []
     resultado = cursor.fetchone()    
     if resultado[1] != None:
@@ -28,17 +28,11 @@ def actualizar_token(nickname):
         user_id = respuesta_ML["user_id"]
         access_token = respuesta_ML["access_token"]
         refresh_token = respuesta_ML["refresh_token"]
-        try:
-            file.write("intento de cargar db = ")
-            cursor.execute("UPDATE usuario SET user_id = "+str(user_id)+", access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(nickname)+"';")
-            print(nickname)
-            midb.commit()
-            file.write("exito\n")
-            file.write("datos guardados")
-        except:
-            file.write("no se pudo refrescar el access_token del user_id " + str(user_id))
-            file.write(nickname)
-            file.close()
+        file.write("intento de cargar db = ")
+        cursor.execute(f"UPDATE usuario SET user_id = {user_id}, access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};")
+        midb.commit()
+        file.write("exito\n")
+        file.write("datos guardados")
     except:
         try:
             try:
@@ -55,9 +49,9 @@ def actualizar_token(nickname):
             except:
                 file.write("\nerror de llaves")
             try:
-                cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(nickname)+"';")
+                cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
                 midb.commit()
-                cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(nickname)+"';")
+                cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
                 midb.commit()
                 file.write("exito\n")
                 file.write("datos guardados")
@@ -68,6 +62,6 @@ def actualizar_token(nickname):
             file.write("\nFallo refrescar access_token")
         file.close()
     midb.close()
-    print(nickname)
+    print(idUser)
     print("actualizado")
     print(str(datetime.now())[0:19])
