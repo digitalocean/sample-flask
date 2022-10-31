@@ -81,43 +81,44 @@ def recibirnotificacion():
             nro_envio = (resource.split("/"))[2]
             print(nro_envio)
             viaje = consultar_envio(nro_envio, user_id)
-            print(f"viaje: {viaje}")
-            tipo_envio= viaje[1] 
-            direccion= viaje[2] 
-            localidad= viaje[3] 
-            referencia= viaje[4] 
-            estado = viaje[5]
-            comprador = viaje[6]
-            fecha_creacion = viaje[7]
-            nro_venta = viaje[8]
-            direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-            if str(nro_envio) not in nros_envios:
-                # midb = database.connect_db()
-                # midb = database.verificar_conexion(midb)
-                # cursor = midb.cursor()
-                # cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
-                # midb.commit()
-                print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
-                nros_envios.append(x[0])
-            else:
-                midb = database.connect_db()
-                cursor = midb.cursor()
-                cursor.execute(f"select estado_envio from ViajesFlexs where Numero_envío = '{nro_envio}'")
-                resultado = cursor.fetchone()
-                estado_db = resultado[0]
-                print(estado_db)
-                print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
-                midb.commit()
-                if estado_db == "Entregado" or  estado_db == estado:
-                    pass
-                else:
+            if viaje != None:
+                print(f"viaje: {viaje}")
+                tipo_envio= viaje[1] 
+                direccion= viaje[2] 
+                localidad= viaje[3] 
+                referencia= viaje[4] 
+                estado = viaje[5]
+                comprador = viaje[6]
+                fecha_creacion = viaje[7]
+                nro_venta = viaje[8]
+                direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
+                if str(nro_envio) not in nros_envios:
                     # midb = database.connect_db()
+                    # midb = database.verificar_conexion(midb)
                     # cursor = midb.cursor()
-                    sql = f"UPDATE `viajesbarracas`.`ViajesFlexs` SET `estado_envio` = '{estado}' WHERE Numero_envío = '{nro_envio}');"
-                    print(sql)
-                    # cursor.execute(sql)
+                    # cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
                     # midb.commit()
-                    # midb.close()
+                    print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
+                    nros_envios.append(x[0])
+                else:
+                    midb = database.connect_db()
+                    cursor = midb.cursor()
+                    cursor.execute(f"select estado_envio from ViajesFlexs where Numero_envío = '{nro_envio}'")
+                    resultado = cursor.fetchone()
+                    estado_db = resultado[0]
+                    print(estado_db)
+                    print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
+                    midb.commit()
+                    if estado_db == "Entregado" or  estado_db == estado:
+                        pass
+                    else:
+                        # midb = database.connect_db()
+                        # cursor = midb.cursor()
+                        sql = f"UPDATE `viajesbarracas`.`ViajesFlexs` SET `estado_envio` = '{estado}' WHERE Numero_envío = '{nro_envio}');"
+                        print(sql)
+                        # cursor.execute(sql)
+                        # midb.commit()
+                        # midb.close()
         return  "Json guardado en base de datos"
 
 
