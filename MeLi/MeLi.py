@@ -63,7 +63,7 @@ def recibirnotificacion():
         cursor.execute("select Numero_envío from ViajesFlexs")
         envios = cursor.fetchall()
         for x in envios:
-            nros_envios.append(x[0])
+            nros_envios.append(str(x[0]))
         resource = data.get("resource")
         user_id = data.get("user_id")
         topic = data.get("topic")
@@ -79,9 +79,9 @@ def recibirnotificacion():
             # midb.commit()
             # midb.close()
             nro_envio = (resource.split("/"))[2]
+            print(nro_envio)
             viaje = consultar_envio(nro_envio, user_id)
-            if viaje == None:
-                return "error en consulta"
+            print(f"viaje: {viaje}")
             tipo_envio= viaje[1] 
             direccion= viaje[2] 
             localidad= viaje[3] 
