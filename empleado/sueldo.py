@@ -1,7 +1,6 @@
 from flask import (
     Blueprint, g, render_template, request, session
 )
-from sqlalchemy import Float
 from auth import auth
 from datetime import datetime
 

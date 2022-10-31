@@ -8,18 +8,16 @@ def actualizar_token(idUser):
     cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
     user = []
     resultado = cursor.fetchone()   
-    print(resultado) 
     if resultado != None:
         id_user = [resultado[0],resultado[1]]
         user.append(id_user)
-    print(user)
     try:
         data = {
             "grant_type":"authorization_code",
             "client_id":4857198121733101,
             "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
             "code": user[1] ,
-            "redirect_uri":"https://www.mmspack.com/callbacks"
+            "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
         }
         respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
         user_id = respuesta_ML["user_id"]

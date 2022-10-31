@@ -41,7 +41,7 @@ from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
 from facturacion import precios
 app.register_blueprint(precios.precios)
-from sueldo import sueldo
+from empleado import sueldo
 app.register_blueprint(sueldo.MS)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
