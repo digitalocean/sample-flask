@@ -71,7 +71,7 @@ def recibirnotificacion():
         attempts = data.get("attempts")
         application_id = data.get("application_id")
         sent = data.get("sent")
-        print(f"resource: {resource},user_id: {user_id},topic: {topic},sent: {sent},received: {received},attempts: {attempts},application_id: {application_id}")
+        print(f"resource: {resource},\nuser_id: {user_id},\ntopic: {topic},\nsent: {sent},\nreceived: {received},\nattempts: {attempts},\napplication_id: {application_id}")
         if str(topic) == "shipments":
             # midb = database.connect_db()
             # cursor = midb.cursor()
@@ -91,7 +91,7 @@ def recibirnotificacion():
             fecha_creacion = viaje[7]
             nro_venta = viaje[8]
             direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-            if str(nro_envio) not in str(nros_envios):
+            if str(nro_envio) not in nros_envios:
                 # midb = database.connect_db()
                 # midb = database.verificar_conexion(midb)
                 # cursor = midb.cursor()
@@ -105,6 +105,7 @@ def recibirnotificacion():
                 cursor.execute(f"select estado_envio from ViajesFlexs where Numero_envío = '{nro_envio}'")
                 resultado = cursor.fetchone()
                 estado_db = resultado[0]
+                print(estado_db)
                 print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
                 midb.commit()
                 if estado_db == "Entregado" or  estado_db == estado:
