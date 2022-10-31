@@ -97,6 +97,3 @@ def recibirnotificacion():
                     print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
                     nros_envios.append(x[0])
         return  "Json guardado en base de datos"
-
-
-

@@ -6,7 +6,7 @@ def actualizar_token(idUser):
     print(idUser)
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select user_id, refresh_token from `Apodos y Clientes` where user_id = {idUser}")
+    cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
     user = []
     resultado = cursor.fetchone()   
     print(resultado)
@@ -25,7 +25,7 @@ def actualizar_token(idUser):
             user_id = respuesta_ML["user_id"]
             access_token = respuesta_ML["access_token"]
             refresh_token = respuesta_ML["refresh_token"]
-            sql = f"UPDATE `Apodos y Clientes` SET access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};"
+            sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};"
             print(sql)
             cursor.execute(sql)
             midb.commit()
@@ -42,7 +42,7 @@ def actualizar_token(idUser):
             if "access_token" in respuesta_ML.keys():
                 access_token = respuesta_ML["access_token"]
                 refresh_token = respuesta_ML["refresh_token"]
-                sql = f"UPDATE `Apodos y Clientes` SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '{idUser}';"
+                sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '{idUser}';"
                 print(sql)
                 cursor.execute(sql)
                 midb.commit()
