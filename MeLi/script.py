@@ -42,7 +42,7 @@ def consultar_envio(nro_envio,idUser):
     headers = {"Authorization": f"Bearer {authorization}"}
     response = requests.request("GET", url, data=payload, headers=headers)
     response_json = response.json()
-    try:
+    if "receiver_address" in dato_envio.keys():
         dato_envio=response_json["receiver_address"]
         comprador = dato_envio["receiver_name"]
         tipo_envio = response_json["logistic_type"]
@@ -56,15 +56,12 @@ def consultar_envio(nro_envio,idUser):
         estado = response_json["status"]
         print(str(nro_envio) + " " + str(direccion) + " " + str(estado + " " + tipo_envio))
         return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
-    except:
+    else:
+        actualizar_token(idUser)
         try:
-            actualizar_token(idUser)
-            try:
-                return consultar_envio(nro_envio,idUser)
-            except:
-                print(f"Se actualizo el access_token pero aun asi no se pudo consultar sobre el envio {nro_envio}")
+            return consultar_envio(nro_envio,idUser)
         except:
-            return "fallo la consulta del envio: " + str(nro_envio)
+            print(f"Se actualizo el access_token pero aun asi no se pudo consultar sobre el envio {nro_envio}")
     
 
 # def subir_viajes():
