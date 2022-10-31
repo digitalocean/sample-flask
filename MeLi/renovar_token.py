@@ -23,7 +23,7 @@ def actualizar_token(idUser):
         user_id = respuesta_ML["user_id"]
         access_token = respuesta_ML["access_token"]
         refresh_token = respuesta_ML["refresh_token"]
-        sql = f"UPDATE usuario SET user_id = {user_id} access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};"
+        sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};"
         print(sql)
         cursor.execute(sql)
         midb.commit()
@@ -36,13 +36,14 @@ def actualizar_token(idUser):
         }
         respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
         print(respuesta_ML)
-        access_token = respuesta_ML["access_token"]
-        refresh_token = respuesta_ML["refresh_token"]
-        cursor.execute("UPDATE usuario SET access_token = '"+str(access_token)+"', refresh_token = '"+str(refresh_token)+"' WHERE nickname = '"+str(idUser)+"';")
-        midb.commit()
-        cursor.execute("UPDATE usuario SET ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '"+str(idUser)+"';")
-        midb.commit()
+        if "access_token" in respuesta_ML.keys():
+            access_token = respuesta_ML["access_token"]
+            refresh_token = respuesta_ML["refresh_token"]
+            sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '{idUser}';"
+            print(sql)
+            cursor.execute(sql)
+            midb.commit()
+            print("actualizado")
+        elif "message" in respuesta_ML.keys():
+            print("error al actualizar token")
     midb.close()
-    print(idUser)
-    print("actualizado")
-    print(str(datetime.now())[0:19])
