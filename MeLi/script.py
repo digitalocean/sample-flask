@@ -63,6 +63,8 @@ def consultar_envio(nro_envio,idUser):
                 return consultar_envio(nro_envio,idUser)
             else:
                 print(f"Error al actualizar access token")
+    else:
+        print("no se encontro el sender_id en nuestra base de datos")
     
 
 # def subir_viajes():
