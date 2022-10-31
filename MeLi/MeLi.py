@@ -17,20 +17,22 @@ def vinculacion():
         return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://www.mmspack.com/callbacks")
     elif request.method == "GET":
         data = request.args
-        try:
+        if "code" in data.keys():
             code = data["code"]
             state = data["state"]
             return render_template ("MeLi/usuario_web.html", code=code, state=state)
-        except Exception as ErrorEnPOST:
-            informeErrores.reporte(str(ErrorEnPOST) + "FUNCIONA A FUERZA BRUTA","/Callbacks")
+        else:
             try:
                 user_id = data["user_id"]
                 access_token = data["access_token"]
                 refresh_token= data["refres_token"]
                 return render_template("MeLi/usuario_web.html", user_id=user_id, access_token=access_token,refresh_token=refresh_token)
             except Exception as errorEnVinculacion:
-                informeErrores.reporte(errorEnVinculacion,"/Callbacks 2do except")
+                informeErrores.reporte(f"{errorEnVinculacion} ","/Callbacks")
                 return "fallo la vinculacion"
+
+
+
 @ML.route("/usuario_vinculado", methods=["POST"])
 def usuario_vinculado():
     if request.method == "POST":
@@ -45,8 +47,7 @@ def usuario_vinculado():
             cursor.execute("insert into usuario (nickname, contraseña,correo_electronico, tipo_usuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
             midb.commit()
             midb.close()
-            render_template ("login.html", mensaje="Bienvenido")    
-            return "Usuario creado"
+            return render_template ("login.html", mensaje="Bienvenido")    
         else:
             return "Error al crear el usuario"
     else:
@@ -73,11 +74,6 @@ def recibirnotificacion():
         sent = data.get("sent")
         print(f"resource: {resource},\nuser_id: {user_id},\ntopic: {topic},\nsent: {sent},\nreceived: {received},\nattempts: {attempts},\napplication_id: {application_id}")
         if str(topic) == "shipments":
-            # midb = database.connect_db()
-            # cursor = midb.cursor()
-            # cursor.execute("insert into registro_ml (resource, user_id, topic, received, attempts, application_id, sent) values(%s,%s,%s,%s,%s,%s,%s)", (resource,user_id,topic,received,attempts,application_id,sent))
-            # midb.commit()
-            # midb.close()
             nro_envio = (resource.split("/"))[2]
             print(nro_envio)
             viaje = consultar_envio(nro_envio, user_id)
@@ -100,25 +96,6 @@ def recibirnotificacion():
                     # midb.commit()
                     print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
                     nros_envios.append(x[0])
-                else:
-                    midb = database.connect_db()
-                    cursor = midb.cursor()
-                    cursor.execute(f"select estado_envio from ViajesFlexs where Numero_envío = '{nro_envio}'")
-                    resultado = cursor.fetchone()
-                    estado_db = resultado[0]
-                    print(estado_db)
-                    print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
-                    midb.commit()
-                    if estado_db == "Entregado" or  estado_db == estado:
-                        pass
-                    else:
-                        # midb = database.connect_db()
-                        # cursor = midb.cursor()
-                        sql = f"UPDATE `viajesbarracas`.`ViajesFlexs` SET `estado_envio` = '{estado}' WHERE Numero_envío = '{nro_envio}');"
-                        print(sql)
-                        # cursor.execute(sql)
-                        # midb.commit()
-                        # midb.close()
         return  "Json guardado en base de datos"
 
 

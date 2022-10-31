@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Cree su usuario</title>
+</head>
+<body>
+    <form action="https://api.mercadolibre.com/oauth/token" method="post">
+        <input type="hidden" name="grant_type" value="authorization_code">
+        <input type="hidden" name="client_id" value="4857198121733101">
+        <input type="hidden" name="client_secret" value="rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c">
+        <input type="hidden" name="code" value="{{code}}">
+        <input type="hidden" name="redirect_uri" value="https://whale-app-suwmc.ondigitalocean.app/callbacks">
+        <input type="submit" Value="Confirmar">
+    </form>
+</body>
+</html>

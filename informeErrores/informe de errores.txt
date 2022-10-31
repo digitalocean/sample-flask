@@ -834,3 +834,71 @@ local variable 'cant_columnas' referenced before assignment
 /Callbacks 2do except
 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
 
+2022-10-31 00:36:02.468404
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:36:02.469403
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:37:31.942402
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:37:31.943403
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:38:09.058199
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:38:09.059200
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:38:22.974403
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:38:22.975401
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:39:12.250407
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:39:12.250407
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:39:18.470404
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:39:18.471405
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:39:36.055488
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:39:36.055488
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 00:40:49.248412
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:40:49.248412
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
+2022-10-31 01:13:07.350854
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand. 
+
