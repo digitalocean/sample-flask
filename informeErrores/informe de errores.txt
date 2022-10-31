@@ -826,3 +826,11 @@ DescargaLogixs
 /carga_formms
 local variable 'cant_columnas' referenced before assignment
 
+2022-10-31 00:28:32.781941
+/Callbacks
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.FUNCIONA A FUERZA BRUTA
+
+2022-10-31 00:28:32.782940
+/Callbacks 2do except
+400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+
