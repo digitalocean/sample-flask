@@ -75,12 +75,13 @@ def sueldoChofer():
             suma = 0
             cantidad = 0
             for viajeTupla in cursor.fetchall():
-                cantidad += 1
                 if type(viajeTupla[6]) == float:
                     suma += viajeTupla[6]
                 viaje = list(viajeTupla)
                 if viajeTupla[6] == 0:
                     viajeSabado +=1
+                else:
+                    cantidad += 1
                 viajes.append(viaje)
             return render_template("empleado/sueldoChofer.html",
                                     cliente=chofer,
