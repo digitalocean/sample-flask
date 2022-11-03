@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+    <style>
+        div
+        {
+            margin: 0%;
+        }
+        table
+        {
+            margin: 0%;
+            padding: 0%;
+            border: solid;
+            border-color: #afafaf
+        }
+        td{
+            margin: 0%;
+            padding: 0%;
+            border-top: solid ; 
+            border-color: #afafaf
+        }
+    </style>
+
+<body>
+    <form action="/misueldo" method="POST" style="position: initial; width: 30%;">
+        <label>Desde</label><br>
+        <input type="date" name="desde" value="{{desde}}"><br>
+        <label>Hasta</label><br>
+        <input type="date" name="hasta" value="{{hasta}}"><br>
+        <input type="submit" value="Buscar">
+    </form>
+    <h3>{{mensaje_error}}</h3>
+    <br><br>
+    <table style="width: 100%; border: solid ;">
+        <tr>
+            {%for x in cabezeras%}
+            <td>{{x}}</td>
+            {%endfor%}
+        </tr>
+    
+        {% for viaje in viajes %}
+            <tr>
+            <td>{{viaje.0}}</td>
+            <td>${{viaje.1}}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>Total</td>
+            <td>{{total}}</td>
+        </tr>
+    </table>
+</body>
+{% endblock %}
