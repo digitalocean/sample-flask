@@ -14,7 +14,7 @@ secret_key = "abcd1234"
 @ML.route("/callbacks", methods=["GET","POST"])
 def vinculacion():
     if request.method == "POST":
-        return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://www.mmspack.com/callbacks")
+        return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks")
     elif request.method == "GET":
         data = request.args
         if "code" in data.keys():
