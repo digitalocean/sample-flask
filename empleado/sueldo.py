@@ -29,6 +29,9 @@ def sueldoChofer():
         
         viajes = []
         if session.get("user_auth") != "Chofer":
+            sqlFaltantes = f"select count(*) from sueldos where Costo is null and Fecha BETWEEN {desde} AND {hasta}"
+            cursor.execute(sqlFaltantes)
+            sinPrecio = cursor.fetchone()[0]
             cabezeras = ["Chofer","Sueldo"]
             sql = f"""
             select 
@@ -45,15 +48,17 @@ def sueldoChofer():
             total = 0
             for viajeTupla in cursor.fetchall():
                 viaje = list(viajeTupla)
-                total += viaje[1]
+                try:
+                    total += viaje[1]
+                except:
+                    sinPrecio += 1
                 if viaje[1] == 0:
                     sabados +=1
-                if viaje[1] == None:
-                    sinPrecio += 1
                 viajes.append(viaje)
             return render_template("facturacion/sueldoChofer.html",
                         desde=desde,
                         hasta=hasta,
+                        mensaje_error = f"{sinPrecio} envios sin cotizar",
                         titulo="Sueldos Flexs", 
                         cabezeras = cabezeras,
                         tipo_facturacion="flex", 
