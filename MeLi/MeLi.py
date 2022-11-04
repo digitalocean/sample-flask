@@ -17,6 +17,7 @@ def vinculacion():
         return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks")
     elif request.method == "GET":
         data = request.args
+        print(data)
         if "code" in data.keys():
             code = data["code"]
             state = data["state"]
