@@ -32,8 +32,6 @@ def historial(pagina):
         foto = x[12]
         precio = x[13]
         costo = x[14]
-        if foto != "":
-            foto = True
         paquete = [fecha,hora,id,nenvio,direccion,vendedor,localidad,chofer,estado,motivo,precio,costo,ubicacion,correo,foto]
         viajes.append(paquete)
     if pagina < 10: pagina = 8

@@ -75,18 +75,28 @@ def sueldoChofer():
                         mmslogis_MMSPack.sueldos 
                     where 
                         Chofer = '{chofer}' and Fecha between '{desde}' and '{hasta}';"""
+
             cursor.execute(sql)
             viajeSabado = 0
             suma = 0
             cantidad = 0
+            error = 0
+            levantada = 0
+            ayudaDeposito = 0
             for viajeTupla in cursor.fetchall():
-                if type(viajeTupla[6]) == float:
-                    suma += viajeTupla[6]
-                viaje = list(viajeTupla)
-                if viajeTupla[6] == 0:
+                if viajeTupla[4] == "Levantada":
+                    levantada += 1
+                elif viajeTupla[4] == "ayuda deposito":
+                    ayudaDeposito += 1
+                elif viajeTupla[6] == 0:
                     viajeSabado +=1
                 else:
                     cantidad += 1
+                try:
+                    suma += viajeTupla[6]
+                except:
+                    error += 1
+                viaje = list(viajeTupla)
                 viajes.append(viaje)
             return render_template("empleado/sueldoChofer.html",
                                     cliente=chofer,
@@ -96,7 +106,7 @@ def sueldoChofer():
                                     cabezeras = cabezeras,
                                     tipo_facturacion="flex", 
                                     viajes=viajes, 
-                                    cantidad = f"Cantidad de visitas: {cantidad}",
+                                    cantidad = f"Cantidad de visitas: {cantidad} || {levantada} retiros de productos || {ayudaDeposito} otros ||{error} errores ",
                                     total=f"${suma} y {viajeSabado} viajes de sabados", 
                                     clientes = scriptGeneral.consultar_clientes(midb), 
                                     auth = session.get("user_auth")
