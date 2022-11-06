@@ -13,16 +13,8 @@ from logistica import logistica
 app.register_blueprint(logistica.lg)
 from logistica import mapa
 app.register_blueprint(mapa.lgMapa)
-from logistica import historial
-app.register_blueprint(historial.lgHS)
-from logistica import asignacionRetiros
-app.register_blueprint(asignacionRetiros.lgAR)
-from logistica import asignacionZonas
-app.register_blueprint(asignacionZonas.lgAZ)
-from logistica import hojaRuta
-app.register_blueprint(hojaRuta.hojaRuta)
-from logistica import appChofer
-app.register_blueprint(appChofer.pd)
+
+
 from usuarios import usuarios
 app.register_blueprint(usuarios.us)
 from envios_cliente import envios_cliente
@@ -41,15 +33,32 @@ from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
 from facturacion import precios
 app.register_blueprint(precios.precios)
-from empleado import sueldo
-app.register_blueprint(sueldo.MS)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 from formatomms import formatomms
 app.register_blueprint(formatomms.formms)
+
+#EMPLEADO
 from empleado import empleado
 app.register_blueprint(empleado.em)
+from empleado import sueldo
+app.register_blueprint(sueldo.MS)
 
+#LOGISTICA
+from logistica import asignacionRetiros
+app.register_blueprint(asignacionRetiros.lgAR)
+from logistica import asignacionZonas
+app.register_blueprint(asignacionZonas.lgAZ)
+from logistica import hojaRuta
+app.register_blueprint(hojaRuta.hojaRuta)
+from logistica import appChofer
+app.register_blueprint(appChofer.pd)
+
+#HISTORIAL
+from historial import historial
+app.register_blueprint(historial.hsList)
+from historial import mapa
+app.register_blueprint(mapa.mapaHS)
 
 @app.route("/")
 @auth.login_required

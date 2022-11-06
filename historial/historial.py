@@ -1,9 +1,9 @@
 from flask import Blueprint, redirect, render_template, request, session
 from auth import auth
 from database import database
-lgHS = Blueprint('historialEnvios', __name__, url_prefix='/')
+hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
 
-@lgHS.route("/logistica/historial/<pagina>")
+@hsList.route("/logistica/historial/<pagina>")
 @auth.login_required
 def historial(pagina):
     viajes =[]
@@ -42,7 +42,7 @@ def historial(pagina):
     return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=viajes,tablas=True,listaBotones = listaBotones,contador = 0, columnas = cabezeras, cant_columnas = len(cabezeras), auth = session.get("user_auth"),historial = True)
 
     
-@lgHS.route("/logistica/historial/delete/<id>")
+@hsList.route("/logistica/historial/delete/<id>")
 @auth.login_required
 @auth.admin_required
 def eliminarHistorial(id):
