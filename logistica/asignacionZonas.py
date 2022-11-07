@@ -119,7 +119,7 @@ def horasExtra():
         horas = request.form["horas"]
         chofer = request.form["chofer"]
         envio = f"{fecha}-{horas}-{str(chofer)[0:4]}"
-        costo = (int(horas) * 750)
+        costo = horas * 750
         
         sql = f"insert into historial_estados (Numero_envío,Fecha,Direccion_completa,estado_envio,Chofer,Correo_chofer,Costo) values('{envio}','{fecha}','{horas} horas trabajadas','ayuda deposito','{chofer}','{correoChofer[chofer]}',{int(costo)})"
         cursor = midb.cursor()
