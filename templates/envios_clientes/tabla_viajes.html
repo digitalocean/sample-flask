@@ -10,6 +10,7 @@
             <td>Localidad</td>
             <td>Precio</td>
             <TD>Cuenta</TD>
+            <td>Generar etiqueta</td>
 
         </tr>
     
@@ -22,6 +23,7 @@
             <td>{{viaje.4}}</td>
             <td>{{viaje.5}}</td>
             <td>{{viaje.6}}</td>
+            <td><a href="/etiqueta/{{viaje.1}}"><input type="button" value="Generar etiqueta"></a></td>
             </tr>
         {% endfor %}
     </table>

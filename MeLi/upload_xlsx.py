@@ -47,7 +47,7 @@ def upload():
         for x in range(cant_filas - n_row):
             n_row += 1 
             forma_entrega = sheet_obj.cell(row = n_row, column = col_ini + 7).value
-            print(type(forma_entrega))
+            print(forma_entrega)
             if str(type(forma_entrega)) == "<class 'NoneType'>" or str(type(forma_entrega)) == "<type 'NoneType'>":
                 pass
             else:
