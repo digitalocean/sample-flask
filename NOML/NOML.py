@@ -60,13 +60,14 @@ def carga_noml():
 def generar_etiqueta(envio):
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar from ViajesFlexs where Numero_envío = '{envio}'")
+    cursor.execute(f"select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia from ViajesFlexs where Numero_envío = '{envio}'")
     resultado = cursor.fetchone()
     vendedor = resultado[0]
     comprador = resultado[1]
     telefono = resultado[2]
     direccion_concatenada = resultado[3] + ", " + resultado[4]
     cobrar = resultado[5]
+    referencia = resultado[6]
     return render_template("NOML/etiqueta.html",
                         titulo="Envio agregado", 
                         auth = session.get("user_auth"), 
@@ -75,4 +76,5 @@ def generar_etiqueta(envio):
                         comprador = comprador,
                         telefono = telefono,
                         direccion = direccion_concatenada,
+                        referencia = referencia,
                         cobrar = cobrar)

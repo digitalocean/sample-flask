@@ -19,8 +19,13 @@
         <p>{{vendedor}}</p>
         <img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{nro_envio}}' alt="Código QR" id="">
         <p>Comprador {{comprador}}</p>
+        {%if telefono%}
         <p>Telefono {{telefono}}</p>
+        {% endif %}
         <p>Dirección {{direccion}}</p>
+        {%if referencia %}
+        <p>Referencia {{referencia}}</p>
+        {% endif %}
         <p>{{dpt}}</p>
         {%if cobrar%}<h6>se debe cobrar ${{cobrar}}</h6>{%endif%}
         </div>
