@@ -4,14 +4,9 @@
 
     <table style="width: 100%; border: solid ;">
         <tr>
-            <td>Fecha</td>
-            <td>Remito</td>
-            <td>Direccion</td>    
-            <td>Localidad</td>
-            <td>Precio</td>
-            <TD>Cuenta</TD>
-            <td>Generar etiqueta</td>
-
+            {%for x in cabezeras%}
+            <td>{{x}}</td>
+            {%endfor%}
         </tr>
     
         {% for viaje in viajes %}

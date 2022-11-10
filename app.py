@@ -32,7 +32,7 @@ app.register_blueprint(cobrados.cb)
 from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
 from facturacion import precios
-app.register_blueprint(precios.precios)
+app.register_blueprint(precios.pr)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 from formatomms import formatomms
