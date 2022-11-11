@@ -43,7 +43,7 @@ def usuario_vinculado():
         code = request.form["code"]
         state = request.form["state"]
         if state == secret_key:
-            midb = database.connect_db
+            midb = database.connect_db()
             cursor = midb.cursor()
             cursor.execute("insert into usuario (nickname, password,correo, tipoUsuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
             midb.commit()
