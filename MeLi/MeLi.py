@@ -115,4 +115,7 @@ def recibirnotificacion():
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
                     nros_envios.append(x[0])
+                else:
+                    print(f"Envio {nro_envio} descartado")
+                    print(f"Tipo de envio: {tipo_envio}")
         return  "Json guardado en base de datos"
