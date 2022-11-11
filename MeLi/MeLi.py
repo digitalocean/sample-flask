@@ -31,10 +31,14 @@ def vinculacion():
             r = requests.post("https://api.mercadolibre.com/oauth/token", data2).json()
             if "user_id" in r.keys():
                 user_id = r["user_id"]
-                apodo = set(requests.get("https://api.mercadolibre.com/users/"+str(user_id)))
+                info = set(requests.get("https://api.mercadolibre.com/users/"+str(user_id)))
+                nickname = str(user_id)
+                for infoML in info:
+                    if "nickname" in str(infoML):
+                        nickname = (str(infoML).split(",")[1]).split(":")[1]
                 access_token = r["access_token"]
                 refresh_token = r["refresh_token"]
-                sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values({apodo},Cliente,{user_id},{access_token},{refresh_token});"
+                sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values('{nickname}','Cliente','{user_id}','{access_token}','{refresh_token}');"
                 print(sql)
                 midb = database.connect_db()
                 cursor = midb.cursor()
@@ -42,7 +46,7 @@ def vinculacion():
                 midb.commit()
             for x in r.keys():
                 print(f"{x} : {r[x]}")
-            return render_template ("MeLi/usuario_web.html", code=code, state=state)
+            return "Bienvenido a MMSPACK"
         else:
             try:
                 user_id = data["user_id"]
