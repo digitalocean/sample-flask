@@ -35,7 +35,7 @@ def vinculacion():
                 nickname = str(user_id)
                 for infoML in info:
                     if "nickname" in str(infoML):
-                        nickname = (str(infoML).split(",")[1]).split(":")[1]
+                        nickname = ((str(infoML).split(",")[1]).split(":")[1]).replace('"','')
                 access_token = r["access_token"]
                 refresh_token = r["refresh_token"]
                 sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values('{nickname}','Cliente','{user_id}','{access_token}','{refresh_token}');"

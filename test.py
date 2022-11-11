@@ -99,4 +99,8 @@ button_equal.grid(row=5, column=1, columnspan=2)
 button_resta.grid(row=6, column=0)
 button_multiplicacion.grid(row=6, column=1)
 button_division.grid(row=6, column=2)
-dato.mainloop()
+# dato.mainloop()
+
+
+text = '"MATIAS ACCIAIO"'
+print(text.replace('"',''))
