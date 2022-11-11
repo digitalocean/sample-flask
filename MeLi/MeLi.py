@@ -42,15 +42,15 @@ def usuario_vinculado():
         correo_electronico = request.form["correo_electronico"]
         code = request.form["code"]
         state = request.form["state"]
-        if state == secret_key:
-            midb = database.connect_db()
-            cursor = midb.cursor()
-            cursor.execute("insert into usuario (nickname, password,correo, tipoUsuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
-            midb.commit()
-            midb.close()
-            return render_template ("login.html", mensaje="Bienvenido")    
-        else:
-            return "Error al crear el usuario"
+        # if state == secret_key:
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute("insert into usuario (nickname, password,correo, tipoUsuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
+        midb.commit()
+        midb.close()
+        return render_template ("login.html", mensaje="Bienvenido")    
+        # else:
+        #     return "Error al crear el usuario"
     else:
         return "Metodo GET"
 
