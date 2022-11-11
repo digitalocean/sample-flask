@@ -62,11 +62,11 @@ def consultar_envio(nro_envio,idUser):
             estado = response_json["status"]
             print(str(nro_envio) + " " + str(direccion) + " " + str(estado + " " + tipo_envio))
             return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
-        else:
-            if actualizar_token(idUser) == True:
-                return consultar_envio(nro_envio,idUser)
-            else:
-                print(f"Error al actualizar access token")
+        # else:
+        #     if actualizar_token(idUser) == True:
+        #         return consultar_envio(nro_envio,idUser)
+        #     else:
+        #         print(f"Error al actualizar access token")
     else:
         print("no se encontro el sender_id en nuestra base de datos")
     
