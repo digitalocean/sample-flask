@@ -37,20 +37,14 @@ def consultar_envio(nro_envio,idUser):
     resultado = cursor.fetchone()
     if resultado != None:
         for x in resultado:
-            authorization = x[0]
-        print(authorization)
-        print(idUser)
-        print(nro_envio)
+            authorization = x
         midb.close()
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
         payload = ""
         headers = {"Authorization": f"Bearer {authorization}"}
         response = requests.request("GET", url, data=payload, headers=headers)
+        # response =  requests.request("GET", f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}")
         response_json = response.json()
-        print(response_json)
-        if response_json != None:
-            for x in response_json.keys():
-                print(f"{x} : {response_json[x]}")
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
             comprador = dato_envio["receiver_name"]
@@ -63,13 +57,12 @@ def consultar_envio(nro_envio,idUser):
             nro_venta = response_json["order_id"]
             fecha_creacion = str(fecha_creacion)[0:19]
             estado = response_json["status"]
-            print(str(nro_envio) + " " + str(direccion) + " " + str(estado + " " + tipo_envio))
             return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
-        # else:
-        #     if actualizar_token(idUser) == True:
-        #         return consultar_envio(nro_envio,idUser)
-        #     else:
-        #         print(f"Error al actualizar access token")
+        else:
+            if actualizar_token(idUser) == True:
+                return consultar_envio(nro_envio,idUser)
+            else:
+                print(f"Error al actualizar access token")
     else:
         print("no se encontro el sender_id en nuestra base de datos")
     

@@ -39,13 +39,10 @@ def vinculacion():
                 access_token = r["access_token"]
                 refresh_token = r["refresh_token"]
                 sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values('{nickname}','Cliente','{user_id}','{access_token}','{refresh_token}');"
-                print(sql)
                 midb = database.connect_db()
                 cursor = midb.cursor()
                 cursor.execute(sql)
                 midb.commit()
-            for x in r.keys():
-                print(f"{x} : {r[x]}")
             return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
         else:
             try:
@@ -78,7 +75,7 @@ def usuario_vinculado():
         #     return "Error al crear el usuario"
     else:
         return "Metodo GET"
-# print(consultar_envio("41789453783","9431327"))
+
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
     data = request.get_json()
@@ -97,14 +94,10 @@ def recibirnotificacion():
         attempts = data.get("attempts")
         application_id = data.get("application_id")
         sent = data.get("sent")
-        print(user_id)
         if str(topic) == "shipments":
             nro_envio = (resource.split("/"))[2]
-            print(nro_envio)
             viaje = consultar_envio(nro_envio, user_id)
-            print(viaje)
             if viaje != None:
-                print(f"viaje: {viaje}")
                 tipo_envio= viaje[1] 
                 direccion= viaje[2] 
                 localidad= viaje[3] 
@@ -114,12 +107,12 @@ def recibirnotificacion():
                 fecha_creacion = viaje[7]
                 nro_venta = viaje[8]
                 direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-                print(fecha_creacion," / ",nro_envio," / ",direccion," / ",referencia," / ",localidad," / ",tipo_envio," / ",user_id," / ",estado," / ",comprador," / ",nro_venta," / ",direccion_concatenada)
-                if str(nro_envio) not in nros_envios:
-                    # midb = database.connect_db()
-                    # midb = database.verificar_conexion(midb)
-                    # cursor = midb.cursor()
-                    # cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
-                    # midb.commit()
+                if str(nro_envio) not in nros_envios and tipo_envio == "self_service":
+                    midb = database.connect_db()
+                    midb = database.verificar_conexion(midb)
+                    cursor = midb.cursor()
+                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
+                    midb.commit()
+                    print(f"Envio: {nro_envio} Agregado")
                     nros_envios.append(x[0])
         return  "Json guardado en base de datos"

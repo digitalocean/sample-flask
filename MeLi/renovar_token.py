@@ -3,13 +3,11 @@ from database import database
 from datetime import datetime
 
 def actualizar_token(idUser):
-    print(idUser)
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
     user = []
     resultado = cursor.fetchone()   
-    print(resultado)
     if resultado != None:
         id_user = [resultado[0],resultado[1]]
         user.append(id_user)
@@ -26,7 +24,6 @@ def actualizar_token(idUser):
             access_token = respuesta_ML["access_token"]
             refresh_token = respuesta_ML["refresh_token"]
             sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}' WHERE user_id = {idUser};"
-            print(sql)
             cursor.execute(sql)
             midb.commit()
             return True
@@ -38,15 +35,12 @@ def actualizar_token(idUser):
                 "refresh_token": id_user[1]
             }
             respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
-            print(respuesta_ML)
             if "access_token" in respuesta_ML.keys():
                 access_token = respuesta_ML["access_token"]
                 refresh_token = respuesta_ML["refresh_token"]
                 sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '{idUser}';"
-                print(sql)
                 cursor.execute(sql)
                 midb.commit()
-                print("actualizado")
                 midb.close()
                 return True
             return False
