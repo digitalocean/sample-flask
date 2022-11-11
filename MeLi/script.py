@@ -38,6 +38,9 @@ def consultar_envio(nro_envio,idUser):
     if resultado != None:
         for x in resultado:
             authorization = x[0]
+        print(authorization)
+        print(idUser)
+        print(nro_envio)
         midb.close()
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
         payload = ""
