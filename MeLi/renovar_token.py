@@ -34,7 +34,7 @@ def actualizar_token(idUser):
             data = {
                 "grant_type":"refresh_token",
                 "client_id":4857198121733101,
-                "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
+                "client_secret":"LHTeBl8PL4BXCk4f6v5jvbokxP04hOli",
                 "refresh_token": id_user[1]
             }
             respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()

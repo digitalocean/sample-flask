@@ -30,10 +30,14 @@ def vinculacion():
                     }
             r = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
             print(r.keys())
-            print(r["message"])
-            print(r["error"])
-            print(r["status"])
-            print(r["cause"])
+            if "message" in r.keys():
+                print(r["message"])
+            if "error" in r.keys():
+                print(r["error"])
+            if "status" in r.keys():
+                print(r["status"])
+            if "cause" in r.keys():
+                print(r["cause"])
             if r["status"] == 200:
                 print("Login Success")
             else:
