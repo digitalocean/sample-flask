@@ -36,12 +36,13 @@ def vinculacion():
                 print(r["error"])
             if "status" in r.keys():
                 print(r["status"])
+                if r["status"] == 200:
+                    print("Login Success")
+                else:
+                    print("Login Failed")
             if "cause" in r.keys():
                 print(r["cause"])
-            if r["status"] == 200:
-                print("Login Success")
-            else:
-                print("Login Failed")
+            
             print(r)
             return render_template ("MeLi/usuario_web.html", code=code, state=state)
         else:
