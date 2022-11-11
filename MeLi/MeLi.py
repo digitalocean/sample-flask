@@ -45,7 +45,7 @@ def usuario_vinculado():
         if state == secret_key:
             midb = database.connect_db
             cursor = midb.cursor()
-            cursor.execute("insert into usuario (nickname, contraseña,correo_electronico, tipo_usuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
+            cursor.execute("insert into usuario (nickname, password,correo, tipoUsuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
             midb.commit()
             midb.close()
             return render_template ("login.html", mensaje="Bienvenido")    
