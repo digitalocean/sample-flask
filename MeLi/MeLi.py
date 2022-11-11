@@ -103,6 +103,7 @@ def recibirnotificacion():
             nro_envio = (resource.split("/"))[2]
             print(nro_envio)
             viaje = consultar_envio(nro_envio, user_id)
+            print(viaje)
             if viaje != None:
                 print(f"viaje: {viaje}")
                 tipo_envio= viaje[1] 

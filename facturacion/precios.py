@@ -22,16 +22,8 @@ def obtenerPrecios(tarifa,db):
         id zona
     """
     cursor = db.cursor()
-    cursor.execute(f"""
-    select (
-        select nombre from zona where id = indicePrecio.id_zona
-        ) as Zona,
-        (
-            select precio from zonaTarifaPrecio where id_tarifa = {tarifa} and id_zona = indicePrecio.id_zona
-        ) as Precio,
-        indicePrecio.id_tarifa,
-        indicePrecio.id_zona 
-        from indicePrecio where id_tarifa = {tarifa} group by Zona""")
+    sql = f"select Z.nombre,ZP.precio,I.id_tarifa,I.id_zona from zona as Z join indicePrecio as I on Z.id = I.id_zona join zonaTarifaPrecio as ZP on I.id_zona = ZP.id_zona and ZP.id_tarifa = {tarifa} group by Z.nombre"
+    cursor.execute(sql)
     zonas = []
     for x in cursor.fetchall():
         zona = [x[0],x[1],x[2],x[3]]
@@ -40,7 +32,7 @@ def obtenerPrecios(tarifa,db):
 
 def obtenerZonas(tarifa,db):
     cursor = db.cursor()
-    cursor.execute(f"select L.localidad,Z.nombre from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id")
+    cursor.execute(f"select L.localidad,Z.nombre from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id union select localidad,'Sin asignar' from localidad where not id in (select L.id from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id)")
     localidades = []
     for x in cursor.fetchall():
         localidades.append(x)

@@ -44,6 +44,7 @@ def consultar_envio(nro_envio,idUser):
         headers = {"Authorization": f"Bearer {authorization}"}
         response = requests.request("GET", url, data=payload, headers=headers)
         response_json = response.json()
+        print(response_json)
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
             comprador = dato_envio["receiver_name"]
