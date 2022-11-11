@@ -46,7 +46,7 @@ def vinculacion():
                 midb.commit()
             for x in r.keys():
                 print(f"{x} : {r[x]}")
-            return "Bienvenido a MMSPACK"
+            return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
         else:
             try:
                 user_id = data["user_id"]
