@@ -29,19 +29,8 @@ def vinculacion():
                     "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
                     }
             r = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
-            print(r.keys())
-            if "message" in r.keys():
-                print(r["message"])
-            if "error" in r.keys():
-                print(r["error"])
-            if "status" in r.keys():
-                print(r["status"])
-                if r["status"] == 200:
-                    print("Login Success")
-                else:
-                    print("Login Failed")
-            if "cause" in r.keys():
-                print(r["cause"])
+            for x in r.keys():
+                print(f"{x} : {r[x]}")
             
             print(r)
             return render_template ("MeLi/usuario_web.html", code=code, state=state)
