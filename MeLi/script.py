@@ -45,6 +45,9 @@ def consultar_envio(nro_envio,idUser):
         response = requests.request("GET", url, data=payload, headers=headers)
         response_json = response.json()
         print(response_json)
+        if response_json != None:
+            for x in response_json.keys():
+                print(f"{x} : {response_json[x]}")
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
             comprador = dato_envio["receiver_name"]
