@@ -22,19 +22,20 @@ def vinculacion():
         if "code" in data.keys():
             code = data["code"]
             state = data["state"]
-            data={"grant_type":"authorization_code",
+            data2={"grant_type":"authorization_code",
                     "client_id":"4857198121733101",
                     "code":code,
                     "client_secret":"LHTeBl8PL4BXCk4f6v5jvbokxP04hOli",
                     "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
                     }
-            r = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
+            r = requests.post("https://api.mercadolibre.com/oauth/token", data2).json()
             if "user_id" in r.keys():
                 user_id = r["user_id"]
                 apodo = set(requests.get("https://api.mercadolibre.com/users/"+str(user_id)))
                 access_token = r["access_token"]
-                refres_token = r["refres_token"]
-                sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values({apodo},Cliente,{user_id},{access_token},{refres_token});"
+                refresh_token = r["refresh_token"]
+                sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values({apodo},Cliente,{user_id},{access_token},{refresh_token});"
+                print(sql)
                 midb = database.connect_db()
                 cursor = midb.cursor()
                 cursor.execute(sql)
@@ -46,7 +47,7 @@ def vinculacion():
             try:
                 user_id = data["user_id"]
                 access_token = data["access_token"]
-                refresh_token= data["refres_token"]
+                refresh_token= data["refresh_token"]
                 return render_template("MeLi/usuario_web.html", user_id=user_id, access_token=access_token,refresh_token=refresh_token)
             except Exception as errorEnVinculacion:
                 informeErrores.reporte(f"{errorEnVinculacion} ","/Callbacks")
