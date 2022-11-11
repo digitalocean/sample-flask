@@ -29,10 +29,18 @@ def vinculacion():
                     "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
                     }
             r = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
+            if "user_id" in r.keys():
+                user_id = r["user_id"]
+                apodo = set(requests.get("https://api.mercadolibre.com/users/"+str(user_id)))
+                access_token = r["access_token"]
+                refres_token = r["refres_token"]
+                sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values({apodo},Cliente,{user_id},{access_token},{refres_token});"
+                midb = database.connect_db()
+                cursor = midb.cursor()
+                cursor.execute(sql)
+                midb.commit()
             for x in r.keys():
                 print(f"{x} : {r[x]}")
-            
-            print(r)
             return render_template ("MeLi/usuario_web.html", code=code, state=state)
         else:
             try:

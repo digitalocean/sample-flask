@@ -16,7 +16,7 @@ def actualizar_token(idUser):
         data = {
             "grant_type":"authorization_code",
             "client_id":4857198121733101,
-            "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
+            "client_secret":"LHTeBl8PL4BXCk4f6v5jvbokxP04hOli",
             "code": user[0][1],
             "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
         }
