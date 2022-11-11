@@ -4,6 +4,7 @@
 
 from database import database
 from flask import Blueprint, render_template, redirect, url_for, request, jsonify, make_response
+import requests
 
 from MeLi.script import consultar_envio
 from informeErrores import informeErrores
@@ -21,6 +22,23 @@ def vinculacion():
         if "code" in data.keys():
             code = data["code"]
             state = data["state"]
+            data={"grant_type":"authorization_code",
+                    "client_id":"4857198121733101",
+                    "code":code,
+                    "client_secret":"rsH5HedyMwFMjRm2aaAb8jFN1McNUW9c",
+                    "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
+                    }
+            r = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
+            print(r.keys())
+            print(r["message"])
+            print(r["error"])
+            print(r["status"])
+            print(r["cause"])
+            if r["status"] == 200:
+                print("Login Success")
+            else:
+                print("Login Failed")
+            print(r)
             return render_template ("MeLi/usuario_web.html", code=code, state=state)
         else:
             try:
