@@ -78,8 +78,7 @@ def usuario_vinculado():
         #     return "Error al crear el usuario"
     else:
         return "Metodo GET"
-
-
+# print(consultar_envio("41789453783","9431327"))
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
     data = request.get_json()
@@ -98,6 +97,7 @@ def recibirnotificacion():
         attempts = data.get("attempts")
         application_id = data.get("application_id")
         sent = data.get("sent")
+        print(user_id)
         if str(topic) == "shipments":
             nro_envio = (resource.split("/"))[2]
             print(nro_envio)
