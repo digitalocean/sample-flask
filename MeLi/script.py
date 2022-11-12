@@ -39,11 +39,13 @@ def consultar_envio(nro_envio,idUser):
         for x in resultado:
             authorization = x
         midb.close()
-        url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
-        payload = ""
-        headers = {"Authorization": f"Bearer {authorization}"}
+        # url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
+        # payload = ""
+        # headers = {"Authorization": f"Bearer {authorization}"}
         # response = requests.request("GET", url, data=payload, headers=headers)
-        response =  requests.request("GET", f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}")
+        url = f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}"
+        print(sql)
+        response =  requests.request("GET", url)
         response_json = response.json()
         print(response_json)
         if "receiver_address" in response_json.keys():

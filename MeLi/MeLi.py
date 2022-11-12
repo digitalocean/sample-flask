@@ -3,7 +3,7 @@
 # encoding: utf-8
 
 from database import database
-from flask import Blueprint, render_template, redirect, url_for, request, jsonify, make_response
+from flask import Blueprint, render_template, redirect, url_for, request, jsonify, make_response,session
 import requests
 
 from MeLi.script import consultar_envio
