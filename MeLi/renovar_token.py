@@ -40,7 +40,7 @@ def actualizar_token(idUser):
             if "access_token" in respuesta_ML.keys():
                 access_token = respuesta_ML["access_token"]
                 refresh_token = respuesta_ML["refresh_token"]
-                sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE nickname = '{idUser}';"
+                sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
                 print(sql)
                 cursor.execute(sql)
                 midb.commit()

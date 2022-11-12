@@ -35,17 +35,16 @@ def consultar_envio(nro_envio,idUser):
     cursor = midb.cursor()
     cursor.execute(f"select access_token from usuario where user_id = {idUser}")
     resultado = cursor.fetchone()
+    midb.close()
     if resultado != None:
-        for x in resultado:
-            authorization = x
-        midb.close()
+        authorization = resultado[0]
         # url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
         # payload = ""
         # headers = {"Authorization": f"Bearer {authorization}"}
         # response = requests.request("GET", url, data=payload, headers=headers)
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}"
-        print(sql)
-        response =  requests.request("GET", url)
+        print(url)
+        response =  requests.get(url)
         response_json = response.json()
         print(response_json)
         if "receiver_address" in response_json.keys():
