@@ -111,7 +111,7 @@ def recibirnotificacion():
                     midb = database.connect_db()
                     midb = database.verificar_conexion(midb)
                     cursor = midb.cursor()
-                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,(select nickname from usuario where user_id = %s),%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
+                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa,tipo_envio) values(%s,%s,%s,%s,%s,(select nickname from usuario where user_id = %s),%s,%s,%s,%s,%s,2)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
                     nros_envios[nro_envio] = x[1]
