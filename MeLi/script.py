@@ -45,6 +45,7 @@ def consultar_envio(nro_envio,idUser):
         response = requests.request("GET", url, data=payload, headers=headers)
         # response =  requests.request("GET", f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}")
         response_json = response.json()
+        print(response_json)
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
             comprador = dato_envio["receiver_name"]

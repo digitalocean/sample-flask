@@ -78,8 +78,11 @@ def usuario_vinculado():
 
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
+    print("llego")
     data = request.get_json()
+    print(data)
     if request.method == "POST":
+        print("Entro al post")
         nros_envios = []
         midb = database.connect_db()
         cursor = midb.cursor()
@@ -95,6 +98,7 @@ def recibirnotificacion():
         application_id = data.get("application_id")
         sent = data.get("sent")
         if str(topic) == "shipments":
+            print("Es un viaje")
             nro_envio = (resource.split("/"))[2]
             viaje = consultar_envio(nro_envio, user_id)
             if viaje != None:
@@ -109,9 +113,9 @@ def recibirnotificacion():
                 direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
                 if str(nro_envio) not in nros_envios and tipo_envio == "self_service":
                     midb = database.connect_db()
-                    midb = database.verificar_conexion(midb)
                     cursor = midb.cursor()
-                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
+                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{fecha_creacion}',{nro_envio},{direccion},{referencia},{localidad},2,'{user_id}',{estado},'{comprador}','{nro_venta}','{direccion_concatenada}')"
+                    cursor.execute()
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
                     nros_envios.append(x[0])
