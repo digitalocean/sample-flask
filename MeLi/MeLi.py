@@ -78,7 +78,6 @@ def usuario_vinculado():
 
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
-    print("llego")
     data = request.get_json()
     print(data)
     if request.method == "POST":

@@ -42,8 +42,8 @@ def consultar_envio(nro_envio,idUser):
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
         payload = ""
         headers = {"Authorization": f"Bearer {authorization}"}
-        response = requests.request("GET", url, data=payload, headers=headers)
-        # response =  requests.request("GET", f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}")
+        # response = requests.request("GET", url, data=payload, headers=headers)
+        response =  requests.request("GET", f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}")
         response_json = response.json()
         print(response_json)
         if "receiver_address" in response_json.keys():
@@ -61,7 +61,8 @@ def consultar_envio(nro_envio,idUser):
             return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
         else:
             if actualizar_token(idUser) == True:
-                return consultar_envio(nro_envio,idUser)
+                print("Se actualizo el access token")
+                # return consultar_envio(nro_envio,idUser)
             else:
                 print(f"Error al actualizar access token")
     else:
