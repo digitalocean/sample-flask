@@ -43,6 +43,7 @@ def retiroDeProductos():
     hoy = str(datetime.now())[0:10]
     cursor.execute(f"select vendedor(Vendedor) from ViajesFlexs where Fecha = '{hoy}' group by vendedor(Vendedor)")
     vendedores = []
+    vend = ""
     for z in cursor.fetchall():
         vendor = z[0]
         vend = ""
