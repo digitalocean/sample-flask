@@ -80,13 +80,13 @@ def usuario_vinculado():
 def recibirnotificacion():
     data = request.get_json()
     if request.method == "POST":
-        nros_envios = {}
+        nros_envios = []
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute("select Numero_envío,estado_envio from ViajesFlexs")
+        cursor.execute("select Numero_envío from ViajesFlexs")
         envios = cursor.fetchall()
         for x in envios:
-            nros_envios[x[0]] = x[1]
+            nros_envios.append(str(x[0]))
         resource = data.get("resource")
         user_id = data.get("user_id")
         topic = data.get("topic")
@@ -107,14 +107,14 @@ def recibirnotificacion():
                 fecha_creacion = viaje[7]
                 nro_venta = viaje[8]
                 direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-                if str(nro_envio) not in nros_envios.keys() and tipo_envio == "self_service":
+                if str(nro_envio) not in nros_envios and tipo_envio == "self_service":
                     midb = database.connect_db()
                     midb = database.verificar_conexion(midb)
                     cursor = midb.cursor()
-                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa,tipo_envio) values(%s,%s,%s,%s,%s,(select nickname from usuario where user_id = %s),%s,%s,%s,%s,%s,2)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
+                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values(%s,%s,%s,%s,%s,(select nickname from usuario where user_id = %s),%s,%s,%s,%s,%s)", (fecha_creacion,nro_envio,direccion,referencia,localidad,tipo_envio,user_id,estado,comprador,nro_venta,direccion_concatenada))
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
-                    nros_envios[nro_envio] = x[1]
+                    nros_envios.append(x[0])
                 else:
                     print(f"Envio {nro_envio} descartado")
                     print(f"Tipo de envio: {tipo_envio}")
