@@ -111,6 +111,8 @@ def recibirnotificacion():
                 localidad= viaje[3] 
                 referencia= str(viaje[4]).replace("'"," ")
                 estado = viaje[5]
+                if estado == "ready_to_ship":
+                    estado = "Listo para Retirar"
                 comprador = viaje[6]
                 fecha_creacion = viaje[7]
                 nro_venta = viaje[8]
