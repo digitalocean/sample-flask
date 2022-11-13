@@ -101,4 +101,5 @@ def recibirnotificacion():
                 else:
                     print(f"Envio {nro_envio} descartado")
                     print(f"Tipo de envio: {tipo_envio}")
+                    print(estado)
         return  "Json guardado en base de datos"
