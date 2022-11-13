@@ -11,7 +11,6 @@ def actualizar_token(idUser):
     if resultado != None:
         id_user = [resultado[0],resultado[1]]
         user.append(id_user)
-        print(user[0][1])
         data = {
             "grant_type":"authorization_code",
             "client_id":4857198121733101,
@@ -25,7 +24,6 @@ def actualizar_token(idUser):
             access_token = respuesta_ML["access_token"]
             refresh_token = respuesta_ML["refresh_token"]
             sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
-            print(sql)
             cursor.execute(sql)
             midb.commit()
             return True
@@ -41,7 +39,6 @@ def actualizar_token(idUser):
                 access_token = respuesta_ML["access_token"]
                 refresh_token = respuesta_ML["refresh_token"]
                 sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
-                print(sql)
                 cursor.execute(sql)
                 midb.commit()
                 midb.close()

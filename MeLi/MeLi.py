@@ -18,7 +18,6 @@ def vinculacion():
         return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks")
     elif request.method == "GET":
         data = request.args
-        print(data)
         if "code" in data.keys():
             code = data["code"]
             state = data["state"]
@@ -79,9 +78,7 @@ def usuario_vinculado():
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
     data = request.get_json()
-    print(data)
     if request.method == "POST":
-        print("Entro al post")
         nros_envios = []
         midb = database.connect_db()
         cursor = midb.cursor()
@@ -97,7 +94,6 @@ def recibirnotificacion():
         application_id = data.get("application_id")
         sent = data.get("sent")
         if str(topic) == "shipments":
-            print("Es un viaje")
             nro_envio = (resource.split("/"))[2]
             viaje = consultar_envio(nro_envio, user_id)
             if viaje != None:
