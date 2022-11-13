@@ -31,11 +31,13 @@ def consultar_envio(nro_envio,idUser):
             city = dato_envio["city"]
             localidad = city["name"]
             referencia = dato_envio["comment"]
-            fecha_creacion = response_json["date_created"]
+            fecha_entrega = response_json["shipping_option"]
+            fecha_entrega = fecha_entrega["estimated_delivery_limit"]
+            fecha_entrega = fecha_entrega["date"]
             nro_venta = response_json["order_id"]
-            fecha_creacion = str(fecha_creacion)[0:19]
+            fecha_entrega = str(fecha_entrega)[0:10]
             estado = response_json["status"]
-            return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_creacion,nro_venta
+            return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_entrega,nro_venta
         else:
             if actualizar_token(idUser) == True:
                 print("Se actualizo el access token")
@@ -44,4 +46,3 @@ def consultar_envio(nro_envio,idUser):
                 print(f"Error al actualizar access token")
     else:
         print("no se encontro el sender_id en nuestra base de datos")
-    
