@@ -110,7 +110,7 @@ def recibirnotificacion():
                     midb = database.connect_db()
                     cursor = midb.cursor()
                     sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{fecha_creacion}',{nro_envio},{direccion},{referencia},{localidad},2,'{user_id}',{estado},'{comprador}','{nro_venta}','{direccion_concatenada}')"
-                    cursor.execute()
+                    cursor.execute(sql)
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
                     nros_envios.append(x[0])
