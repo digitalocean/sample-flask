@@ -100,7 +100,7 @@ def recibirnotificacion():
                 tipo_envio= viaje[1] 
                 direccion= viaje[2] 
                 localidad= viaje[3] 
-                referencia= viaje[4] 
+                referencia= str(viaje[4]).replace("'"," ")
                 estado = viaje[5]
                 comprador = viaje[6]
                 fecha_creacion = viaje[7]
@@ -109,7 +109,8 @@ def recibirnotificacion():
                 if str(nro_envio) not in nros_envios and tipo_envio == "self_service":
                     midb = database.connect_db()
                     cursor = midb.cursor()
-                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{fecha_creacion}',{nro_envio},{direccion},{referencia},{localidad},2,'{user_id}',{estado},'{comprador}','{nro_venta}','{direccion_concatenada}')"
+                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,'{user_id}','{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
+                    print(sql)
                     cursor.execute(sql)
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
