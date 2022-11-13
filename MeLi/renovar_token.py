@@ -5,7 +5,7 @@ from datetime import datetime
 def actualizar_token(idUser):
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select user_id, refresh_token from usuario where user_id = {idUser}")
+    cursor.execute(f"select user_id, refresh_token from vinculacion where user_id = {idUser}")
     user = []
     resultado = cursor.fetchone()   
     if resultado != None:
@@ -23,7 +23,7 @@ def actualizar_token(idUser):
             user_id = respuesta_ML["user_id"]
             access_token = respuesta_ML["access_token"]
             refresh_token = respuesta_ML["refresh_token"]
-            sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
+            sql = f"UPDATE vinculacion SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
             cursor.execute(sql)
             midb.commit()
             return True
@@ -38,7 +38,7 @@ def actualizar_token(idUser):
             if "access_token" in respuesta_ML.keys():
                 access_token = respuesta_ML["access_token"]
                 refresh_token = respuesta_ML["refresh_token"]
-                sql = f"UPDATE usuario SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
+                sql = f"UPDATE vinculacion SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"
                 cursor.execute(sql)
                 midb.commit()
                 midb.close()

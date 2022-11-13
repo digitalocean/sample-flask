@@ -37,43 +37,43 @@ def vinculacion():
                         nickname = ((str(infoML).split(",")[1]).split(":")[1]).replace('"','')
                 access_token = r["access_token"]
                 refresh_token = r["refresh_token"]
-                sql = f"insert into usuario (nickname,tipoUsuario,user_id,access_token,refresh_token) values('{nickname}','Cliente','{user_id}','{access_token}','{refresh_token}');"
+                sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
                 midb = database.connect_db()
                 cursor = midb.cursor()
                 cursor.execute(sql)
                 midb.commit()
             return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
-        else:
-            try:
-                user_id = data["user_id"]
-                access_token = data["access_token"]
-                refresh_token= data["refresh_token"]
-                return render_template("MeLi/usuario_web.html", user_id=user_id, access_token=access_token,refresh_token=refresh_token)
-            except Exception as errorEnVinculacion:
-                informeErrores.reporte(f"{errorEnVinculacion} ","/Callbacks")
-                return "fallo la vinculacion"
-
-
-
-@ML.route("/usuario_vinculado", methods=["POST"])
-def usuario_vinculado():
-    if request.method == "POST":
-        nickname = request.form["nickname"]
-        contrasenia = request.form["contrasenia"]
-        correo_electronico = request.form["correo_electronico"]
-        code = request.form["code"]
-        state = request.form["state"]
-        # if state == secret_key:
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        cursor.execute("insert into usuario (nickname, password,correo, tipoUsuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
-        midb.commit()
-        midb.close()
-        return render_template ("login.html", mensaje="Bienvenido")    
         # else:
-        #     return "Error al crear el usuario"
-    else:
-        return "Metodo GET"
+        #     try:
+        #         user_id = data["user_id"]
+        #         access_token = data["access_token"]
+        #         refresh_token= data["refresh_token"]
+        #         return render_template("MeLi/usuario_web.html", user_id=user_id, access_token=access_token,refresh_token=refresh_token)
+        #     except Exception as errorEnVinculacion:
+        #         informeErrores.reporte(f"{errorEnVinculacion} ","/Callbacks")
+        #         return "fallo la vinculacion"
+
+
+
+# @ML.route("/usuario_vinculado", methods=["POST"])
+# def usuario_vinculado():
+#     if request.method == "POST":
+#         nickname = request.form["nickname"]
+#         contrasenia = request.form["contrasenia"]
+#         correo_electronico = request.form["correo_electronico"]
+#         code = request.form["code"]
+#         state = request.form["state"]
+#         # if state == secret_key:
+#         midb = database.connect_db()
+#         cursor = midb.cursor()
+#         cursor.execute("insert into usuario (nickname, password,correo, tipoUsuario, refresh_token) values(%s,%s,%s,%s,%s)", (nickname, contrasenia,correo_electronico, "Cliente", code))
+#         midb.commit()
+#         midb.close()
+#         return render_template ("login.html", mensaje="Bienvenido")    
+#         # else:
+#         #     return "Error al crear el usuario"
+#     else:
+#         return "Metodo GET"
 
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():

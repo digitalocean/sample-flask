@@ -11,7 +11,7 @@ from .renovar_token import actualizar_token
 def consultar_envio(nro_envio,idUser):
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select access_token from usuario where user_id = {idUser}")
+    cursor.execute(f"select access_token from vinculacion where user_id = {idUser}")
     resultado = cursor.fetchone()
     midb.close()
     if resultado != None:
