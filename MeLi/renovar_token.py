@@ -20,7 +20,6 @@ def actualizar_token(idUser):
         }
         respuesta_ML = requests.post("https://api.mercadolibre.com/oauth/token", data).json()
         if "user_id" in respuesta_ML.keys():
-            user_id = respuesta_ML["user_id"]
             access_token = respuesta_ML["access_token"]
             refresh_token = respuesta_ML["refresh_token"]
             sql = f"UPDATE vinculacion SET access_token = '{access_token}', refresh_token = '{refresh_token}', ultima_actualizacion =  CURRENT_TIMESTAMP() WHERE user_id = {idUser};"

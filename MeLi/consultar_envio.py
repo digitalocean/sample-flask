@@ -41,7 +41,7 @@ def consultar_envio(nro_envio,idUser):
         else:
             if actualizar_token(idUser) == True:
                 print("Se actualizo el access token")
-                # return consultar_envio(nro_envio,idUser)
+                return consultar_envio(nro_envio,idUser)
             else:
                 print(f"Error al actualizar access token")
     else:

@@ -3,15 +3,13 @@
 # encoding: utf-8
 
 from database import database
-from flask import Blueprint, render_template, redirect, url_for, request, jsonify, make_response,session
+from flask import Blueprint, render_template, redirect, request
 import requests
 
-from MeLi.script import consultar_envio
+from MeLi.consultar_envio import consultar_envio
 from informeErrores import informeErrores
 ML = Blueprint('MeLi', __name__, url_prefix='/')
-from datetime import datetime
 
-secret_key = "abcd1234"
 @ML.route("/callbacks", methods=["GET","POST"])
 def vinculacion():
     if request.method == "POST":
@@ -117,7 +115,7 @@ def recibirnotificacion():
                 fecha_creacion = viaje[7]
                 nro_venta = viaje[8]
                 direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-                if tipo_envio == "self_service" and str(nro_envio) not in nros_envios:
+                if tipo_envio == "self_service" and str(nro_envio) not in nros_envios and estado == "Listo para Retirar":
                     midb = database.connect_db()
                     cursor = midb.cursor()
                     sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,'{user_id}','{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
