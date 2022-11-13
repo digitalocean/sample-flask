@@ -16,50 +16,43 @@ def vinculacion():
         return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks")
     elif request.method == "GET":
         data = request.args
-        if "code" in data.keys():
-            code = data["code"]
-            state = data["state"]
-            data2={"grant_type":"authorization_code",
-                    "client_id":"4857198121733101",
-                    "code":code,
-                    "client_secret":"LHTeBl8PL4BXCk4f6v5jvbokxP04hOli",
-                    "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
-                    }
-            r = requests.post("https://api.mercadolibre.com/oauth/token", data2).json()
-            if "user_id" in r.keys():
-                user_id = r["user_id"]
-                info = set(requests.get("https://api.mercadolibre.com/users/"+str(user_id)))
-                nickname = str(user_id)
-                for infoML in info:
-                    if "nickname" in str(infoML):
-                        nickname = ((str(infoML).split(",")[1]).split(":")[1]).replace('"','')
-                access_token = r["access_token"]
-                refresh_token = r["refresh_token"]
-                midb = database.connect_db()
-                cursor = midb.cursor()    
-                try:
-                    sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
-                    cursor.execute(sql)
-                    midb.commit()
-                except:
-                    sql = f"delete from vinculacion where nickname = '{nickname}'"
-                    cursor.execute(sql)
-                    midb.commit()
-                    sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
-                    cursor.execute(sql)
-                    midb.commit()
-                    
-            return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
-        # else:
-        #     try:
-        #         user_id = data["user_id"]
-        #         access_token = data["access_token"]
-        #         refresh_token= data["refresh_token"]
-        #         return render_template("MeLi/usuario_web.html", user_id=user_id, access_token=access_token,refresh_token=refresh_token)
-        #     except Exception as errorEnVinculacion:
-        #         informeErrores.reporte(f"{errorEnVinculacion} ","/Callbacks")
-        #         return "fallo la vinculacion"
-
+        code = data["code"]
+        state = data["state"]
+        data2={"grant_type":"authorization_code",
+                "client_id":"4857198121733101",
+                "code":code,
+                "client_secret":"LHTeBl8PL4BXCk4f6v5jvbokxP04hOli",
+                "redirect_uri":"https://whale-app-suwmc.ondigitalocean.app/callbacks"
+                }
+        r = requests.post("https://api.mercadolibre.com/oauth/token", data2).json()
+        if "user_id" in r.keys():
+            user_id = r["user_id"]
+            info = set(requests.get("https://api.mercadolibre.com/users/"+str(user_id)))
+            nickname = str(user_id)
+            for infoML in info:
+                if "nickname" in str(infoML):
+                    nickname = ((str(infoML).split(",")[1]).split(":")[1]).replace('"','')
+            access_token = r["access_token"]
+            refresh_token = r["refresh_token"]
+            midb = database.connect_db()
+            cursor = midb.cursor()    
+            try:
+                sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
+                cursor.execute(sql)
+                midb.commit()
+            except:
+                sql = f"delete from vinculacion where nickname = '{nickname}'"
+                cursor.execute(sql)
+                midb.commit()
+                sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
+                cursor.execute(sql)
+                midb.commit()
+            sql = f"insert ignore into `Apodos y Clientes` (Apodo,sender_id) values('{nickname}',{user_id})"
+            cursor.execute(sql)
+            midb.commit()
+            midb.close()
+                
+        return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
 
 
 # @ML.route("/usuario_vinculado", methods=["POST"])
@@ -91,6 +84,7 @@ def recibirnotificacion():
         cursor = midb.cursor()
         cursor.execute("select Numero_envío from ViajesFlexs")
         envios = cursor.fetchall()
+        midb.close()
         for x in envios:
             nros_envios.append(str(x[0]))
         resource = data.get("resource")

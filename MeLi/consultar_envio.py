@@ -39,6 +39,7 @@ def consultar_envio(nro_envio,idUser):
             estado = response_json["status"]
             return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_entrega,nro_venta
         else:
+            print(response_json)
             if actualizar_token(idUser) == True:
                 print("Se actualizo el access token")
                 return consultar_envio(nro_envio,idUser)
