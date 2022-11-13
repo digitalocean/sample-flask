@@ -44,7 +44,7 @@ def vinculacion():
                     cursor.execute(sql)
                     midb.commit()
                 except:
-                    sql = f"delete from vinculacion where nickname = {nickname}"
+                    sql = f"delete from vinculacion where nickname = '{nickname}'"
                     cursor.execute(sql)
                     midb.commit()
                     sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
