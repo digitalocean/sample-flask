@@ -10,10 +10,16 @@ select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,
 from ViajesFlexs
 """
 consultaMapa = """
-select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo
-from ViajesFlexs where not estado_envio in ('Entregado','No Vino', 'Fuera de Zona')
-and (not Motivo in ('Cancelado','Rechazado por el comprador') or Motivo is null)
-and not (Vendedor = "ONEARTARGENTINA" and estado_envio = "Lista Para Retirar")
+select 
+    Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo
+from
+    ViajesFlexs 
+where 
+    not estado_envio in ('Entregado','No Vino', 'Fuera de Zona')
+and 
+    (not Motivo in ('Cancelado','Rechazado por el comprador') or Motivo is null)
+and 
+    not (Vendedor = "ONEARTARGENTINA" and estado_envio = "Lista Para Retirar")
 """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
@@ -22,7 +28,7 @@ def jsonPendientes():
     if request.method == "POST":
         estados = ""
         if "listaParaRetirar" in request.form.keys():
-            estados += " where (Fecha = current_date() and estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar') and tipo_envio = 2) "
+            estados += " where estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar')"
         if "enDeposito" in request.form.keys():
             if len(estados) < 5:
                 estados += " where estado_envio = 'Listo para salir (Sectorizado)' or lower(Zona) = '~en deposito'"
