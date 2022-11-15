@@ -76,30 +76,7 @@ def jsonPendientes():
             estados += " and tipo_envio = 2"
         session["consultaMapa"] = consultaTodoMapa+estados
         print(session["consultaMapa"])
-        # return redirect("/logistica/vistamapa")
-        jsonPendientes = {}
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        if "consultaMapa" in session.keys():
-            cursor.execute(session["consultaMapa"])
-        else:
-            cursor.execute(consultaMapa)
-        for x in cursor.fetchall():
-            jsonPendientes[x[0]] = {
-                "direccion":x[1],
-                "localidad":x[2],
-                "vendedor":x[3],
-                "latitud":x[4], 
-                "longitud":x[5], 
-                "fecha":x[6],
-                "chofer":x[7],
-                "estado_envio":x[8],
-                "zona":x[9],
-                "fechaUltimoEstado":str(x[10])[0:10],
-                "horaUltimoEstado":str(x[10])[10:19],
-                "motivo":x[11]
-            }
-        return jsonPendientes
+        return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
         midb = database.connect_db()
