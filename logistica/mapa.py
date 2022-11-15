@@ -76,7 +76,8 @@ def jsonPendientes():
             estados += " and tipo_envio = 2"
         session["consultaMapa"] = consultaTodoMapa+estados
         print(session["consultaMapa"])
-        return redirect("/logistica/vistamapa")
+        # return redirect("/logistica/vistamapa")
+        return jsonPendientes
     else:
         jsonPendientes = {}
         midb = database.connect_db()
