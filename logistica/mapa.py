@@ -15,11 +15,7 @@ select
 from
     ViajesFlexs 
 where 
-    not estado_envio in ('Entregado','No Vino', 'Fuera de Zona')
-and 
-    (not Motivo in ('Cancelado','Rechazado por el comprador') or Motivo is null)
-and 
-    not (Vendedor = "ONEARTARGENTINA" and estado_envio = "Lista Para Retirar")
+    estado_envio in ("Retirado","Lista Para Retirar","Listo Para Retirar","Listo para salir (Sectorizado)")
 """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
