@@ -90,7 +90,7 @@ def agregarRetiro():
             cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
         else:
-            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = 'fecha' where Numero_envío = '{numeroEnvio}'")
+            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
