@@ -87,10 +87,10 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(midb))
-            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
+            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
         else:
-            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{numeroEnvio}'")
+            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'")
             midb.commit()
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
