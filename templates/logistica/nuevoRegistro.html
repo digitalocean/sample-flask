@@ -8,6 +8,7 @@
         <td>Fecha</td>
         <td>Numero de envío</td>
         <td>Chofer</td>
+        <td>Entreado?</td>
     </tr>
     <tr>
         <td><input type="date" name="fecha" value="{{fecha}}"></td>
@@ -17,6 +18,7 @@
             <option value="{{chofer}}">{{chofer}}</option>
             {%endfor%}
         </select></td>
+        <td><input type="checkbox" name="entregado"></td>
     </tr>
     <tr><td><input type="submit" Value="Registrar"></td></tr>
 </table>

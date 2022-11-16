@@ -75,6 +75,7 @@ def agregarRetiro():
         values = (numeroEnvio,)
         cursor.execute(sql,values)
         resu = cursor.fetchone()
+        sqlEnCamino = ""
         if resu is None:
             sql = "select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = %s"
             values = (numeroEnvio,)
@@ -87,11 +88,16 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(midb))
-            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'")
-            midb.commit()
+            sqlEnCamino = f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer=correoChofer('{chofer}'),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'"
         else:
-            cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'")
+            sqlEnCamino = f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer=correoChofer('{chofer}'),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'"
+        cursor.execute(sqlEnCamino)
+        midb.commit()
+        if "entregado" in request.form.keys():
+            sqlEntregado = f"update ViajesFlexs set `Check` = null, Chofer = '{chofer}',Correo_chofer=correoChofer('{chofer}'),estado_envio = 'Entregado',Motivo = 'Entregado sin novedades', Ultimo_motivo = 'Entregado sin novedades', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'"
+            cursor.execute(sqlEntregado)
             midb.commit()
+            midb.close()
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
                                 envio=numeroEnvio,
@@ -156,7 +162,7 @@ def horasExtra():
 #         '{str(res[0]).replace(',',' ')}','{str(res[1]).replace(',',' ')}','{str(res[2]).replace(',',' ')}','{chofer}','{correoChofer[chofer]}',
 #         'En Camino','En Camino')""")
 #         midb.commit()
-#         cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{nro_envio}'")
+#         cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer=correoChofer({chofer}),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{nro_envio}'")
 #         midb.commit()
 #     else:
 #         cursor.execute(f"""insert into historial_estados 
@@ -166,6 +172,6 @@ def horasExtra():
 #                     '{str(resu[2]).replace(',',' ')}','{str(resu[3]).replace(',',' ')}',
 #                     '{chofer}','{correoChofer[chofer]}','Reasignado','Reasignado')""")
 #         midb.commit()
-#         cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer='{correoChofer[chofer]}',estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{nro_envio}'")
+#         cursor.execute(f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer=correoChofer({chofer}),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino' where Numero_envío = '{nro_envio}'")
 #         midb.commit()
 #     return "a donde te mando?"
