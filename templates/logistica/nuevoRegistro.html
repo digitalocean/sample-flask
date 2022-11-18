@@ -14,6 +14,7 @@
         <td><input type="date" name="fecha" value="{{fecha}}"></td>
         <td><input type="text" name="numeroEnvio"></td>
         <td><select name="chofer" id="chofer">
+            <option value="{{chofer}}">{{chofer}}</option>
             {%for chofer in choferes%}
             <option value="{{chofer}}">{{chofer}}</option>
             {%endfor%}
