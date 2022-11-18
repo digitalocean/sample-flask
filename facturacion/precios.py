@@ -14,6 +14,15 @@ def obtenerIdTarifas(db):
         tarifas.append(x[0])
     return tarifas
 
+def obtenerTarifaPorCliente(db):
+    cursor = db.cursor()
+    cursor.execute("select C.nombre_cliente,T.idTarifa from Clientes as C inner join tarifa as T on idClientes = id_cliente order by C.nombre_cliente;")
+    clienteTarifa = []
+    for x in cursor.fetchall():
+        paq = [x[0],x[1]]
+        clienteTarifa.append(paq)
+    return clienteTarifa
+
 def obtenerPrecios(tarifa,db):
     """Devuelve SUBlistas de 4 elementos
         nombre de la zona,
@@ -37,6 +46,16 @@ def obtenerZonas(tarifa,db):
     for x in cursor.fetchall():
         localidades.append(x)
     return localidades
+
+def obtenerZonasId(db):
+    cursor = db.cursor()
+    cursor.execute(f"select id,nombre from zona")
+    zonas = []
+    for x in cursor.fetchall():
+        zonas.append(x)
+    return zonas
+
+
 @pr.route('/facturacion/verprecio', methods=["GET","POST"])
 @auth.login_required
 @auth.admin_required
@@ -46,6 +65,7 @@ def consultarPrecio():
         tarifa = request.form["tarifa"]
         return render_template("facturacion/tarifas.html",
                                 localidades = obtenerZonas(tarifa,midb),
+                                zonas = obtenerZonasId(midb),
                                 precios=obtenerPrecios(tarifa,midb),
                                 cant_columnas = 2,
                                 tarifa=tarifa,
@@ -54,7 +74,9 @@ def consultarPrecio():
     else:
         return render_template("facturacion/tarifas.html",
                                 localidades = obtenerZonas("1",midb),
+                                zonas = obtenerZonasId(midb),
                                 precios=obtenerPrecios("1",midb),
+                                clientes = obtenerTarifaPorCliente(midb),
                                 tarifa = "1",
                                 cant_columnas = 2,
                                 tarifas=obtenerIdTarifas(midb),
@@ -74,6 +96,7 @@ def cambiarprecio():
         midb.commit()
         return render_template("facturacion/tarifas.html",
                                 precios=obtenerPrecios(tarifa,midb),
+                                zonas = obtenerZonasId(midb),
                                 cant_columnas = 2,
                                 tarifa=tarifa,
                                 tarifas=obtenerIdTarifas(midb),
@@ -96,6 +119,7 @@ def cambioLocalidadZona():
             midb.commit()
     return render_template("facturacion/tarifas.html",
                             precios=obtenerPrecios(tarifa,midb),
+                            zonas = obtenerZonasId(midb),
                             cant_columnas = 2,
                             tarifa=tarifa,
                             tarifas=obtenerIdTarifas(midb),

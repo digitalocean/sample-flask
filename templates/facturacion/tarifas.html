@@ -42,7 +42,7 @@
             </tr>
         {% for x in precios %}
         <tr style="border: solid;">
-            <input type="hidden" name="tarifa" value="{{x.2}}">
+            <input type="hidden" name="tarifa" value="{{tarifa}}">
             <input type="hidden" name="zona" value="{{x.3}}">
             <td>{{x.0}}</td>
             <td>{{x.1}}</td>
@@ -53,6 +53,18 @@
         {% endfor %}    
         </table>
         </form>
+        <table>
+            <tr style="border: solid;">
+                <td>Cliente</td>
+                <td>Tarifa</td>
+            </tr>
+        {% for x in clientes %}
+            <tr style="border: solid;">
+                <td>{{x.0}}</td>
+                <td>{{x.1}}</td>
+            </tr>
+        {% endfor %}
+        </table>
     </div>
     <div class="box2">
         <form action="/facturacion/cambioLocalidadZona", method="POST">
@@ -69,9 +81,9 @@
                     <td>{{localidad.1}}</td>
                     <td><select name="{{localidad.0}}">
                         <option value="{{localidad.1}}">{{localidad.1}}</option>
-                        <option value="Flex CABA">Flex CABA</option>
-                        <option value="Flex Zona (1)">Flex Zona (1)</option>
-                        <option value="Flex Zona (2)">Flex Zona (2)</option>
+                        {% for x in zonas %}
+                        <option value="{{x.1}}">{{x.1}}</option>
+                        {%endfor%}
                     </select></td>
                 </tr>
                 {%endfor%}
