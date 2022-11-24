@@ -66,7 +66,6 @@
         </table>
     </div>
     <div class="box2">
-        <form action="/facturacion/cambioLocalidadZona", method="POST">
             <input type="hidden" name="tarifa" value="{{tarifa}}">
             <table>
                 <tr>
@@ -76,21 +75,20 @@
                 </tr>
                 {%for localidad in localidades %}
                 <tr style="border: solid;">
-                    <td>{{localidad.0}}</td>
-                    <td>{{localidad.1}}</td>
-                    <td><select name="{{localidad.0}}">
-                        <option value="{{localidad.1}}">{{localidad.1}}</option>
-                        {% for x in zonas %}
-                        <option value="{{x.1}}">{{x.1}}</option>
-                        {%endfor%}
-                    </select></td>
+                    <form action="/facturacion/cambioLocalidadZona", method="POST">
+                        <td>{{localidad.0}}</td>
+                        <td>{{localidad.1}}</td>
+                        <td><select name="{{localidad.0}}">
+                            <option value="{{localidad.1}}">{{localidad.1}}</option>
+                            {% for x in zonas %}
+                            <option value="{{x.1}}">{{x.1}}</option>
+                            {%endfor%}
+                        </select></td>
+                        <td><input type="submit" name="" id=""></td></tr>
+                    </form>
                 </tr>
                 {%endfor%}
-                <tr><td></td>
-                <td></td>
-            <td><input type="submit" name="" id=""></td></tr>
             </table>
-        </form>
     </div>
 </div>
 </body>

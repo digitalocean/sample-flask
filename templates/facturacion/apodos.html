@@ -10,12 +10,14 @@
                 <td style="text-align: center;">Cliente</td>
             </tr>
         {% for x in apodos %}
-        <form action="/facturacion/apodos" method="post"></form>
+        <form action="/facturacion/apodos" method="post">
         <tr style="border: solid;">
-            <td>{{x}}</td>
-            <td><select >
+            <input type="hidden" name="apodo" value="{{x.0}}">
+            <td>{{x.0}}</td>
+            <td><select name="cliente">
+                <option {{x.1}}">{{x.1}}</option>
                 {% for cliente in clientes %}
-                <option value="{{cliente}}">{{cliente}}</option>
+                <option>{{cliente}}</option>
                 {% endfor %}
                 </select>
             </td>

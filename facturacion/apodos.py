@@ -10,7 +10,16 @@ ap = Blueprint('apodos', __name__, url_prefix='/')
 @auth.login_required
 def apodos():
     if request.method == "POST":
-        return "POST"
+        apodo = request.form["apodo"]
+        cliente = request.form["cliente"]
+        sql = f"update `Apodos y Clientes` set Cliente = '{cliente}' where Apodo = '{apodo}'"
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute(sql)
+        midb.commit()
+        midb.close()
+        print(sql)
+        return redirect("/facturacion/apodos")
     else:
         midb = database.connect_db()
         cursor = midb.cursor()
@@ -19,9 +28,11 @@ def apodos():
         for x in cursor.fetchall():
             clientes.append(x[0])
         apodos = []
-        cursor.execute("select Apodo,Cliente from `Apodos y Clientes`")
+        cursor.execute("select Apodo,Cliente from `Apodos y Clientes` order by Cliente")
         for x in cursor.fetchall():
-            apodos.append(x[0])
+            apodoCliente = [x[0],x[1]]
+            apodos.append(apodoCliente)
         return render_template("facturacion/apodos.html",
                                 clientes = clientes,
-                                apodos = apodos)
+                                apodos = apodos,
+                                auth = session.get("user_auth"))
