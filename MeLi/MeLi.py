@@ -92,7 +92,7 @@ def recibirnotificacion():
                 if tipo_envio == "self_service" and str(nro_envio) not in nros_envios and estado == "Listo para Retirar":
                     midb = database.connect_db()
                     cursor = midb.cursor()
-                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,'{user_id}','{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
+                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,apodoOcliente(apodo({user_id})),'{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
                     cursor.execute(sql)
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
