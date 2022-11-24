@@ -14,7 +14,7 @@ ML = Blueprint('MeLi', __name__, url_prefix='/')
 def vinculacion():
     if request.method == "POST":
         return redirect("https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks")
-    elif request.method == "GET":
+    else:
         data = request.args
         code = data["code"]
         state = data["state"]
