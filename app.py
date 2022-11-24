@@ -33,6 +33,8 @@ from facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
 from facturacion import precios
 app.register_blueprint(precios.pr)
+from facturacion import apodos
+app.register_blueprint(apodos.ap)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 from formatomms import formatomms
