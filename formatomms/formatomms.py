@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 # encoding: utf-8
 
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session,redirect
 from datetime import datetime
 from auth import auth
 from database import database
@@ -87,7 +87,7 @@ def subir_exel_formms():
                 nro_envio = str(sheet_obj.cell(row = n_row, column = col_numero_envio).value)
             else:
                 nro_envio = ""
-            if str(nro_envio).lower() in nros_envios or str(nro_envio) == "" or str(nro_envio).lower() == "retiro de productos" or str(nro_envio).lower() == "retiro de productos ":
+            if str(nro_envio).lower() in nros_envios or str(nro_envio) == "" or nro_envio == None:
                 omitido += 1
             else:
                 fecha = str(ahora)[0:10]
@@ -119,7 +119,6 @@ def subir_exel_formms():
                     cp = 0
                 if cp == "":
                     cp = 0
-                if col_vendedor: vendedor = str(sheet_obj.cell(row = n_row, column = col_vendedor).value)
                 if session.get("user_auth") == "Cliente":
                     vendedor = session.get("user_id")
                 estado = "Listo para retirar"
@@ -139,15 +138,7 @@ def subir_exel_formms():
         print(actualizados)
         cabezera = ["Fecha","Numero de envio","Cliente","Numero de venta","Telefono","Direccion","Referencia","Localidad","cp","Vendedor"]
         midb.close()
-        return render_template("data.html",
-                                titulo="Carga", 
-                                titulo_columna=cabezera, 
-                                data=lista_viajes, 
-                                nalizados=total, 
-                                agregados=flex_agregado, 
-                                flex=flex_agregado, 
-                                repetido=omitido, 
-                                auth = session.get("user_auth"))
+        return redirect("/misenvios")
 
     else:
         return render_template("CargaArchivo/carga_archivo.html",
