@@ -62,7 +62,7 @@ def subir_exel_formms():
                     col_localidad = contador
                 elif cab.lower() in ("vendedor"):
                     col_vendedor = contador
-                elif cab.lower() in ("cp","postcode (shipping)"):
+                elif cab.lower() in ("cp","postcode (shipping)","código postal","codigo postal"):
                     col_cp = contador
                 elif cab.lower() in ("telefono","phone (billing)"):
                     col_telefono = contador
