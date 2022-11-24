@@ -68,12 +68,6 @@ def subir_exel_formms():
                     col_telefono = contador
                 elif cab.lower() in ("referencia","customer note","detalle dirección","detalle direccion"):
                     col_referencia = contador
-                elif cab.lower() in ("estado"):
-                    col_estado = contador
-                elif cab.lower() in ("observacion"):
-                    col_observacion = contador
-                elif cab.lower() in ("chofer"):
-                    col_chofer = contador
             print("\nasignacion completa\n")
         except Exception as cabezeras:
             informeErrores.reporte(cabezeras,"/carga_formms")
@@ -125,17 +119,9 @@ def subir_exel_formms():
                     cp = 0
                 if cp == "":
                     cp = 0
-                if col_chofer:
-                    chofer = str(sheet_obj.cell(row = n_row, column = col_chofer).value)
-                else: 
-                    chofer = ""
                 if col_vendedor: vendedor = str(sheet_obj.cell(row = n_row, column = col_vendedor).value)
                 if session.get("user_auth") == "Cliente":
                     vendedor = session.get("user_id")
-                if col_observacion:
-                    observacion = str(sheet_obj.cell(row = n_row, column = col_observacion).value)
-                else: 
-                    observacion = ""
                 estado = "Listo para retirar"
                 fecha = fecha[0:10]
                 tipo_envio = "e-commerce"
@@ -143,7 +129,7 @@ def subir_exel_formms():
                 nros_envios.append(nro_envio.lower())
                 if str(estado).lower() != "no vino": 
                     midb = database.verificar_conexion(midb)
-                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, comprador, telefono, Direccion, Referencia, Localidad, CP, Vendedor, tipo_envio, estado_envio, Direccion_Completa,chofer,Latitud,Longitud) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,estado,direccion_concatenada,chofer,'0','0'))
+                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, comprador, telefono, Direccion, Referencia, Localidad, CP, Vendedor, tipo_envio, estado_envio, Direccion_Completa) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,estado,direccion_concatenada))
                     midb.commit()
                     flex_agregado += 1
                     
