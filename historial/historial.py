@@ -42,13 +42,13 @@ def historial(pagina):
     return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=viajes,tablas=True,listaBotones = listaBotones,contador = 0, columnas = cabezeras, cant_columnas = len(cabezeras), auth = session.get("user_auth"),historial = True)
 
     
-@hsList.route("/logistica/historial/delete/<id>")
+@hsList.route("/logistica/historial/anular/<id>")
 @auth.login_required
 @auth.admin_required
 def eliminarHistorial(id):
     midb=database.connect_db()
     cursor = midb.cursor()
-    sql = f"DELETE FROM historial_estados WHERE id = '{id}';"
+    sql = f"update historial_estados set estado_envio = 'anulado', motivo_noenvio = 'anulado' WHERE id = '{id}';"
     cursor.execute(sql)
     midb.commit()
     return redirect("/logistica/historial/1")
