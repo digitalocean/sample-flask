@@ -53,11 +53,11 @@ def retiroDeProductos():
         if not str(vendor).lower() in str(levantadas).lower():
             vend += "('"+str(z[0])+"'),"
             levantadas.append(vendor)
-    if vend != "":
-        vend = vend[0:-1]
-        sql = f"insert ignore into levantadas (vendedor) values {vend}"
-        cursor.execute(sql)
-        midb.commit()
+    # if vend != "":
+    #     vend = vend[0:-1]
+    #     sql = f"insert ignore into levantadas (vendedor) values {vend}"
+    #     cursor.execute(sql)
+    #     midb.commit()
     if request.method == "POST":
         for y in request.form.keys():
             chofer = request.form.get(y)
@@ -127,8 +127,6 @@ def limpiarChoferes():
     sql = f"update levantadas set chofer = null where vendedor in {vendedores}"
     cursor.execute(sql)
     midb.commit()
-    print(sql)
-    hoy = str(datetime.now())[0:10]
     return redirect("/logistica/asignar/retirodeproductos")
 
 @lgAR.route("/logistica/asignar/retirodeproductos/nuevalevantada", methods = ["GET","POST"])
@@ -149,6 +147,8 @@ def borrarLevantada():
     vendedor = request.form.get("borrarVendedor")
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"delete from levantadas where vendedor = '{vendedor}'")
+    sql = f"delete from levantadas where vendedor = '{vendedor}'"
+    print(sql)
+    cursor.execute(sql)
     midb.commit()
     return redirect("/logistica/asignar/retirodeproductos")
