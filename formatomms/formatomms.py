@@ -35,7 +35,7 @@ def subir_exel_formms():
         cant_columnas = 14
         contador = 0
     # except:
-        print(u"\nerror en la lectura del archivo\n")
+        # print(u"\nerror en la lectura del archivo\n")
         try:
             # Numero_envío = Order Number
             # nro_venta = Order Number
