@@ -122,7 +122,7 @@ def subir_exel_formms():
                 if session.get("user_auth") == "Cliente":
                     vendedor = session.get("user_id")
                 estado = "Listo para retirar"
-                fecha = fecha[0:10]
+                fecha = fecha[0:10].replace("/","-").replace("\\","")
                 tipo_envio = "e-commerce"
                 direccion_concatenada = str(direccion) + ", " + str(localidad) + ", Buenos Aires Argentina"     
                 nros_envios.append(nro_envio.lower())
