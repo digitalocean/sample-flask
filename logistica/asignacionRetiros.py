@@ -149,6 +149,6 @@ def borrarLevantada():
     vendedor = request.form.get("borrarVendedor")
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"delete from levantadas where Vendedor = '{vendedor}'")
+    cursor.execute(f"delete from levantadas where vendedor = '{vendedor}'")
     midb.commit()
     return redirect("/logistica/asignar/retirodeproductos")
