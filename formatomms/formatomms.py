@@ -80,7 +80,10 @@ def subir_exel_formms():
         lista_viajes = []
         actualizados = 0
         print(len(nros_envios))
-        for x in (range(sheet_obj.max_row)):
+        cantidad = range(sheet_obj.max_row)
+        if cantidad > 200:
+            cantidad = 200 
+        for x in cantidad:
             total += 1
             n_row += 1
             if col_numero_envio:
