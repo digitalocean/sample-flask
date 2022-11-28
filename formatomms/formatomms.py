@@ -54,7 +54,7 @@ def subir_exel_formms():
                     col_fecha = contador
                 elif cab.lower() in ("numero de envio", "numero de envío", "nro de envio","order number"):
                     col_numero_envio = contador
-                elif cab.lower() in ("cliente","first Name (shipping)","comprador"):
+                elif cab.lower() in ("cliente","first Name (shipping)","comprador","quien recibe"):
                     col_cliente = contador
                 elif cab.lower() in ("direccion","address 1&2 (Shipping)"):
                     col_direccion = contador
