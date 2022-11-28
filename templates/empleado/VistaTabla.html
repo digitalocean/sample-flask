@@ -44,14 +44,13 @@
             <td>{{empleado.9}}</td>
             <td>{{empleado.10}}</td>
             <td>{{empleado.11}}</td>
-            <td>{{empleado.12}}</td>
-            {% if empleado.12 == None %}
+            {% if empleado.11 == None %}
             <form action="/empleado/baja" method="post">
                 <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{empleado.0}}">
                 <td><input type="submit" value="Dar de baja"></td>
             </form>
             {%endif%}
-            {%if empleado.12 != None %}
+            {%if empleado.11 != None %}
             <form action="/empleado/alta" method="post">
                 <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{empleado.0}}">
                 <td><input type="submit" value="Dar de alta"></td>
