@@ -3,7 +3,7 @@ from geopy.geocoders import GoogleV3 as api
 
 
 def geocoder(dir):
-    geolocator = api(user_agent="appmms", api_key="AIzaSyAL5RgvjJ6CwjnKgQXO921voodcystsUlQ")
+    geolocator = api(user_agent="appmms", api_key="AIzaSyAt-xZYW0smZUbe2xh95M06EqmYPfnZRYQ")
     location = geolocator.geocode(dir)
     return location.latitude, location.longitude
 
