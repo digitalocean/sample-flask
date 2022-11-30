@@ -128,6 +128,8 @@ def subir_exel_formms():
                     cp = 0
                 if session.get("user_auth") == "Cliente":
                     vendedor = session.get("user_id")
+                elif session.get("user_auth") == "Zippin":
+                    vendedor = str(sheet_obj.cell(row = n_row, column = col_vendedor).value)
                 estado = "Listo para retirar"
                 fecha = fecha[0:10].replace("/","-").replace("\\","")
                 tipo_envio = "e-commerce"

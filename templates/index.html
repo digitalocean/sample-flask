@@ -50,6 +50,8 @@
         {% if auth != "Chofer"%}
         <li><a href="/carga_formms">Subir Archivo</a></li>
         <li><a href="/upload">Subir Archivo ML</a></li>
+        {%endif%}
+        {% if auth != "Zippin" and auth != "Chofer" %}
         <li><a href="/carga_noml">Carga viaje NOML</a></li>
         {%endif%}
         {% if auth == "Cliente" %}

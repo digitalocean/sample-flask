@@ -3,7 +3,7 @@
 {% block content %}
 <br><br><br>
     <form class="" action="/{{url_post}}" method="POST" enctype="multipart/form-data">  
-    {% if auth != "Cliente" %}
+    {% if auth != "Cliente" and auth != "Zippin" %}
     <tr>
         <td>Vendedor</td>
         <td>
