@@ -24,7 +24,7 @@ def jsonPendientes():
     if request.method == "POST":
         estados = ""
         if "listaParaRetirar" in request.form.keys():
-            estados += " where estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar')"
+            estados += " where (Fecha = current_date() and estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar') and not Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola'))"
         if "enDeposito" in request.form.keys():
             if len(estados) < 5:
                 estados += " where estado_envio = 'Listo para salir (Sectorizado)' or lower(Zona) = '~en deposito'"
