@@ -147,7 +147,7 @@ def subir_exel_formms():
         print(actualizados)
         cabezera = ["Fecha","Numero de envio","Cliente","Numero de venta","Telefono","Direccion","Referencia","Localidad","cp","Vendedor"]
         midb.close()
-        return redirect("/misenvios")
+        return redirect("/")
 
     else:
         return render_template("CargaArchivo/carga_archivo.html",
