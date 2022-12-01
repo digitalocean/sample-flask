@@ -65,6 +65,6 @@ app.register_blueprint(mapa.mapaHS)
 @app.route("/")
 @auth.login_required
 def bienvenido():
-    return render_template("index.html", titulo="Bienvenido", auth = session.get("user_auth"), usuario = session.get("user_id"))
+    return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
 
