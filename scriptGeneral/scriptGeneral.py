@@ -1,3 +1,9 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+
 def correoChoferes(database):
   correoChoferes = {}
   cursor = database.cursor()
@@ -24,3 +30,25 @@ def quitarAcento(string):
     string = str(string).replace("ó","o")
     string = str(string).replace("ú","u")
     return string
+
+def enviar_correo(destinos,mensaje_asunto,ruta_adjunto,nombre_adjunto,cuerpo):
+    remitente = 'mmspackcheck.informes@gmail.com'
+    destinatarios = destinos
+    asunto = mensaje_asunto
+    mensaje = MIMEMultipart()
+    mensaje['From'] = remitente
+    mensaje['To'] = ", ".join(destinatarios)
+    mensaje['Subject'] = asunto
+    mensaje.attach(MIMEText(cuerpo, 'plain'))
+    archivo_adjunto = open(f"descargas/"+ruta_adjunto, 'rb')
+    adjunto_MIME = MIMEBase('application', 'octet-stream')
+    adjunto_MIME.set_payload((archivo_adjunto).read())
+    encoders.encode_base64(adjunto_MIME)
+    adjunto_MIME.add_header('Content-Disposition', "attachment; filename= %s" % nombre_adjunto)
+    mensaje.attach(adjunto_MIME)
+    sesion_smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    sesion_smtp.starttls()
+    sesion_smtp.login('mmspackcheck.informes@gmail.com','vhyrdmvmfpvdgyes')
+    texto = mensaje.as_string()
+    sesion_smtp.sendmail(remitente, destinatarios, texto)
+    sesion_smtp.quit()

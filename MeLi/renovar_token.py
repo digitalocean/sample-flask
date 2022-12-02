@@ -1,5 +1,6 @@
 import requests
 from database import database
+from scriptGeneral import scriptGeneral
 
 def actualizar_token(idUser):
     midb = database.connect_db()
@@ -33,4 +34,8 @@ def actualizar_token(idUser):
             midb.commit()
             midb.close()
             return True
-        return False
+        scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com"],
+                                    "Error en vinculacion",
+                                    None,
+                                    None,
+                                    f"Se produjo un error con la vinculacion del user_id {idUser}, se debe reenviar la solicitud!")
