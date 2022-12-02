@@ -17,7 +17,7 @@
         <p>Número de envío: {{nro_envio}}</p>
         <img src="https://www.mmspack.com.ar/images/logo1.svg" alt="Logo" id="codigoQR">
         <p>{{vendedor}}</p>
-        <img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{nro_envio}}' alt="Código QR" id="">
+        <img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={"id":"{{nro_envio}}","sender_id":{{vendedor}},"hash_code":"p/R/F6QWaRi3FGcWbbW775TiOYmkDXPuovLG/DVMoxA=","security_digit":"0"}' alt="Código QR" id="">
         <p>Comprador {{comprador}}</p>
         {%if telefono%}
         <p>Telefono {{telefono}}</p>
