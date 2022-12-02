@@ -54,15 +54,15 @@ def carga_noml():
         return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), clientes=scriptGeneral.consultar_clientes(midb))
 
 
-
-@NOML.route("/etiqueta/<envio>", methods = ["GET","POST"])
+@NOML.route("/etiqueta/", methods = ["GET","POST"])
 @auth.login_required
-def generar_etiqueta(envio):
+def generar_etiqueta_post():
+    envio = request.form.get("envio")
     midb = database.connect_db()
     cursor = midb.cursor()
     sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia from ViajesFlexs where Numero_envío = %s"
     values = (envio,)
-    cursor.execute(sql,values)
+    print(sql,values)
     resultado = cursor.fetchone()
     vendedor = resultado[0]
     comprador = resultado[1]
@@ -79,4 +79,4 @@ def generar_etiqueta(envio):
                         telefono = telefono,
                         direccion = direccion_concatenada,
                         referencia = referencia,
-                        cobrar = cobrar)
+                        cobrar = cobrar)                        

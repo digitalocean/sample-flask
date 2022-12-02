@@ -43,11 +43,14 @@ def vinculacion():
             except:
                 sql = f"delete from vinculacion where nickname = '{nickname}'"
                 cursor.execute(sql)
-                midb.commit()
+                print(midb.commit())
                 sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
                 cursor.execute(sql)
-                midb.commit()
-            sql = f"insert ignore into `Apodos y Clientes` (Apodo,sender_id) values('{nickname}',{user_id})"
+                print(midb.commit())
+            sql = f"""insert ignore into `Apodos y Clientes` (Apodo,sender_id) 
+                        values('{nickname}',{user_id}) 
+                        ON DUPLICATE KEY UPDATE    
+                        user_id={user_id}, Apodo = '{nickname};"""
             cursor.execute(sql)
             midb.commit()
             midb.close()
