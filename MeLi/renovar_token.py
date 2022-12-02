@@ -34,7 +34,7 @@ def actualizar_token(idUser):
             midb.commit()
             midb.close()
             return True
-        scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com"],
+        scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com","Sistemas@mmslogistica.com"],
                                     "Error en vinculacion",
                                     None,
                                     None,
