@@ -53,5 +53,3 @@ def enviar_correo(destinos,mensaje_asunto,ruta_adjunto,nombre_adjunto,cuerpo):
     texto = mensaje.as_string()
     sesion_smtp.sendmail(remitente, destinatarios, texto)
     sesion_smtp.quit()
-
-enviar_correo(["acciaiomatiassebastian@gmail.com"],"test",None,None,"este es un mensaje de")
