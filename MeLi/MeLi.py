@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 # encoding: utf-8
-
+from threading import Thread
 from database import database
 from flask import Blueprint, render_template, redirect, request
 import requests
@@ -47,10 +47,9 @@ def vinculacion():
                 sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
                 cursor.execute(sql)
                 print(midb.commit())
-            sql = f"""insert ignore into `Apodos y Clientes` (Apodo,sender_id) 
-                        values('{nickname}',{user_id}) 
-                        ON DUPLICATE KEY UPDATE    
-                        user_id={user_id}, Apodo = '{nickname};"""
+            sql = f"""insert ignore into `Apodos y Clientes` (Apodo,sender_id) values('{nickname}',{user_id}) """
+                        # ON DUPLICATE KEY UPDATE    
+                        # user_id={user_id}, Apodo = '{nickname};"""
             cursor.execute(sql)
             midb.commit()
             midb.close()
@@ -58,50 +57,54 @@ def vinculacion():
         return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
 
 
+def procesarNotificacion(data):
+    nros_envios = []
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select Numero_envío from ViajesFlexs")
+    envios = cursor.fetchall()
+    midb.close()
+    for x in envios:
+        nros_envios.append(str(x[0]))
+    resource = data.get("resource")
+    user_id = data.get("user_id")
+    topic = data.get("topic")
+    received = data.get("received")
+    attempts = data.get("attempts")
+    application_id = data.get("application_id")
+    sent = data.get("sent")
+    if str(topic) == "shipments":
+        nro_envio = (resource.split("/"))[2]
+        viaje = consultar_envio(nro_envio, user_id)
+        if viaje != None:
+            tipo_envio= viaje[1] 
+            direccion= viaje[2] 
+            localidad= viaje[3] 
+            referencia= str(viaje[4]).replace("'"," ")
+            estado = viaje[5]
+            if estado == "ready_to_ship":
+                estado = "Listo para Retirar"
+            comprador = viaje[6]
+            fecha_creacion = viaje[7]
+            nro_venta = viaje[8]
+            direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
+            if tipo_envio == "self_service" and str(nro_envio) not in nros_envios and estado == "Listo para Retirar":
+                midb = database.connect_db()
+                cursor = midb.cursor()
+                sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,apodoOcliente(apodo({user_id})),'{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
+                cursor.execute(sql)
+                midb.commit()
+                print(f"Envio: {nro_envio} Agregado")
+                nros_envios.append(x[0])
+            else:
+                print(f"Envio {nro_envio} descartado")
+                print(f"Tipo de envio: {tipo_envio}")
+                print(estado)
+
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
     data = request.get_json()
     if request.method == "POST":
-        nros_envios = []
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        cursor.execute("select Numero_envío from ViajesFlexs")
-        envios = cursor.fetchall()
-        midb.close()
-        for x in envios:
-            nros_envios.append(str(x[0]))
-        resource = data.get("resource")
-        user_id = data.get("user_id")
-        topic = data.get("topic")
-        received = data.get("received")
-        attempts = data.get("attempts")
-        application_id = data.get("application_id")
-        sent = data.get("sent")
-        if str(topic) == "shipments":
-            nro_envio = (resource.split("/"))[2]
-            viaje = consultar_envio(nro_envio, user_id)
-            if viaje != None:
-                tipo_envio= viaje[1] 
-                direccion= viaje[2] 
-                localidad= viaje[3] 
-                referencia= str(viaje[4]).replace("'"," ")
-                estado = viaje[5]
-                if estado == "ready_to_ship":
-                    estado = "Listo para Retirar"
-                comprador = viaje[6]
-                fecha_creacion = viaje[7]
-                nro_venta = viaje[8]
-                direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-                if tipo_envio == "self_service" and str(nro_envio) not in nros_envios and estado == "Listo para Retirar":
-                    midb = database.connect_db()
-                    cursor = midb.cursor()
-                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,apodoOcliente(apodo({user_id})),'{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
-                    cursor.execute(sql)
-                    midb.commit()
-                    print(f"Envio: {nro_envio} Agregado")
-                    nros_envios.append(x[0])
-                else:
-                    print(f"Envio {nro_envio} descartado")
-                    print(f"Tipo de envio: {tipo_envio}")
-                    print(estado)
-        return  "Json guardado en base de datos"
+        t = Thread(target=procesarNotificacion, args=(data,))
+        t.start()
+        return  "Recibido"
