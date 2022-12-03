@@ -37,16 +37,18 @@ def vinculacion():
             midb = database.connect_db()
             cursor = midb.cursor()    
             try:
-                sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
+                sql = f"""insert into vinculacion 
+                            (nickname,user_id,access_token,refresh_token) 
+                        values
+                            ('{nickname}','{user_id}','{access_token}','{refresh_token}')
+                        ON DUPLICATE KEY UPDATE    
+                            user_id={user_id}, nickname = '{nickname}',
+                            access_token = '{access_token}',refresh_token = '{refresh_token}';"""
+
                 cursor.execute(sql)
                 midb.commit()
-            except:
-                sql = f"delete from vinculacion where nickname = '{nickname}'"
-                cursor.execute(sql)
-                print(midb.commit())
-                sql = f"insert into vinculacion (nickname,user_id,access_token,refresh_token) values('{nickname}','{user_id}','{access_token}','{refresh_token}');"
-                cursor.execute(sql)
-                print(midb.commit())
+            except Exception as err:
+                informeErrores.reporte(err," /callbacks")
             sql = f"""insert ignore into `Apodos y Clientes` (Apodo,sender_id) values('{nickname}',{user_id})
                          ON DUPLICATE KEY UPDATE    
                          sender_id={user_id}, Apodo = '{nickname}';"""
