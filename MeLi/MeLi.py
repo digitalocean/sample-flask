@@ -65,6 +65,7 @@ def procesarNotificacion(data):
     cursor = midb.cursor()
     if len(enviosDic.keys()) < 2: sqlEnvios = "select Numero_envío,estado_envio from ViajesFlexs" 
     else: sqlEnvios = f"select Numero_envío,estado_envio from ViajesFlexs where not Numero_envío in {tuple(enviosDic.keys())};"
+    cursor.execute(sqlEnvios)
     envios = cursor.fetchall()
     midb.close()
     for x in envios:
