@@ -70,6 +70,7 @@ def procesarNotificacion(data):
     attempts = data.get("attempts")
     application_id = data.get("application_id")
     sent = data.get("sent")
+    print(topic)
     if str(topic) == "shipments":
         nro_envio = (resource.split("/"))[2]
         sqlEnvio = f"select Numero_envío,estado_envio from ViajesFlexs where Numero_envío = {nro_envio}" 
