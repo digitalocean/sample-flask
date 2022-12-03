@@ -58,16 +58,18 @@ def vinculacion():
                 
         return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
 
-
+enviosDic = {}
 def procesarNotificacion(data):
     nros_envios = []
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select Numero_envío from ViajesFlexs")
+    if len(enviosDic.keys()) < 2: sqlEnvios = "select Numero_envío,estado_envio from ViajesFlexs" 
+    else: sqlEnvios = f"select Numero_envío,estado_envio from ViajesFlexs where not Numero_envío in {tuple(enviosDic.keys())};"
     envios = cursor.fetchall()
     midb.close()
     for x in envios:
-        nros_envios.append(str(x[0]))
+        enviosDic[x[0]] = x[1]
+        print(x)
     resource = data.get("resource")
     user_id = data.get("user_id")
     topic = data.get("topic")

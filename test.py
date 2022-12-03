@@ -1,3 +1,15 @@
-from datetime import datetime,timedelta
-fecha = datetime(2022,11,30) + timedelta(days=1)
-print(fecha)
+import mysql.connector
+midb = mysql.connector.connect(
+            host = "109.106.251.113",
+            user="mmslogis_GS",
+            password="12345",
+            database="mmslogis_MMSPack"
+            )
+dic = {"111122333","41848503917"}
+tup = tuple(dic)
+print(tup)
+
+cursor = midb.cursor()
+cursor.execute(f"select * from ViajesFlexs where Numero_envío in {tup}")
+for x in cursor.fetchall():
+    print(x)
