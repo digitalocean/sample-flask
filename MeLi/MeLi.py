@@ -5,6 +5,7 @@ from threading import Thread
 from database import database
 from flask import Blueprint, render_template, redirect, request
 import requests
+from datetime import datetime
 
 from MeLi.consultar_envio import consultar_envio
 from informeErrores import informeErrores
@@ -58,19 +59,10 @@ def vinculacion():
                 
         return "Bienvenido a MMSPACK, La vinculacion se realizo correctamente"
 
-enviosDic = {}
 def procesarNotificacion(data):
-    nros_envios = []
+    inicio = datetime.now()
     midb = database.connect_db()
     cursor = midb.cursor()
-    if len(enviosDic.keys()) < 2: sqlEnvios = "select Numero_envío,estado_envio from ViajesFlexs" 
-    else: sqlEnvios = f"select Numero_envío,estado_envio from ViajesFlexs where not Numero_envío in {tuple(enviosDic.keys())};"
-    cursor.execute(sqlEnvios)
-    envios = cursor.fetchall()
-    midb.close()
-    for x in envios:
-        enviosDic[x[0]] = x[1]
-        print(x)
     resource = data.get("resource")
     user_id = data.get("user_id")
     topic = data.get("topic")
@@ -80,31 +72,50 @@ def procesarNotificacion(data):
     sent = data.get("sent")
     if str(topic) == "shipments":
         nro_envio = (resource.split("/"))[2]
+        sqlEnvio = f"select Numero_envío,estado_envio from ViajesFlexs where Numero_envío = {nro_envio}" 
+        cursor.execute(sqlEnvio)
+        resEnvio = cursor.fetchone()
+        midb.close()
         viaje = consultar_envio(nro_envio, user_id)
         if viaje != None:
-            tipo_envio= viaje[1] 
+            tipo_envio= viaje[1]
+            if tipo_envio == "self_service": tipo_envio = 2 
             direccion= viaje[2] 
             localidad= viaje[3] 
             referencia= str(viaje[4]).replace("'"," ")
             estado = viaje[5]
             if estado == "ready_to_ship":
                 estado = "Listo para Retirar"
+            elif estado == "delivered":
+                estado = "Entregado"
+            elif estado == "cancelled":
+                estado = "Cancelado"
             comprador = viaje[6]
             fecha_creacion = viaje[7]
             nro_venta = viaje[8]
             direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
-            if tipo_envio == "self_service" and str(nro_envio) not in nros_envios and estado == "Listo para Retirar":
-                midb = database.connect_db()
-                cursor = midb.cursor()
-                sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,apodoOcliente(apodo({user_id})),'{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
-                cursor.execute(sql)
-                midb.commit()
-                print(f"Envio: {nro_envio} Agregado")
-                nros_envios.append(x[0])
+            if resEnvio == None:
+                if tipo_envio == 2 and estado == "Listo para Retirar":
+                    midb = database.connect_db()
+                    cursor = midb.cursor()
+                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,apodoOcliente(apodo({user_id})),'{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
+                    cursor.execute(sql)
+                    midb.commit()
+                    print(f"Envio: {nro_envio} Agregado")
             else:
-                print(f"Envio {nro_envio} descartado")
-                print(f"Tipo de envio: {tipo_envio}")
-                print(estado)
+                estadoDb = resEnvio[1]
+                if tipo_envio == 2 and estado == "Cancelado" and estadoDb != estado:
+                    midb = database.connect_db()
+                    cursor = midb.cursor()
+                    sqlCancelado = f"update ViajesFlexs set estado_envio = 'Cancelado', Motivo = 'Venta cancelada' where Numero_envío = '{nro_envio}'"
+                    cursor.execute(sqlCancelado)
+                    midb.commit()
+                    print(f"Envio {nro_envio} cancelado")
+                else:
+                    print(f"Envio {nro_envio} descartado se encuentra {estado} y en nuestra db {estadoDb}")
+                    print(f"Tipo de envio: {tipo_envio}")
+    print(datetime.now() - inicio)
+
 
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
