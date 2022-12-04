@@ -31,15 +31,14 @@ def quitarAcento(string):
     string = str(string).replace("ú","u")
     return string
 
-def enviar_correo(destinos,mensaje_asunto,ruta_adjunto,nombre_adjunto,cuerpo):
+def enviar_correo(destinos,asunto,ruta_adjunto,nombre_adjunto,cuerpo):
     remitente = 'mmspackcheck.informes@gmail.com'
     destinatarios = destinos
-    asunto = mensaje_asunto
     mensaje = MIMEMultipart()
     mensaje['From'] = remitente
     mensaje['To'] = ", ".join(destinatarios)
     mensaje['Subject'] = asunto
-    mensaje.attach(MIMEText(cuerpo, 'plain'))
+    mensaje.attach(MIMEText(cuerpo, "html"))
     if ruta_adjunto != None or nombre_adjunto != None:
         archivo_adjunto = open(f"descargas/"+ruta_adjunto, 'rb')
         adjunto_MIME = MIMEBase('application', 'octet-stream')

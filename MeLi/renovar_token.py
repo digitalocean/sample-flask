@@ -34,8 +34,37 @@ def actualizar_token(idUser):
             midb.commit()
             midb.close()
             return True
-        scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com","Sistemas@mmslogistica.com"],
-                                    "Error en vinculacion",
-                                    None,
-                                    None,
-                                    f"Se produjo un error con la vinculacion del user_id {idUser}, se debe reenviar la solicitud!")
+        else:
+            cursor.execute("""
+                            select 
+                                    V.status,V.reported,V.nickname,C.correo_electronico from vinculacion as V 
+                            left join 
+                                Clientes as C 
+                            on 
+                                V.idCliente = C.idClientes 
+                            where 
+                                V.user_id = %s""",(idUser,))
+            resuEstado = cursor.fetchone()
+            status = resuEstado[0]
+            reported = resuEstado[1]
+            cuentaML = resuEstado[2]
+            correoCliente = resuEstado[3]
+            if status == "Correcto" and reported == "No":
+                cursor.execute("update vinculacion set status = 'Fallo' where user_id = %s",(idUser,))
+                midb.commit()
+                status = "Fallo"
+            if status == "Fallo" and reported == "No":
+                avisoCliente = "Se envio un correo automatico al cliente"
+                if correoCliente == None:
+                    avisoCliente = "se debe enviar la solicitud nuevamente"    
+                scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com","sistemas@mmslogistica.com"],
+                                            "Error en vinculacion",
+                                            None,
+                                            None,
+                                            f"Se produjo un error con la vinculacion de la cuenta {cuentaML}, {avisoCliente}")
+                scriptGeneral.enviar_correo([correoCliente],
+                                            "Accion necesaria",
+                                            None,None,
+                                            """Se produjo un error en la vinculación entre su cuenta de mercadolibre y MMS Pack, para restablecer la conexión ingrese al siguiente <a href='https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks'>enlase</a>""")
+                cursor.execute("update vinculacion set reported = 'Yes' where user_id = %s",(idUser,))
+                midb.commit()

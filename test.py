@@ -1,15 +1,5 @@
-import mysql.connector
-midb = mysql.connector.connect(
-            host = "109.106.251.113",
-            user="mmslogis_GS",
-            password="12345",
-            database="mmslogis_MMSPack"
-            )
-dic = {"111122333","41848503917"}
-tup = tuple(dic)
-print(tup)
+from scriptGeneral import scriptGeneral
 
-cursor = midb.cursor()
-cursor.execute(f"select * from ViajesFlexs where Numero_envío in {tup}")
-for x in cursor.fetchall():
-    print(x)
+scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com"],"Test html",None,None,"""
+        <a href='https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks'>enlace</a>
+""")
