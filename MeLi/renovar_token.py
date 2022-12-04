@@ -65,6 +65,6 @@ def actualizar_token(idUser):
                 scriptGeneral.enviar_correo([correoCliente],
                                             "Accion necesaria",
                                             None,None,
-                                            f"""Se produjo un error en la vinculación entre su cuenta de {cuentaML} mercadolibre y MMS Pack, para restablecer la conexión ingrese al siguiente <a href='https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks'>enlase</a>""")
+                                            f"""Se produjo un error en la vinculación entre su cuenta {cuentaML} de mercadolibre y MMS Pack, para restablecer la vinculacion ingrese al siguiente <a href='https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=4857198121733101&redirect_uri=https://whale-app-suwmc.ondigitalocean.app/callbacks'>enlase</a>""")
                 cursor.execute("update vinculacion set reported = 'Yes' where user_id = %s",(idUser,))
                 midb.commit()
