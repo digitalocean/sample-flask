@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime,timedelta
 def descargaLogixs(midatabase):
     contadorAgregados = 0
     contadorActualizadosLogixs = 0
@@ -21,7 +21,7 @@ def descargaLogixs(midatabase):
         dia = fecha_entrega[0:2]
         mes = fecha_entrega[3:5]
         year = fecha_entrega[6:10]
-        fecha_entrega = f"{year}-{mes}-{dia}"
+        fecha_entrega = datetime(int(year),int(mes),int(dia)) + timedelta(days=1)
         #si el envio del json se encuentra en DB
         if nroEnvio in dicNrosEnviosDB.keys():
             if estado == "Lista Para Retirar":
