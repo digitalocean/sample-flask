@@ -16,10 +16,6 @@ def consultar_envio(nro_envio,idUser):
     midb.close()
     if resultado != None:
         authorization = resultado[0]
-        # url = f"https://api.mercadolibre.com/shipments/{nro_envio}"
-        # payload = ""
-        # headers = {"Authorization": f"Bearer {authorization}"}
-        # response = requests.request("GET", url, data=payload, headers=headers)
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}"
         response =  requests.get(url)
         response_json = response.json()
@@ -39,7 +35,7 @@ def consultar_envio(nro_envio,idUser):
             estado = response_json["status"]
             return nro_envio, tipo_envio, direccion, localidad, referencia, estado, comprador, fecha_entrega,nro_venta
         else:
-            if actualizar_token(idUser) == True:
+            if actualizar_token(idUser):
                 print("Se actualizo el access token")
                 return consultar_envio(nro_envio,idUser)
             else:
