@@ -39,12 +39,12 @@ def vinculacion():
             cursor = midb.cursor()    
             try:
                 sql = f"""insert into vinculacion 
-                            (nickname,user_id,access_token,refresh_token) 
+                            (nickname,user_id,access_token,refresh_token,status,reported) 
                         values
-                            ('{nickname}','{user_id}','{access_token}','{refresh_token}')
+                            ('{nickname}',{user_id},'{access_token}','{refresh_token}','Correcto','No')
                         ON DUPLICATE KEY UPDATE    
                             user_id={user_id}, nickname = '{nickname}',
-                            access_token = '{access_token}',refresh_token = '{refresh_token}';"""
+                            access_token = '{access_token}',refresh_token = '{refresh_token}',status = 'Correcto' ,reported = 'No';"""
 
                 cursor.execute(sql)
                 midb.commit()
@@ -83,7 +83,7 @@ def procesarNotificacion(data):
             if tipo_envio == "self_service": tipo_envio = 2 
             direccion= viaje[2] 
             localidad= viaje[3] 
-            referencia= str(viaje[4]).replace("'"," ")
+            referencia= viaje[4]
             estado = viaje[5]
             if estado == "ready_to_ship":
                 estado = "Listo para Retirar"
@@ -99,8 +99,12 @@ def procesarNotificacion(data):
                 if tipo_envio == 2 and estado == "Listo para Retirar":
                     midb = database.connect_db()
                     cursor = midb.cursor()
-                    sql = f"insert into ViajesFlexs (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) values('{str(fecha_creacion)[0:10]}','{nro_envio}','{direccion}','{referencia}','{localidad}',2,apodoOcliente(apodo({user_id})),'{estado}','{comprador}','{nro_venta}','{direccion_concatenada}')"
-                    cursor.execute(sql)
+                    sql = """insert into ViajesFlexs 
+                                (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) 
+                            values
+                                (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
+                    values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,estado,comprador,nro_venta,direccion_concatenada)
+                    cursor.execute(sql,values)
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
             else:
