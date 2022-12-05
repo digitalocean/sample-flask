@@ -62,7 +62,7 @@ def generar_etiqueta_post():
     cursor = midb.cursor()
     sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia from ViajesFlexs where Numero_envío = %s"
     values = (envio,)
-    print(sql,values)
+    cursor.execute(sql,values)
     resultado = cursor.fetchone()
     vendedor = resultado[0]
     comprador = resultado[1]
