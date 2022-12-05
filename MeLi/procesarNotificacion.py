@@ -1,6 +1,7 @@
 from database import database
 from .consultar_envio import consultar_envio
 from .script import traducirEstado
+import requests
 def procesarNotificacion(data):
     resource = data.get("resource")
     user_id = data.get("user_id")
@@ -29,6 +30,16 @@ def procesarNotificacion(data):
             fecha_creacion = viaje[7]
             nro_venta = viaje[8]
             direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
+            if estado == "En Camino":
+                print("paquete En Camino")
+                midb = database.connect_db()
+                cursor = midb.cursor()
+                cursor.execute(f"select access_token from vinculacion where user_id = {user_id}")
+                access_token = cursor.fetchone()[0]
+                url = f"https://api.mercadolibre.com/ultron/public/sites/MLA/shipments/{nro_envio}/assignment?access_token={access_token}?Accept-version=v1"
+                response =  requests.get(url)
+                response_json = response.json()
+                print(response_json)
             if resEnvio == None:
                 if tipo_envio == 2 and estado == "Listo para Retirar":
                     midb = database.connect_db()

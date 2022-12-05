@@ -6,7 +6,7 @@ def traducirEstado(estado):
     elif estado == "ready_to_ship":
         estado = "Listo para Retirar"
     elif estado == "shipped":
-        estado = "Enviado"
+        estado = "En Camino"
     elif estado == "delivered":
         estado = "Entregado"
     elif estado == "not_delivered":
