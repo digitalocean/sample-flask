@@ -1,7 +1,8 @@
-from flask import Blueprint,render_template, request, session
+from flask import Blueprint,render_template,redirect, request, session
 from scriptGeneral import scriptGeneral
 from auth import auth
 from database import database
+from datetime import datetime
 import random
 NOML = Blueprint('NOML', __name__, url_prefix='/')
 
@@ -80,3 +81,15 @@ def generar_etiqueta_post():
                         direccion = direccion_concatenada,
                         referencia = referencia,
                         cobrar = cobrar)                        
+
+
+@NOML.route("/etiqueta/impresa", methods = ["GET","POST"])
+@auth.login_required
+def etiquetaImpresa():
+    envio = request.form.get("nroEnvio")
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(f"update ViajesFlexs set Observacion = 'Etiqueta impresa {str(datetime.now())[0:-10]}' where Numero_envío = '{envio}'")
+    midb.commit()
+    midb.close()
+    return redirect("/misenvios")

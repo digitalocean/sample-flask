@@ -9,10 +9,18 @@
             ventimp.document.close();
             ventimp.print( );
             ventimp.close();
+            $.ajax({
+                url:'/etiqueta/impresa',
+                type:'post',
+                data:$('#nEnvio').serialize()});
+                window.location.href = "/misenvios";
         }
     </script>
     <br><br><br>
     <p><input type="button" value="Imprimir" id="printButton" onclick="imprimir()"></p>
+    <form action="" method="post" id="nEnvio">
+    <input type="hidden" name="nroEnvio" value="{{nro_envio}}">
+    </form>
     <div id="printableArea" style="border: 1px solid #000000; height: 550px; width: 300px;">
         <p>Número de envío: {{nro_envio}}</p>
         <img src="https://www.mmspack.com.ar/images/logo1.svg" alt="Logo" id="codigoQR">
