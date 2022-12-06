@@ -36,8 +36,9 @@ def procesarNotificacion(data):
                 cursor = midb.cursor()
                 cursor.execute(f"select access_token from vinculacion where user_id = {user_id}")
                 access_token = cursor.fetchone()[0]
-                url = f"https://api.mercadolibre.com/ultron/public/sites/MLA/shipments/{nro_envio}/assignment?access_token={access_token}?Accept-version=v1"
-                response =  requests.get(url)
+                form_data = {'Authorization': f'Bearer {access_token}', 'Accept-version': 'v1'}
+                url = f"https://api.mercadolibre.com/ultron/public/sites/MLA/shipments/{nro_envio}/assignment"
+                response =  requests.get(url,headers=form_data)
                 response_json = response.json()
                 print(response_json)
             if resEnvio == None:
