@@ -31,7 +31,7 @@ def procesarNotificacion(data):
             nro_venta = viaje[8]
             direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
             if estado == "En Camino":
-                print("paquete En Camino")
+                print(f"envio {nro_envio} En Camino")
                 midb = database.connect_db()
                 cursor = midb.cursor()
                 cursor.execute(f"select access_token from vinculacion where user_id = {user_id}")
@@ -40,7 +40,10 @@ def procesarNotificacion(data):
                 url = f"https://api.mercadolibre.com/ultron/public/sites/MLA/shipments/{nro_envio}/assignment"
                 response =  requests.get(url,headers=form_data)
                 response_json = response.json()
-                print(response_json)
+                User_id = response_json.get("driver_id")
+                urlConsultaUsuario = f"https://api.mercadolibre.com/users/{User_id}"
+                response2 =  requests.get(urlConsultaUsuario)
+                print(response2.json().get("nickname"))
             if resEnvio == None:
                 if tipo_envio == 2 and estado == "Listo para Retirar":
                     midb = database.connect_db()
