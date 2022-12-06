@@ -40,19 +40,20 @@ def procesarNotificacion(data):
                 url = f"https://api.mercadolibre.com/ultron/public/sites/MLA/shipments/{nro_envio}/assignment"
                 response =  requests.get(url,headers=form_data)
                 response_json = response.json()
+                print(response_json)
                 User_id = response_json.get("driver_id")
                 urlConsultaUsuario = f"https://api.mercadolibre.com/users/{User_id}"
                 response2 =  requests.get(urlConsultaUsuario)
-                print(response2.json().get("nickname"))
+                print(response2)
             if resEnvio == None:
-                if tipo_envio == 2 and estado == "Listo para Retirar":
+                if tipo_envio == 2:
                     midb = database.connect_db()
                     cursor = midb.cursor()
                     sql = """insert into ViajesFlexs 
                                 (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) 
                             values
                                 (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
-                    values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,estado,comprador,nro_venta,direccion_concatenada)
+                    values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,"Listo para retirar",comprador,nro_venta,direccion_concatenada)
                     cursor.execute(sql,values)
                     midb.commit()
                     print(f"Envio: {nro_envio} Agregado")
