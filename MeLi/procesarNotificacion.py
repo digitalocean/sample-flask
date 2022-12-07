@@ -45,6 +45,10 @@ def procesarNotificacion(data):
                 urlConsultaUsuario = f"https://api.mercadolibre.com/users/{User_id}"
                 response2 =  requests.get(urlConsultaUsuario)
                 print(response2)
+                try:
+                    print(response2.get("driver_id"))
+                except:
+                    print(f"{nro_envio} no se pudo obterner el chofer")
             if resEnvio == None:
                 if tipo_envio == 2:
                     midb = database.connect_db()
