@@ -23,9 +23,9 @@ def pendientes():
                             auth = session.get("user_auth"))
 
         
-@hsList.route("/logistica/historial/<pagina>")
+@hsList.route("/logistica/historial/")
 @auth.login_required
-def historial(pagina):
+def historial():
     viajes =[]
     pagina = int(pagina)
     opcion = pagina-1
