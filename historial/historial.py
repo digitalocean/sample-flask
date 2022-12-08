@@ -3,6 +3,26 @@ from auth import auth
 from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
 
+@hsList.route("/logistica/pendientes/")
+@auth.login_required
+def pendientes():
+    viajes =[]
+    cabezeras = ["Fecha", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"]
+    sql = f"select V.Fecha, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(R.Scanner,S.Scanner) from ViajesFlexs as V inner join historial_estados2 as S on V.Numero_envío = S.Numero_envío inner join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Fuera de Zona','Lista Para Retirar','Listo Para Retirar','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Zona Peligrosa') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc "
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    for x in resultado:
+        viajes.append(x)
+    return render_template("logistica/pendientes.html", 
+                            titulo="pendientes", 
+                            viajes=viajes,
+                            columnas = cabezeras, 
+                            cant_columnas = len(cabezeras), 
+                            auth = session.get("user_auth"))
+
+        
 @hsList.route("/logistica/historial/<pagina>")
 @auth.login_required
 def historial(pagina):
@@ -17,29 +37,21 @@ def historial(pagina):
     cursor.execute(sql)
     resultado = cursor.fetchall()
     for x in resultado:
-        fecha = x[0]
-        hora = x[1]
-        id = x[2]
-        nenvio = x[3]
-        direccion = x[4]
-        vendedor = x[5]
-        localidad = x[6]
-        chofer = x[7]
-        estado = x[8]
-        motivo = x[9]
-        ubicacion = x[10]
-        correo = x[11]
-        foto = x[12]
-        precio = x[13]
-        costo = x[14]
-        paquete = [fecha,hora,id,nenvio,direccion,vendedor,localidad,chofer,estado,motivo,precio,costo,ubicacion,correo,foto]
-        viajes.append(paquete)
+        viajes.append(x)
     if pagina < 10: pagina = 8
     listaBotones = []
     for x in range(20):
         listaBotones.append(pagina-7)
         pagina = pagina + 1
-    return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=viajes,tablas=True,listaBotones = listaBotones,contador = 0, columnas = cabezeras, cant_columnas = len(cabezeras), auth = session.get("user_auth"),historial = True)
+    return render_template("logistica/VistaTabla.html", 
+                            titulo="Busqueda", 
+                            viajes=viajes,
+                            tablas=True,
+                            listaBotones = listaBotones,
+                            contador = 0, 
+                            columnas = cabezeras, 
+                            cant_columnas = len(cabezeras), 
+                            auth = session.get("user_auth"),historial = True)
 
     
 @hsList.route("/logistica/historial/anular/<id>")
