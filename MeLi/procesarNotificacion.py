@@ -44,7 +44,7 @@ def procesarNotificacion(data):
                 User_id = response_json.get("driver_id")
                 urlConsultaUsuario = f"https://api.mercadolibre.com/users/{User_id}"
                 response2 =  requests.get(urlConsultaUsuario)
-                print(response2)
+                print(response2.json())
                 try:
                     print(response2.get("driver_id"))
                 except:
