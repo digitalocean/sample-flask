@@ -8,16 +8,19 @@ hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
 def pendientes():
     viajes =[]
     cabezeras = ["Fecha", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"]
-    sql = f"select V.Fecha, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(R.Scanner,S.Scanner) from ViajesFlexs as V inner join historial_estados2 as S on V.Numero_envío = S.Numero_envío inner join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Fuera de Zona','Lista Para Retirar','Listo Para Retirar','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Zona Peligrosa') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc "
+    sql = f"select V.Fecha, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(R.Scanner,S.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Fuera de Zona','Lista Para Retirar','Listo Para Retirar','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Zona Peligrosa') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc, Chofer"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
     resultado = cursor.fetchall()
+    cant = 0
     for x in resultado:
+        cant += 1
         viajes.append(x)
     return render_template("logistica/pendientes.html", 
                             titulo="pendientes", 
                             viajes=viajes,
+                            cantidad = cant,
                             columnas = cabezeras, 
                             cant_columnas = len(cabezeras), 
                             auth = session.get("user_auth"))
@@ -31,7 +34,7 @@ def historial():
     opcion = pagina-1
     limiteMinimo = opcion*300
     cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","precio","Costo","Ubicacion estado","Modifico","Tiene Foto"]
-    sql = f"select Fecha, Hora, id, Numero_envío,Direccion_completa,vendedor(Vendedor),Localidad,Chofer,estado_envio,motivo_noenvio,Ubicacion_ultimoestado,Correo_chofer,Foto_domicilio,Precio,Costo from historial_estados where estado_envio != 'Listo para salir (Sectorizado)' order by id desc limit {limiteMinimo},300"
+    sql = f"select Fecha, Hora, id, Numero_envío,Direccion_completa,vendedor(Vendedor),Localidad,Chofer,estado_envio,motivo_noenvio,Ubicacion_ultimoestado,Correo_chofer,Foto_domicilio,Precio,Costo from historial_estados order by id desc limit {limiteMinimo},300"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
