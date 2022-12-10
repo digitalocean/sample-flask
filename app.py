@@ -55,6 +55,8 @@ from logistica import hojaRuta
 app.register_blueprint(hojaRuta.hojaRuta)
 from logistica import appChofer
 app.register_blueprint(appChofer.pd)
+from logistica import rutaChofer
+app.register_blueprint(rutaChofer.lgMR)
 
 #HISTORIAL
 from historial import historial
