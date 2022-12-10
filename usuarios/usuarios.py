@@ -126,7 +126,7 @@ def loginEmpleado():
     sql =f"""select 
             em.id,em.nombre,em.puesto,em.vehiculo,em.patente,
             em.correo,em.dni,em.cbu,em.telefono,em.direccion,
-            em.localidad,em.`password`, json_arrayagg(
+            em.`password`, json_arrayagg(
                 json_object(
                     "check",`vf`.`Check`,
                     "zona",`vf`.`Zona`,
