@@ -15,7 +15,7 @@ def consultaPendientes(sql):
         viajes.append(x)
     return viajes,cant
 
-@hsList.route("/logistica/pendientes",methods=["GET","POST"])
+@hsList.route("/logistica/pendientes/",methods=["GET","POST"])
 @auth.login_required
 def pendientes():
     cabezeras = ["Fecha", "Zona", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"] 
