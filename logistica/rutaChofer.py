@@ -54,7 +54,7 @@ def miRuta():
 
 
 @lgMR.route("/turuta/<chofer>")
-def miRuta(chofer):
+def tuRuta(chofer):
     repartoChofer = Reparto()
     midb = database.connect_db()
     cursor = midb.cursor()

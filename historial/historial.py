@@ -8,7 +8,7 @@ hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
 def pendientes():
     viajes =[]
     cabezeras = ["Fecha", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"]
-    sql = f"select V.Fecha, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(R.Scanner,S.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Fuera de Zona','Lista Para Retirar','Listo Para Retirar','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Zona Peligrosa') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc, Chofer"
+    sql = f"select V.Fecha, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(R.Scanner,S.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in ('Retirado','Listo para salir (Sectorizado)');"#('Cargado','En Camino','Fuera de Zona','Lista Para Retirar','Listo Para Retirar','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Zona Peligrosa') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc, Chofer"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
