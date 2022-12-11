@@ -63,10 +63,10 @@ def procesarNotificacion(data):
                     print(f"Envio: {nro_envio} Agregado")
             else:
                 estadoDb = resEnvio[1]
-                if tipo_envio == 2 and estado == "Cancelado" and estadoDb != estado:
+                if (tipo_envio == 2 and estado == "Cancelado" and estadoDb != estado) or (tipo_envio == 2 and estado == "Listo para retirar" and estadoDb == "No Vino"):
                     midb = database.connect_db()
                     cursor = midb.cursor()
-                    sqlCancelado = f"update ViajesFlexs set estado_envio = 'Cancelado', Motivo = 'Venta cancelada' where Numero_envío = '{nro_envio}'"
+                    sqlCancelado = f"update ViajesFlexs set estado_envio = '{estado}', Motivo = 'Venta cancelada' where Numero_envío = '{nro_envio}'"
                     cursor.execute(sqlCancelado)
                     midb.commit()
                     print(f"Envio {nro_envio} cancelado")

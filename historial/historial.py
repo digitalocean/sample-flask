@@ -3,12 +3,8 @@ from auth import auth
 from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
 
-@hsList.route("/logistica/pendientes/")
-@auth.login_required
-def pendientes():
+def consultaPendientes(sql):
     viajes =[]
-    cabezeras = ["Fecha", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"]
-    sql = f"select V.Fecha, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(R.Scanner,S.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in ('Retirado','Listo para salir (Sectorizado)');"#('Cargado','En Camino','Fuera de Zona','Lista Para Retirar','Listo Para Retirar','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Zona Peligrosa') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc, Chofer"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
@@ -17,13 +13,38 @@ def pendientes():
     for x in resultado:
         cant += 1
         viajes.append(x)
-    return render_template("logistica/pendientes.html", 
-                            titulo="pendientes", 
-                            viajes=viajes,
-                            cantidad = cant,
-                            columnas = cabezeras, 
-                            cant_columnas = len(cabezeras), 
-                            auth = session.get("user_auth"))
+    return viajes,cant
+
+@hsList.route("/logistica/pendientes",methods=["GET","POST"])
+@auth.login_required
+def pendientes():
+    cabezeras = ["Fecha", "Zona", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"] 
+    if request.method=="POST":
+        condicion = request.form.get("filtro")
+        if condicion == "retirado":
+            sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(ifnull(R.Scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Listo para salir (Sectorizado)','Retirado') order by V.Fecha desc, Chofer"
+        if condicion == "EnCamino":
+            sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(ifnull(R.Scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('En Camino','Reasignado') order by V.Fecha desc, Chofer"
+        if condicion == "NoEntregado":
+            sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(ifnull(R.Scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('No Entregado') and V.Ultimo_motivo != 'Cancelado' order by V.Fecha desc, Chofer"
+        viajes,cant = consultaPendientes(sqlPendientes)
+        return render_template("logistica/pendientes.html", 
+                                titulo="pendientes", 
+                                viajes=viajes,
+                                cantidad = cant,
+                                columnas = cabezeras, 
+                                cant_columnas = len(cabezeras), 
+                                auth = session.get("user_auth"))
+    else:
+        sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(ifnull(R.Scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join historial_estados2 as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado') and (V.Ultimo_motivo != 'Cancelado' or V.Ultimo_motivo is null) order by V.Fecha desc, Chofer"
+        viajes,cant = consultaPendientes(sqlPendientes)
+        return render_template("logistica/pendientes.html", 
+                                titulo="pendientes", 
+                                viajes=viajes,
+                                cantidad = cant,
+                                columnas = cabezeras, 
+                                cant_columnas = len(cabezeras), 
+                                auth = session.get("user_auth"))
 
         
 @hsList.route("/logistica/historial/")

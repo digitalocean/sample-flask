@@ -1,24 +1,6 @@
 {% extends "index.html" %}
 
 {% block content %}
-<script>
-    function confirmar(id){
-    if(confirm("¿Seguro?")){
-        // document.getElementById("fila"+id).outerHTML = "";
-        window.location.href = "/logistica/historial/anular/"+id;
-    }   
-}
-function imprimir() {
-	  var ficha = document.getElementById("printableArea");
-	  var ventimp = window.open(' ', 'popimpr');
-	  ventimp.document.write( ficha.innerHTML );
-	  ventimp.document.close();
-	  ventimp.print( );
-	  ventimp.close();
-	}
-</script>
-<input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
-<!-- <a href="javascript:void(0);" id="printButton">Print</a>   -->
 <div id="printableArea" class="table-responsive">
 <style>
     td{
@@ -27,6 +9,15 @@ function imprimir() {
         border-color: #afafaf;
     }
 </style>
+<br>
+<form action="/logistica/pendientes" method="post">
+<select name="filtro">
+    <option value="retirado">Retirado/Sectirizado</option>
+    <option value="EnCamino">En Camino</option>
+    <option value="NoEntregado">No Entregado</option>
+</select>
+<input type="submit" value="Filtrar">
+</form>
 <table style="width: 100%; margin-top: 30px;" class="table">
 
 
@@ -39,10 +30,7 @@ function imprimir() {
     </tr>
 
     {% for viaje in viajes %}
-        <tr id="fila{{viaje.2}}">
-            {% if historial %}
-                <td><input type="submit" value="Borrar" onclick="confirmar('{{viaje.2}}')"></td>
-            {% endif %}
+        <tr>
             <td>{{viaje.0}}</td>
             <td>{{viaje.1}}</td>
             <td>{{viaje.2}}</td>
@@ -51,10 +39,11 @@ function imprimir() {
             <td>{{viaje.5}}</td>
             <td>{{viaje.6}}</td>
             <td>{{viaje.7}}</td>
-            {% if viaje.8 != None %}
-            <td><img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{viaje.8}}' alt="Código QR" id=""></td>
-            {% else %}
+            <td>{{viaje.8}}</td>
+            {% if viaje.9 != None %}
             <td><img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{viaje.9}}' alt="Código QR" id=""></td>
+            {%else%}
+            <td>QR no disponible</td>
             {% endif %}
         </tr>
     {% endfor %}
