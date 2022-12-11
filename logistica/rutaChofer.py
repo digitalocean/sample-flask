@@ -50,3 +50,21 @@ def miRuta():
         repartoChofer.agregarDestino(destino)
     asignarCercano(repartoChofer,origen)
     return redirect("https://www.google.com/maps/dir/" + crearRuta(origen,"",0))
+
+
+
+@lgMR.route("/turuta/<chofer>")
+def miRuta(chofer):
+    repartoChofer = Reparto()
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(f"select Numero_envío,latitud,longitud,Direccion,Localidad from ViajesFlexs where Chofer = '{chofer}' and estado_envio in ('En Camino','Reasignado')")
+    resultado = cursor.fetchall()
+    midb.close()
+    origen = Destino("0","-34.608609", "-58.419144","av. Diaz Velez 3750", "Almagro")
+    repartoChofer.agregarDestino(origen)
+    for x in resultado:
+        destino = Destino(x[0],x[1],x[2],x[3],x[4])
+        repartoChofer.agregarDestino(destino)
+    asignarCercano(repartoChofer,origen)
+    return redirect("https://www.google.com/maps/dir/" + crearRuta(origen,"",0))
