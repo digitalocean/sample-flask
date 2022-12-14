@@ -13,11 +13,11 @@ def geolocalizarFaltantes(midatabase):
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
-            database.verificar_conexion(midatabase)
-            latlong = geocoder(x[2])
-            print(latlong)
-            sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
-            cursor.execute(sql)
-            midatabase.commit()
-        print(f"{len(resultado)} direcciones geolicalizadas")
-    else: print("No se encontraron direcciones sin coordenadas")
+            try:
+                database.verificar_conexion(midatabase)
+                latlong = geocoder(x[2])
+                sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
+                cursor.execute(sql)
+                midatabase.commit()
+            except Exception as err:
+                print(f"Error en {x[0]} al intentar geolocalizar \n {err}")
