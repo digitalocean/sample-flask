@@ -14,7 +14,7 @@ def procesarNotificacion(data):
         nro_envio = (resource.split("/"))[2]
         midb = database.connect_db()
         cursor = midb.cursor()
-        sqlEnvio = f"select Numero_envío,estado_envio from ViajesFlexs where Numero_envío = {nro_envio}" 
+        sqlEnvio = f"select Numero_envío,estado_envio from ViajesFlexs where Numero_envío = '{nro_envio}'" 
         cursor.execute(sqlEnvio)
         resEnvio = cursor.fetchone()
         midb.close()
