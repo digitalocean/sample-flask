@@ -1,7 +1,6 @@
 from database import database
 from .consultar_envio import consultar_envio
-from .consultarChofer import consultaChoferMeli
-from .script import traducirEstado
+from .script import traducirEstado,consultaChoferMeli
 import requests
 def procesarNotificacion(data):
     resource = data.get("resource")
