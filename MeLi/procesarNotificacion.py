@@ -46,7 +46,7 @@ def procesarNotificacion(data):
                 response2 =  requests.get(urlConsultaUsuario)
                 print(response2.json())
                 try:
-                    print(response2.get("driver_id"))
+                    print(response2.get("nickname"))
                 except:
                     print(f"{nro_envio} no se pudo obterner el chofer")
             if resEnvio == None:

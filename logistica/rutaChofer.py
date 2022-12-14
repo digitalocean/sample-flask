@@ -26,7 +26,7 @@ def asignarCercano(reparto,parada):
 
 def crearRuta(destino,stringRuta,contador):
     if contador < 25:
-        stringRuta += f"{destino.latitud}, {destino.longitud}/"
+        stringRuta += f"{destino.direccionCompleta}/"
     if destino.cercano != None:
         stringRuta = crearRuta(destino.cercano,stringRuta,contador+1)
     return stringRuta
