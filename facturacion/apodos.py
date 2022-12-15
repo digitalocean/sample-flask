@@ -26,7 +26,7 @@ def apodos():
         clientes = []
         cursor.execute("select nombre_cliente from Clientes")
         for x in cursor.fetchall():
-            clientes.append([x[0],x[1]])
+            clientes.append(x[0])
         apodos = []
         cursor.execute("select Apodo,Cliente from `Apodos y Clientes` order by Cliente")
         for x in cursor.fetchall():
