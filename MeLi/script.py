@@ -1,5 +1,12 @@
 from database import database
 import requests
+
+def consultaUsuarioMeLi(userId):
+    urlConsultaUsuario = f"https://api.mercadolibre.com/users/{userId}"
+    response2 =  requests.get(urlConsultaUsuario).json()
+    nickname = response2.get("nickname")
+    return response2
+
 def consultaChoferMeli(nro_envio,sender_id):
     midb = database.connect_db()
     cursor = midb.cursor()
@@ -12,6 +19,7 @@ def consultaChoferMeli(nro_envio,sender_id):
     response_json = response.json()
     userId = response_json.get("driver_id")
     response2 =  consultaUsuarioMeLi(userId)
+    print(response2)
     if "error" in response2.keys():
         pass
     else:
@@ -24,7 +32,7 @@ def consultaChoferMeli(nro_envio,sender_id):
         midb.commit()
         midb.close()
 
-
+consultaChoferMeli("41881623176",127021823)
 def consultaUsuarioMeLi(userId):
     urlConsultaUsuario = f"https://api.mercadolibre.com/users/{userId}"
     response2 =  requests.get(urlConsultaUsuario).json()

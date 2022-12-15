@@ -13,7 +13,6 @@ def apodos():
         apodo = request.form["apodo"]
         cliente = request.form["cliente"]
         sql = f"update `Apodos y Clientes` set Cliente = '{cliente}',id_cliente = (select idClientes from Clientes where nombre_cliente = '{cliente}') where Apodo = '{apodo}';"
-        # sql = f"update `Apodos y Clientes` set Cliente = '{cliente}' where Apodo = '{apodo}'"
         midb = database.connect_db()
         cursor = midb.cursor()
         cursor.execute(sql)
