@@ -31,9 +31,11 @@ def descargaLogixs(midatabase):
                 contadorActualizadosLogixs += 1
         #si el numero de envio del json no se encuentra en DB
         else:
+            vendedor = str(x['Nickname_Vend']).replace("'"," ")
+            if vendedor == "Lopezgas Online":
+                continue
             contadorAgregados +=1
             referencia = str(x['Comment']).replace("'"," ")
-            vendedor = str(x['Nickname_Vend']).replace("'"," ")
             comprador = str(x['Nombre_Destino']).replace("'"," ")
             direccion = str(x['Dir_Destino'])
             if "," in direccion:

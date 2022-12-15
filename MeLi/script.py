@@ -1,6 +1,28 @@
 from database import database
 import requests
 
+def agregarEnvio(viaje,nro_envio,user_id):
+    tipo_envio = viaje[1]
+    if tipo_envio == "self_service": tipo_envio = 2 
+    direccion = viaje[2] 
+    localidad = viaje[3] 
+    referencia = viaje[4]
+    estado = traducirEstado(viaje[5])
+    comprador = viaje[6]
+    fecha_creacion = viaje[7]
+    nro_venta = viaje[8]
+    direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    sql = """insert into ViajesFlexs 
+                (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) 
+            values
+                (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
+    values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,"Listo para retirar",comprador,nro_venta,direccion_concatenada)
+    cursor.execute(sql,values)
+    midb.commit()
+    print(f"Envio: {nro_envio} Agregado")
+
 def consultaUsuarioMeLi(userId):
     urlConsultaUsuario = f"https://api.mercadolibre.com/users/{userId}"
     response2 =  requests.get(urlConsultaUsuario).json()

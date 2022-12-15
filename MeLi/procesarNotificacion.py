@@ -31,18 +31,17 @@ def procesarNotificacion(data):
             nro_venta = viaje[8]
             direccion_concatenada = direccion + ", " + localidad + ", Buenos aires"
             if estado == "En Camino": consultaChoferMeli(nro_envio,user_id);
-            if resEnvio == None:
-                if tipo_envio == 2:
-                    midb = database.connect_db()
-                    cursor = midb.cursor()
-                    sql = """insert into ViajesFlexs 
-                                (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) 
-                            values
-                                (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
-                    values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,"Listo para retirar",comprador,nro_venta,direccion_concatenada)
-                    cursor.execute(sql,values)
-                    midb.commit()
-                    print(f"Envio: {nro_envio} Agregado")
+            if resEnvio == None and tipo_envio == 2:
+                midb = database.connect_db()
+                cursor = midb.cursor()
+                sql = """insert into ViajesFlexs 
+                            (Fecha, Numero_envío, Direccion, Referencia, Localidad, tipo_envio, Vendedor, estado_envio, comprador,nro_venta,Direccion_Completa) 
+                        values
+                            (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
+                values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,"Listo para retirar",comprador,nro_venta,direccion_concatenada)
+                cursor.execute(sql,values)
+                midb.commit()
+                print(f"Envio: {nro_envio} Agregado")
             else:
                 estadoDb = resEnvio[1]
                 if tipo_envio == 2 and estadoDb != estado and estado in ("Cancelado","Listo para retirar"):
