@@ -92,8 +92,8 @@ def retiroconfirmadoss():
     cursor = midb.cursor()
     levantadas = {}
     levantadas["flex a base ezeiza"] = 2000
-    levantadas["flex a base caba"] = 420
-    levantadas["flex a base zona 1"] = 820
+    levantadas["flex a base caba"] = 660
+    levantadas["flex a base zona 1"] = 1000
     fecha = request.form.get("fecha")
     precio = 0
     choferesAsignados = ""
