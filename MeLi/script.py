@@ -19,6 +19,7 @@ def agregarEnvio(viaje,nro_envio,user_id):
             values
                 (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
     values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,"Listo para retirar",comprador,nro_venta,direccion_concatenada)
+    print(values)
     cursor.execute(sql,values)
     midb.commit()
     print(f"Envio: {nro_envio} Agregado")

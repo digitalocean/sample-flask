@@ -55,7 +55,7 @@ def historial(pagina):
     opcion = pagina-1
     limiteMinimo = opcion*300
     cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","precio","Costo","Ubicacion estado","Modifico","Tiene Foto"]
-    sql = f"select Fecha, Hora, id, Numero_envío,Direccion_completa,vendedor(Vendedor),Localidad,Chofer,estado_envio,motivo_noenvio,Ubicacion_ultimoestado,Correo_chofer,Foto_domicilio,Precio,Costo from historial_estados order by id desc limit {limiteMinimo},300"
+    sql = f"select Fecha, Hora, id, Numero_envío,Direccion_completa,vendedor(Vendedor),Localidad,Chofer,estado_envio,motivo_noenvio,Precio,Costo,Ubicacion_ultimoestado,Correo_chofer,Foto_domicilio from historial_estados order by id desc limit {limiteMinimo},300"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
