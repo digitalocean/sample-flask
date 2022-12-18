@@ -19,7 +19,6 @@ def agregarEnvio(viaje,nro_envio,user_id):
             values
                 (%s,%s,%s,%s,%s,2,apodoOcliente(apodo(%s)),%s,%s,%s,%s)"""
     values = (fecha_creacion,nro_envio,direccion,referencia,localidad,user_id,"Listo para retirar",comprador,nro_venta,direccion_concatenada)
-    print(values)
     cursor.execute(sql,values)
     midb.commit()
     print(f"Envio: {nro_envio} Agregado")
@@ -49,13 +48,12 @@ def consultaChoferMeli(nro_envio,sender_id):
         nickname = response2.get("nickname")
         midb=database.connect_db()
         cursor = midb.cursor()
-        sql = "INSERT INTO `mmslogis_MMSPack`.`enCaminoMeLi`(`fecha`,`hora`,`Numero_envío`,`nickname`,userId)VALUES(current_date(),current_timestamp()-'03:00',%s,%s,%s);"
+        sql = "INSERT INTO `mmslogis_MMSPack`.`enCaminoMeLi`(`fecha`,`hora`,`Numero_envío`,`nickname`,userId)VALUES(current_date(),current_timestamp()-'03:00:00',%s,%s,%s);"
         values = (nro_envio,nickname,userId)
         cursor.execute(sql,values)
         midb.commit()
         midb.close()
 
-consultaChoferMeli("41881623176",127021823)
 def consultaUsuarioMeLi(userId):
     urlConsultaUsuario = f"https://api.mercadolibre.com/users/{userId}"
     response2 =  requests.get(urlConsultaUsuario).json()

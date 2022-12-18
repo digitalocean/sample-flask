@@ -105,24 +105,26 @@ def cambiarprecio():
                                 auth = session.get("user_auth"))
 
 
-@pr.route("/facturacion/cambioLocalidadZona",methods=["POST"])
+@pr.route("/facturacion/cambiolocalidadzona",methods=["POST"])
 @auth.login_required
 def cambioLocalidadZona():
-    tarifa = request.form["tarifa"]
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    cursor.execute(f"select L.localidad,Z.nombre from localidad as L inner join indicePrecio as IP on L.id = IP.id_localidad inner join zona as Z on IP.id_zona = Z.id where IP.id_tarifa = {tarifa};")
-    for x in cursor.fetchall():
-        if request.form[x[0]] != x[1]:
-            sql = f"update indicePrecio as IP inner join localidad as L on IP.id_localidad = L.id inner join zona as Z on L.localidad = Z.nombre set IP.id_zona = (select id from zona where nombre = '{request.form[x[0]]}') where IP.id_tarifa = {tarifa} and L.localidad = '{x[0]}'"
-            print(sql)
-            cursor.execute(sql)
-            midb.commit()
+    # tarifa = request.form["tarifa"]
+    for x in request.form.keys():
+        print(f"{x} : {request.form[x]}")
+    # midb = database.connect_db()
+    # cursor = midb.cursor()
+    # cursor.execute(f"select L.localidad,Z.nombre from localidad as L inner join indicePrecio as IP on L.id = IP.id_localidad inner join zona as Z on IP.id_zona = Z.id where IP.id_tarifa = {tarifa};")
+    # for x in cursor.fetchall():
+    #     if request.form[x[0]] != x[1]:
+    #         sql = f"update indicePrecio as IP inner join localidad as L on IP.id_localidad = L.id inner join zona as Z on L.localidad = Z.nombre set IP.id_zona = (select id from zona where nombre = '{request.form[x[0]]}') where IP.id_tarifa = {tarifa} and L.localidad = '{x[0]}'"
+    #         print(sql)
+    #         cursor.execute(sql)
+    #         midb.commit()
     return render_template("facturacion/tarifas.html",
-                            precios=obtenerPrecios(tarifa,midb),
-                            zonas = obtenerZonasId(midb),
-                            cant_columnas = 2,
-                            tarifa=tarifa,
-                            tarifas=obtenerIdTarifas(midb),
-                            localidades = obtenerZonas(tarifa,midb),
+                            # precios=obtenerPrecios(tarifa,midb),
+                            # zonas = obtenerZonasId(midb),
+                            # cant_columnas = 2,
+                            # tarifa=tarifa,
+                            # tarifas=obtenerIdTarifas(midb),
+                            # localidades = obtenerZonas(tarifa,midb),
                             auth = session.get("user_auth"))
