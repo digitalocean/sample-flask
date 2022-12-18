@@ -17,9 +17,9 @@
     }
 
     </style>
-<body><div class="containerlv">
+<body><br><br><br><br><div class="containerlv">
     
-    <br><br>
+    
     <div class="box1">
         <form action="/facturacion/verprecio" method="POST">
             Tarifa: <select name="tarifa">
@@ -75,7 +75,10 @@
                 </tr>
                 {%for localidad in localidades %}
                 <tr style="border: solid;">
-                    <form action="/facturacion/cambioLocalidadZona", method="POST">
+                    <form action="/facturacion/cambiolocalidadzona", method="POST">
+                        <input type="hidden" value="{{tarifa}}" name="tarifa">
+                        <input type="hidden" value="{{tarifa}}" name="{{localidad.0}}">
+                        <input type="hidden" value="{{tarifa}}" name="{{localidad.1}}">
                         <td>{{localidad.0}}</td>
                         <td>{{localidad.1}}</td>
                         <td><select name="{{localidad.0}}">
