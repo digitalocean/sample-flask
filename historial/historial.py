@@ -80,11 +80,11 @@ def historial(pagina):
     
 @hsList.route("/logistica/historial/anular/<id>")
 @auth.login_required
-@auth.admin_required
 def eliminarHistorial(id):
     midb=database.connect_db()
     cursor = midb.cursor()
-    sql = f"update historial_estados set estado_envio = 'anulado', motivo_noenvio = 'anulado' WHERE id = '{id}';"
+    sql = f"update historial_estados set estado_envio = concat((select estado_envio from historial_estados where id = {id}),'/anulado'), motivo_noenvio = concat((select motivo_noenvio from historial_estados where id = {id}),'/anulado') WHERE id = {id};"
+    print(sql)
     cursor.execute(sql)
     midb.commit()
     return redirect("/logistica/historial/1")
