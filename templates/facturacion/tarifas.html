@@ -77,14 +77,13 @@
                 <tr style="border: solid;">
                     <form action="/facturacion/cambiolocalidadzona", method="POST">
                         <input type="hidden" value="{{tarifa}}" name="tarifa">
-                        <input type="hidden" value="{{tarifa}}" name="{{localidad.0}}">
-                        <input type="hidden" value="{{tarifa}}" name="{{localidad.1}}">
+                        <input type="hidden" value="{{localidad.2}}" name="localidad">
                         <td>{{localidad.0}}</td>
                         <td>{{localidad.1}}</td>
-                        <td><select name="{{localidad.0}}">
+                        <td><select name="zona">
                             <option value="{{localidad.1}}">{{localidad.1}}</option>
                             {% for x in zonas %}
-                            <option value="{{x.1}}">{{x.1}}</option>
+                            <option value="{{x.0}}">{{x.1}}</option>
                             {%endfor%}
                         </select></td>
                         <td><input type="submit" name="" id=""></td></tr>

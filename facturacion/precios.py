@@ -1,8 +1,6 @@
 from database import database
 from auth import auth
-from flask import (
-    Blueprint, g, render_template, request, session,redirect
-)
+from flask import Blueprint, g, render_template, request, session
 from scriptGeneral import scriptGeneral
 pr = Blueprint('precios', __name__, url_prefix='/')
 
@@ -41,7 +39,7 @@ def obtenerPrecios(tarifa,db):
 
 def obtenerZonas(tarifa,db):
     cursor = db.cursor()
-    cursor.execute(f"select L.localidad,Z.nombre from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id union select localidad,'Sin asignar' from localidad where not id in (select L.id from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id)")
+    cursor.execute(f"select L.localidad,Z.nombre,L.id from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id union select localidad,'Sin asignar',id from localidad where not id in (select L.id from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id)")
     localidades = []
     for x in cursor.fetchall():
         localidades.append(x)
@@ -68,6 +66,7 @@ def consultarPrecio():
                                 zonas = obtenerZonasId(midb),
                                 precios=obtenerPrecios(tarifa,midb),
                                 cant_columnas = 2,
+                                clientes = obtenerTarifaPorCliente(midb),
                                 tarifa=tarifa,
                                 tarifas=obtenerIdTarifas(midb),
                                 auth = session.get("user_auth"))
@@ -84,6 +83,7 @@ def consultarPrecio():
 
 @pr.route('facturacion/cambioprecio/', methods=["POST","GET"])
 @auth.login_required
+@auth.admin_required
 def cambiarprecio():
     midb = database.connect_db()
     cursor = midb.cursor()
@@ -100,6 +100,7 @@ def cambiarprecio():
                                 zonas = obtenerZonasId(midb),
                                 cant_columnas = 2,
                                 tarifa=tarifa,
+                                clientes = obtenerTarifaPorCliente(midb),
                                 tarifas=obtenerIdTarifas(midb),
                                 localidades = obtenerZonas(tarifa,midb),
                                 auth = session.get("user_auth"))
@@ -107,24 +108,32 @@ def cambiarprecio():
 
 @pr.route("/facturacion/cambiolocalidadzona",methods=["POST"])
 @auth.login_required
+@auth.admin_required
 def cambioLocalidadZona():
-    # tarifa = request.form["tarifa"]
-    for x in request.form.keys():
-        print(f"{x} : {request.form[x]}")
-    # midb = database.connect_db()
-    # cursor = midb.cursor()
-    # cursor.execute(f"select L.localidad,Z.nombre from localidad as L inner join indicePrecio as IP on L.id = IP.id_localidad inner join zona as Z on IP.id_zona = Z.id where IP.id_tarifa = {tarifa};")
-    # for x in cursor.fetchall():
-    #     if request.form[x[0]] != x[1]:
-    #         sql = f"update indicePrecio as IP inner join localidad as L on IP.id_localidad = L.id inner join zona as Z on L.localidad = Z.nombre set IP.id_zona = (select id from zona where nombre = '{request.form[x[0]]}') where IP.id_tarifa = {tarifa} and L.localidad = '{x[0]}'"
-    #         print(sql)
-    #         cursor.execute(sql)
-    #         midb.commit()
+    idTarifa = request.form["tarifa"]
+    idLocalidad = request.form["localidad"]
+    idZona = request.form["zona"]
+    idTipoEnvio = 2
+    sql = """
+    insert ignore into indicePrecio 
+        (id,id_tarifa,id_localidad,id_tipoEnvio,id_zona)
+    values
+        (concat(%s,%s,%s),%s,%s,%s,%s) 
+    ON DUPLICATE KEY UPDATE    
+        id_tarifa = %s,id_localidad = %s,id_tipoEnvio = %s,id_zona = %s;"""
+
+    values = (idTarifa,idLocalidad,idTipoEnvio,idTarifa,idLocalidad,idTipoEnvio,idZona,idTarifa,idLocalidad,idTipoEnvio,idZona)
+
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
+    midb.commit()
     return render_template("facturacion/tarifas.html",
-                            # precios=obtenerPrecios(tarifa,midb),
-                            # zonas = obtenerZonasId(midb),
-                            # cant_columnas = 2,
-                            # tarifa=tarifa,
-                            # tarifas=obtenerIdTarifas(midb),
-                            # localidades = obtenerZonas(tarifa,midb),
+                            precios=obtenerPrecios(idTarifa,midb),
+                            zonas = obtenerZonasId(midb),
+                            cant_columnas = 2,
+                            clientes = obtenerTarifaPorCliente(midb),
+                            tarifa=idTarifa,
+                            tarifas=obtenerIdTarifas(midb),
+                            localidades = obtenerZonas(idTarifa,midb),
                             auth = session.get("user_auth"))
