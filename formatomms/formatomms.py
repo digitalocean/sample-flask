@@ -114,7 +114,6 @@ def subir_exel_formms():
                     direccion = ""
                 if "/" in str(direccion):
                     direccion = str(direccion.split("/"))[0]
-                print(direccion)
                 if col_referencia:
                     referencia = str(sheet_obj.cell(row = n_row, column = col_referencia).value)
                 else:
@@ -134,6 +133,9 @@ def subir_exel_formms():
                 fecha = fecha[0:10].replace("/","-").replace("\\","")
                 tipo_envio = "e-commerce"
                 direccion_concatenada = str(direccion) + ", " + str(localidad) + ", Buenos Aires Argentina"     
+                chars = '.,!"#$%&/()=?¡¿'
+                nro_envio = nro_envio.translate(str.maketrans('', '', chars))
+                print(nro_envio)
                 nros_envios.append(nro_envio.lower())
                 if str(estado).lower() != "no vino": 
                     midb = database.verificar_conexion(midb)

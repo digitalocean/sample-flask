@@ -71,3 +71,34 @@ def busqueda():
     for x in resultado:
         lista.append(x)
     return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=lista,cobra = cobra ,columnas = cabezeras, cant_columnas = len(cabezeras),contador = 0, historial = True, auth = session.get("user_auth"))
+
+@lg.route("/busquedaNumeroEnvio")
+@auth.login_required
+def busquedaNumeroEnvio():
+    busqueda = request.args.get("buscar")
+    sql = f"""select fecha,hora,Numero_envío,(select Direccion from ViajesFlexs where Numero_envío = "{busqueda}"),(select Localidad from ViajesFlexs where Numero_envío = "{busqueda}"),vendedor((select Vendedor  from ViajesFlexs where Numero_envío = "{busqueda}")) ,"Retirado" from retirado where Numero_envío = "{busqueda}"
+    union
+    select fecha,hora,Numero_envío,(select Direccion from ViajesFlexs where Numero_envío = "{busqueda}"),(select Localidad from ViajesFlexs where Numero_envío = "{busqueda}"),vendedor((select Vendedor  from ViajesFlexs where Numero_envío = "{busqueda}")) ,"Sectorizado" from sectorizado where Numero_envío = "{busqueda}"
+    union
+    select fecha,hora,Numero_envío,(select Direccion from ViajesFlexs where Numero_envío = "{busqueda}"),(select Localidad from ViajesFlexs where Numero_envío = "{busqueda}"),vendedor((select Vendedor  from ViajesFlexs where Numero_envío = "{busqueda}")) ,"En Camino" from en_camino where Numero_envío = "{busqueda}"
+    union
+    select Fecha,Hora,Numero_envío,(select Direccion from ViajesFlexs where Numero_envío = "{busqueda}"),(select Localidad from ViajesFlexs where Numero_envío = "{busqueda}"),vendedor((select Vendedor  from ViajesFlexs where Numero_envío = "{busqueda}")) ,estado_envio from historial_estados where Numero_envío = "{busqueda}";
+    """
+    print(sql)
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cabezeras = ["Fecha","Hora","Numero de envio","Direccion","Localidad","Vendedor","Estado"]
+    cursor.execute(sql)
+    resultado = cursor.fetchall()
+    print(resultado)
+    lista = []
+    print(len(resultado))
+    for x in resultado:
+        lista.append(x)
+    return render_template("logistica/VistaTabla.html", 
+                            titulo="Busqueda",
+                            viajes=lista,
+                            columnas = cabezeras,
+                            cant_columnas = len(cabezeras),
+                            contador = 0,
+                            auth = session.get("user_auth"))

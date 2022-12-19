@@ -66,8 +66,10 @@ function imprimir() {
             {% if historial %}
                 <td><input type="submit" value="Borrar" onclick="confirmar('{{viaje.2}}')"></td>
             {% endif %}
-            <td>{{viaje.0}}</td>
-            <td>{{viaje.1}}</td>
+            {% for x in viaje %}
+            <td>{{x}}</td>
+            {% endfor %}
+            <!-- <td>{{viaje.1}}</td>
             <td>{{viaje.2}}</td>
             <td>{{viaje.3}}</td>
             <td>{{viaje.4}}</td>
@@ -82,8 +84,8 @@ function imprimir() {
             <td>{{viaje.10}}</td>
             <td>{{viaje.11}}</td>
             <td>{{viaje.12}}</td>
-            {% endif %}
-            {% if viaje.13 %}
+            {% endif %} -->
+            <!-- {% if viaje.13 %}
             <td>{{viaje.13}}</td>
             {% endif %}
             {% if viaje.14 %}
@@ -91,7 +93,7 @@ function imprimir() {
             {% endif %}
             {% if viaje.15 %}
             <td>{{viaje.15}}</td>
-            {% endif %}
+            {% endif %} -->
         </tr>
     {% endfor %}
     </table>
