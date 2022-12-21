@@ -4,10 +4,21 @@ from auth import auth
 from database import database
 from .script import  geolocalizarFaltantes
 from descargaLogixs import descargaLogixs
-
+from .Envio import Envio
 lg = Blueprint('logistica', __name__, url_prefix='/')
 
 
+
+
+@lg.route("/test")
+def test():
+    envioTest = Envio("asd","nicaragua 1720","Canning","MMS")
+    print(envioTest.Direccion_Completa)
+    print(envioTest.Latitud)
+    print(envioTest.Zona)
+    # envioTest.toDB()
+    #envioTest.updateDB()
+    envioTest.toDB()
 
 @lg.route("/descargalogixs")
 @auth.login_required
@@ -90,9 +101,7 @@ def busquedaNumeroEnvio():
     cabezeras = ["Fecha","Hora","Numero de envio","Direccion","Localidad","Vendedor","Estado"]
     cursor.execute(sql)
     resultado = cursor.fetchall()
-    print(resultado)
     lista = []
-    print(len(resultado))
     for x in resultado:
         lista.append(x)
     return render_template("logistica/VistaTabla.html", 

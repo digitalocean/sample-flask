@@ -1,4 +1,5 @@
 import requests
+from logistica import Envio
 from datetime import datetime,timedelta
 def descargaLogixs(midatabase):
     contadorAgregados = 0
@@ -48,7 +49,9 @@ def descargaLogixs(midatabase):
             longitud = str(x['Lng']).replace("'"," ")
             referencia = str(referencia).replace("\n", " ")
             direccionCompleta = f"{direccion}, {localidad}, Buenos aires"
-            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}', '{estado}',2),"
+            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}', 'Lista Para Retirar',2),"
+            # viaje = Envio.Envio(nroEnvio,direccion,localidad,vendedor,comprador,fecha=fecha_entrega,telefono=telefono,referencia=referencia,cp=cp,latitud=latitud,longitud=longitud,tipoEnvio=2)
+            # viaje.toDB()
     if len(enviosLogixsNuevos) > 0:
         enviosLogixsNuevos = enviosLogixsNuevos[0:-1]
         sql_insert = f"INSERT IGNORE INTO ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, Direccion_Completa, Latitud, Longitud, estado_envio, tipo_envio) VALUES {enviosLogixsNuevos}"

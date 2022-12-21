@@ -3,6 +3,7 @@ from scriptGeneral import scriptGeneral
 from auth import auth
 from database import database
 from datetime import datetime
+from logistica import Envio
 import random
 NOML = Blueprint('NOML', __name__, url_prefix='/')
 
@@ -18,8 +19,7 @@ def carga_noml():
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
         telefono = request.form.get("telefono")
-        calle = request.form.get("calle")
-        altura = request.form.get("altura")
+        direccion = request.form.get("direccion")
         piso = request.form.get("piso")
         dpto = request.form.get("dpto")
         entre_calle1 = request.form.get("e/1")
@@ -27,19 +27,21 @@ def carga_noml():
         cp = request.form.get("cp")
         localidad = request.form.get("localidad")
         referencia = request.form.get("referencia")
-        referencia_completa = referencia + "\n" + "piso: " + piso + "\nDpto: "+dpto + "\ne/ " + entre_calle1 + " y " + entre_calle2
+        if piso != '':
+            referencia = referencia + f"\npiso: {piso}"
+        if dpto != '':
+            referencia = referencia + f"\nDpto: {dpto}"
+        if entre_calle1 != '' or entre_calle2 != '':
+            referencia = referencia + f"\ne/ {entre_calle1} y {entre_calle2}"
         if session.get("user_auth") == "Cliente":
             vendedor = session.get("user_id")
         else:
             vendedor = request.form.get("nombre_cliente")
-        direccion_concatenada = calle + " " + str(altura) + " " + localidad + ", Buenos Aires"
+        direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
         comprador = nombre + " " + apellido
         cobrar = request.form.get("cobrar")
-        cursor = midb.cursor()
-        sql = "insert into ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, estado_envio, Direccion_completa,Cobrar,tipo_envio) values(current_date(),%s,%s,%s,%s,%s,%s,%s,%s,'Listo Para Retirar',%s,%s,2)"
-        values = (nro_envio,comprador,telefono,calle + " " + altura, referencia_completa,localidad,cp,vendedor,direccion_concatenada,cobrar)
-        cursor.execute(sql,values)
-        midb.commit()
+        viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,comprador,telefono,referencia,cp,cobrar=cobrar)
+        viaje.toDB()
         return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 
                                 auth = session.get("user_auth"), 
@@ -47,8 +49,8 @@ def carga_noml():
                                 vendedor = vendedor,
                                 comprador = comprador,
                                 telefono = telefono,
-                                direccion = direccion_concatenada,
-                                dpt = piso + " " + dpto,
+                                direccion = f"{direccion}, {localidad}",
+                                referencia = referencia,
                                 cobrar = cobrar)
 
     else:

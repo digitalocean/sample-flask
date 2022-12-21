@@ -8,6 +8,7 @@ from auth import auth
 from database import database
 from informeErrores import informeErrores
 import openpyxl
+from logistica import Envio
 from scriptGeneral import scriptGeneral
 
 
@@ -129,19 +130,20 @@ def subir_exel_formms():
                     vendedor = session.get("user_id")
                 elif session.get("user_auth") == "Zippin":
                     vendedor = str(sheet_obj.cell(row = n_row, column = col_vendedor).value)
-                estado = "Listo para retirar"
+                # estado = "Listo para retirar"
                 fecha = fecha[0:10].replace("/","-").replace("\\","")
-                tipo_envio = "e-commerce"
-                direccion_concatenada = str(direccion) + ", " + str(localidad) + ", Buenos Aires Argentina"     
+                tipo_envio = 2
+                # direccion_concatenada = str(direccion) + ", " + str(localidad) + ", Buenos Aires Argentina"     
                 chars = '.,!"#$%&/()=?¡¿'
                 nro_envio = nro_envio.translate(str.maketrans('', '', chars))
-                print(nro_envio)
                 nros_envios.append(nro_envio.lower())
-                if str(estado).lower() != "no vino": 
-                    midb = database.verificar_conexion(midb)
-                    cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, comprador, telefono, Direccion, Referencia, Localidad, CP, Vendedor, tipo_envio, estado_envio, Direccion_Completa) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,estado,direccion_concatenada))
-                    midb.commit()
-                    flex_agregado += 1
+                # midb = database.verificar_conexion(midb)
+                # cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, comprador, telefono, Direccion, Referencia, Localidad, CP, Vendedor, tipo_envio, estado_envio, Direccion_Completa) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                #  (fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,estado,direccion_concatenada))
+                # midb.commit()
+                viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio)
+                viaje.toDB()
+                flex_agregado += 1
                     
                     
                 paquete = [fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,"listo para retirar"]

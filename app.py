@@ -21,8 +21,8 @@ from envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
 from MeLi import MeLi
 app.register_blueprint(MeLi.ML)
-from MeLi import upload_xlsx
-app.register_blueprint(upload_xlsx.upML)
+from uploadXLSX import formatoMeLi
+app.register_blueprint(formatoMeLi.upML)
 from NOML import NOML
 app.register_blueprint(NOML.NOML)
 from facturacion import flexs
@@ -37,7 +37,7 @@ from facturacion import apodos
 app.register_blueprint(apodos.ap)
 from estadistica import estadistica
 app.register_blueprint(estadistica.est)
-from formatomms import formatomms
+from uploadXLSX import formatomms
 app.register_blueprint(formatomms.formms)
 
 #EMPLEADO
