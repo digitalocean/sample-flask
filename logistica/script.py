@@ -9,21 +9,22 @@ def geocoder(dir):
 
 def geolocalizarFaltantes(midatabase):
     cursor = midatabase.cursor()
-    cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa from ViajesFlexs where latitud is null and Fecha >= current_date()-3")
+    cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa,Direccion,Localidad from ViajesFlexs where latitud is null and Fecha >= current_date()-3")
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
             try:
-                database.verificar_conexion(midatabase)
+                midatabase.verificar_conexion(midatabase)
                 latlong = geocoder(x[2])
                 sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
                 cursor.execute(sql)
                 midatabase.commit()
             except Exception as err:
+                print("error1")
                 database.verificar_conexion(midatabase)
                 cursor.execute("UPDATE ViajesFlexs SET Direccion_Completa = concat(concat(Direccion,', '),concat(Localidad,', Buenos Aires')) where Direccion_Completa is null and Numero_envío = Numero_envío")
-                database.commit()
-                latlong = geocoder(x[2])
+                midatabase.commit()
+                latlong = geocoder(f"{x[3]}, {x[4]}, Buenos Aires")
                 sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
                 try:
                     cursor.execute(sql)
