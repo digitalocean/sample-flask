@@ -20,4 +20,13 @@ def geolocalizarFaltantes(midatabase):
                 cursor.execute(sql)
                 midatabase.commit()
             except Exception as err:
-                print(f"Error en {x[0]} al intentar geolocalizar \n {err}")
+                database.verificar_conexion(midatabase)
+                cursor.execute("concat(concat(Direccion,', '),concat(Localidad,', Buenos Aires')) where Direccion_Completa is null and Numero_envío = Numero_envío")
+                database.commit()
+                latlong = geocoder(x[2])
+                sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
+                try:
+                    cursor.execute(sql)
+                    midatabase.commit()
+                except:
+                    print(f"Error en {x[0]} al intentar geolocalizar \n {err}")
