@@ -21,7 +21,7 @@ def geolocalizarFaltantes(midatabase):
                 midatabase.commit()
             except Exception as err:
                 database.verificar_conexion(midatabase)
-                cursor.execute("concat(concat(Direccion,', '),concat(Localidad,', Buenos Aires')) where Direccion_Completa is null and Numero_envío = Numero_envío")
+                cursor.execute("UPDATE ViajesFlexs SET Direccion_Completa = concat(concat(Direccion,', '),concat(Localidad,', Buenos Aires')) where Direccion_Completa is null and Numero_envío = Numero_envío")
                 database.commit()
                 latlong = geocoder(x[2])
                 sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
