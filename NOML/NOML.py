@@ -15,7 +15,13 @@ def carga_noml():
         if "nro_envio" in request.form.keys():
             nro_envio = request.form.get("nro_envio")
         else:
-            nro_envio = f"NoMl-{random.randint(1,9999999999)}"
+            cursor = midb.cursor()
+            cursor.execute("select count(*) from ViajesFlexs")
+            res = cursor.fetchone()
+            caracteres = len(str(res[0]))
+            agregar = 10 - caracteres
+            nro_envio = "NoMl-"+ "0"*agregar + str(res[0])
+            # nro_envio = f"NoMl-{random.randint(1,9999999999)}"
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
         telefono = request.form.get("telefono")
@@ -41,8 +47,8 @@ def carga_noml():
         comprador = nombre + " " + apellido
         cobrar = request.form.get("cobrar")
         viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,comprador,telefono,referencia,cp,cobrar=cobrar)
-        viaje.toDB()
-        return render_template("NOML/etiqueta.html",
+        if viaje.toDB():
+            return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 
                                 auth = session.get("user_auth"), 
                                 nro_envio=nro_envio, 
@@ -52,9 +58,18 @@ def carga_noml():
                                 direccion = f"{direccion}, {localidad}",
                                 referencia = referencia,
                                 cobrar = cobrar)
+        else:
+            return render_template("NOML/carga_noml.html",
+                                    mensaje_error="El numero de envio ya existe",
+                                    titulo="Carga", 
+                                    auth = session.get("user_auth"), 
+                                    clientes=scriptGeneral.consultar_clientes(midb))
 
     else:
-        return render_template("NOML/carga_noml.html",titulo="Carga", auth = session.get("user_auth"), clientes=scriptGeneral.consultar_clientes(midb))
+        return render_template("NOML/carga_noml.html",
+                                titulo="Carga",
+                                auth = session.get("user_auth"), 
+                                clientes=scriptGeneral.consultar_clientes(midb))
 
 
 @NOML.route("/etiqueta/", methods = ["GET","POST"])
