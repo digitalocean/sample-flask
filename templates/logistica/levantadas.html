@@ -114,6 +114,22 @@
                 </tr>
             </table>
         </form>
+        {% if retirosHoy %}
+        <div>
+            <table>
+                <tr>
+                    <td>Vendedor</td>
+                    <td>Cantidad</td>
+                </tr>
+                {% for retiro in retirosHoy %}
+                <tr>
+                    <td>{{retiro.0}}</td>
+                    <td>{{retiro.1}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -87,7 +87,15 @@ def busqueda():
     cobra = 0
     for x in resultado:
         lista.append(x)
-    return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=lista,cobra = cobra ,columnas = cabezeras, cant_columnas = len(cabezeras),contador = 0, historial = True, auth = session.get("user_auth"))
+    return render_template("logistica/VistaTabla.html", 
+                            titulo="Busqueda", 
+                            viajes=lista,
+                            cobra = cobra ,
+                            columnas = cabezeras, 
+                            cant_columnas = len(cabezeras),
+                            contador = 0, 
+                            historial = True, 
+                            auth = session.get("user_auth"))
 
 @lg.route("/busquedaNumeroEnvio")
 @auth.login_required
