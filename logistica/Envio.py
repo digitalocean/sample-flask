@@ -8,19 +8,19 @@ class Envio:
                 ultimoMotivo=None,recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,col1=None,col2=None):
         
 
-        self.Numero_envío = numeroEnvio
         midb = database.connect_db()
         cursor = midb.cursor()
         cursor.execute('''select "Listo para salir (Sectorizado)" from retirado where Numero_envío = %s 
                         union
                         select "Retirado" from retirado where Numero_envío = %s 
-                        ''',(self.Numero_envío,self.Numero_envío))
+                        ''',(numeroEnvio,numeroEnvio))
         estado = cursor.fetchone()
         if estado != None:
             self.estado_envio = estado[0]
         else:
             self.estado_envio = estadoEnvio
-
+        chars = '.,!"#$%&/()=?¡¿'
+        self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         if latitud == None or longitud == None:
             latlong = geocoder(direccionCompleta)

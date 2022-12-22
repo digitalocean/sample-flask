@@ -19,35 +19,12 @@ formms = Blueprint('formms', __name__, url_prefix='/')
 def subir_exel_formms():
     ahora = (datetime.today())
     if request.method == "POST":
-        try:
-            midb = database.connect_db()
-            cursor = midb.cursor()
-            nros_envios = []
-            midb = database.verificar_conexion(midb)
-            cursor.execute("select Numero_envío from ViajesFlexs")
-            for x in cursor:
-                nros_envios.append(str(x[0]).lower())
-        except:
-            print(u"Error al conectar DB!\n")
-    # try:
         archivo_xlsx = request.files["upload"]
         libro = openpyxl.load_workbook(archivo_xlsx)
         sheet_obj = libro.active 
         cant_columnas = 14
         contador = 0
-    # except:
-        # print(u"\nerror en la lectura del archivo\n")
         try:
-            # Numero_envío = Order Number
-            # nro_venta = Order Number
-            # comprador = First Name (Shipping) +	Last Name (Shipping)
-            # Telefono = Phone (Billing)
-            # Direccion = Address 1&2 (Shipping)
-            # Referencia = Customer Note
-            # Localidad = City (Shipping)
-            # CP = Postcode (Shipping)
-            # Cobrar = Order Total Amount
-            # Reprogramaciones = 0
             for x in range(cant_columnas):
                 contador += 1
                 cab = str(sheet_obj.cell(row = 1, column = contador).value)
@@ -77,9 +54,6 @@ def subir_exel_formms():
         total = 0
         omitido = 0
         flex_agregado = 0
-        blanco = 0
-        lista_viajes = []
-        actualizados = 0
         cantidad = range(sheet_obj.max_row)
         contadorCantidad = 0
         for fila in cantidad:
@@ -95,63 +69,57 @@ def subir_exel_formms():
                 nro_envio = str(sheet_obj.cell(row = n_row, column = col_numero_envio).value)
             else:
                 nro_envio = ""
-            if str(nro_envio).lower() in nros_envios or str(nro_envio) == "" or nro_envio == None:
-                omitido += 1
+            if nro_envio == str(None) or nro_envio == "":
+                continue
+            fecha = str(ahora)[0:10]
+            if col_fecha:
+                fecha = str(sheet_obj.cell(row = n_row, column = col_fecha).value)
+            if col_cliente:
+                cliente = str(sheet_obj.cell(row = n_row, column = col_cliente).value)
             else:
-                fecha = str(ahora)[0:10]
-                if col_fecha:
-                    fecha = str(sheet_obj.cell(row = n_row, column = col_fecha).value)
-                if col_cliente:
-                    cliente = str(sheet_obj.cell(row = n_row, column = col_cliente).value)
-                else:
-                    cliente = ""
-                if col_telefono:    
-                    telefono = str(sheet_obj.cell(row = n_row, column = col_telefono).value)
-                else:
-                    telefono = None
-                if col_direccion: 
-                    direccion = str(sheet_obj.cell(row = n_row, column = col_direccion).value)
-                else:
-                    direccion = ""
-                if "/" in str(direccion):
-                    direccion = str(direccion.split("/"))[0]
-                if col_referencia:
-                    referencia = str(sheet_obj.cell(row = n_row, column = col_referencia).value)
-                else:
-                    referencia = ""
-                if col_localidad: localidad = str(sheet_obj.cell(row = n_row, column = col_localidad).value)
-                if col_cp:
-                    cp = str(sheet_obj.cell(row = n_row, column = col_cp).value)
-                else:
-                    cp = 0
-                if cp == "":
-                    cp = 0
-                if session.get("user_auth") == "Cliente":
-                    vendedor = session.get("user_id")
-                elif session.get("user_auth") == "Zippin":
-                    vendedor = str(sheet_obj.cell(row = n_row, column = col_vendedor).value)
-                # estado = "Listo para retirar"
-                fecha = fecha[0:10].replace("/","-").replace("\\","")
-                tipo_envio = 2
-                # direccion_concatenada = str(direccion) + ", " + str(localidad) + ", Buenos Aires Argentina"     
-                chars = '.,!"#$%&/()=?¡¿'
-                nro_envio = nro_envio.translate(str.maketrans('', '', chars))
-                nros_envios.append(nro_envio.lower())
-                # midb = database.verificar_conexion(midb)
-                # cursor.execute("insert into ViajesFlexs (Fecha, Numero_envío, comprador, telefono, Direccion, Referencia, Localidad, CP, Vendedor, tipo_envio, estado_envio, Direccion_Completa) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                #  (fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,estado,direccion_concatenada))
-                # midb.commit()
-                viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio)
-                viaje.toDB()
-                flex_agregado += 1
-                    
-                    
-                paquete = [fecha,nro_envio,cliente,telefono,direccion,referencia,localidad,cp,vendedor,tipo_envio,"listo para retirar"]
-                lista_viajes.append(paquete)
-        print(actualizados)
-        cabezera = ["Fecha","Numero de envio","Cliente","Numero de venta","Telefono","Direccion","Referencia","Localidad","cp","Vendedor"]
-        midb.close()
-        return redirect("/")
+                cliente = ""
+            if col_telefono:    
+                telefono = str(sheet_obj.cell(row = n_row, column = col_telefono).value)
+            else:
+                telefono = None
+            if col_direccion: 
+                direccion = str(sheet_obj.cell(row = n_row, column = col_direccion).value)
+            else:
+                direccion = ""
+            if "/" in str(direccion):
+                direccion = str(direccion.split("/"))[0]
+            if col_referencia:
+                referencia = str(sheet_obj.cell(row = n_row, column = col_referencia).value)
+            else:
+                referencia = ""
+            if col_localidad: localidad = str(sheet_obj.cell(row = n_row, column = col_localidad).value)
+            if col_cp:
+                cp = str(sheet_obj.cell(row = n_row, column = col_cp).value)
+            else:
+                cp = 0
+            if cp == "":
+                cp = 0
+            if session.get("user_auth") == "Cliente":
+                vendedor = session.get("user_id")
+            elif session.get("user_auth") == "Zippin":
+                vendedor = str(sheet_obj.cell(row = n_row, column = col_vendedor).value)
+            else:
+                vendedor = request.form.get("nombre_cliente")
+            
+            fecha = fecha[0:10].replace("/","-").replace("\\","")
+            tipo_envio = 2
+            viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio)
+            if viaje.toDB():flex_agregado += 1 
+            else: omitido+=1
+            print(viaje.Numero_envío)
+        print(f"agregados {flex_agregado}")
+        print(f"omitidos {omitido}")
+        return render_template("CargaArchivo/data.html",
+                                titulo="Carga", 
+                                analizados=total, 
+                                agregados=flex_agregado, 
+                                repetido=omitido, 
+                                auth = session.get("user_auth"))
 
     else:
         return render_template("CargaArchivo/carga_archivo.html",
