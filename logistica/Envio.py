@@ -1,27 +1,38 @@
 from datetime import datetime
 from database import database
-from geopy.geocoders import GoogleV3 as api
-def geocoder(dir):
-    geolocator = api(user_agent="appmms", api_key="AIzaSyD3CqHvT0eiesSF0kuzId-bNHfsw7RChXg")
-    location = geolocator.geocode(dir)
-    return location.latitude, location.longitude
-
+import mysql.connector
+from .script import geocoder
 class Envio:
     def __init__(self,numeroEnvio,direccion,localidad,vendedor,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=None,latitud=None,longitud=None,correoChofer=None,
                 ultimoMotivo=None,recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,col1=None,col2=None):
+        
+
+        self.Numero_envío = numeroEnvio
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute('''select "Listo para salir (Sectorizado)" from retirado where Numero_envío = %s 
+                        union
+                        select "Retirado" from retirado where Numero_envío = %s 
+                        ''',(self.Numero_envío,self.Numero_envío))
+        estado = cursor.fetchone()
+        if estado != None:
+            self.estado_envio = estado[0]
+        else:
+            self.estado_envio = estadoEnvio
+
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
-        if latitud == None and longitud == None:
+        if latitud == None or longitud == None:
             latlong = geocoder(direccionCompleta)
             self.Latitud = latlong[0]
             self.Longitud = latlong[1]
         else:
             self.Latitud = latitud
             self.Longitud = longitud
+
         self.Check = None
         self.Zona = None
         self.Fecha = fecha
-        self.Numero_envío = numeroEnvio
         self.nro_venta = numeroVenta
         self.comprador = comprador
         self.Telefono = telefono
@@ -36,12 +47,10 @@ class Envio:
         self.Motivo = motivo
         self.Direccion_Completa = direccionCompleta 
         self.Currentlocation = None
-        self.Timechangestamp = None
-        
+        self.Timechangestamp = None        
         self.Precio_Cliente = precio
         self.Precio_Chofer = costo
         self.Scanner = scanner
-        self.estado_envio = estadoEnvio
         self.Foto_domicilio = fotoDomicilio
         self.Firma_Entregado = None
         self.tipo_envio = tipoEnvio
@@ -57,7 +66,8 @@ class Envio:
     def toDB(self):
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = """insert ignore into ViajesFlexs (`Check`,Zona,Fecha,Numero_envío,nro_venta,comprador,Telefono,
+        
+        sql = """insert into ViajesFlexs (`Check`,Zona,Fecha,Numero_envío,nro_venta,comprador,Telefono,
             Direccion,Referencia,Localidad,capital,CP,Vendedor,Chofer,Observacion,Motivo,Direccion_Completa,Currentlocation,
             Timechangestamp,Latitud,Longitud,Precio_Cliente,Precio_Chofer,Scanner,estado_envio,Foto_domicilio,Firma_Entregado,
             tipo_envio,Correo_chofer,Ultimo_motivo,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`Columna 1`,`Columna 2`)
@@ -69,9 +79,13 @@ class Envio:
                     self.Precio_Chofer,self.Scanner,self.estado_envio,self.Foto_domicilio,self.Firma_Entregado,
                     self.tipo_envio,self.Correo_chofer,self.Ultimo_motivo,self.Recibe_otro,self.Foto_dni,self.Cobrar,
                     self.Reprogramaciones,self.Columna1,self.Columna2)
-        cursor.execute(sql,values)
-        midb.commit()
-        midb.close()
+        try:
+            cursor.execute(sql,values)
+            midb.commit()
+            midb.close()
+            return True
+        except mysql.connector.errors.IntegrityError:
+            return False
 
 
     def updateDB(self):

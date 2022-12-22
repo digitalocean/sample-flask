@@ -76,7 +76,13 @@ def busqueda():
         lista = (resultado,)
         mjstbla = "No se registro historial de este envio"
         cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor","Estado","Motivo","Ultimo motivo"]
-        return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=lista ,columnas = cabezeras, cant_columnas = len(cabezeras), mensaje_tabla = mjstbla, auth = session.get("user_auth"))
+        return render_template("logistica/VistaTabla.html", 
+                                titulo="Busqueda", 
+                                viajes=lista ,
+                                columnas = cabezeras, 
+                                cant_columnas = len(cabezeras), 
+                                mensaje_tabla = mjstbla, 
+                                auth = session.get("user_auth"))
     lista = []
     cobra = 0
     for x in resultado:
