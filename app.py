@@ -77,14 +77,14 @@ from database.database import connect_db
 
 
 scheduler = BackgroundScheduler()
-@scheduler.scheduled_job('cron',minute="*/10", hour="09-17")
+@scheduler.scheduled_job('cron',minute="*/1", hour="09-17")
 def background_task():
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("select Numero_envío from ViajesFlexs")
+    cursor.execute("select Numero_envío,estado_envio from ViajesFlexs")
     nrosEnvios = {}
     for env in cursor.fetchall():
-        nrosEnvios[env[0]] = True
+        nrosEnvios[env[0]] = env[1]
     descargaLogixs(midb,nrosEnvios)
     midb.close()
     cargaCamargo(nrosEnvios)

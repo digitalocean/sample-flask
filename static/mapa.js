@@ -13,7 +13,6 @@ var globales = {
 
 
 function initMap() {
-  actualizarViajes()
   globales.markers = []
   const mapOptions = {
     zoom: 10,
@@ -332,7 +331,16 @@ function getPinIcon(zona,est){
     icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + getPinColor(est))
     return(icon)
   }
-  
+  // Rojo: #FF0000
+  // Verde: #00FF00
+  // Azul: #0000FF
+  // Amarillo: #FFFF00
+  // Naranja: #FFA500
+  // Morado: #800080
+  // Rosa: #FF00FF
+  // Marrón: #A52A2A
+  // Gris: #808080
+  // Verde claro: #00FF7F
   var zn = zona.charAt(3)
   switch (zn) {
     case "1":
