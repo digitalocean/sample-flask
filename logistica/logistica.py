@@ -3,37 +3,24 @@ from flask import Blueprint, redirect, render_template, request, session
 from auth import auth
 from database import database
 from .script import  geolocalizarFaltantes
-from descargaLogixs import descargaLogixs
+from descargaLogixs import descargaLogixs,downloadSpreedSheets
 from .Envio import Envio
 lg = Blueprint('logistica', __name__, url_prefix='/')
-
-
-
-
-@lg.route("/test")
-def test():
-    envioTest = Envio("asd","nicaragua 1720","Canning","MMS")
-    print(envioTest.Direccion_Completa)
-    print(envioTest.Latitud)
-    print(envioTest.Zona)
-    # envioTest.toDB()
-    #envioTest.updateDB()
-    envioTest.toDB()
 
 @lg.route("/descargalogixs")
 @auth.login_required
 def descargaLogixsBoton():
-    tiempoinicio = datetime.now()
     midb = database.connect_db()
-    descargaLogixs.descargaLogixs(midb)
-    finDescargaLogixs = datetime.now()
-    print(f"Tiempo de actualizacion desde logixs: {finDescargaLogixs - tiempoinicio}")
+    cursor = midb.cursor()
+    cursor.execute("select Numero_envío,estado_envio from ViajesFlexs")
+    nrosEnvios = {}
+    for env in cursor.fetchall():
+        nrosEnvios[env[0]] = env[1]
+    descargaLogixs.descargaLogixs(midb,nrosEnvios)
     geolocalizarFaltantes(midb)
     midb.close()
-    tiempofinal = datetime.now()
-    print(f"Tiempo de geolocalizacion: {tiempofinal - finDescargaLogixs}")
-    duracion = tiempofinal - tiempoinicio
-    print(f"Tiempo total: {duracion}")
+    downloadSpreedSheets.cargaCamargo(nrosEnvios)
+    downloadSpreedSheets.cargaformatoMMS(nrosEnvios)
     return redirect ("logistica/vistamapa")
 
 
