@@ -70,3 +70,24 @@ def bienvenido():
     return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
 
+from apscheduler.schedulers.background import BackgroundScheduler
+from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS
+from descargaLogixs.descargaLogixs import descargaLogixs
+from database.database import connect_db
+
+
+scheduler = BackgroundScheduler()
+@scheduler.scheduled_job('cron',minute="*/10", hour="09-17")
+def background_task():
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select Numero_envío from ViajesFlexs")
+    nrosEnvios = {}
+    for env in cursor.fetchall():
+        nrosEnvios[env[0]] = True
+    descargaLogixs(midb,nrosEnvios)
+    midb.close()
+    cargaCamargo(nrosEnvios)
+    cargaformatoMMS(nrosEnvios)
+
+scheduler.start()

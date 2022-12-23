@@ -1,20 +1,15 @@
 import requests
 from logistica import Envio
 from datetime import datetime,timedelta
-def descargaLogixs(midatabase):
+def descargaLogixs(midatabase,dicNrosEnviosDB):
     contadorAgregados = 0
     contadorActualizadosLogixs = 0
     enviosLogixsNuevos = ""
     enviosLogixs = ""
-    dicNrosEnviosDB = {}
     cursor = midatabase.cursor()
-    cursor.execute("select Numero_envío,estado_envio from ViajesFlexs")
-    for x in cursor.fetchall():
-        dicNrosEnviosDB[str(x[0])]=str(x[1])
     url = "https://logixs.com.ar/mms/envioflex/JsonPosicionesPendientesDeRetiro?id_envio=0"
     r = requests.get(url)
     jsonData = r.json()
-    
     for x in jsonData:
         nroEnvio = x['id_paquete']
         estado = str(x['Estado']).replace("'"," ")
