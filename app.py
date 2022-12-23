@@ -77,7 +77,7 @@ from database.database import connect_db
 
 
 scheduler = BackgroundScheduler()
-@scheduler.scheduled_job('cron',minute="*/1", hour="09-17")
+@scheduler.scheduled_job('cron',minute="*/10", hour="12-20")
 def background_task():
     midb = connect_db()
     cursor = midb.cursor()
