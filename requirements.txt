@@ -1,3 +1,4 @@
+APScheduler==3.9.1.post1
 click==7.1.2
 Flask==1.1.2
 Flask-Cors==3.0.10
