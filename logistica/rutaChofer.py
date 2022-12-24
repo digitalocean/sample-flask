@@ -1,7 +1,8 @@
 from flask import Blueprint,redirect,session
 from auth import auth
 from geopy.distance import geodesic
-from .clases import *
+from .Reparto import Reparto
+from .Destino import Destino
 from database import database
 
 lgMR = Blueprint('RutaChofer', __name__, url_prefix='/')

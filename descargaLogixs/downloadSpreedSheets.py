@@ -10,6 +10,9 @@ def cargaCamargo(nrosEnvios):
     envios = wks.get(f"A2:I{wks.row_count}")
     for x in envios:
         if len(x) > 1 and x[1] in nrosEnvios.keys():
+            print(x[3])
+            print(x[4])
+            viaje = Envio(x[1],x[3],x[4],"AJAXGOLD",x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2)
             continue
         elif len(x) > 1 and (x[1] != "" and x[3] != "" and x[4] != ""):
             day = int(x[0][0:2])
