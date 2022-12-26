@@ -22,7 +22,7 @@
     <input type="hidden" name="nroEnvio" value="{{nro_envio}}">
     </form>
     <div id="printableArea" style="border: 1px solid #000000; height: 550px; width: 300px;">
-        <img src="../../static/logo.jpg" alt="Logo" style="height:200px; width: 56px">
+        <!-- <img src="../../static/logo.jpg" alt="Logo" style="height:200px; width: 56px"> -->
         <p>Número de envío: {{nro_envio}}</p>
         <p>{{vendedor}}</p>
         <img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={"id":"{{nro_envio}}","sender_id":"{{vendedor}}","hash_code":"p/R/F6QWaRi3FGcWbbW775TiOYmkDXPuovLG/DVMoxA=","security_digit":"0"}' alt="Código QR" id="">
