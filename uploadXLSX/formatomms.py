@@ -46,7 +46,7 @@ def subir_exel_formms():
                     col_telefono = contador
                 elif cab.lower() in ("referencia","customer note","detalle dirección","detalle direccion"):
                     col_referencia = contador
-                elif cab.lower() in ("cobrar","monto"):
+                elif cab.lower() in ("cobrar","monto","precio"):
                     col_cobrar = contador
                 elif cab.lower() in ("producto"):
                     col_producto = contador
