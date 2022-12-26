@@ -80,10 +80,7 @@ class Envio:
         self.Cobrar = cobrar
         self.Reprogramaciones = reprogramaciones
         self.Columna1 = col1
-        if col2 == None:
-            self.Columna2 = datetime.now()
-        else:
-            self.Columna2 = col2
+        self.Columna2 = col2
 
     def toDB(self):
         midb = database.connect_db()
