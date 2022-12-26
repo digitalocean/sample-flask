@@ -106,7 +106,7 @@ def etiquetaImpresa():
     envio = request.form.get("nroEnvio")
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"update ViajesFlexs set Observacion = 'Etiqueta impresa {str(datetime.now())[0:-10]}' where Numero_envío = '{envio}'")
+    cursor.execute(f"update ViajesFlexs set Observacion = 'Etiqueta impresa {str(datetime.now())[0:-10]}' where Numero_envío = '{envio}' and Observacion is null")
     midb.commit()
     midb.close()
     return redirect("/misenvios")
