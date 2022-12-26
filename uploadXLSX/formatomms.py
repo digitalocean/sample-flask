@@ -137,7 +137,7 @@ def subir_exel_formms():
         return render_template("CargaArchivo/data.html",
                                 titulo="Carga", 
                                 data=viajes,
-                                titulo_columna= cabezeras,
+                                titulo_columna=cabezeras,
                                 agregados=flex_agregado, 
                                 repetido=omitido, 
                                 auth = session.get("user_auth"))
