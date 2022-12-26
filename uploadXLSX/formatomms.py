@@ -46,6 +46,10 @@ def subir_exel_formms():
                     col_telefono = contador
                 elif cab.lower() in ("referencia","customer note","detalle dirección","detalle direccion"):
                     col_referencia = contador
+                elif cab.lower() in ("cobrar","monto"):
+                    col_cobrar = contador
+                elif cab.lower() in ("producto"):
+                    col_producto = contador
             print("\nasignacion completa\n")
         except Exception as cabezeras:
             informeErrores.reporte(cabezeras,"/carga_formms")
@@ -62,43 +66,51 @@ def subir_exel_formms():
                 break
         if contadorCantidad > 200:
             cantidad = range(0,200)
+        viajes = []
         for x in cantidad:
             total += 1
             n_row += 1
-            if col_numero_envio:
+            if "col_numero_envio" in locals():
                 nro_envio = str(sheet_obj.cell(row = n_row, column = col_numero_envio).value)
             else:
                 nro_envio = ""
-            if nro_envio == str(None) or nro_envio == "":
-                continue
             fecha = str(ahora)[0:10]
-            if col_fecha:
+            if "col_fecha" in locals():
                 fecha = str(sheet_obj.cell(row = n_row, column = col_fecha).value)
-            if col_cliente:
+            if "col_cliente" in locals():
                 cliente = str(sheet_obj.cell(row = n_row, column = col_cliente).value)
             else:
                 cliente = ""
-            if col_telefono:    
+            if "col_telefono" in locals():    
                 telefono = str(sheet_obj.cell(row = n_row, column = col_telefono).value)
             else:
                 telefono = None
-            if col_direccion: 
+            if "col_direccion" in locals(): 
                 direccion = str(sheet_obj.cell(row = n_row, column = col_direccion).value)
             else:
                 direccion = ""
             if "/" in str(direccion):
                 direccion = str(direccion.split("/"))[0]
-            if col_referencia:
+            if "col_referencia" in locals():
                 referencia = str(sheet_obj.cell(row = n_row, column = col_referencia).value)
             else:
                 referencia = ""
-            if col_localidad: localidad = str(sheet_obj.cell(row = n_row, column = col_localidad).value)
-            if col_cp:
+            if "col_localidad" in locals(): 
+                localidad = str(sheet_obj.cell(row = n_row, column = col_localidad).value)
+            if "col_cp" in locals():
                 cp = str(sheet_obj.cell(row = n_row, column = col_cp).value)
             else:
                 cp = 0
             if cp == "":
                 cp = 0
+            if "col_cobrar" in locals():
+                cobrar = str(sheet_obj.cell(row= n_row,column=col_cobrar).value)
+            else:
+                cobrar = 0
+            if "col_producto" in locals():
+                producto = str(sheet_obj.cell(row= n_row,column=col_producto).value)
+            else:
+                producto = "" 
             if session.get("user_auth") == "Cliente":
                 vendedor = session.get("user_id")
             elif session.get("user_auth") == "Zippin":
@@ -108,14 +120,22 @@ def subir_exel_formms():
             
             fecha = fecha[0:10].replace("/","-").replace("\\","")
             tipo_envio = 2
-            viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio)
+            if direccion == "None" or localidad == "None":
+                continue
+            if vendedor == "Quality Shop":
+                tipo_envio = 13
+                nro_envio = None
+            viajes.append([cliente,direccion,localidad,cobrar,producto])
+            viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,col2=producto)
             if viaje.toDB():flex_agregado += 1 
             else: omitido+=1
-            print(viaje.Numero_envío)
         print(f"agregados {flex_agregado}")
         print(f"omitidos {omitido}")
+        cabezeras = ["Cliente","Direccion","Localidad","Monto","Producto"]
         return render_template("CargaArchivo/data.html",
                                 titulo="Carga", 
+                                data=viajes,
+                                titulo_columna= cabezeras,
                                 analizados=total, 
                                 agregados=flex_agregado, 
                                 repetido=omitido, 

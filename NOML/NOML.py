@@ -46,7 +46,7 @@ def carga_noml():
         direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
         comprador = nombre + " " + apellido
         cobrar = request.form.get("cobrar")
-        viaje = Envio.Envio(nro_envio,direccion,localidad,vendedor,comprador,telefono,referencia,cp,cobrar=cobrar)
+        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar)
         if viaje.toDB():
             return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 

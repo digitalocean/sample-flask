@@ -28,7 +28,7 @@ def procesarNotificacion(data):
             estado = traducirEstado(viaje[5])
             if resEnvio == None:
                 if tipo_envio == 2:
-                    envio = Envio.Envio(viaje[0],viaje[2],viaje[3],vendedor,viaje[6],tipoEnvio=tipo_envio,referencia=viaje[4],fecha=viaje[7],numeroVenta=viaje[8])
+                    envio = Envio.Envio(viaje[2],viaje[3],vendedor,viaje[0],viaje[6],tipoEnvio=tipo_envio,referencia=viaje[4],fecha=viaje[7],numeroVenta=viaje[8])
                     if envio.toDB(): print(f"Envio: {nro_envio} Agregado")
                     # agregarEnvio(viaje,nro_envio,user_id)
             else:

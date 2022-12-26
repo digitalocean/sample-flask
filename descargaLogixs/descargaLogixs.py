@@ -45,7 +45,7 @@ def descargaLogixs(midatabase,dicNrosEnviosDB):
             referencia = str(referencia).replace("\n", " ")
             direccionCompleta = f"{direccion}, {localidad}, Buenos aires"
             enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}', 'Lista Para Retirar',2),"
-            # viaje = Envio.Envio(nroEnvio,direccion,localidad,vendedor,comprador,fecha=fecha_entrega,telefono=telefono,referencia=referencia,cp=cp,latitud=latitud,longitud=longitud,tipoEnvio=2)
+            # viaje = Envio.Envio(direccion,localidad,vendedor,nroEnvio,comprador,fecha=fecha_entrega,telefono=telefono,referencia=referencia,cp=cp,latitud=latitud,longitud=longitud,tipoEnvio=2)
             # viaje.toDB()
     if len(enviosLogixsNuevos) > 0:
         enviosLogixsNuevos = enviosLogixsNuevos[0:-1]
