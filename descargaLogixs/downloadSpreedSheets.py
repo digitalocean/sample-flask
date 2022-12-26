@@ -10,7 +10,6 @@ def cargaCamargo(nrosEnvios):
     envios = wks.get(f"A2:I{wks.row_count}")
     for x in envios:
         if len(x) > 1 and x[1] in nrosEnvios.keys():
-            viaje = Envio(x[3],x[4],"AJAXGOLD",x[1],x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2)
             continue
         elif len(x) > 1 and (x[1] != "" and x[3] != "" and x[4] != ""):
             day = int(x[0][0:2])
@@ -19,6 +18,8 @@ def cargaCamargo(nrosEnvios):
             viaje = Envio(x[3],x[4],"AJAXGOLD",x[1],x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
+            else:
+                print("algo fallo")
         else:
             print(f"error en {x}")
 
@@ -37,5 +38,7 @@ def cargaformatoMMS(nrosEnvios):
             viaje = Envio(x[5],x[7],x[10],x[1],x[3],x[4],x[6],x[8],datetime(year,month,day),tipoEnvio=2)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
+            else:
+                print("algo fallo")
         else:
             print(f"error en {x}")
