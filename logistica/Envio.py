@@ -105,7 +105,7 @@ class Envio:
             cursor.execute(sql,values)
             midb.commit()
             midb.close()
-            return True
+            return self.Numero_envío
         except mysql.connector.errors.IntegrityError:
             return False
 

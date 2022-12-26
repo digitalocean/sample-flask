@@ -56,7 +56,7 @@ def subir_exel_formms():
             print("\nError al asignar variables\n")
         n_row = 1
         total = 0
-        omitido = 0
+        omitido = []
         flex_agregado = 0
         cantidad = range(sheet_obj.max_row)
         contadorCantidad = 0
@@ -125,20 +125,27 @@ def subir_exel_formms():
             if vendedor == "Quality Shop":
                 tipo_envio = 13
                 nro_envio = None
-            viajes.append([cliente,direccion,localidad,cobrar,producto])
+            if nro_envio == "" or nro_envio == "None":
+                nro_envio = None
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,col2=producto)
-            if viaje.toDB():flex_agregado += 1 
-            else: omitido+=1
+            resu = viaje.toDB()
+            if resu:
+                viajes.append([resu,cliente,direccion,localidad,cobrar,producto])
+                flex_agregado += 1 
+            else: 
+                omitido.append(nro_envio)
+                viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
+
         print(f"agregados {flex_agregado}")
         print(f"omitidos {omitido}")
-        cabezeras = ["Cliente","Direccion","Localidad","Monto","Producto"]
+        cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Monto","Producto","Observacion"]
         return render_template("CargaArchivo/data.html",
                                 titulo="Carga", 
                                 data=viajes,
                                 titulo_columna= cabezeras,
                                 analizados=total, 
                                 agregados=flex_agregado, 
-                                repetido=omitido, 
+                                repetido=len(omitido), 
                                 auth = session.get("user_auth"))
 
     else:
