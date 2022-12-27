@@ -31,7 +31,7 @@ def cargaCamargoMe1(nrosEnvios):
     for x in envios:
         if len(x) > 1 and x[1] in nrosEnvios.keys():
             continue
-        elif len(x) > 1 and (x[1] != "" and x[3] != "" and x[4] != ""):
+        elif len(x) > 1 and (x[1] != "" and x[4] != "" and x[5] != ""):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
