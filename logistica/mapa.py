@@ -24,7 +24,7 @@ def jsonPendientes():
     if request.method == "POST":
         estados = ""
         if "listaParaRetirar" in request.form.keys():
-            estados += " where (Fecha = current_date() and estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar') and not Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola'))"
+            estados += " where tipo_envio = 2 and (Fecha = current_date() and estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar') and not Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola'))"
         if "enDeposito" in request.form.keys():
             if len(estados) < 5:
                 estados += " where estado_envio = 'Listo para salir (Sectorizado)' or lower(Zona) = '~en deposito'"
@@ -70,14 +70,14 @@ def jsonPendientes():
                 else:
                     estados += " and " 
                 estados += request.form["extra"]
-        if "tipoEnvio" in request.form.keys():
-            tipoEnvio = request.form["tipoEnvio"]
-        else:
-            tipoEnvio = 2
-        if len(estados) < 5:
-            estados += f"where tipo_envio = {tipoEnvio}"
-        else:
-            estados += f" and tipo_envio = {tipoEnvio}"
+        # if "tipoEnvio" in request.form.keys():
+        #     tipoEnvio = request.form["tipoEnvio"]
+        # else:
+            # tipoEnvio = 2
+        # if len(estados) < 5:
+        #     estados += f"where tipo_envio = {tipoEnvio}"
+        # else:
+        #     estados += f" and tipo_envio = {tipoEnvio}"
         session["consultaMapa"] = consultaTodoMapa+estados
         return redirect("/logistica/vistamapa")
     else:

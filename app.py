@@ -71,7 +71,7 @@ def bienvenido():
 
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS
+from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1
 from descargaLogixs.descargaLogixs import descargaLogixs
 from database.database import connect_db
 
@@ -88,6 +88,7 @@ def background_task():
     descargaLogixs(midb,nrosEnvios)
     midb.close()
     cargaCamargo(nrosEnvios)
+    cargaCamargoMe1(nrosEnvios)
     cargaformatoMMS(nrosEnvios)
 
 scheduler.start()

@@ -23,6 +23,27 @@ def cargaCamargo(nrosEnvios):
         else:
             print(f"error en {x}")
 
+def cargaCamargoMe1(nrosEnvios):
+    sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
+    sh = sa.open("Flex (MMS) Diciembre")
+    wks = sh.worksheet("Me1")
+    envios = wks.get(f"A2:I{wks.row_count}")
+    for x in envios:
+        if len(x) > 1 and x[1] in nrosEnvios.keys():
+            continue
+        elif len(x) > 1 and (x[1] != "" and x[3] != "" and x[4] != ""):
+            day = int(x[0][0:2])
+            month = int(x[0][3:5])
+            year = int(x[0][6:10])
+            viaje = Envio(x[4],x[5],"AJAXGOLD",x[1],x[3],referencia=x[7],recibeOtro=x[8],tipoEnvio=2)
+            print(x[7],x[8])
+            if viaje.toDB():
+                print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
+            else:
+                print("algo fallo")
+        else:
+            print(f"error en {x}")
+
 def cargaformatoMMS(nrosEnvios):
     sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
     sh = sa.open("Lapiz y Papel Libreria Flex")
