@@ -128,12 +128,12 @@ def subir_exel_formms():
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,col2=producto)
             resu = viaje.toDB()
             if resu:
-                viajes.append([resu,cliente,direccion,localidad,cobrar,producto])
+                viajes.append([resu,cliente,direccion,localidad,telefono,referencia,cobrar,producto])
                 flex_agregado += 1 
             else: 
                 omitido+=1
                 viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
-        cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Monto","Producto","Observacion"]
+        cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Telefono","Referencia","Monto","Producto"]
         return render_template("CargaArchivo/data.html",
                                 titulo="Carga", 
                                 data=viajes,
