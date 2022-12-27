@@ -70,6 +70,7 @@ def jsonPendientes():
                 else:
                     estados += " and " 
                 estados += request.form["extra"]
+        print(request.form["tipoEnvio"])
         # if "tipoEnvio" in request.form.keys():
         #     tipoEnvio = request.form["tipoEnvio"]
         # else:
