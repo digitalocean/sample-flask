@@ -44,54 +44,43 @@
 
         {% endif %}
 
-        
+        {% if auth == "Cliente"%}
             <tr>
                 <td>Nombre/s</td>
-                <td><input type="text" name="nombre" placeholder="Nombre"{% if auth == "Cliente"%}required>{% endif %}</td>
+                <td><input type="text" name="nombre" placeholder="Nombre" required></td>
             </tr>
             <tr>
                 <td>Apellido/s</td>
-                <td><input type="text" name="apellido" placeholder="Apellido" {% if auth == "Cliente"%} required>{% endif %}</td>
+                <td><input type="text" name="apellido" placeholder="Apellido"></td>
             </tr>
             <tr>
                 <td>Telefono</td>
-                <td><input type="number" name="telefono" placeholder="Telefono" {% if auth == "Cliente"%} required>{% endif %}</td>
+                <td><input type="number" name="telefono" placeholder="Telefono"></td>
             </tr>
-            <tr></tr>
+            {% endif %}
             <tr>
                 <td>Direccion</td>
-                <td><input type="text" name="direccion" placeholder="direccion" required></td>
-            </tr>
-            <tr>
-                <td>piso</td>
-                <td><input type="text" name="piso" placeholder="Piso"></td>
-            </tr>
-            <tr>
-                <td>Departamento</td>
-                <td> <input type="text" name="dpto" placeholder="Departamento"></td>
-            </tr>
-            <tr>
-                <td>Entre calles</td>
-                <td><input type="text" name="e/1" placeholder="Entre calle 1"><br></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="text" name="e/2" placeholder="Entre calle 2"><br></td></tr>
-            <tr>
-                <td>CP</td>
-                <td><input type="text" name="cp" placeholder="Codigo Postal"></td>
-            </tr>
-            <tr>
+                <td><input type="text" name="direccion" placeholder="direccion" required></td></tr><tr>
                 <td>Localidad</td>
-                <td><input type="text" name="localidad" placeholder="Localidad" required></td>
+                <td><input type="text" name="localidad" placeholder="Localidad" required></td></tr>
+            {% if auth == "Cliente"%}<tr>
+                <td>piso</td>
+                <td><input type="text" name="piso" placeholder="Piso"></td></tr><tr>
+                <td>Departamento</td>
+                <td> <input type="text" name="dpto" placeholder="Departamento"></td></tr><tr>
+                <td>Entre calles</td>
+                <td><input type="text" name="e/1" placeholder="Entre calle 1"><br></td></tr><tr>
+                <td></td>
+                <td><input type="text" name="e/2" placeholder="Entre calle 2"><br></td></tr><tr>
+                <td>CP</td>
+                <td><input type="text" name="cp" placeholder="Codigo Postal"></td></tr>
+                <tr><td>Referencia</td>
+                <td><input type="text" name="referencia" placeholder="Referencia"></td>
             </tr>
+            {% endif %}
             <tr>
                 <td>Monto a cobrar</td>
                 <td><input type="text" name="cobrar" placeholder="$"></td>
-            </tr>
-            <tr>
-                <td>Referencia</td>
-                <td><input type="text" name="referencia" placeholder="Referencia"></td>
             </tr>
         </table>      
         <input type="submit" value="Confirmar">

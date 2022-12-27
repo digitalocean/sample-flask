@@ -70,12 +70,15 @@ def jsonPendientes():
                 else:
                     estados += " and " 
                 estados += request.form["extra"]
-        if len(estados) < 5:
-            estados += "where tipo_envio = 2"
+        if "tipoEnvio" in request.form.keys():
+            tipoEnvio = request.form["tipoEnvio"]
         else:
-            estados += " and tipo_envio = 2"
+            tipoEnvio = 2
+        if len(estados) < 5:
+            estados += f"where tipo_envio = {tipoEnvio}"
+        else:
+            estados += f" and tipo_envio = {tipoEnvio}"
         session["consultaMapa"] = consultaTodoMapa+estados
-        print(session["consultaMapa"])
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
@@ -117,41 +120,39 @@ def carga_mapa():
                             zonas=zonas)
 
 
-@lgMapa.route("/cambiozona/", methods=["GET","POST"])
-@auth.login_required
-def cambioZona():
-    hoy = str(datetime.now())[0:10]
-    if request.method == "GET":
-        zona = request.args.get("zona")
-        envio = request.args.get("envio")
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        sql = f"update ViajesFlexs set Zona = '{zona}/2' where Numero_envío = '{envio}'"
-        cursor.execute(sql)
-        midb.commit()
-        print(sql)
-        return redirect("/logistica/vistamapa")
+# @lgMapa.route("/cambiozona/", methods=["GET","POST"])
+# @auth.login_required
+# def cambioZona():
+#     hoy = str(datetime.now())[0:10]
+#     if request.method == "GET":
+#         zona = request.args.get("zona")
+#         envio = request.args.get("envio")
+#         midb = database.connect_db()
+#         cursor = midb.cursor()
+#         sql = f"update ViajesFlexs set Zona = '{zona}/2' where Numero_envío = '{envio}'"
+#         cursor.execute(sql)
+#         midb.commit()
+#         print(sql)
+#         return redirect("/logistica/vistamapa")
 
         
 @lgMapa.route("/logistica/cambiozonamasivo", methods=["GET","POST"])
 @auth.login_required
 def cambioZonaMasivo():
-    hoy = str(datetime.now())[0:10]
     midb = database.connect_db()
     cursor = midb.cursor()
     if request.method == "GET":
         zona = request.args.get("zonamasiva")
         envios = request.args.get("enviosAzonificar")
+        tipoEnvio = request.args.get("tipoEnvio")
         listaEnvios = envios.split(",")
         envios = ""
         for x in listaEnvios:
             envios += "'" + x + "',"
         envios = envios[0:-1]
         if zona != "null":
-            zona = "'" + str(zona).replace("'","") + "/2'"
-        print(zona)
+            zona = f"""'{str(zona).replace("'","")}/{tipoEnvio}'"""
         sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"
-        print(sql)
         cursor.execute(sql)
         midb.commit()
         return redirect("/logistica/vistamapa")
@@ -159,13 +160,14 @@ def cambioZonaMasivo():
         post = request.form.keys() 
         zona = request.form.get("zonamasiva")
         envios = request.form.get("enviosAzonificar")
+        tipoEnvio = request.form.get("tipoEnvio")
         listaEnvios = envios.split(",")
         envios = ""
         for x in listaEnvios:
             envios += "'" + x + "',"
         envios = envios[0:-1]
         if zona != "null":
-            zona = "'" + str(zona).replace("'","") + "/2'"
+            zona = f"""'{str(zona).replace("'","")}/{tipoEnvio}'"""
         sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"
         cursor.execute(sql)
         midb.commit()

@@ -21,7 +21,6 @@ def carga_noml():
             caracteres = len(str(res[0]))
             agregar = 10 - caracteres
             nro_envio = "NoMl-"+ "0"*agregar + str(res[0])
-            # nro_envio = f"NoMl-{random.randint(1,9999999999)}"
         nombre = request.form.get("nombre")
         apellido = request.form.get("apellido")
         telefono = request.form.get("telefono")
@@ -46,7 +45,10 @@ def carga_noml():
         direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
         comprador = nombre + " " + apellido
         cobrar = request.form.get("cobrar")
-        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar)
+        tipo_envio = 2
+        if vendedor == "Quality Shop":
+            tipo_envio = 13
+        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,tipoEnvio=tipo_envio)
         if viaje.toDB():
             return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 
@@ -78,7 +80,7 @@ def generar_etiqueta_post():
     envio = request.form.get("envio")
     midb = database.connect_db()
     cursor = midb.cursor()
-    sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia from ViajesFlexs where Numero_envío = %s"
+    sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia,`Columna 2` from ViajesFlexs where Numero_envío = %s"
     values = (envio,)
     cursor.execute(sql,values)
     resultado = cursor.fetchone()
@@ -88,12 +90,16 @@ def generar_etiqueta_post():
     direccion_concatenada = resultado[3] + ", " + resultado[4]
     cobrar = resultado[5]
     referencia = resultado[6]
+    producto = resultado[7]
+    if str(producto) == "None":
+        producto = 0
     return render_template("NOML/etiqueta.html",
                         titulo="Envio agregado", 
                         auth = session.get("user_auth"), 
                         nro_envio=envio, 
                         vendedor = vendedor,
                         comprador = comprador,
+                        producto = producto,
                         telefono = telefono,
                         direccion = direccion_concatenada,
                         referencia = referencia,

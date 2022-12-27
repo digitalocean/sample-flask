@@ -34,6 +34,9 @@
         {%if referencia %}
         <p>{{referencia}}</p>
         {% endif %}
+        {%if producto != 0 %}
+        <p>{{producto}}</p>
+        {% endif %}
         {%if cobrar%}<h3>se debe cobrar ${{cobrar}}</h3>{%endif%}
         </div>
         <style>
