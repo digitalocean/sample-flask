@@ -75,11 +75,6 @@ from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,car
 from descargaLogixs.descargaLogixs import descargaLogixs
 from database.database import connect_db
 
-from logistica import script 
-from database import database
-midb = database.connect_db()
-script.geolocalizarFaltantes(midb)
-
 
 scheduler = BackgroundScheduler()
 @scheduler.scheduled_job('cron',minute="*/5", hour="12-18")

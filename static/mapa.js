@@ -415,7 +415,7 @@ function getPinColor(estado) {
           break;
           // "4c2882";//naranja
         default:
-          color = "EF2A00";//
+          color = "FFA500";//
 }
     return color;
 

@@ -45,6 +45,9 @@
             {%else%}
             <td>QR no disponible</td>
             {% endif %}
+            <form action="/logistica/almapa/{{viaje.2}}" method="post">
+                <td><input type="submit" value="Tirar al mapa" name="alMapa"></td>
+            </form>
         </tr>
     {% endfor %}
     </table>

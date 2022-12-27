@@ -15,6 +15,18 @@ def consultaPendientes(sql):
         viajes.append(x)
     return viajes,cant
 
+@auth.login_required
+@hsList.route("/logistica/almapa/<envio>",methods=["GET","POST"])
+def alMapa(envio):
+    sql = f"update ViajesFlexs set `Check` = null, estado_envio = 'Listo para salir (Sectorizado)',Motivo = null where Numero_envío = '{envio}'"
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    print(sql)
+    cursor.execute(sql)
+    midb.commit()
+    return redirect("/logistica/pendientes/")
+
+
 @hsList.route("/logistica/pendientes/",methods=["GET","POST"])
 @auth.login_required
 def pendientes():
@@ -36,7 +48,7 @@ def pendientes():
                                 cant_columnas = len(cabezeras), 
                                 auth = session.get("user_auth"))
     else:
-        sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(ifnull(R.scanner,S.scanner),V.Scanner) from ViajesFlexs as V left join sectorizado as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado') and (V.Ultimo_motivo != 'Cancelado' or V.Ultimo_motivo is null) order by V.Fecha desc, Chofer"
+        sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Ultimo_motivo,ifnull(ifnull(R.scanner,S.scanner),V.Scanner) from ViajesFlexs as V left join sectorizado as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('Cargado','En Camino','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado','Lista Para Retirar') and (V.Ultimo_motivo != 'Cancelado' or V.Ultimo_motivo is null) order by V.Fecha desc, Chofer"
         viajes,cant = consultaPendientes(sqlPendientes)
         return render_template("logistica/pendientes.html", 
                                 titulo="pendientes", 
