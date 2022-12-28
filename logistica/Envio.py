@@ -124,7 +124,7 @@ class Envio:
     def cambioEstado(self,estado,chofer):
         """
         "En Camino":
-            motivo = "En Camino"
+            
         
         "Entregado":
             motivo = "Entregado sin novedades"
@@ -140,11 +140,12 @@ class Envio:
         cursor = midb.cursor()
         numEnvio=self.Numero_envío
         modifica=session.get("user_id")
-        sql = "update ViajesFlexs set estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
+        sql = "update ViajesFlexs set `Check` = %s, estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
         motivo = None
+        check = None
         hora = datetime.now()-timedelta(hours=3)
         if estado == "En Camino":
-            motivo = "En Camino"
+            check = "En Camino"
         if estado == "Entregado":
             motivo = "Entregado sin novedades"
         elif estado == "No visitado":
@@ -153,7 +154,7 @@ class Envio:
         elif estado == "reprogramado":
             estado = "No Entregado"
             motivo = "Nadie en Domicilio (Reprogramado)"
-        values = (estado,motivo,chofer,chofer,modifica,hora,numEnvio)
+        values = (check,estado,motivo,chofer,chofer,modifica,hora,numEnvio)
         cursor.execute(sql,values)
         midb.commit()
         midb.close()
