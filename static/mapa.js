@@ -1,5 +1,5 @@
 const ruta = "https://whale-app-suwmc.ondigitalocean.app";
-// const ruta = "http://192.168.0.53"
+//const ruta = "http://192.168.0.53"
 var map;
 var asignaciones = [];
 var poligonoZonificador
@@ -166,8 +166,9 @@ function numeroZona(zona){
         var fechaUltimoEstado = new Date()
         fechaUltimoEstado = data[x]["fechaUltimoEstado"];
         var horaUltimoEstado = data[x]["horaUltimoEstado"];
+        var tipoEnvio = data[x]["tipoEnvio"]
         ultimoEstado = fechaUltimoEstado + " " + horaUltimoEstado;
-        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado)
+        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio)
       }  
     }
   });
@@ -191,7 +192,7 @@ document.getElementById('search').addEventListener('input', function() {
   });
 
 actualizarMapa();
-function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado){
+function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
       estado:est,
@@ -199,6 +200,7 @@ function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo
       localidad:loc,
       vendedor:vendedor,
       zona:zona,
+      tipoEnvio:tipo_envio,
       position: { lat: parseFloat(lati), lng:  parseFloat(lng)},
       icon: getPinIcon(zona,est),
       map: map,
@@ -210,7 +212,53 @@ var contenido = "<p>Envio: "+nro_env+
 " <br> Vendedor: " + vendedor + 
 "<br>Chofer: "+chofer+
 "<br>Estado: "+est+
-"<br>Motivo: " + motivo
+"<br>Motivo: " + motivo+
+"<form action='/cambiozona' method='POST'><select name='zona' id='zona'>"+
+"<option value='"+zona+"' selected disabled hidden>"+zona+"</option>"+
+"<option value='null'>Limpiar zona</option>"+
+"<option value='C 01/"+tipo_envio+"'>C 01</option>"+
+"<option vzalue='C 02/"+tipo_envio+"'>C 02</option>"+
+"<option value='C 03/"+tipo_envio+"'>C 03</option>"+
+"<option value='C 04/"+tipo_envio+"'>C 04</option>"+
+"<option value='C 05/"+tipo_envio+"'>C 05</option>"+
+"<option value='C 06/"+tipo_envio+"'>C 06</option>"+
+"<option value='C 07/"+tipo_envio+"'>C 07</option>"+
+"<option value='C 08/"+tipo_envio+"'>C 08</option>"+
+"<option value='C 09/"+tipo_envio+"'>C 09</option>"+
+"<option value='C 10/"+tipo_envio+"'>C 10</option>"+
+"<option value='N 01/"+tipo_envio+"'>N 01</option>"+
+"<option value='N 02/"+tipo_envio+"'>N 02</option>"+
+"<option value='N 03/"+tipo_envio+"'>N 03</option>"+
+"<option value='N 04/"+tipo_envio+"'>N 04</option>"+
+"<option value='N 05/"+tipo_envio+"'>N 05</option>"+
+"<option value='N 06/"+tipo_envio+"'>N 06</option>"+
+"<option value='N 07/"+tipo_envio+"'>N 07</option>"+
+"<option value='N 08/"+tipo_envio+"'>N 08</option>"+
+"<option value='N 09/"+tipo_envio+"'>N 09</option>"+
+"<option value='N 10/"+tipo_envio+"'>N 10</option>"+
+"<option value='O 01/"+tipo_envio+"'>O 01</option>"+
+"<option value='O 02/"+tipo_envio+"'>O 02</option>"+
+"<option value='O 03/"+tipo_envio+"'>O 03</option>"+
+"<option value='O 04/"+tipo_envio+"'>O 04</option>"+
+"<option value='O 05/"+tipo_envio+"'>O 05</option>"+
+"<option value='O 06/"+tipo_envio+"'>O 06</option>"+
+"<option value='O 07/"+tipo_envio+"'>O 07</option>"+
+"<option value='O 08/"+tipo_envio+"'>O 08</option>"+
+"<option value='O 09/"+tipo_envio+"'>O 09</option>"+
+"<option value='O 10/"+tipo_envio+"'>O 10</option>"+
+"<option value='S 01/"+tipo_envio+"'>S 01</option>"+
+"<option value='S 02/"+tipo_envio+"'>S 02</option>"+
+"<option value='S 03/"+tipo_envio+"'>S 03</option>"+
+"<option value='S 04/"+tipo_envio+"'>S 04</option>"+
+"<option value='S 05/"+tipo_envio+"'>S 05</option>"+
+"<option value='S 06/"+tipo_envio+"'>S 06</option>"+
+"<option value='S 07/"+tipo_envio+"'>S 07</option>"+
+"<option value='S 08/"+tipo_envio+"'>S 08</option>"+
+"<option value='S 09/"+tipo_envio+"'>S 09</option>"+
+"<option value='S 10/"+tipo_envio+"'>S 10</option>"+
+"</select><input type='submit' value='Guardar'>"+
+"<input type='hidden' value="+nro_env+" name='envio' id='envio'>"+
+"</form></p>"
     const infowindow = new google.maps.InfoWindow({
       content:contenido,
      });

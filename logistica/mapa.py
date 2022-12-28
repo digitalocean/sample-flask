@@ -5,12 +5,12 @@ from database import database
 lgMapa = Blueprint('mapa', __name__, url_prefix='/')
 
 consultaTodoMapa = """
-select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo
+select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
 from ViajesFlexs
 """
 consultaMapa = """
 select 
-    Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo
+    Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
 from
     ViajesFlexs 
 where 
@@ -67,7 +67,8 @@ def jsonPendientes():
                 "zona":x[9],
                 "fechaUltimoEstado":str(x[10])[0:10],
                 "horaUltimoEstado":str(x[10])[10:19],
-                "motivo":x[11]
+                "motivo":x[11],
+                "tipoEnvio":x[12]
             }
         return jsonify(jsonPendientes)
 
@@ -86,20 +87,19 @@ def carga_mapa():
                             zonas=zonas)
 
 
-# @lgMapa.route("/cambiozona/", methods=["GET","POST"])
-# @auth.login_required
-# def cambioZona():
-#     hoy = str(datetime.now())[0:10]
-#     if request.method == "GET":
-#         zona = request.args.get("zona")
-#         envio = request.args.get("envio")
-#         midb = database.connect_db()
-#         cursor = midb.cursor()
-#         sql = f"update ViajesFlexs set Zona = '{zona}/2' where Numero_envío = '{envio}'"
-#         cursor.execute(sql)
-#         midb.commit()
-#         print(sql)
-#         return redirect("/logistica/vistamapa")
+@lgMapa.route("/cambiozona", methods=["GET","POST"])
+@auth.login_required
+def cambioZona():
+    if request.method == "POST":
+        zona = request.form.get("zona")
+        envio = request.form.get("envio")
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        sql = f"update ViajesFlexs set Zona = '{zona}' where Numero_envío = '{envio}'"
+        cursor.execute(sql)
+        midb.commit()
+        print(sql)
+        return redirect("/logistica/vistamapa")
 
         
 @lgMapa.route("/logistica/cambiozonamasivo", methods=["GET","POST"])

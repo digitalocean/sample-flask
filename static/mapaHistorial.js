@@ -190,52 +190,7 @@ var contenido = "<p>Envio: "+nro_env+
 "<br>Chofer: "+chofer+
 "<br>Estado: "+est+
 "<br>Motivo: " + motivo +
-"<form action='/cambiozona/'><select name='zona' id='zona'>"+
-"<option value='"+zona+"' selected disabled hidden>"+zona+"</option>"+
-"<option value='null'>Limpiar zona</option>"+
-"<option value='C 01'>C 01</option>"+
-"<option vzalue='C 02'>C 02</option>"+
-"<option value='C 03'>C 03</option>"+
-"<option value='C 04'>C 04</option>"+
-"<option value='C 05'>C 05</option>"+
-"<option value='C 06'>C 06</option>"+
-"<option value='C 07'>C 07</option>"+
-"<option value='C 08'>C 08</option>"+
-"<option value='C 09'>C 09</option>"+
-"<option value='C 10'>C 10</option>"+
-"<option value='N 01'>N 01</option>"+
-"<option value='N 02'>N 02</option>"+
-"<option value='N 03'>N 03</option>"+
-"<option value='N 04'>N 04</option>"+
-"<option value='N 05'>N 05</option>"+
-"<option value='N 06'>N 06</option>"+
-"<option value='N 07'>N 07</option>"+
-"<option value='N 08'>N 08</option>"+
-"<option value='N 09'>N 09</option>"+
-"<option value='N 10'>N 10</option>"+
-"<option value='O 01'>O 01</option>"+
-"<option value='O 02'>O 02</option>"+
-"<option value='O 03'>O 03</option>"+
-"<option value='O 04'>O 04</option>"+
-"<option value='O 05'>O 05</option>"+
-"<option value='O 06'>O 06</option>"+
-"<option value='O 07'>O 07</option>"+
-"<option value='O 08'>O 08</option>"+
-"<option value='O 09'>O 09</option>"+
-"<option value='O 10'>O 10</option>"+
-"<option value='S 01'>S 01</option>"+
-"<option value='S 02'>S 02</option>"+
-"<option value='S 03'>S 03</option>"+
-"<option value='S 04'>S 04</option>"+
-"<option value='S 05'>S 05</option>"+
-"<option value='S 06'>S 06</option>"+
-"<option value='S 07'>S 07</option>"+
-"<option value='S 08'>S 08</option>"+
-"<option value='S 09'>S 09</option>"+
-"<option value='S 10'>S 10</option>"+
-"</select><input type='submit' value='Guardar'>"+
-"<input type='hidden' value="+nro_env+" name='envio' id='envio'>"+
-"</form></p>"
+"<br>Zona: "+zona
     const infowindow = new google.maps.InfoWindow({
       content:contenido,
      });
