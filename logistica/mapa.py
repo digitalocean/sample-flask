@@ -1,7 +1,6 @@
-from flask import Blueprint, redirect, render_template, request, session
+from flask import Blueprint, redirect, render_template, request, session,jsonify
 from auth import auth
 from database import database
-from datetime import datetime
 
 lgMapa = Blueprint('mapa', __name__, url_prefix='/')
 
@@ -15,7 +14,7 @@ select
 from
     ViajesFlexs 
 where 
-    estado_envio in ("Retirado","Lista Para Retirar","Listo Para Retirar","Listo para salir (Sectorizado)")
+    (estado_envio = 'Lista Para Retirar' and not Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola')) and estado_envio in ("Retirado","Lista Para Retirar","Listo Para Retirar","Listo para salir (Sectorizado)")
 """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
@@ -23,63 +22,29 @@ where
 def jsonPendientes():
     if request.method == "POST":
         estados = ""
+        tipoEnvio = request.form["tipoEnvio"]
+        estados += f" where tipo_envio = {tipoEnvio}  and not (estado_envio = 'Lista Para Retirar' and Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola')) and estado_envio in ('algo')"
+
         if "listaParaRetirar" in request.form.keys():
-            estados += " where tipo_envio = 2 and (Fecha = current_date() and estado_envio in ('Lista Para Retirar','Listo para Retirar','Listo para Retirar') and not Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola'))"
+            estados = estados[0:-1] + ",'Lista Para Retirar')"
         if "enDeposito" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where estado_envio = 'Listo para salir (Sectorizado)' or lower(Zona) = '~en deposito'"
-            else:
-                estados += " or estado_envio = 'Listo para salir (Sectorizado)'"
+            estados = estados[0:-1] + ",'Listo para salir (Sectorizado)')"
         if "enCamino" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where estado_envio = 'En Camino'"
-            else:
-                estados += " or estado_envio = 'En Camino'"
-        if "noEntregado" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where Motivo in ('Nadie en Domicilio (Reprogramado)','Domicilio no visitado')"
-            else:
-                estados += " or Motivo in ('Nadie en Domicilio (Reprogramado)','Domicilio no visitado')"
+            estados = estados[0:-1] + " ,'En Camino')"
         if "retirado" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where estado_envio = 'Retirado'"
-            else:
-                estados += " or estado_envio = 'Retirado'"
+            estados = estados[0:-1] + ",'Retirado')"
         if "entregado" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where estado_envio = 'Entregado'"
-            else:
-                estados += " or estado_envio = 'Entregado'"
-        if "listaParaRetirar" in request.form.keys():
-            if len(estados) < 5:
-                estados += " where not "
-            else:
-                estados += " and not " 
-            estados += "(Vendedor in ('ONEARTARGENTINA') and estado_envio = 'Lista Para Retirar')"
+            estados = estados[0:-1] + ",'Entregado')"
+        if "noEntregado" in request.form.keys():
+            estados = estados[0:-1] + " ,'No Entregado') and Motivo != 'Cancelado'"
         if  request.form["fecha"] != "":
-            if len(estados) < 5:
-                estados += " where "
-            else:
-                estados += " and " 
-            estados += "Fecha = '" + request.form["fecha"] + "'"
+            estados += " and Fecha = '" + request.form["fecha"] + "'"
         if "extra" in request.form.keys():
             extra = request.form["extra"]
             if extra != "" and not ";" in extra:
-                if len(estados) < 5:
-                    estados += " where "
-                else:
-                    estados += " and " 
-                estados += request.form["extra"]
-        print(request.form["tipoEnvio"])
-        # if "tipoEnvio" in request.form.keys():
-        #     tipoEnvio = request.form["tipoEnvio"]
-        # else:
-            # tipoEnvio = 2
-        # if len(estados) < 5:
-        #     estados += f"where tipo_envio = {tipoEnvio}"
-        # else:
-        #     estados += f" and tipo_envio = {tipoEnvio}"
+                estados += " and " + request.form["extra"]
         session["consultaMapa"] = consultaTodoMapa+estados
+        print(session["consultaMapa"])
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
@@ -104,7 +69,7 @@ def jsonPendientes():
                 "horaUltimoEstado":str(x[10])[10:19],
                 "motivo":x[11]
             }
-        return jsonPendientes
+        return jsonify(jsonPendientes)
 
 @lgMapa.route("/logistica/vistamapa")
 @auth.login_required

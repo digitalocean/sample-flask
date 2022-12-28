@@ -1,5 +1,7 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session,current_app
 from flask_cors import CORS
+from logistica.script import  geolocalizarFaltantes
+
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -86,9 +88,10 @@ def background_task():
     for env in cursor.fetchall():
         nrosEnvios[env[0]] = env[1]
     descargaLogixs(midb,nrosEnvios)
-    midb.close()
     cargaCamargo(nrosEnvios)
     cargaCamargoMe1(nrosEnvios)
     cargaformatoMMS(nrosEnvios)
+    geolocalizarFaltantes(midb)
+    midb.close()
 
 scheduler.start()

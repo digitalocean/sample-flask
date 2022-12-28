@@ -56,7 +56,7 @@ def cargaformatoMMS(nrosEnvios):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
-            viaje = Envio(x[5],x[7],x[10],x[1],x[3],x[4],x[6],x[8],datetime(year,month,day),tipoEnvio=2)
+            viaje = Envio(x[5],x[7],"Lapiz y Papel",x[1],x[3],x[4],x[6],x[8],datetime(year,month,day),tipoEnvio=2)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
             else:
