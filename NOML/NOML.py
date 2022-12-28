@@ -12,39 +12,41 @@ NOML = Blueprint('NOML', __name__, url_prefix='/')
 def carga_noml():
     midb = database.connect_db()
     if request.method == "POST": 
-        if "nro_envio" in request.form.keys():
-            nro_envio = request.form.get("nro_envio")
-        else:
+        direccion = request.form.get("direccion")
+        localidad = request.form.get("localidad")
+        direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
+        cobrar = request.form.get("cobrar")
+        if session.get("user_auth") == "Cliente":
+            vendedor = session.get("user_id")
             cursor = midb.cursor()
             cursor.execute("select count(*) from ViajesFlexs")
             res = cursor.fetchone()
             caracteres = len(str(res[0]))
             agregar = 10 - caracteres
-            nro_envio = "NoMl-"+ "0"*agregar + str(res[0])
-        nombre = request.form.get("nombre")
-        apellido = request.form.get("apellido")
-        telefono = request.form.get("telefono")
-        direccion = request.form.get("direccion")
-        piso = request.form.get("piso")
-        dpto = request.form.get("dpto")
-        entre_calle1 = request.form.get("e/1")
-        entre_calle2 = request.form.get("e/2")
-        cp = request.form.get("cp")
-        localidad = request.form.get("localidad")
-        referencia = request.form.get("referencia")
-        if piso != '':
-            referencia = referencia + f"\npiso: {piso}"
-        if dpto != '':
-            referencia = referencia + f"\nDpto: {dpto}"
-        if entre_calle1 != '' or entre_calle2 != '':
-            referencia = referencia + f"\ne/ {entre_calle1} y {entre_calle2}"
-        if session.get("user_auth") == "Cliente":
-            vendedor = session.get("user_id")
+            nro_envio = f"NOML{tipo_envio}"+ "0"*agregar + str(res[0])
+            nombre = request.form.get("nombre")
+            apellido = request.form.get("apellido")
+            telefono = request.form.get("telefono")
+            piso = request.form.get("piso")
+            dpto = request.form.get("dpto")
+            entre_calle1 = request.form.get("e/1")
+            entre_calle2 = request.form.get("e/2")
+            cp = request.form.get("cp")
+            referencia = request.form.get("referencia")
+            if piso != '':
+                referencia = referencia + f"\npiso: {piso}"
+            if dpto != '':
+                referencia = referencia + f"\nDpto: {dpto}"
+            if entre_calle1 != '' or entre_calle2 != '':
+                referencia = referencia + f"\ne/ {entre_calle1} y {entre_calle2}"
+            comprador = nombre + " " + apellido
         else:
+            nro_envio = request.form.get("nro_envio")
             vendedor = request.form.get("nombre_cliente")
-        direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
-        comprador = nombre + " " + apellido
-        cobrar = request.form.get("cobrar")
+            comprador = None
+            telefono = None
+            referencia = None
+            cp = None
         tipo_envio = 2
         if vendedor == "Quality Shop":
             tipo_envio = 13

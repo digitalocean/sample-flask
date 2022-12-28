@@ -1,5 +1,5 @@
-import time
-from datetime import datetime
+from flask import session
+from datetime import datetime,timedelta
 from geopy.distance import geodesic
 from database import database
 import mysql.connector
@@ -121,22 +121,42 @@ class Envio:
                     viaje[12],viaje[13],viaje[14],viaje[20],viaje[21],viaje[22],viaje[23],viaje[24],viaje[25],viaje[26],
                     viaje[18],viaje[19],viaje[28],viaje[29],viaje[19],viaje[30],viaje[31],viaje[32],viaje[33],viaje[34],True)
 
-
-    def updateDB(self):
+    def cambioEstado(self,estado,chofer):
+        """
+        "En Camino":
+            motivo = "En Camino"
+        
+        "Entregado":
+            motivo = "Entregado sin novedades"
+        el
+        "No visitado":
+            estado = "No Entregado"
+            motivo = "Domicilio no visitado"
+        el
+        "reprogramado":
+            estado = "No Entregado"
+            motivo = "Nadie en Domicilio (Reprogramado)"""
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = """update ViajesFlexs set `Check` = %s ,Zona = %s ,Fecha = %s ,nro_venta = %s ,comprador = %s ,Telefono = %s ,
-            Direccion = %s ,Referencia = %s ,Localidad = %s ,capital = %s ,CP = %s ,Vendedor = %s ,Chofer = %s ,Observacion = %s ,Motivo = %s ,Direccion_Completa = %s ,Currentlocation = %s ,
-            Timechangestamp = %s ,Latitud = %s ,Longitud = %s ,Precio_Cliente = %s ,Precio_Chofer = %s ,Scanner = %s ,estado_envio = %s ,Foto_domicilio = %s ,Firma_Entregado = %s ,
-            tipo_envio = %s ,Correo_chofer = %s ,Ultimo_motivo = %s ,Recibe_otro = %s ,Foto_dni = %s ,Cobrar = %s ,Reprogramaciones = %s ,`Columna 1` = %s ,`Columna 2` = %s )
-            where Numero_envío = %s"""
-        values = (self.Check,self.Zona,self.Fecha,self.nro_venta,self.comprador,
-                    self.Telefono,self.Direccion,self.Referencia,self.Localidad,self.capital,self.CP,
-                    self.Vendedor,self.Chofer,self.Observacion,self.Motivo,self.Direccion_Completa,
-                    self.Currentlocation,self.Timechangestamp,self.Latitud,self.Longitud,self.Precio_Cliente,
-                    self.Precio_Chofer,self.Scanner,self.estado_envio,self.Foto_domicilio,self.Firma_Entregado,
-                    self.tipo_envio,self.Correo_chofer,self.Ultimo_motivo,self.Recibe_otro,self.Foto_dni,self.Cobrar,
-                    self.Reprogramaciones,self.Columna1,self.Columna2,self.Numero_envío)
+        numEnvio=self.Numero_envío
+        modifica=session.get("user_id")
+        sql = "update ViajesFlexs set estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
+        motivo = None
+        hora = datetime.now()-timedelta(hours=3)
+        if estado == "En Camino":
+            motivo = "En Camino"
+        if estado == "Entregado":
+            motivo = "Entregado sin novedades"
+        elif estado == "No visitado":
+            estado = "No Entregado"
+            motivo = "Domicilio no visitado"
+        elif estado == "reprogramado":
+            estado = "No Entregado"
+            motivo = "Nadie en Domicilio (Reprogramado)"
+        values = (estado,motivo,chofer,chofer,modifica,hora,numEnvio)
+        cursor.execute(sql,values)
+        midb.commit()
+        midb.close()
 
     def distance_to(self,destino):
         return geodesic((self.Latitud,self.Longitud),(destino.Latitud,destino.Longitud)).kilometers

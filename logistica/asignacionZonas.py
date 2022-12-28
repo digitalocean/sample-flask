@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, render_template, request, session,url_for
+from logistica.Envio import Envio
 from auth import auth
 from database import database
 from datetime import datetime
@@ -70,39 +71,17 @@ def agregarRetiro():
         fecha = request.form["fecha"]
         numeroEnvio = request.form["numeroEnvio"]
         chofer = request.form["chofer"]
-        cursor = midb.cursor()
-        sql = """select Numero_envío,Direccion_completa,Localidad,Vendedor 
-                        from historial_estados 
-                        where Numero_envío = %s and estado_envio = 'En Camino'"""
-        values = (numeroEnvio,)
-        cursor.execute(sql,values)
-        resu = cursor.fetchone()
-        sqlEnCamino = ""
-        if resu is None:
-            sql = "select Direccion_completa,Localidad,Vendedor from ViajesFlexs where Numero_envío = %s"
-            values = (numeroEnvio,)
-            cursor.execute(sql,values)
-            res = cursor.fetchone()
-            if res is None:
-                return render_template("NOML/carga_noml.html",
+        viaje = Envio.fromDB(numeroEnvio)
+        if viaje is None:
+            return render_template("NOML/carga_noml.html",
                                     titulo="Carga",
                                     auth = session.get("user_auth"), 
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(midb))
-            sqlEnCamino = """update ViajesFlexs set `Check` = 'En Camino', Chofer = %s,Correo_chofer=correoChofer(%s),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino',
-                                Timechangestamp = %s,Foto_domicilio = %s where Numero_envío = %s;"""
-            values = (chofer,chofer,fecha,session.get("user_id"),numeroEnvio)
-            print(sqlEnCamino)
-            cursor.execute(sqlEnCamino,values)
-            midb.commit()
-            if "entregado" in request.form.keys():
-                sqlEntregado ="""update ViajesFlexs set `Check` = null, Chofer = %s,Correo_chofer=correoChofer(%s),estado_envio = 'Entregado',Motivo = 'Entregado sin novedades', Ultimo_motivo = 'Entregado sin novedades', 
-                                Timechangestamp = %s,Foto_domicilio = %s where Numero_envío = %s"""
-                cursor.execute(sqlEntregado,values)
-                print(sqlEntregado)
-                midb.commit()
-                midb.close()
+        viaje.cambioEstado("En Camino",chofer)
+        if "entregado" in request.form.keys():
+            viaje.cambioEstado("Entregado",chofer)
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
                                 envio=numeroEnvio,
@@ -131,12 +110,10 @@ def horasExtra():
         chofer = request.form["chofer"]
         envio = f"{fecha}-{horas}-{str(chofer)[0:4]}"
         costo = int(horas) * 750
-        print(costo)
         sql = f"insert into historial_estados (Numero_envío,Fecha,Direccion_completa,estado_envio,Chofer,Correo_chofer,Costo) values('{envio}','{fecha}','{horas} horas trabajadas','ayuda deposito','{chofer}','{correoChofer[chofer]}',{costo})"
         cursor = midb.cursor()
         cursor.execute(sql)
         midb.commit()
-       
         return render_template("logistica/horasTrabajadas.html", 
                                 titulo="Asignar",
                                 envio=horas,
