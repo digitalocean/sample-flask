@@ -23,16 +23,16 @@ class Envio:
                 self.estado_envio = estadoEnvio
         else:
             self.estado_envio = estadoEnvio
-            if numeroEnvio == None:
-                cursor = midb.cursor()
-                cursor.execute("select count(*) from ViajesFlexs")
-                res = cursor.fetchone()
-                caracteres = len(str(res[0]))
-                agregar = 10 - caracteres - len(str(tipoEnvio))
-                self.Numero_envío = f"NOML{tipoEnvio}"+ "0"*agregar + str(res[0])
-            else:
-                chars = '.,!"#$%&/()=?¡¿'
-                self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
+        if numeroEnvio == None:
+            cursor = midb.cursor()
+            cursor.execute("select count(*) from ViajesFlexs")
+            res = cursor.fetchone()
+            caracteres = len(str(res[0]))
+            agregar = 10 - caracteres - len(str(tipoEnvio))
+            self.Numero_envío = f"NOML{tipoEnvio}"+ "0"*agregar + str(res[0])
+        else:
+            chars = '.,!"#$%&/()=?¡¿'
+            self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         if latitud == None or longitud == None:
             print("geolocaliza")
@@ -105,8 +105,6 @@ class Envio:
             return self.Numero_envío
         except mysql.connector.errors.IntegrityError:
             return False
-
-
     @classmethod
     def fromDB(self,nroEnvio):
         midb = database.connect_db()
@@ -159,7 +157,15 @@ class Envio:
         cursor.execute(sql,values)
         midb.commit()
         midb.close()
-
+    @classmethod
+    def deleteFromDB(self,nroEnvio):
+        sql = "delete from ViajesFlexs where Numero_envío = %s"
+        values =(nroEnvio,)
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute(sql,values)
+        midb.commit()
+        midb.close()    
     def distance_to(self,destino):
         return geodesic((self.Latitud,self.Longitud),(destino.Latitud,destino.Longitud)).kilometers
 
