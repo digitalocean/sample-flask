@@ -6,7 +6,7 @@ import mysql.connector
 from .script import geocoder
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
-                motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=None,latitud=None,longitud=None,correoChofer=None,
+                motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
                 ultimoMotivo=None,recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,col1=None,col2=None,fromDB=False):
         
         if not fromDB:
