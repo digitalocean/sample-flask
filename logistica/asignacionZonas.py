@@ -90,16 +90,19 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(midb))
-            sqlEnCamino = f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer=correoChofer('{chofer}'),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'"
-        else:
-            sqlEnCamino = f"update ViajesFlexs set `Check` = 'En Camino', Chofer = '{chofer}',Correo_chofer=correoChofer('{chofer}'),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'"
-        cursor.execute(sqlEnCamino)
-        midb.commit()
-        if "entregado" in request.form.keys():
-            sqlEntregado = f"update ViajesFlexs set `Check` = null, Chofer = '{chofer}',Correo_chofer=correoChofer('{chofer}'),estado_envio = 'Entregado',Motivo = 'Entregado sin novedades', Ultimo_motivo = 'Entregado sin novedades', Timechangestamp = '{fecha}' where Numero_envío = '{numeroEnvio}'"
-            cursor.execute(sqlEntregado)
+            sqlEnCamino = """update ViajesFlexs set `Check` = 'En Camino', Chofer = %s,Correo_chofer=correoChofer(%s),estado_envio = 'En Camino',Motivo = 'En Camino', Ultimo_motivo = 'En Camino',
+                                Timechangestamp = %s,Foto_domicilio = %s where Numero_envío = %s;"""
+            values = (chofer,chofer,fecha,session.get("user_id"),numeroEnvio)
+            print(sqlEnCamino)
+            cursor.execute(sqlEnCamino,values)
             midb.commit()
-            midb.close()
+            if "entregado" in request.form.keys():
+                sqlEntregado ="""update ViajesFlexs set `Check` = null, Chofer = %s,Correo_chofer=correoChofer(%s),estado_envio = 'Entregado',Motivo = 'Entregado sin novedades', Ultimo_motivo = 'Entregado sin novedades', 
+                                Timechangestamp = %s,Foto_domicilio = %s where Numero_envío = %s"""
+                cursor.execute(sqlEntregado,values)
+                print(sqlEntregado)
+                midb.commit()
+                midb.close()
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
                                 envio=numeroEnvio,
