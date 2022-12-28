@@ -72,7 +72,7 @@ def agregarRetiro():
         numeroEnvio = request.form["numeroEnvio"]
         chofer = request.form["chofer"]
         viaje = Envio.fromDB(numeroEnvio)
-        if viaje is None:
+        if not viaje:
             return render_template("NOML/carga_noml.html",
                                     titulo="Carga",
                                     auth = session.get("user_auth"), 

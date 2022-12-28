@@ -23,16 +23,16 @@ class Envio:
                 self.estado_envio = estadoEnvio
         else:
             self.estado_envio = estadoEnvio
-        chars = '.,!"#$%&/()=?¡¿'
-        if numeroEnvio == None:
-            cursor = midb.cursor()
-            cursor.execute("select count(*) from ViajesFlexs")
-            res = cursor.fetchone()
-            caracteres = len(str(res[0]))
-            agregar = 10 - caracteres
-            self.Numero_envío = "NoMl-"+ "0"*agregar + str(res[0])
-        else:
-            self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
+            if numeroEnvio == None:
+                cursor = midb.cursor()
+                cursor.execute("select count(*) from ViajesFlexs")
+                res = cursor.fetchone()
+                caracteres = len(str(res[0]))
+                agregar = 10 - caracteres - len(str(tipoEnvio))
+                self.Numero_envío = f"NOML{tipoEnvio}"+ "0"*agregar + str(res[0])
+            else:
+                chars = '.,!"#$%&/()=?¡¿'
+                self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         if latitud == None or longitud == None:
             print("geolocaliza")
@@ -117,10 +117,12 @@ class Envio:
                         Foto_dni,Cobrar,Reprogramaciones,`Columna 1`,`Columna 2`,Numero_envío
                         from ViajesFlexs where Numero_envío = %s""",(nroEnvio,))
         viaje = cursor.fetchone()
-        return Envio(viaje[6],viaje[8],viaje[11],viaje[35],viaje[4],viaje[5],viaje[7],viaje[10],viaje[2],viaje[3],
-                    viaje[12],viaje[13],viaje[14],viaje[20],viaje[21],viaje[22],viaje[23],viaje[24],viaje[25],viaje[26],
-                    viaje[18],viaje[19],viaje[28],viaje[29],viaje[19],viaje[30],viaje[31],viaje[32],viaje[33],viaje[34],True)
-
+        if viaje != None:
+            return Envio(viaje[6],viaje[8],viaje[11],viaje[35],viaje[4],viaje[5],viaje[7],viaje[10],viaje[2],viaje[3],
+                        viaje[12],viaje[13],viaje[14],viaje[20],viaje[21],viaje[22],viaje[23],viaje[24],viaje[25],viaje[26],
+                        viaje[18],viaje[19],viaje[28],viaje[29],viaje[19],viaje[30],viaje[31],viaje[32],viaje[33],viaje[34],True)
+        else:
+            return False
     def cambioEstado(self,estado,chofer):
         """
         "En Camino":
