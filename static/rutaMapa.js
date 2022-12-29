@@ -1,0 +1,1 @@
+export const ruta = "http://192.168.0.53"
