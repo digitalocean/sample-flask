@@ -1,5 +1,5 @@
-// const ruta = "https://whale-app-suwmc.ondigitalocean.app";
-const ruta = "http://192.168.0.53"
+const ruta = "https://whale-app-suwmc.ondigitalocean.app";
+// const ruta = "http://192.168.0.53"
 var map;
 var asignaciones = [];
 var poligonoZonificador
