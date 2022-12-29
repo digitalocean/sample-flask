@@ -52,7 +52,7 @@ def cargaformatoMMS(nrosEnvios):
     for x in envios:
         if len(x) > 1 and x[1] in nrosEnvios.keys():
             continue
-        elif len(x) > 1 and x[1] != "" and x[5] != "" and x[7] != "" and x[10] != "":
+        elif len(x) > 1 and x[1] != "" and x[5] != "" and x[7] != "":
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
