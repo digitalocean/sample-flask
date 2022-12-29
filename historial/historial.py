@@ -98,10 +98,4 @@ def eliminarHistorial(id):
     sql = f"update historial_estados set estado_envio = concat((select estado_envio from historial_estados where id = {id}),'/anulado'), motivo_noenvio = concat((select motivo_noenvio from historial_estados where id = {id}),'/anulado') WHERE id = {id};"
     cursor.execute(sql)
     midb.commit()
-    sql2 = f"select Numero_envío from historial_estados where id = {id}"
-    cursor.execute(sql2)
-    res = cursor.fetchone()
-    print(res)
-    cursor.execute(f"update ViajesFlexs set estado_envio = 'anulado' where Numero_envío = '{res[0]}'")
-    midb.commit()
     return redirect("/logistica/historial/1")

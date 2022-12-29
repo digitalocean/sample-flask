@@ -55,6 +55,8 @@ from logistica import asignacionZonas
 app.register_blueprint(asignacionZonas.lgAZ)
 from logistica import hojaRuta
 app.register_blueprint(hojaRuta.hojaRuta)
+from logistica import devoluciones
+app.register_blueprint(devoluciones.devolucion)
 from logistica import appChofer
 app.register_blueprint(appChofer.pd)
 from logistica import rutaChofer
