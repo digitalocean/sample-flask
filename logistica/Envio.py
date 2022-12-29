@@ -125,7 +125,6 @@ class Envio:
         "En Camino":
             Check = "En Camino"
             Zona = null
-        
         "Entregado":
             motivo = "Entregado sin novedades"
         el

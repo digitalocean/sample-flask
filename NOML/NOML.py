@@ -82,7 +82,7 @@ def generar_etiqueta_post():
     envio = request.form.get("envio")
     midb = database.connect_db()
     cursor = midb.cursor()
-    sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia,`Columna 2` from ViajesFlexs where Numero_envío = %s"
+    sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia,sku from ViajesFlexs where Numero_envío = %s"
     values = (envio,)
     cursor.execute(sql,values)
     resultado = cursor.fetchone()
