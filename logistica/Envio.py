@@ -57,7 +57,7 @@ class Envio:
         self.Direccion = direccion
         self.Referencia = referencia
         self.Localidad = localidad
-        self.capital = None
+        self.rendido = None
         self.CP = cp
         self.Vendedor = vendedor
         self.Chofer = chofer
@@ -73,7 +73,7 @@ class Envio:
         self.Firma_Entregado = None
         self.tipo_envio = tipoEnvio
         self.Correo_chofer = correoChofer
-        self.Ultimo_motivo = ultimoMotivo
+        self.columna_1 = ultimoMotivo
         self.Recibe_otro = recibeOtro
         self.Foto_dni = fotoDni
         self.Cobrar = cobrar
@@ -86,16 +86,16 @@ class Envio:
         cursor = midb.cursor()
         
         sql = """insert into ViajesFlexs (`Check`,Zona,Fecha,Numero_envío,nro_venta,comprador,Telefono,
-            Direccion,Referencia,Localidad,capital,CP,Vendedor,Chofer,Observacion,Motivo,Direccion_Completa,Currentlocation,
+            Direccion,Referencia,Localidad,rendido,CP,Vendedor,Chofer,Observacion,Motivo,Direccion_Completa,Currentlocation,
             Timechangestamp,Latitud,Longitud,Precio_Cliente,Precio_Chofer,Scanner,estado_envio,Foto_domicilio,Firma_Entregado,
-            tipo_envio,Correo_chofer,Ultimo_motivo,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`Columna 1`,`Columna 2`)
+            tipo_envio,Correo_chofer,columna_1,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`valordeclarado`,`sku`)
             values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         values = (self.Check,self.Zona,self.Fecha,self.Numero_envío,self.nro_venta,self.comprador,
-                    self.Telefono,self.Direccion,self.Referencia,self.Localidad,self.capital,self.CP,
+                    self.Telefono,self.Direccion,self.Referencia,self.Localidad,self.rendido,self.CP,
                     self.Vendedor,self.Chofer,self.Observacion,self.Motivo,self.Direccion_Completa,
                     self.Currentlocation,self.Timechangestamp,self.Latitud,self.Longitud,self.Precio_Cliente,
                     self.Precio_Chofer,self.Scanner,self.estado_envio,self.Foto_domicilio,self.Firma_Entregado,
-                    self.tipo_envio,self.Correo_chofer,self.Ultimo_motivo,self.Recibe_otro,self.Foto_dni,self.Cobrar,
+                    self.tipo_envio,self.Correo_chofer,self.columna_1,self.Recibe_otro,self.Foto_dni,self.Cobrar,
                     self.Reprogramaciones,self.Columna1,self.Columna2)
         try:
             cursor.execute(sql,values)
@@ -108,10 +108,10 @@ class Envio:
     def fromDB(self,nroEnvio):
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute("""select `Check`,Zona,Fecha,nro_venta,comprador,Telefono,Direccion,Referencia,Localidad,capital,
+        cursor.execute("""select `Check`,Zona,Fecha,nro_venta,comprador,Telefono,Direccion,Referencia,Localidad,rendido,
                         CP,Vendedor,Chofer,Observacion,Motivo,Direccion_Completa,Currentlocation,Timechangestamp,Latitud,Longitud,
-                        Precio_Cliente,Precio_Chofer,Scanner,estado_envio,Foto_domicilio,Firma_Entregado,tipo_envio,Correo_chofer,Ultimo_motivo,Recibe_otro,
-                        Foto_dni,Cobrar,Reprogramaciones,`Columna 1`,`Columna 2`,Numero_envío
+                        Precio_Cliente,Precio_Chofer,Scanner,estado_envio,Foto_domicilio,Firma_Entregado,tipo_envio,Correo_chofer,columna_1,Recibe_otro,
+                        Foto_dni,Cobrar,Reprogramaciones,`valordeclarado`,`sku`,Numero_envío
                         from ViajesFlexs where Numero_envío = %s""",(nroEnvio,))
         viaje = cursor.fetchone()
         if viaje != None:
