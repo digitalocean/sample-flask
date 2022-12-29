@@ -118,7 +118,7 @@ def cambioZonaMasivo():
         envios = envios[0:-1]
         if zona != "null":
             zona = f"""'{str(zona).replace("'","")}/{tipoEnvio}'"""
-        sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"
+        sql = f"update ViajesFlexs set Zona = concat({zona},tipo_envio) where Numero_envío in ({envios})"
         cursor.execute(sql)
         midb.commit()
         return redirect("/logistica/vistamapa")

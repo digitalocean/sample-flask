@@ -3,12 +3,14 @@
 # encoding: utf-8
 
 from flask import Blueprint, render_template, request, session,redirect
+from threading import Thread
 from datetime import datetime
 from auth import auth
 from database import database
 from informeErrores import informeErrores
 import openpyxl
 from logistica import Envio
+from logistica.script import geolocalizarFaltantes
 from scriptGeneral import scriptGeneral
 
 
@@ -123,7 +125,7 @@ def subir_exel_formms():
             if vendedor == "Quality Shop":
                 tipo_envio = 13
                 nro_envio = None
-            if nro_envio == "" or nro_envio == "None":
+            if nro_envio == "None":
                 nro_envio = None
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,col2=producto)
             resu = viaje.toDB()
@@ -134,6 +136,8 @@ def subir_exel_formms():
                 omitido+=1
                 viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
         cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Telefono","Referencia","Monto","Producto"]
+        t = Thread(target=geolocalizarFaltantes,args=(database.connect_db(),))
+        t.start()
         return render_template("CargaArchivo/data.html",
                                 titulo="Carga", 
                                 data=viajes,

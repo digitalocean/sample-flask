@@ -7,10 +7,9 @@ from .script import geocoder
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
-                ultimoMotivo=None,recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,col1=None,col2=None,fromDB=False):
-        
+                ultimoMotivo=None,recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,col1=None,col2=None,fromDB=False,geolocalizar=False):
+        midb = database.connect_db()
         if not fromDB:
-            midb = database.connect_db()
             cursor = midb.cursor()
             cursor.execute('''select "Listo para salir (Sectorizado)" from retirado where Numero_envío = %s 
                             union
@@ -34,7 +33,7 @@ class Envio:
             chars = '.,!"#$%&/()=?¡¿'
             self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
-        if latitud == None or longitud == None:
+        if geolocalizar:
             print("geolocaliza")
             latlong = geocoder(direccionCompleta)
             self.Latitud = latlong[0]
@@ -124,7 +123,8 @@ class Envio:
     def cambioEstado(self,estado,chofer):
         """
         "En Camino":
-            
+            Check = "En Camino"
+            Zona = null
         
         "Entregado":
             motivo = "Entregado sin novedades"
@@ -140,7 +140,7 @@ class Envio:
         cursor = midb.cursor()
         numEnvio=self.Numero_envío
         modifica=session.get("user_id")
-        sql = "update ViajesFlexs set `Check` = %s, estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
+        sql = "update ViajesFlexs set Zona = null, `Check` = %s, estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
         motivo = None
         check = None
         hora = datetime.now()-timedelta(hours=3)
