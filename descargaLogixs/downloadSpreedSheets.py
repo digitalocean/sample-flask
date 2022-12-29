@@ -35,7 +35,7 @@ def cargaCamargoMe1(nrosEnvios):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
-            viaje = Envio(x[4],x[5],"AJAXGOLD",x[1],x[3],referencia=x[7],recibeOtro=x[8],tipoEnvio=2)
+            viaje = Envio(x[4],x[5],"AJAXGOLD",x[1],x[3],referencia=x[7],recibeOtro=x[8],tipoEnvio=2,col2=x[8])
             print(x[7],x[8])
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
