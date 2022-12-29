@@ -57,12 +57,12 @@ def busqueda():
     cursor.execute(sql)
     resultado = cursor.fetchall()
     if len(resultado) == 0:
-        sql = f"select Fecha, Numero_envío, Direccion, Localidad, Vendedor,estado_envio,Motivo,ultimo_motivo from ViajesFlexs where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion like '%{busqueda}%' order by Fecha desc"
+        sql = f"select Fecha, Numero_envío, Direccion, Localidad, Vendedor,estado_envio,Motivo from ViajesFlexs where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion like '%{busqueda}%' order by Fecha desc"
         cursor.execute(sql)
         resultado = cursor.fetchone()
         lista = (resultado,)
         mjstbla = "No se registro historial de este envio"
-        cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor","Estado","Motivo","Ultimo motivo"]
+        cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor","Estado","Motivo"]
         return render_template("logistica/VistaTabla.html", 
                                 titulo="Busqueda", 
                                 viajes=lista ,
