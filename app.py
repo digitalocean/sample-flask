@@ -97,16 +97,16 @@ def background_task():
     geolocalizarFaltantes(midb)
     midb.close()
 
-@scheduler.scheduled_job('cron', day_of_week='mon-fri',minute="*/5")
+@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=16)
 def background_task2():
     midb = connect_db()
     pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["acciaiomatiassebastian@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["qualityshopargentina@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
 
 @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=21)
 def background_task3():
     midb = connect_db()
     pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["acciaiomatiassebastian@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["qualityshopargentina@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
     
 scheduler.start()
