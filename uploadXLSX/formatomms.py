@@ -127,7 +127,7 @@ def subir_exel_formms():
                 nro_envio = None
             if nro_envio == "None":
                 nro_envio = None
-            viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,col2=producto)
+            viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto)
             resu = viaje.toDB()
             if resu:
                 viajes.append([resu,cliente,direccion,localidad,telefono,referencia,cobrar,producto])
