@@ -9,9 +9,9 @@ def cargaCamargo(nrosEnvios):
     wks = sh.worksheet("Hoy")
     envios = wks.get(f"A2:I{wks.row_count}")
     for x in envios:
-        if len(x) > 1 and x[1] in nrosEnvios.keys():
+        if len(x) > 7 and x[1] in nrosEnvios.keys():
             continue
-        elif len(x) > 1 and (x[1] != "" and x[3] != "" and x[4] != ""):
+        elif len(x) > 4 and (x[1] != "" and x[3] != "" and x[4] != ""):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
@@ -29,9 +29,9 @@ def cargaCamargoMe1(nrosEnvios):
     wks = sh.worksheet("Me1")
     envios = wks.get(f"A2:I{wks.row_count}")
     for x in envios:
-        if len(x) > 1 and x[1] in nrosEnvios.keys():
+        if len(x) > 7 and x[1] in nrosEnvios.keys():
             continue
-        elif len(x) > 1 and (x[1] != "" and x[4] != "" and x[5] != ""):
+        elif len(x) > 5 and (x[1] != "" and x[4] != "" and x[5] != ""):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
@@ -50,9 +50,9 @@ def cargaformatoMMS(nrosEnvios):
     wks = sh.worksheet("Viajes")
     envios = wks.get(f"A6204:k{wks.row_count}")
     for x in envios:
-        if len(x) > 1 and x[1] in nrosEnvios.keys():
+        if len(x) > 7 and x[1] in nrosEnvios.keys():
             continue
-        elif len(x) > 1 and x[1] != "" and x[5] != "" and x[7] != "":
+        elif len(x) > 7 and x[1] != "" and x[5] != "" and x[7] != "":
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
