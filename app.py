@@ -83,7 +83,7 @@ from scriptGeneral.scriptGeneral import enviar_correo
 import pandas as pd
 
 scheduler = BackgroundScheduler()
-@scheduler.scheduled_job('cron',minute="*/1", hour="10-18")
+@scheduler.scheduled_job('cron',minute="*/5", hour="12-18")
 def background_task():
     midb = connect_db()
     cursor = midb.cursor()
