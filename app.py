@@ -76,6 +76,7 @@ def bienvenido():
 from apscheduler.schedulers.background import BackgroundScheduler
 from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1
 from descargaLogixs.descargaLogixs import descargaLogixs
+from datetime import datetime
 from database.database import connect_db
 from logistica.script import  geolocalizarFaltantes
 from scriptGeneral.scriptGeneral import enviar_correo
@@ -96,17 +97,19 @@ def background_task():
     cargaformatoMMS(nrosEnvios)
     geolocalizarFaltantes(midb)
     midb.close()
+    
+def informeQualityShop():
+    midb = connect_db()
+    fecha = datetime.now()
+    pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
+    enviar_correo(["qualityshopargentina@gmail.com"],f"Informe envios de la fecha {fecha.day}-{fecha.month}-{fecha.year}","informe.xlsx","informe.xlsx"," ")
 
 @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=16)
 def background_task2():
-    midb = connect_db()
-    pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["qualityshopargentina@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
+    informeQualityShop()
 
 @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=21)
 def background_task3():
-    midb = connect_db()
-    pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["qualityshopargentina@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
+    informeQualityShop()
     
 scheduler.start()
