@@ -84,10 +84,6 @@ def upload():
                         paquete = [estado_envio,comprador,dni,direccion,ciudad,estado,cp,referencia,pais,fecha_encamino,fecha_entregado,transportista,nro_seguimiento,url_seguimiento,forma_entrega]
                         viaje = Envio.Envio(direccion,ciudad,vendedor,nro_seguimiento,comprador,referencia=referencia,numeroVenta=nro_venta,cp=cp)
                         viaje.toDB()
-                        # sql = "insert into ViajesFlexs (Fecha, Numero_envío,nro_venta,comprador,Direccion,Referencia,Localidad,CP,Vendedor,estado_envio, Direccion_completa,tipo_envio) values (current_date(),%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,2)"
-                        # values = (nro_seguimiento,nro_venta,comprador,direccion,referencia,ciudad,cp,vendedor,"Listo Para Retirar",direccion_completa)
-                        # cursor.execute(sql,values)
-                        # midb.commit()
                         lista_viajes.append(paquete)
         midb.close()
         return render_template("CargaArchivo/data.html",

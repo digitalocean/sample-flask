@@ -78,35 +78,37 @@ def carga_noml():
 
 @NOML.route("/etiqueta/", methods = ["GET","POST"])
 @auth.login_required
-def generar_etiqueta_post():
-    envio = request.form.get("envio")
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia,sku from ViajesFlexs where Numero_envío = %s"
-    values = (envio,)
-    cursor.execute(sql,values)
-    resultado = cursor.fetchone()
-    vendedor = resultado[0]
-    comprador = resultado[1]
-    telefono = resultado[2]
-    direccion_concatenada = resultado[3] + ", " + resultado[4]
-    cobrar = resultado[5]
-    referencia = resultado[6]
-    producto = resultado[7]
-    if str(producto) == "None":
-        producto = 0
-    return render_template("NOML/etiqueta.html",
-                        titulo="Envio agregado", 
-                        auth = session.get("user_auth"), 
-                        nro_envio=envio, 
-                        vendedor = vendedor,
-                        comprador = comprador,
-                        producto = producto,
-                        telefono = telefono,
-                        direccion = direccion_concatenada,
-                        referencia = referencia,
-                        cobrar = cobrar)                        
-
+def generarEtiqueta():
+    if request.method == "POST": 
+        envio = request.form.get("envio")
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia,sku from ViajesFlexs where Numero_envío = %s"
+        values = (envio,)
+        cursor.execute(sql,values)
+        resultado = cursor.fetchone()
+        vendedor = resultado[0]
+        comprador = resultado[1]
+        telefono = resultado[2]
+        direccion_concatenada = resultado[3] + ", " + resultado[4]
+        cobrar = resultado[5]
+        referencia = resultado[6]
+        producto = resultado[7]
+        if str(producto) == "None":
+            producto = 0
+        return render_template("NOML/etiqueta.html",
+                            titulo="Envio agregado", 
+                            auth = session.get("user_auth"), 
+                            nro_envio=envio, 
+                            vendedor = vendedor,
+                            comprador = comprador,
+                            producto = producto,
+                            telefono = telefono,
+                            direccion = direccion_concatenada,
+                            referencia = referencia,
+                            cobrar = cobrar)                        
+    else:
+        return redirect("/misenvios")
 
 @NOML.route("/etiqueta/impresa", methods = ["GET","POST"])
 @auth.login_required

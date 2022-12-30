@@ -102,7 +102,7 @@ def informeQualityShop():
     midb = connect_db()
     fecha = datetime.now()
     pd.read_sql("select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["qualityshopargentina@gmail.com","josudavidg@gmail.com","acciaiomatiassebastian@gmail.com"],f"Informe de envios {fecha.day}-{fecha.month}-{fecha.year} {fecha.hour}hs","informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["qualityshopargentina@gmail.com","josudavidg@gmail.com","acciaiomatiassebastian@gmail.com"],f"Informe de envios {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","informe.xlsx","informe.xlsx"," ")
 
 @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=16)
 def background_task2():

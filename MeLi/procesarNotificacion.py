@@ -1,7 +1,7 @@
 from database import database
 from logistica import Envio
 from .consultar_envio import consultar_envio
-from .script import traducirEstado,consultaChoferMeli,agregarEnvio
+from .script import traducirEstado,consultaChoferMeli
 import requests
 def procesarNotificacion(data):
     resource = data.get("resource")
@@ -30,7 +30,6 @@ def procesarNotificacion(data):
                 if tipo_envio == 2:
                     envio = Envio.Envio(viaje[2],viaje[3],vendedor,viaje[0],viaje[6],tipoEnvio=tipo_envio,referencia=viaje[4],fecha=viaje[7],numeroVenta=viaje[8])
                     if envio.toDB(): print(f"Envio: {nro_envio} Agregado")
-                    # agregarEnvio(viaje,nro_envio,user_id)
             else:
                 if estado == "En Camino": consultaChoferMeli(nro_envio,user_id)
                 estadoDb = resEnvio[1]
