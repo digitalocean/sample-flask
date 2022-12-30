@@ -16,7 +16,7 @@ def geocoder(direccion):
 
 def geolocalizarFaltantes(midatabase):
     cursor = midatabase.cursor()
-    cursor.execute(f"select Numero_envío,Direccion,Localidad from ViajesFlexs where latitud is null or Longitud is null and Fecha >= current_date()-5")
+    cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa,Direccion,Localidad from ViajesFlexs where latitud is null and Fecha >= current_date()-3")
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
