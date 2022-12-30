@@ -43,8 +43,10 @@ function imprimir() {
     }
 </style>
 <img src="../../static/logo.jpg" alt="Logo">
-<h3 style="display:flex; justify-content:flex-end;">Remito Nº.................</h3>
-<H3>{{fecha}}</H3>
+<div style="display:flex; justify-content:space-between;">
+    <div style="text-align:left;"><H3>{{fecha}}</H3></div>
+    <div style="text-align:right;"><h3>Remito Nº.................</h3></div>
+</div>
 <h3>{{cliente}}</h3>
 <h1 style="text-align: center;">Devolucion</h1>
 <table style="width: 100%; margin-top: 30px;" class="table">

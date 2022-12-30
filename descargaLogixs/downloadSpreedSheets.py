@@ -15,7 +15,7 @@ def cargaCamargo(nrosEnvios):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
-            viaje = Envio(x[3],x[4],"AJAXGOLD",x[1],x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2)
+            viaje = Envio(x[3],x[4],"AJAXGOLD",x[1],x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2,geolocalizar=True)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
             else:
@@ -35,7 +35,7 @@ def cargaCamargoMe1(nrosEnvios):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
-            viaje = Envio(x[4],x[5],"AJAXGOLD",x[1],x[3],referencia=x[7],recibeOtro=x[8],tipoEnvio=2,col2=x[8])
+            viaje = Envio(x[4],x[5],"AJAXGOLD",x[1],x[3],referencia=x[7],recibeOtro=x[8],tipoEnvio=2,col2=x[8],geolocalizar=True)
             print(x[7],x[8])
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
@@ -56,7 +56,7 @@ def cargaformatoMMS(nrosEnvios):
             day = int(x[0][0:2])
             month = int(x[0][3:5])
             year = int(x[0][6:10])
-            viaje = Envio(x[5],x[7],"Lapiz y Papel",x[1],x[3],x[4],x[6],x[8],datetime(year,month,day),tipoEnvio=2)
+            viaje = Envio(x[5],x[7],"Lapiz y Papel",x[1],x[3],x[4],x[6],x[8],datetime(year,month,day),tipoEnvio=2,geolocalizar=True)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
             else:

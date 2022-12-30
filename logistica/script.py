@@ -16,24 +16,12 @@ def geocoder(direccion):
 
 def geolocalizarFaltantes(midatabase):
     cursor = midatabase.cursor()
-    cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa,Direccion,Localidad from ViajesFlexs where latitud is null and Fecha >= current_date()-3")
+    cursor.execute(f"select Numero_envío,Direccion,Localidad from ViajesFlexs where latitud is null or Longitud is null and Fecha >= current_date()-5")
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
-            try:
-                latlong = geocoder(x[2])
-                sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
-                cursor.execute(sql)
-                midatabase.commit()
-            except Exception as err:
-                print(f"error {err}")
-                midatabase = database.connect_db()
-                cursor.execute("UPDATE ViajesFlexs SET Direccion_Completa = concat(concat(Direccion,', '),concat(Localidad,', Buenos Aires')) where Direccion_Completa is null and Numero_envío = Numero_envío")
-                midatabase.commit()
-                latlong = geocoder(f"{x[3]}, {x[4]}, Buenos Aires")
-                sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
-                try:
-                    cursor.execute(sql)
-                    midatabase.commit()
-                except:
-                    print(f"Error en {x[0]} al intentar geolocalizar \n {err}")
+            latlong = geocoder(f"{x[1]}, {x[2]}, Buenos Aires")
+            sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
+            cursor.execute(sql)
+            midatabase.commit()
+            

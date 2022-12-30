@@ -1,6 +1,5 @@
 from flask import Flask, render_template, session,current_app
 from flask_cors import CORS
-from logistica.script import  geolocalizarFaltantes
 
 
 app = Flask(__name__)
@@ -78,7 +77,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1
 from descargaLogixs.descargaLogixs import descargaLogixs
 from database.database import connect_db
-
+from logistica.script import  geolocalizarFaltantes
+from scriptGeneral.scriptGeneral import enviar_correo
+import pandas as pd
 
 scheduler = BackgroundScheduler()
 @scheduler.scheduled_job('cron',minute="*/5", hour="12-18")
@@ -96,4 +97,16 @@ def background_task():
     geolocalizarFaltantes(midb)
     midb.close()
 
+@scheduler.scheduled_job('cron', day_of_week='mon-fri',minute="*/5")
+def background_task2():
+    midb = connect_db()
+    pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
+    enviar_correo(["acciaiomatiassebastian@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
+
+@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=21)
+def background_task3():
+    midb = connect_db()
+    pd.read_sql("select Fecha,Numero_envío,comprador,Direccion,Localidad,estado_envio,Motivo from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
+    enviar_correo(["acciaiomatiassebastian@gmail.com"],"Informe","informe.xlsx","informe.xlsx"," ")
+    
 scheduler.start()

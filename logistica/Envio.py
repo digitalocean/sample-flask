@@ -7,7 +7,7 @@ from .script import geocoder
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
-                ultimoMotivo=None,recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,col1=None,col2=None,fromDB=False,geolocalizar=False):
+                recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,valorDeclarado=None,sku=None,columna1=None,columna2=None,columna3=None,fromDB=False,geolocalizar=False):
         midb = database.connect_db()
         if not fromDB:
             cursor = midb.cursor()
@@ -73,13 +73,15 @@ class Envio:
         self.Firma_Entregado = None
         self.tipo_envio = tipoEnvio
         self.Correo_chofer = correoChofer
-        self.columna_1 = ultimoMotivo
         self.Recibe_otro = recibeOtro
         self.Foto_dni = fotoDni
         self.Cobrar = cobrar
         self.Reprogramaciones = reprogramaciones
-        self.Columna1 = col1
-        self.Columna2 = col2
+        self.valordeclarado = valorDeclarado
+        self.SKU = sku
+        self.columna_1 = columna1
+        self.columna_2 = columna3
+        self.columna_3 = columna3
 
     def toDB(self):
         midb = database.connect_db()
@@ -96,7 +98,7 @@ class Envio:
                     self.Currentlocation,self.Timechangestamp,self.Latitud,self.Longitud,self.Precio_Cliente,
                     self.Precio_Chofer,self.Scanner,self.estado_envio,self.Foto_domicilio,self.Firma_Entregado,
                     self.tipo_envio,self.Correo_chofer,self.columna_1,self.Recibe_otro,self.Foto_dni,self.Cobrar,
-                    self.Reprogramaciones,self.Columna1,self.Columna2)
+                    self.Reprogramaciones,self.valordeclarado,self.SKU)
         try:
             cursor.execute(sql,values)
             midb.commit()
