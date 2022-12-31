@@ -57,14 +57,12 @@ def limpiarZonas():
 @lgAZ.route("/logistica/reasignar/", methods=["GET","POST"])
 @auth.login_required
 def agregarRetiro():
-    midb = database.connect_db()
-    correoChofer = scriptGeneral.correoChoferes(midb)
     if request.method == "GET":
         fecha = str(datetime.now())[0:10]
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
                                 fecha=fecha,
-                                choferes=correoChofer, 
+                                choferes=scriptGeneral.correoChoferes(database.connect_db()), 
                                 auth = session.get("user_auth")
                                 )
     elif request.method == "POST":
@@ -78,7 +76,7 @@ def agregarRetiro():
                                     auth = session.get("user_auth"), 
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
-                                    clientes=scriptGeneral.consultar_clientes(midb))
+                                    clientes=scriptGeneral.consultar_clientes(database.connect_db()))
         viaje.cambioEstado("En Camino",chofer)
         if "entregado" in request.form.keys():
             viaje.cambioEstado("Entregado",chofer)
@@ -87,7 +85,7 @@ def agregarRetiro():
                                 envio=numeroEnvio,
                                 chofer=chofer,
                                 fecha=fecha,
-                                choferes=correoChofer, 
+                                choferes=scriptGeneral.correoChoferes(database.connect_db()), 
                                 auth = session.get("user_auth"))
 
 

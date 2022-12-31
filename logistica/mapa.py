@@ -107,22 +107,7 @@ def cambioZona():
 def cambioZonaMasivo():
     midb = database.connect_db()
     cursor = midb.cursor()
-    if request.method == "GET":
-        zona = request.args.get("zonamasiva")
-        envios = request.args.get("enviosAzonificar")
-        tipoEnvio = request.args.get("tipoEnvio")
-        listaEnvios = envios.split(",")
-        envios = ""
-        for x in listaEnvios:
-            envios += "'" + x + "',"
-        envios = envios[0:-1]
-        if zona != "null":
-            zona = f"""'{str(zona).replace("'","")}'"""
-        sql = f"update ViajesFlexs set Zona = concat(concat({zona},'/'),tipo_envio) where Numero_envío in ({envios})"
-        cursor.execute(sql)
-        midb.commit()
-        return redirect("/logistica/vistamapa")
-    else:
+    if request.method == "POST":
         post = request.form.keys() 
         zona = request.form.get("zonamasiva")
         envios = request.form.get("enviosAzonificar")
@@ -134,7 +119,9 @@ def cambioZonaMasivo():
         envios = envios[0:-1]
         if zona != "null":
             zona = f"""'{str(zona).replace("'","")}'"""
-        sql = f"update ViajesFlexs set Zona = concat(concat({zona},'/'),tipo_envio) where Numero_envío in ({envios})"
+            sql = f"update ViajesFlexs set Zona = concat(concat({zona},'/'),tipo_envio) where Numero_envío in ({envios})"
+        else:
+            sql = f"update ViajesFlexs set Zona = null where Numero_envío in ({envios})"
         cursor.execute(sql)
         midb.commit()
         return "NO ES GET"

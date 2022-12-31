@@ -120,7 +120,6 @@ function displaySelectedMarkers(polygon) {
   }
   for (var i = 0;  i < asignaciones.length; i++){
     contador = contador + 1
-    console.log(asignaciones[i].Paquete)
   }
 }
 async function getJSON(url, callback) {
