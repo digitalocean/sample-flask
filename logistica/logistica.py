@@ -41,7 +41,7 @@ def guardarCambiosEnvio():
     vendedor = request.form.get("vendedor")
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("update ViajesFlexs set Direccion = %s,Localidad = %s, Vendedor = %s where Numero_envío = %s",(direccion,localidad,vendedor,numEnvio))
+    cursor.execute("update ViajesFlexs set Direccion = %s,Localidad = %s where Numero_envío = %s",(direccion,localidad,numEnvio))
     midb.commit()
     geolocalizarFaltantes(midb)
     return "exito"
