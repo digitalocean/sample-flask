@@ -72,7 +72,6 @@ app.register_blueprint(mapa.mapaHS)
 def bienvenido():
     return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
-
 from apscheduler.schedulers.background import BackgroundScheduler
 from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1
 from descargaLogixs.descargaLogixs import descargaLogixs

@@ -191,8 +191,11 @@ document.getElementById('search').addEventListener('input', function() {
     }
   }
   });
+function modificarDatos(numEnvio,dir,loc,vend,est) {
+    window.open("/formularioEdicionLogistica?direccion=" + dir + "&localidad=" + loc + "&vendedor=" + vend + "&numeroEnvio=" + numEnvio + "&estado=" + est,'_blank', 'modal=true,height=400,width=300');
+  }
 
-actualizarMapa();
+  
 function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
@@ -214,6 +217,7 @@ var contenido = "<p>Envio: "+nro_env+
 "<br>Chofer: "+chofer+
 "<br>Estado: "+est+
 "<br>Motivo: " + motivo+
+`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+`')">Modificar</button>`+
 "<form action='/cambiozona' method='POST'><select name='zona' id='zona'>"+
 "<option value='"+zona+"' selected disabled hidden>"+zona+"</option>"+
 "<option value='null'>Limpiar zona</option>"+

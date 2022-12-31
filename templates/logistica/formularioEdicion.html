@@ -1,0 +1,32 @@
+<script>
+  function cerrar()
+{
+fetch('/guardarCambiosEnvio', {
+  method: 'POST',
+  body: new FormData(document.getElementById('form'))
+})
+  .then(response => {
+    if (response.status === 200) {
+      window.close();
+    } else {
+      // Muestra una notificación en caso de recibir una respuesta con cualquier otro código de estado
+      alert('Se ha producido un error al enviar el formulario');
+    }
+  });
+
+}
+  
+</script>
+<form action="/guardarCambiosEnvio" method="post" id="form">
+    <label for="numeroEnvio">Número de envío: {{numeroEnvio}}</label><br>
+    <input type="hidden" name="numEnvio" id="numEnvio" value="{{numeroEnvio}}">
+    <label for="direccion">Dirección:</label><br>
+    <input type="text" id="direccion" name="direccion" value="{{ direccion }}"><br>
+    <label for="localidad">Localidad:</label><br>
+    <input type="text" id="localidad" name="localidad" value="{{ localidad }}"><br>
+    <label for="vendedor">Vendedor:</label><br>
+    <input type="text" id="vendedor" name="vendedor" value="{{ vendedor }}"><br>
+    <label for="estado">Estado: {{ estado }}</label><br>
+    <input type="button" value="Guardar cambios" onclick="cerrar()">
+  </form> 
+  

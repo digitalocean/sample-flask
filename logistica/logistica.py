@@ -24,6 +24,28 @@ def descargaLogixsBoton():
     return redirect ("logistica/vistamapa")
 
 
+@lg.route('/formularioEdicionLogistica')
+def mostrarFormulario():
+  direccion = request.args.get('direccion')
+  localidad = request.args.get('localidad')
+  vendedor = request.args.get('vendedor')
+  numeroEnvio = request.args.get('numeroEnvio')
+  estado = request.args.get('estado')
+  return render_template('logistica/formularioEdicion.html', direccion=direccion, localidad=localidad, vendedor=vendedor, numeroEnvio=numeroEnvio, estado=estado)
+
+@lg.route('/guardarCambiosEnvio',methods=["POST"])
+def guardarCambiosEnvio():
+    numEnvio = request.form.get("numEnvio")
+    direccion = request.form.get("direccion")
+    localidad = request.form.get("localidad")
+    vendedor = request.form.get("vendedor")
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("update ViajesFlexs set Direccion = %s,Localidad = %s, Vendedor = %s where Numero_envío = %s",(direccion,localidad,vendedor,numEnvio))
+    midb.commit()
+    geolocalizarFaltantes(midb)
+    return "exito"
+
 @lg.route("/busquedaAdmin")
 @auth.login_required
 def busqueda():

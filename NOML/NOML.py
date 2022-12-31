@@ -3,7 +3,7 @@ from scriptGeneral import scriptGeneral
 from auth import auth
 from database import database
 from datetime import datetime
-from logistica import Envio
+from logistica import Envio,script
 import random
 NOML = Blueprint('NOML', __name__, url_prefix='/')
 
@@ -52,6 +52,7 @@ def carga_noml():
             tipo_envio = 13
         viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,tipoEnvio=tipo_envio)
         if viaje.toDB():
+            script.geolocalizarFaltantes(database.connect_db())
             return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 
                                 auth = session.get("user_auth"), 
