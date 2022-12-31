@@ -122,7 +122,7 @@ def subir_exel_formms():
             tipo_envio = 2
             if direccion == "None" or localidad == "None":
                 continue
-            if vendedor == "Quality Shop":
+            if vendedor == "Quality Shop" or vendedor == "Armin":
                 tipo_envio = 13
                 nro_envio = None
             if nro_envio == "None":

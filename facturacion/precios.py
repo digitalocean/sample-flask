@@ -6,7 +6,7 @@ pr = Blueprint('precios', __name__, url_prefix='/')
 
 def obtenerIdTarifas(db):
     cursor = db.cursor()
-    cursor.execute("select idTarifa from tarifa group by idTarifa")
+    cursor.execute("select idTarifa from tarifaCliente group by idTarifa")
     tarifas = []
     for x in cursor.fetchall():
         tarifas.append(x[0])
@@ -14,7 +14,7 @@ def obtenerIdTarifas(db):
 
 def obtenerTarifaPorCliente(db):
     cursor = db.cursor()
-    cursor.execute("select C.nombre_cliente,T.idTarifa from Clientes as C inner join tarifa as T on idClientes = id_cliente order by C.nombre_cliente;")
+    cursor.execute("select C.nombre_cliente,T.idTarifa from Clientes as C inner join tarifaCliente as T on idClientes = id_cliente order by C.nombre_cliente;")
     clienteTarifa = []
     for x in cursor.fetchall():
         paq = [x[0],x[1]]

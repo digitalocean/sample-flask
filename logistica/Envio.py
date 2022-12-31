@@ -7,9 +7,19 @@ from .script import geocoder
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
-                recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,valorDeclarado=None,sku=None,columna1=None,columna2=None,columna3=None,fromDB=False,geolocalizar=False):
+                recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,columna3=None,fromDB=False,geolocalizar=False):
         midb = database.connect_db()
-        if not fromDB:
+        if numeroEnvio == None:
+            cursor = midb.cursor()
+            cursor.execute("select count(*),idVendedor(%s) from ViajesFlexs",(vendedor,))
+            res = cursor.fetchone()
+            caracteres = len(f"{res[1]}{res[0]}{tipoEnvio}")
+            agregar = 11 - caracteres
+            self.Numero_envío = f"NOML{tipoEnvio}-{res[1]}{str(0)*agregar}{res[0]}"
+        else:
+            chars = '.,!"#$%&/()=?¡¿'
+            self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
+        if type(numeroEnvio) != None and not fromDB:
             cursor = midb.cursor()
             cursor.execute('''select "Listo para salir (Sectorizado)" from retirado where Numero_envío = %s 
                             union
@@ -22,32 +32,7 @@ class Envio:
                 self.estado_envio = estadoEnvio
         else:
             self.estado_envio = estadoEnvio
-        if numeroEnvio == None:
-            cursor = midb.cursor()
-            cursor.execute("select count(*) from ViajesFlexs")
-            res = cursor.fetchone()
-            caracteres = len(str(res[0]))
-            agregar = 10 - caracteres - len(str(tipoEnvio))
-            self.Numero_envío = f"NOML{tipoEnvio}"+ "0"*agregar + str(res[0])
-        else:
-            chars = '.,!"#$%&/()=?¡¿'
-            self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
-        if geolocalizar:
-            print("geolocaliza")
-            latlong = geocoder(direccionCompleta)
-            self.Latitud = latlong[0]
-            self.Longitud = latlong[1]
-            if fromDB:
-                midb = database.connect_db()
-                cursor = midb.cursor()
-                cursor.execute(f"update ViajesFlexs set Latitud = '{latlong[0]}', Longitud = '{latlong[1]}' where Numero_envío = '{numeroEnvio}'")
-                midb.commit()
-                midb.close()
-        else:
-            self.Latitud = latitud
-            self.Longitud = longitud
-
         self.Check = None
         self.Zona = None
         self.Fecha = fecha
@@ -57,6 +42,8 @@ class Envio:
         self.Direccion = direccion
         self.Referencia = referencia
         self.Localidad = localidad
+        self.Latitud = latitud
+        self.Longitud = longitud
         self.rendido = None
         self.CP = cp
         self.Vendedor = vendedor
@@ -79,26 +66,24 @@ class Envio:
         self.Reprogramaciones = reprogramaciones
         self.valordeclarado = valorDeclarado
         self.SKU = sku
-        self.columna_1 = columna1
+        self.Multiplicador = multiplicador
         self.columna_2 = columna3
         self.columna_3 = columna3
-
     def toDB(self):
         midb = database.connect_db()
         cursor = midb.cursor()
-        
         sql = """insert into ViajesFlexs (`Check`,Zona,Fecha,Numero_envío,nro_venta,comprador,Telefono,
             Direccion,Referencia,Localidad,rendido,CP,Vendedor,Chofer,Observacion,Motivo,Direccion_Completa,Currentlocation,
             Timechangestamp,Latitud,Longitud,Precio_Cliente,Precio_Chofer,Scanner,estado_envio,Foto_domicilio,Firma_Entregado,
-            tipo_envio,Correo_chofer,columna_1,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`valordeclarado`,`sku`)
-            values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            tipo_envio,Correo_chofer,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`valordeclarado`,`sku`,columna_1,columna_2,columna_3)
+            values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         values = (self.Check,self.Zona,self.Fecha,self.Numero_envío,self.nro_venta,self.comprador,
                     self.Telefono,self.Direccion,self.Referencia,self.Localidad,self.rendido,self.CP,
                     self.Vendedor,self.Chofer,self.Observacion,self.Motivo,self.Direccion_Completa,
                     self.Currentlocation,self.Timechangestamp,self.Latitud,self.Longitud,self.Precio_Cliente,
                     self.Precio_Chofer,self.Scanner,self.estado_envio,self.Foto_domicilio,self.Firma_Entregado,
-                    self.tipo_envio,self.Correo_chofer,self.columna_1,self.Recibe_otro,self.Foto_dni,self.Cobrar,
-                    self.Reprogramaciones,self.valordeclarado,self.SKU)
+                    self.tipo_envio,self.Correo_chofer,self.Recibe_otro,self.Foto_dni,self.Cobrar,
+                    self.Reprogramaciones,self.valordeclarado,self.SKU,self.Multiplicador,self.columna_2,self.columna_3)
         try:
             cursor.execute(sql,values)
             midb.commit()

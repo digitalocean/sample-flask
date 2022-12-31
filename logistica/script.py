@@ -21,7 +21,8 @@ def geolocalizarFaltantes(midatabase):
     if len(resultado) > 0:
         for x in resultado:
             latlong = geocoder(f"{x[1]}, {x[2]}, Buenos Aires")
-            sql = f"UPDATE ViajesFlexs SET `latitud` = '{latlong[0]}', `longitud` = '{latlong[1]}' WHERE (`Numero_envío` = '{x[0]}');"
-            cursor.execute(sql)
+            sql = "UPDATE ViajesFlexs SET `latitud` = %s, `longitud` = %s WHERE (`Numero_envío` = %s);"
+            values = (latlong[0],latlong[1],x[0])
+            cursor.execute(sql,values)
             midatabase.commit()
             
