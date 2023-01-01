@@ -7,7 +7,7 @@ from .script import geocoder
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
-                recibeOtro=None,fotoDni=None,cobrar=None,reprogramaciones=None,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,columna3=None,fromDB=False,geolocalizar=False):
+                recibeOtro=None,fotoDni=None,cobrar=0,reprogramaciones=0,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,columna3=None,fromDB=False,geolocalizar=False):
         midb = database.connect_db()
         if numeroEnvio == None:
             cursor = midb.cursor()
