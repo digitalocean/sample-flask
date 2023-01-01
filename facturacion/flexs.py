@@ -18,7 +18,7 @@ fb = Blueprint('facturacion', __name__, url_prefix='/')
 @fb.route("/descargaresumen")
 @auth.login_required
 def descargaResumen():
-    return send_file('descargas/liquidacion.xlsx', as_attachment=True)
+    return send_file('liquidacion.xlsx')
 
 @fb.route('/consulta_flexs')
 @auth.login_required
@@ -44,7 +44,7 @@ def facturacionFlex():
     suma = 0
     book = Workbook()
     sheet = book.active
-    image = Image("static\logo_grande.jpeg")
+    image = Image("static/logo_grande.jpeg")
     sheet.add_image(image, 'A1')
 
     sheet.column_dimensions['A'].width = 20
@@ -94,7 +94,7 @@ def facturacionFlex():
         sheet["E"+str(contador)] = localidad
         sheet["F"+str(contador)] = precio
         viajes.append(viaje)
-    
+    sheet["E1"] = cliente
     sheet["E2"] = f"cantidad: {contador-9}"
     sheet["E3"] = "Subtotal: "
     sheet["E4"] = "IVA: "
@@ -102,7 +102,7 @@ def facturacionFlex():
     sheet["F3"] = "=SUM(F10:F"+str(contador)+")"
     sheet["F4"] = "=F3 * 0.21"
     sheet["F6"] = "=SUM(E3:E4)"
-    book.save("descargas/liquidacion.xlsx")
+    book.save("liquidacion.xlsx")
     cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
     return render_template("facturacion/tabla_viajes.html",
                             cliente=cliente,
