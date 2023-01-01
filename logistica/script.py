@@ -12,7 +12,7 @@ googleMapApi = os.environ.get("googleMapApi")
 #     return (latitude,longitude)
 
 def geocoder(dir):
-    geolocator = api(user_agent="appmms", api_key=googleMapApi)
+    geolocator = api(user_agent="appmms", api_key=str(googleMapApi))
     location = geolocator.geocode(dir)
     return location.latitude, location.longitude
 

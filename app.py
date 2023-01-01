@@ -1,10 +1,10 @@
 from flask import Flask, render_template, session,current_app
 from flask_cors import CORS
-
+import os
 
 app = Flask(__name__)
 app.config.from_mapping(
-    SECRET_KEY="abcd1234"
+    SECRET_KEY=os.environ.get("FLASK_SECRET_KEY")
     )
 CORS(app)
 from auth import auth

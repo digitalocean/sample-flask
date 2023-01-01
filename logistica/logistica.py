@@ -3,24 +3,14 @@ from flask import Blueprint, redirect, render_template, request, session
 from auth import auth
 from database import database
 from .script import  geolocalizarFaltantes
-from descargaLogixs import descargaLogixs,downloadSpreedSheets
+from tareasProgramadas.tareasProgramadas import descargaDesdePlanillas
 from .Envio import Envio
 lg = Blueprint('logistica', __name__, url_prefix='/')
 
 @lg.route("/descargalogixs")
 @auth.login_required
 def descargaLogixsBoton():
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    cursor.execute("select Numero_envío,estado_envio from ViajesFlexs")
-    nrosEnvios = {}
-    for env in cursor.fetchall():
-        nrosEnvios[env[0]] = env[1]
-    descargaLogixs.descargaLogixs(midb,nrosEnvios)
-    geolocalizarFaltantes(midb)
-    midb.close()
-    downloadSpreedSheets.cargaCamargo(nrosEnvios)
-    downloadSpreedSheets.cargaformatoMMS(nrosEnvios)
+    descargaDesdePlanillas()
     return redirect ("logistica/vistamapa")
 
 
