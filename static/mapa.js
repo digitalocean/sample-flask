@@ -1,4 +1,4 @@
-const ruta = 'http://' + location.host 
+const ruta = 'https://' + location.host 
 console.log(ruta)
 // const ruta = "https://whale-app-suwmc.ondigitalocean.app";
 // const ruta = "http://192.168.0.53"
