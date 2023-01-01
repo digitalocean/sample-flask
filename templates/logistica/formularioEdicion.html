@@ -7,6 +7,7 @@ fetch('/guardarCambiosEnvio', {
 })
   .then(response => {
     if (response.status === 200) {
+      actualizarMapa()
       window.close();
     } else {
       // Muestra una notificación en caso de recibir una respuesta con cualquier otro código de estado

@@ -9,42 +9,28 @@ select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,
 from ViajesFlexs
 """
 consultaMapa = """
-select 
-    Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
-from
-    ViajesFlexs 
-where 
-    (estado_envio = 'Lista Para Retirar' and not Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola')) and estado_envio in ("Retirado","Lista Para Retirar","Listo Para Retirar","Listo para salir (Sectorizado)")
-"""
+        select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
+        from ViajesFlexs
+        where tipo_envio = 2 and not (estado_envio = 'Lista Para Retirar' and Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola')) and estado_envio in ('algo','Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') or Zona like '%\deposito%'
+        """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
 @auth.login_required
 def jsonPendientes():
     if request.method == "POST":
-        estados = ""
         tipoEnvio = request.form["tipoEnvio"]
-        estados += f" where tipo_envio = {tipoEnvio}  and not (estado_envio = 'Lista Para Retirar' and Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola')) and estado_envio in ('algo')"
-
-        if "listaParaRetirar" in request.form.keys():
-            estados = estados[0:-1] + ",'Lista Para Retirar')"
-        if "enDeposito" in request.form.keys():
-            estados = estados[0:-1] + ",'Listo para salir (Sectorizado)')"
-        if "enCamino" in request.form.keys():
-            estados = estados[0:-1] + " ,'En Camino')"
-        if "retirado" in request.form.keys():
-            estados = estados[0:-1] + ",'Retirado')"
-        if "entregado" in request.form.keys():
-            estados = estados[0:-1] + ",'Entregado')"
-        if "noEntregado" in request.form.keys():
-            estados = estados[0:-1] + " ,'No Entregado') and Motivo != 'Cancelado'"
-        if  request.form["fecha"] != "":
-            estados += " and Fecha = '" + request.form["fecha"] + "'"
-        if "extra" in request.form.keys():
-            extra = request.form["extra"]
-            if extra != "" and not ";" in extra:
-                estados += " and " + request.form["extra"]
-        session["consultaMapa"] = consultaTodoMapa+estados
-        print(session["consultaMapa"])
+        session["consultaMapa"] = f"""
+        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
+        from ViajesFlexs
+        where 
+            not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
+        and
+            tipo_envio = {tipoEnvio} 
+        and 
+            estado_envio in ('Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') 
+        or 
+            Zona like '%\deposito%'
+        """
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}

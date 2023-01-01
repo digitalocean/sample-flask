@@ -1,11 +1,13 @@
 from datetime import datetime
 from flask import (
-    Blueprint, g, render_template, request, session
+    Blueprint, g, render_template, request, session,send_file
 )
 from auth import auth
 from informeErrores import informeErrores
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
+from openpyxl.styles import PatternFill, Font
+
 
 
 from database import database
@@ -13,6 +15,10 @@ from scriptGeneral import scriptGeneral
 fb = Blueprint('facturacion', __name__, url_prefix='/')
 
 
+@fb.route("/descargaresumen")
+@auth.login_required
+def descargaResumen():
+    return send_file('descargas/liquidacion.xlsx', as_attachment=True)
 
 @fb.route('/consulta_flexs')
 @auth.login_required
@@ -38,36 +44,42 @@ def facturacionFlex():
     suma = 0
     book = Workbook()
     sheet = book.active
-    sheet["A1"] = "id"
-    sheet["B1"] = "Numero_envío"
-    sheet["C1"] = "Vendedor"
-    sheet["D1"] = "Direccion_Completa"
-    sheet["E1"] = "Fecha"
-    sheet["F1"] = "Localidad"
-    sheet["G1"] = "Recibio"
-    sheet["H1"] = "Chofer"
-    sheet["I1"] = "Precio"
-    sheet["J1"] = "Costo"
-    sheet["K1"] = "Hora"
-    sheet["L1"] = "Currentlocation"
-    sheet["M1"] = "estado_envio"
-    sheet["N1"] = ""
+    image = Image("static\logo_grande.jpeg")
+    sheet.add_image(image, 'A1')
+
+    sheet.column_dimensions['A'].width = 20
+    sheet.column_dimensions['B'].width = 20
+    sheet.column_dimensions['C'].width = 30
+    sheet.column_dimensions['D'].width = 65
+    sheet.column_dimensions['E'].width = 20
+    sheet.column_dimensions['F'].width = 15
+    sheet["A9"] = "Fecha"
+    sheet["B9"] = "Numero de envío"
+    sheet["C9"] = "Comprador"
+    sheet["D9"] = "Direccion_Completa"
+    sheet["E9"] = "Localidad"
+    sheet["F9"] = "Precio"
+    sheet["E3"] = desde
+    sheet["E4"] = hasta
+    for row in sheet['A9:F9']:
+        for cell in row:
+            cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
+            cell.font = Font(color='FFFFFF')
     
     
-    contador = 1
-    sql = f"select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,H.Vendedor,V.comprador from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"
+    contador = 9
+    sql = f"select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"
     cursor.execute(sql)
     sinprecio = 0
     for viajeTupla in cursor.fetchall():
         viaje = list(viajeTupla)
         contador += 1
-        fecha = viaje[5]
+        fecha = viaje[0]
         nenvio = viaje[1]
         direccionCompleta = viaje[2]
         localidad = viaje[3]
         precio = viaje[4]
-        apodo = viaje[5]
-        comprador = viaje[6]
+        comprador = viaje[5]
 
 
         if(precio == None):
@@ -77,21 +89,27 @@ def facturacionFlex():
             suma = suma + float(precio)
         sheet["A"+str(contador)] = fecha
         sheet["B"+str(contador)] = nenvio
-        sheet["C"+str(contador)] = direccionCompleta
-        sheet["D"+str(contador)] = localidad
-        sheet["E"+str(contador)] = apodo
+        sheet["C"+str(contador)] = comprador
+        sheet["D"+str(contador)] = direccionCompleta
+        sheet["E"+str(contador)] = localidad
         sheet["F"+str(contador)] = precio
-        sheet["G"+str(contador)] = comprador
         viajes.append(viaje)
-    sheet["F"+str(contador+1)] = "=SUM(F2:F"+str(contador)+")"
-    book.save("Resumen.xlsx")
-    cabezeras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Vendedor","Precio","Comprador"]
+    
+    sheet["E2"] = f"cantidad: {contador-9}"
+    sheet["E3"] = "Subtotal: "
+    sheet["E4"] = "IVA: "
+    sheet["F6"] = "Total: "
+    sheet["F3"] = "=SUM(F10:F"+str(contador)+")"
+    sheet["F4"] = "=F3 * 0.21"
+    sheet["F6"] = "=SUM(E3:E4)"
+    book.save("descargas/liquidacion.xlsx")
+    cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
     return render_template("facturacion/tabla_viajes.html",
                             cliente=cliente,
                             desde=desde,
                             hasta=hasta,
                             titulo="Facturacion", 
-                            cabezeras = cabezeras,
+                            cabeceras = cabeceras,
                             tipo_facturacion="flex", 
                             viajes=viajes, 
                             total=f"${suma} y {sinprecio} viajes sin precio", 

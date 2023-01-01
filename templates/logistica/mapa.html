@@ -11,13 +11,12 @@
         <option value='{{zn}}'>{{zn}}</option>
         {% endfor %}
     </select>
+    <input type="button" value="Asignar" onclick="zonificar()" class="boton">
     <input type="hidden" name="enviosAzonificar" id="enviosAzonificar">
-    <div hidden><input type='submit' id="botonAsignacion" value='Confirmar'></div>
 </form>
-<input type="button" value="Asignar" onclick="zonificar()" class="boton">
+
 <input type="button" value="Actualizar mapa" onclick="initMap()" class="boton">
 <input type="button" value="Reset poligono" onclick="clearPolygon()" class="boton">
-<input type="button" value="Actualizar viajes" onclick="actualizarViajes()" class="boton">
 </div>
 <style>
     .boton{
@@ -31,21 +30,16 @@
     }
 </style>
 <form action="/logistica/jsonPendientes" method="post">
-<input type="checkbox" checked name="listaParaRetirar" value="True" >Lista para retirar.
-<input type="checkbox" checked name="retirado" value="True">Retirado
-<input type="checkbox" checked name="enDeposito" value="True">En deposito
-<input type="checkbox" name="enCamino" value="True">En camino
-<input type="checkbox" name="noEntregado" value="True">No entregado
-<input type="checkbox" name="entregado" value="True">Entregado
+<input type="checkbox" checked name="listaParaRetirar" id="listaParaRetirar" value="True" >Lista para retirar.
+<input type="checkbox" checked name="retirado" id="retirado" value="True">Retirado
+<input type="checkbox" checked name="enDeposito" id="enDeposito" value="True">En deposito
 <select name="tipoEnvio">
     <option value="2">Flexs</option>
     <option value="13">Recorrido</option>
 </select>
-<input type="date" name="fecha">
-<input type="text" name="extra">
 <input type="submit" value="Filtrar" value="True">
 </form>
-<input type="text" id="search">
+<input type="text" id="search" placeholder="Busqueda">
 <div id="mensaje"></div>
 </div>
     </div>
@@ -66,6 +60,7 @@ body {
 }
     </style>
     <script src="{{url_for('static', filename='mapa.js')}}"></script>
+    <script src="{{url_for('static', filename='filtros.js')}}"></script>
     <div id="map"></div>
     <!-- El script asíncrono se ejecuta inmediatamente y debe estar después de cualquier elemento DOM utilizado en la devolución de llamada.  -->
     <script async

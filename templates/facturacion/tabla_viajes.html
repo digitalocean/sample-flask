@@ -3,12 +3,13 @@
 {% block content %}
 
     <form action="/facturacion_{{tipo_facturacion}}" method="GET" style="position: initial; width: 30%;">
-        <a href="/facturacion/borrar_repetido"><input type="button" value="Borrar repetidos"></a><br>
+        <!-- <a href="/facturacion/borrar_repetido"><input type="button" value="Borrar repetidos"></a><br> -->
         <label>Desde</label><br>
         <input type="date" name="desde" value="{{desde}}"><br>
         <label>Hasta</label><br>
         <input type="date" name="hasta" value="{{hasta}}"><br>
-        <select name="cliente" value="{{cliente}}">
+        <select name="cliente">
+            <option value="{{cliente}}">{{cliente}}</option>
             {% for cliente in clientes %}
             <option value="{{cliente}}">{{cliente}}</option>
             {% endfor %}
@@ -18,13 +19,12 @@
     {% if total %}
     <h4>Total: {{total}}</h4>
     {% endif %}
-    <a href="/facturacion/descarga" download="/facturacion/descarga"><input type="button" name="descarga" id="descarga" value="Descarga exel cliente"></a>
-    <a href=""><input type="button" name="descarga" id="descarga" value="Descarga exel chofer"></a>
+    <a href="/descargaresumen"><input type="button" name="descarga" id="descarga" value="Descarga exel cliente"></a>
     <h3>{{mensaje_error}}</h3>
     <br><br>
     <table style="width: 100%; border: solid ;">
         <tr>
-            {%for x in cabezeras%}
+            {%for x in cabeceras%}
             <td>{{x}}</td>
             {%endfor%}
         </tr>
