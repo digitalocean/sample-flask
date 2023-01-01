@@ -1,5 +1,6 @@
-// import ruta from rutaMapa.js
-const ruta = "https://whale-app-suwmc.ondigitalocean.app";
+const ruta = 'http://' + location.host 
+console.log(ruta)
+// const ruta = "https://whale-app-suwmc.ondigitalocean.app";
 // const ruta = "http://192.168.0.53"
 var map;
 var asignaciones = [];
