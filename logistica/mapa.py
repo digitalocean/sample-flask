@@ -18,7 +18,7 @@ where
 """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
-# @auth.login_required
+@auth.login_required
 def jsonPendientes():
     if request.method == "POST":
         estados = ""
