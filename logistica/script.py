@@ -1,7 +1,9 @@
 from database import database
 from geopy.geocoders import GoogleV3 as api
 import requests
+import os
 
+apiKeyGoogle = os.environ.get("googleMapApi")
 
 # def geocoder(direccion):
 #     result = requests.get(f"http://www.mapquestapi.com/geocoding/v1/address?key=ZGEUQet8O32iwdTkKxhCkQ0ZayJxBVgF&location={direccion}").json()
@@ -10,7 +12,7 @@ import requests
 #     return (latitude,longitude)
 
 def geocoder(dir):
-    geolocator = api(user_agent="appmms", api_key="AIzaSyAt-xZYW0smZUbe2xh95M06EqmYPfnZRYQ-bNHfsw7RChXg")
+    geolocator = api(user_agent="appmms", api_key=apiKeyGoogle)
     location = geolocator.geocode(dir)
     return location.latitude, location.longitude
 

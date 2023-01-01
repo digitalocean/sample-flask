@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
-# encoding: utf-8
-
 from datetime import datetime
 from flask import (
     Blueprint, g, render_template, request, session
@@ -9,6 +5,7 @@ from flask import (
 from auth import auth
 from informeErrores import informeErrores
 from openpyxl import Workbook
+from openpyxl.drawing.image import Image
 
 
 from database import database
@@ -58,66 +55,37 @@ def facturacionFlex():
     
     
     contador = 1
-    # sql = f"select Fecha, Numero_envío,Direccion_Completa,Localidad,Precio,Vendedor from historial_estados where Vendedor in (select Apodo from mmslogis_MMSPack.`Apodos y Clientes` where Cliente = '{cliente}') and Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"
-    sql = f"select id,Numero_envío,Vendedor,Direccion_Completa,Fecha,Localidad,Recibio,Chofer,Precio,Costo,Hora,Currentlocation,estado_envio from historial_estados where Fecha between '{desde}' and '{hasta}' and estado_envio in ('En Camino','Levantada') order by Fecha desc"
+    sql = f"select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,H.Vendedor,V.comprador from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"
     cursor.execute(sql)
     sinprecio = 0
     for viajeTupla in cursor.fetchall():
         viaje = list(viajeTupla)
         contador += 1
-        # fecha = viaje[5]
-        # nenvio = viaje[1]
-        # direccionCompleta = viaje[2]
-        # localidad = viaje[3]
-        # precio = viaje[4]
-        # apodo = viaje[5]
-        id = viaje[0]
-        nenvio = viaje[1] 
-        apodo = viaje[2]
-        direccionCompleta = viaje[3]
-        fecha = viaje[4]
-        localidad = viaje[5]
-        Recibio = viaje[6] 
-        Chofer = viaje[7]
-        precio = viaje[8] 
-        Costo = viaje[9] 
-        Hora = viaje[10]
-        Currentlocation = viaje[11]
-        estado_envio = viaje[12]
-
+        fecha = viaje[5]
+        nenvio = viaje[1]
+        direccionCompleta = viaje[2]
+        localidad = viaje[3]
+        precio = viaje[4]
+        apodo = viaje[5]
+        comprador = viaje[6]
 
 
         if(precio == None):
             sinprecio = sinprecio +1
-            viaje[4] = "Sin precio"
-            suma = suma + 0
+            precio = "Sin precio"
         else:
             suma = suma + float(precio)
-        # sheet["A"+str(contador)] = fecha
-        # sheet["B"+str(contador)] = nenvio
-        # sheet["C"+str(contador)] = direccionCompleta
-        # sheet["D"+str(contador)] = localidad
-        # sheet["E"+str(contador)] = apodo
-        # sheet["F"+str(contador)] = precio
-        sheet["A"+str(contador)] = id
+        sheet["A"+str(contador)] = fecha
         sheet["B"+str(contador)] = nenvio
-        sheet["C"+str(contador)] = apodo
-        sheet["D"+str(contador)] = direccionCompleta
-        sheet["E"+str(contador)] = fecha
-        sheet["F"+str(contador)] = localidad
-        sheet["G"+str(contador)] = Recibio
-        sheet["H"+str(contador)] = Chofer
-        sheet["I"+str(contador)] = precio
-        sheet["J"+str(contador)] = Costo
-        sheet["K"+str(contador)] = Hora
-        sheet["L"+str(contador)] = Currentlocation
-        sheet["M"+str(contador)] = estado_envio
-
+        sheet["C"+str(contador)] = direccionCompleta
+        sheet["D"+str(contador)] = localidad
+        sheet["E"+str(contador)] = apodo
+        sheet["F"+str(contador)] = precio
+        sheet["G"+str(contador)] = comprador
         viajes.append(viaje)
-    sheet["J"+str(contador+1)] = "=SUM(J2:j"+str(contador)+")"
-    sheet["K"+str(contador+1)] = "=SUM(K2:K"+str(contador)+")"
+    sheet["F"+str(contador+1)] = "=SUM(F2:F"+str(contador)+")"
     book.save("Resumen.xlsx")
-    cabezeras = ["id","Numero_envío","Vendedor","Direccion_Completa","Fecha","Localidad","Recibio","Chofer","Precio","Costo","Hora","Currentlocation","estado_envio"]
+    cabezeras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Vendedor","Precio","Comprador"]
     return render_template("facturacion/tabla_viajes.html",
                             cliente=cliente,
                             desde=desde,
