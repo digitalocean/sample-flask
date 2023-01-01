@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
-# encoding: utf-8
-
 import functools
 
 from flask import (
@@ -19,7 +15,12 @@ def load_logged_in_user():
     else:
         midb = database.connect_db()
         cursor = midb.cursor()
-        cursor.execute(f"SELECT nickname,tipoUsuario FROM mmslogis_MMSPack.usuario where nickname = '{user_id}' union SELECT nombre,'Chofer' FROM empleado where nombre = '{user_id}';")
+        cursor.execute("""
+        SELECT nickname,tipoUsuario FROM mmslogis_MMSPack.usuario where nickname = %s 
+            union 
+        SELECT nombre,'Chofer' FROM empleado where nombre = %s
+            union
+        SELECT nombre_cliente,'Cliente' from Clientes where nombre_cliente = %s;""",(user_id,user_id,user_id))
         usuario = cursor.fetchone()
         g.user = usuario[0]
         g.auth = usuario[1]
@@ -55,12 +56,18 @@ def login():
         midb = database.connect_db()
         cursor = midb.cursor()
         try:
-            sql = f"SELECT nickname,password,tipoUsuario FROM mmslogis_MMSPack.usuario where nickname = '{user}' union SELECT nombre,dni,'Chofer' FROM empleado where nombre = '{user}';"
-            cursor.execute(sql)
+            sql = """
+            SELECT nickname,password,tipoUsuario FROM mmslogis_MMSPack.usuario where nickname = %s 
+                union 
+            SELECT nombre,dni,'Chofer' FROM empleado where nombre = %s
+                union
+            SELECT nombre_cliente,password,'Cliente' from Clientes where nombre_cliente = %s
+                ;"""
+            values = (user,user,user)
+            cursor.execute(sql,values)
             resultado = cursor.fetchall()
             midb.close()
             for x in resultado:
-                print(x)
                 if x[1] == password:
                     session.clear()
                     session['user_id'] = x[0]
@@ -68,9 +75,10 @@ def login():
                     return redirect(url_for("bienvenido"))
                 else:
                     return render_template("login.html",titulo="Login", mensaje=U"Usuario y/o contraseña incorrecto")
-        except:
+        except Exception as err:
+            print(err)
             midb.close()
-            return render_template("login.html",titulo="Login", mensaje=U"Usuario y/o contraseña incorrecto")
+            return render_template("login.html",titulo="Login", mensaje=U"Algo salio mal! comuniquese con el administrador del sitio")
         
         
         else:

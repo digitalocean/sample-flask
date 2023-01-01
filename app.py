@@ -5,9 +5,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY="abcd1234"
-)
+    )
 CORS(app)
-
 from auth import auth
 app.register_blueprint(auth.auth)
 from logistica import logistica
@@ -73,35 +72,16 @@ def bienvenido():
     return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1
-from descargaLogixs.descargaLogixs import descargaLogixs
-from datetime import datetime
-from database.database import connect_db
-from logistica.script import  geolocalizarFaltantes
-from scriptGeneral.scriptGeneral import enviar_correo
-import pandas as pd
+from tareasProgramadas.tareasProgramadas import informeQualityShop,descargaDesdePlanillas
 
 scheduler = BackgroundScheduler()
-@scheduler.scheduled_job('cron',minute="*/5", hour="12-18")
+@scheduler.scheduled_job('cron',day_of_week='mon-fri',minute="*/8", hour="12-18")
 def background_task():
-    midb = connect_db()
-    cursor = midb.cursor()
-    cursor.execute("select Numero_envío,estado_envio from ViajesFlexs")
-    nrosEnvios = {}
-    for env in cursor.fetchall():
-        nrosEnvios[env[0]] = env[1]
-    descargaLogixs(midb,nrosEnvios)
-    cargaCamargo(nrosEnvios)
-    cargaCamargoMe1(nrosEnvios)
-    cargaformatoMMS(nrosEnvios)
-    geolocalizarFaltantes(midb)
-    midb.close()
-    
-def informeQualityShop():
-    midb = connect_db()
-    fecha = datetime.now()
-    pd.read_sql("select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["qualityshopargentina@gmail.com","josudavidg@gmail.com","acciaiomatiassebastian@gmail.com"],f"Informe de envios {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","informe.xlsx","informe.xlsx"," ")
+    descargaDesdePlanillas()
+
+@scheduler.scheduled_job('cron',day_of_week='sat',minute="*/8", hour="14-18")
+def background_task():
+    descargaDesdePlanillas()
 
 @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=16)
 def background_task2():
