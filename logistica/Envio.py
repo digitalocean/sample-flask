@@ -20,6 +20,7 @@ class Envio:
             chars = '.,!"#$%&/()=?¡¿'
             self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         if type(numeroEnvio) != None and not fromDB:
+            print("consulta historial")
             cursor = midb.cursor()
             cursor.execute('''select "Listo para salir (Sectorizado)" from retirado where Numero_envío = %s 
                             union
@@ -31,6 +32,7 @@ class Envio:
             else:
                 self.estado_envio = estadoEnvio
         else:
+            print("no consulta historial")
             self.estado_envio = estadoEnvio
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         self.Check = None

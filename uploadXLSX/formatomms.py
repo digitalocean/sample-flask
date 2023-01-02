@@ -133,7 +133,8 @@ def subir_exel_formms():
                 nro_envio = None
             if nro_envio == "None":
                 nro_envio = None
-            if nro_envio in envios.keys():
+            chars = '.,!"#$%&/()=?¡¿'
+            if str(nro_envio).translate(str.maketrans('', '', chars)) in str(envios.keys()):
                 viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
                 omitido += 1
                 continue
@@ -141,6 +142,10 @@ def subir_exel_formms():
                 consultaHistorial = True
             else:
                 consultaHistorial = False
+            print(consultaHistorial)
+            print(session.get("user_auth"))
+            print(direccion)
+            print(nro_envio)
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto,fromDB=consultaHistorial)
             resu = viaje.toDB()
             if resu:
