@@ -23,7 +23,7 @@ def procesarNotificacion(data):
             estado = traducirEstado(viaje[5])
             if resEnvio == False:
                 if tipo_envio == 2:
-                    envio = Envio.Envio(viaje[2],viaje[3],vendedor,viaje[0],viaje[6],tipoEnvio=tipo_envio,referencia=viaje[4],fecha=viaje[7],numeroVenta=viaje[8])
+                    envio = Envio(viaje[2],viaje[3],vendedor,viaje[0],viaje[6],tipoEnvio=tipo_envio,referencia=viaje[4],fecha=viaje[7],numeroVenta=viaje[8])
                     if envio.toDB(): 
                         print(f"Envio: {nro_envio} Agregado")
                         geolocalizarFaltantes(database.connect_db())
