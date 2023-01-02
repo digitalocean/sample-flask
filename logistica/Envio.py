@@ -3,7 +3,6 @@ from datetime import datetime,timedelta
 from geopy.distance import geodesic
 from database import database
 import mysql.connector
-from .script import geocoder
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
@@ -15,7 +14,7 @@ class Envio:
             res = cursor.fetchone()
             caracteres = len(f"{res[1]}{res[0]}{tipoEnvio}")
             agregar = 11 - caracteres
-            self.Numero_envío = f"NOML{tipoEnvio}-{res[1]}{str(0)*agregar}{res[0]}"
+            self.Numero_envío = f"NOML{tipoEnvio}{res[1]}{str(0)*agregar}{res[0]}"
         else:
             chars = '.,!"#$%&/()=?¡¿'
             self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
@@ -34,6 +33,7 @@ class Envio:
         else:
             print("no consulta historial")
             self.estado_envio = estadoEnvio
+        print(self.Numero_envío)
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         self.Check = None
         self.Zona = None
