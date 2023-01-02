@@ -12,7 +12,11 @@ import openpyxl
 from logistica import Envio
 from logistica.script import geolocalizarFaltantes
 from scriptGeneral import scriptGeneral
-
+from threading import Thread
+import pandas as pd
+def generarInforme(midb,ruta,vendedor):
+    pd.read_sql(f"select * from ViajesFlexs where Vendedor = {vendedor} and Fecha > current_date();",midb).to_excel(ruta)
+    scriptGeneral.enviar_correo(["nj.11@hotmail.com","acciaiomatiassebastian@gmail.com"],f"Envios cargados {vendedor}",'descargas/informe.xlsx',"Informe.xlsx","")
 
 formms = Blueprint('formms', __name__, url_prefix='/')
 
@@ -128,7 +132,9 @@ def subir_exel_formms():
             tipo_envio = 2
             if direccion == "None" or localidad == "None":
                 continue
+            informar = False
             if vendedor == "Quality Shop" or vendedor == "Armin":
+                informar = True
                 tipo_envio = 13
                 nro_envio = None
             if nro_envio == "None":
@@ -142,10 +148,6 @@ def subir_exel_formms():
                 consultaHistorial = True
             else:
                 consultaHistorial = False
-            print(consultaHistorial)
-            print(session.get("user_auth"))
-            print(direccion)
-            print(nro_envio)
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto,fromDB=consultaHistorial)
             resu = viaje.toDB()
             if resu:
@@ -157,6 +159,9 @@ def subir_exel_formms():
         cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Telefono","Referencia","Monto","Producto"]
         t = Thread(target=geolocalizarFaltantes,args=(database.connect_db(),))
         t.start()
+        if informar:
+            t = Thread(target=generarInforme, args=(database.connect_db(),'descargas/informe.xlsx',vendedor))
+            t.start()
         return render_template("CargaArchivo/data.html",
                                 titulo="Carga", 
                                 data=viajes,

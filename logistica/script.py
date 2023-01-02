@@ -1,10 +1,10 @@
 from database import database
 from geopy.geocoders import GoogleV3 as api
-import requests
 import os
-
+from threading import Thread
 googleMapApi = os.environ.get("googleMapApi")
 
+# import requests
 # def geocoder(direccion):
 #     result = requests.get(f"http://www.mapquestapi.com/geocoding/v1/address?key=ZGEUQet8O32iwdTkKxhCkQ0ZayJxBVgF&location={direccion}").json()
 #     latitude = result['results'][0]["locations"][0]["latLng"]["lat"]
@@ -16,7 +16,8 @@ def geocoder(dir):
     location = geolocator.geocode(dir)
     return location.latitude, location.longitude
 
-def geolocalizarFaltantes(midatabase):
+
+def geolocalizarFaltantesback(midatabase):
     midatabase = database.verificar_conexion(midatabase)
     cursor = midatabase.cursor()
     cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa,Direccion,Localidad from ViajesFlexs where latitud is null or Longitud is null")
@@ -29,5 +30,9 @@ def geolocalizarFaltantes(midatabase):
             values = (latlong[0],latlong[1],x[0])
             cursor.execute(sql,values)
             midatabase.commit()
-    midatabase.close()
+
+def geolocalizarFaltantes(db):
+    t = Thread(target=geolocalizarFaltantesback, args=(db,))
+    t.start()
+    db.close()
             
