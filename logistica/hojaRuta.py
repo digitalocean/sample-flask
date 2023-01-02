@@ -15,7 +15,7 @@ def hojaDeRuta():
         cursor = midb.cursor()    
         chofer = request.form["chofer"]
         fecha = request.form["fecha"]
-        sql = f"select Numero_envío, Direccion, Localidad, Referencia,vendedor(Vendedor) From ViajesFlexs where Numero_envío in (select Numero_envío from historial_estados where Fecha = '{fecha}' and estado_envio in ('En Camino', 'Reasignado') and Chofer = '{chofer}' )"
+        sql = f"select Numero_envío,telefono, Direccion, Localidad, Referencia,vendedor(Vendedor),sku,Cobrar From ViajesFlexs where Numero_envío in (select Numero_envío from historial_estados where Fecha = '{fecha}' and estado_envio in ('En Camino', 'Reasignado') and Chofer = '{chofer}' )"
         # sql  = F"select Numero_envío from historial_estados where Chofer = '{chofer}' and Fecha = '{fecha}' and estado_envio in ('En Camino', 'Reasignado')"
         print(sql)
         cursor.execute(sql)
@@ -23,7 +23,7 @@ def hojaDeRuta():
         for x in cursor.fetchall():
             contador += 1
             viajes.append(x)
-        cabezeras = ["Numero_envío","Direccion", "Referencia","Vendedor"]
+        cabezeras = ["Numero_envío","Telefono","Direccion", "Referencia","Vendedor","Producto","Cobrar"]
         return render_template("logistica/hojaDeRuta.html", titulo="Hoja de ruta", viajes=viajes,columnas = cabezeras,cant_columnas=len(cabezeras),fecha=fecha,total=contador,choferSeleccionado=chofer,choferes=scriptGeneral.correoChoferes(database.connect_db()),auth = session.get("user_auth"))
     elif request.method == "GET":
         hoy = str(datetime.now())[0:10]
