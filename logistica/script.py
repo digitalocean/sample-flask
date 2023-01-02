@@ -17,6 +17,7 @@ def geocoder(dir):
     return location.latitude, location.longitude
 
 def geolocalizarFaltantes(midatabase):
+    midatabase = database.verificar_conexion(midatabase)
     cursor = midatabase.cursor()
     cursor.execute(f"select Numero_envío, Vendedor, Direccion_Completa,Direccion,Localidad from ViajesFlexs where latitud is null or Longitud is null")
     resultado = cursor.fetchall()

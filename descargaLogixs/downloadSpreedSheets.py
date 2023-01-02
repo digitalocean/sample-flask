@@ -5,7 +5,7 @@ from database.database import connect_db
 
 def cargaCamargo(nrosEnvios):
     sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
-    sh = sa.open("Flex (MMS) Diciembre")
+    sh = sa.open("Flex (MMS) Enero")
     wks = sh.worksheet("Hoy")
     envios = wks.get(f"A2:I{wks.row_count}")
     for x in envios:
@@ -25,7 +25,7 @@ def cargaCamargo(nrosEnvios):
 
 def cargaCamargoMe1(nrosEnvios):
     sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
-    sh = sa.open("Flex (MMS) Diciembre")
+    sh = sa.open("Flex (MMS) Enero")
     wks = sh.worksheet("Me1")
     envios = wks.get(f"A2:I{wks.row_count}")
     for x in envios:
@@ -48,7 +48,7 @@ def cargaformatoMMS(nrosEnvios,planilla,hoja,vendedor):
     sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
     sh = sa.open(planilla)
     wks = sh.worksheet(hoja)
-    envios = wks.get(f"A6204:i{wks.row_count}")
+    envios = wks.get(f"A6204:i{wks.row_count}") 
     for x in envios:
         if len(x) > 7 and x[1] in nrosEnvios.keys():
             continue
@@ -56,10 +56,7 @@ def cargaformatoMMS(nrosEnvios,planilla,hoja,vendedor):
             cp = None
             if len(x) > 8:
                 cp = x[8]
-            day = int(x[0][0:2])
-            month = int(x[0][3:5])
-            year = int(x[0][6:10])
-            viaje = Envio(x[5],x[7],vendedor,x[1],x[3],x[4],x[6],cp,datetime(year,month,day),tipoEnvio=2)
+            viaje = Envio(x[5],x[7],vendedor,x[1],x[3],x[4],x[6],cp,tipoEnvio=2)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
             else:

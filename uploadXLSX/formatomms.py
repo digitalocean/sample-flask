@@ -21,6 +21,12 @@ formms = Blueprint('formms', __name__, url_prefix='/')
 def subir_exel_formms():
     ahora = (datetime.today())
     if request.method == "POST":
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute("select Numero_envío from ViajesFlexs")
+        envios = {}
+        for x in cursor.fetchall():
+            envios[x[0]] = True
         archivo_xlsx = request.files["upload"]
         libro = openpyxl.load_workbook(archivo_xlsx)
         sheet_obj = libro.active 
@@ -127,7 +133,15 @@ def subir_exel_formms():
                 nro_envio = None
             if nro_envio == "None":
                 nro_envio = None
-            viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto)
+            if nro_envio in envios.keys():
+                viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
+                omitido += 1
+                continue
+            if session.get("user_auth") == "Cliente":
+                consultaHistorial = True
+            else:
+                consultaHistorial = False
+            viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto,fromDB=consultaHistorial)
             resu = viaje.toDB()
             if resu:
                 viajes.append([resu,cliente,direccion,localidad,telefono,referencia,cobrar,producto])
