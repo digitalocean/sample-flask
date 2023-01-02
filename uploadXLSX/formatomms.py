@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
-# encoding: utf-8
-
 from flask import Blueprint, render_template, request, session,redirect
 from threading import Thread
 from datetime import datetime
@@ -156,8 +152,7 @@ def subir_exel_formms():
                 omitido+=1
                 viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
         cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Telefono","Referencia","Monto","Producto"]
-        t = Thread(target=geolocalizarFaltantes,args=(database.connect_db(),))
-        t.start()
+        geolocalizarFaltantes(database.connect_db())
         if informar:
             t = Thread(target=generarInforme, args=(database.connect_db(),'descargas/informe.xlsx',vendedor))
             t.start()
