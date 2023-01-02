@@ -11,7 +11,7 @@ from scriptGeneral import scriptGeneral
 from threading import Thread
 import pandas as pd
 def generarInforme(midb,ruta,vendedor):
-    pd.read_sql(f"select * from ViajesFlexs where Vendedor = '{vendedor}' and Fecha > current_date();",midb).to_excel(ruta)
+    pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and Fecha > current_date();",midb).to_excel(ruta)
     scriptGeneral.enviar_correo(["njb.11@hotmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor}",'descargas/informe.xlsx',"Informe.xlsx","")
 
 formms = Blueprint('formms', __name__, url_prefix='/')
