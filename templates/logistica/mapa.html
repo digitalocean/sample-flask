@@ -1,8 +1,17 @@
 {% extends "logistica/navegadorLogistica.html" %}
 
 {% block listaViajes %}
-    <div>
-    <br><br>
+<style>
+    .boton{
+        width: 150px;
+        height: 35px;
+    }
+    .selector{
+        width: 612px;
+        height: 35px;
+        font-size: medium;
+    }
+</style>
 <div>
 <form action='/logistica/cambiozonamasivo' id="formzona" method="GET" name="formzona">
     <select name = "zonamasiva" id='zonamasiva' class="selector">
@@ -17,29 +26,19 @@
 
 <input type="button" value="Actualizar mapa" onclick="initMap()" class="boton">
 <input type="button" value="Reset poligono" onclick="clearPolygon()" class="boton">
-</div>
-<style>
-    .boton{
-        width: 150px;
-        height: 35px;
-    }
-    .selector{
-        width: 612px;
-        height: 35px;
-        font-size: medium;
-    }
-</style>
-<form action="/logistica/jsonPendientes" method="post">
+
 <input type="checkbox" checked name="listaParaRetirar" id="listaParaRetirar" value="True" >Lista para retirar.
 <input type="checkbox" checked name="retirado" id="retirado" value="True">Retirado
 <input type="checkbox" checked name="enDeposito" id="enDeposito" value="True">En deposito
+<input type="text" id="search" placeholder="Busqueda">
+</div>
+<form action="/logistica/jsonPendientes" method="post">
 <select name="tipoEnvio">
     <option value="2">Flexs</option>
     <option value="13">Recorrido</option>
 </select>
 <input type="submit" value="Filtrar" value="True">
 </form>
-<input type="text" id="search" placeholder="Busqueda">
 <div id="mensaje"></div>
 </div>
     </div>
@@ -49,6 +48,7 @@
        * elemento que contiene el mapa. */
        #map {
   height: 80%;
+  z-index: 1;
 }
 
 /* Opcional: Hace que la página de muestra llene la ventana.*/
