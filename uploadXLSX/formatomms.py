@@ -25,12 +25,12 @@ formms = Blueprint('formms', __name__, url_prefix='/')
 def subir_exel_formms():
     ahora = (datetime.today())
     if request.method == "POST":
-        # midb = database.connect_db()
-        # cursor = midb.cursor()
-        # cursor.execute("select Numero_envío from ViajesFlexs")
-        # envios = {}
-        # for x in cursor.fetchall():
-        #     envios[x[0]] = True
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute("select Numero_envío from ViajesFlexs")
+        envios = {}
+        for x in cursor.fetchall():
+            envios[x[0]] = True
         archivo_xlsx = request.files["upload"]
         libro = openpyxl.load_workbook(archivo_xlsx)
         sheet_obj = libro.active 
@@ -137,13 +137,15 @@ def subir_exel_formms():
                 informar = True
                 tipo_envio = 13
                 nro_envio = None
+            else:
+                chars = '.,!"#$%&/()=?¡¿'
+                if str(nro_envio).translate(str.maketrans('', '', chars)) in str(envios.keys()):
+                    viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
+                    omitido += 1
+                    continue
             if nro_envio == "None":
                 nro_envio = None
-            chars = '.,!"#$%&/()=?¡¿'
-            # if str(nro_envio).translate(str.maketrans('', '', chars)) in str(envios.keys()):
-            #     viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
-            #     omitido += 1
-            #     continue
+            
             print(nro_envio)
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto,fromDB=True)
             resu = viaje.toDB()
