@@ -15,8 +15,9 @@ def consultaPendientes(sql):
         viajes.append(x)
     return viajes,cant
 
-@auth.login_required
+
 @hsList.route("/logistica/almapa/<envio>",methods=["GET","POST"])
+@auth.login_required
 def alMapa(envio):
     sql = f"update ViajesFlexs set `Check` = null, estado_envio = 'Listo para salir (Sectorizado)',Motivo = null where Numero_envío = '{envio}'"
     midb = database.connect_db()

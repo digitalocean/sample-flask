@@ -173,22 +173,7 @@ function numeroZona(zona){
   });
 }
 
-document.getElementById('search').addEventListener('input', function() {
-  // Obtén el valor del cuadro de texto
-  var searchValue = this.value;
-  // Itera a través de todos los marcadores y oculta aquellos que no coinciden con la búsqueda del usuario
-  for (var i = 0; i < globales.markers.length; i++) {
-    if (
-        (globales.markers[i].Paquete.toLowerCase().indexOf(searchValue.toLowerCase()) === -1)
-    && (globales.markers[i].direccion.toLowerCase().indexOf(searchValue.toLowerCase()) === -1) 
-    && (globales.markers[i].localidad.toLowerCase().indexOf(searchValue.toLowerCase()) === -1)
-    && (globales.markers[i].vendedor.toLowerCase().indexOf(searchValue.toLowerCase()) === -1)) {
-      globales.markers[i].setVisible(false);
-    } else {
-      globales.markers[i].setVisible(true);
-    }
-  }
-  });
+
 function modificarDatos(numEnvio,dir,loc,vend,est) {
     window.open("/formularioEdicionLogistica?direccion=" + dir + "&localidad=" + loc + "&vendedor=" + vend + "&numeroEnvio=" + numEnvio + "&estado=" + est,'_blank', 'modal=true,height=400,width=300');
   }

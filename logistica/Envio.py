@@ -150,9 +150,13 @@ class Envio:
         elif estado == "fueraDeZona":
             estado = "Fuera de Zona"
             motivo = "Fuera de Zona"
+        elif estado == "cancelado":
+            motivo == "Venta cancelada"
         sql = "update ViajesFlexs set Zona = null, `Check` = %s, estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
         values = (check,estado,motivo,chofer,chofer,modifica,hora,numEnvio)
         cursor.execute(sql,values)
+        midb.commit()
+        cursor.execute("update ViajesFlexs set Foto_domicilio = null where Numero_envío = %s",(self.Numero_envío,))
         midb.commit()
         midb.close()
     @classmethod
