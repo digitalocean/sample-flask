@@ -171,6 +171,7 @@ function numeroZona(zona){
       }  
     }
   });
+  actualizarViajes()
 }
 
 

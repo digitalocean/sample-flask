@@ -42,6 +42,18 @@ enDeposito.addEventListener('change', function() {
                 }}}});
 
 
+var dudoso = document.getElementById('dudoso')
+dudoso.addEventListener('change', function() {
+    for (var i = 0; i < globales.markers.length; i++) 
+            {
+        if (globales.markers[i].zona != null && globales.markers[i].zona === "~dudosos/2")
+            {
+                if (dudoso.checked) {
+                    globales.markers[i].setVisible(true);
+                } else {
+                    globales.markers[i].setVisible(false);
+                }}}});
+
 document.getElementById('search').addEventListener('input', function() {
     // Obtén el valor del cuadro de texto
     var searchValue = this.value;
