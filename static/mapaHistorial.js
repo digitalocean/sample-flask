@@ -269,15 +269,7 @@ function zonificar(){
   borrarPoligonoYpintarSeleccionado(zona)
 }
 
-async function actualizarViajes(){
-  $.ajax({
-    url:'/descargalogixs',
-    type:'get',
-    success:function(){
-        console.log("worked");
-    }
-  });
-}
+
 
 
 function getPinIcon(zona,est){
