@@ -4,10 +4,6 @@ from database import database
 
 lgMapa = Blueprint('mapa', __name__, url_prefix='/')
 
-consultaTodoMapa = """
-select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
-from ViajesFlexs
-"""
 consultaMapa = """
         select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
         from ViajesFlexs

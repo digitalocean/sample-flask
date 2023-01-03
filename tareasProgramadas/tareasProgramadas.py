@@ -26,8 +26,12 @@ def descargaDesdePlanillas():
     geolocalizarFaltantes(midb)
     midb.close()
 
-def informeQualityShop():
+def informeEstados(vendedor):
     midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select correo_electronico from Clientes where nombre_cliente = %s",(vendedor,))
+    correoVendedor = cursor.fetchone()[0]
+    print(correoVendedor)
     fecha = datetime.now()
-    pd.read_sql("select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["qualityshopargentina@gmail.com","josudavidg@gmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","descargas/informe.xlsx","informe.xlsx"," ")
+    pd.read_sql(f"select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = '{vendedor}' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
+    enviar_correo([correoVendedor,"josudavidg@gmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {vendedor} {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","descargas/informe.xlsx","informe.xlsx"," ")
