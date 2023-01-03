@@ -9,11 +9,7 @@ from logistica import Envio
 from logistica.script import geolocalizarFaltantes
 from scriptGeneral import scriptGeneral
 from threading import Thread
-import pandas as pd
-def generarInforme(midb,ruta,vendedor):
-    pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and Fecha > current_date();",midb).to_excel(ruta)
-    scriptGeneral.enviar_correo(["njb.11@hotmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor}",ruta,"Informe.xlsx","")
-
+from tareasProgramadas.tareasProgramadas import generarInforme
 formms = Blueprint('formms', __name__, url_prefix='/')
 
 @formms.route("/carga_formms", methods = ["GET","POST"])
@@ -142,7 +138,6 @@ def subir_exel_formms():
             if nro_envio == "None":
                 nro_envio = None
             
-            print(nro_envio)
             viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=tipo_envio,cobrar=cobrar,sku=producto,fromDB=True)
             resu = viaje.toDB()
             if resu:

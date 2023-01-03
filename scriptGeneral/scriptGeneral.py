@@ -40,7 +40,7 @@ def enviar_correo(destinos,asunto,ruta_adjunto,nombre_adjunto,cuerpo):
     mensaje['Subject'] = asunto
     mensaje.attach(MIMEText(cuerpo, "html"))
     if ruta_adjunto != None or nombre_adjunto != None:
-        archivo_adjunto = open(f"descargas/"+ruta_adjunto, 'rb')
+        archivo_adjunto = open(ruta_adjunto, 'rb')
         adjunto_MIME = MIMEBase('application', 'octet-stream')
         adjunto_MIME.set_payload((archivo_adjunto).read())
         encoders.encode_base64(adjunto_MIME)

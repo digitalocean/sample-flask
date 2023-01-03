@@ -5,7 +5,12 @@ from logistica.script import  geolocalizarFaltantes
 import pandas as pd
 from datetime import datetime
 from scriptGeneral.scriptGeneral import enviar_correo
+import pandas as pd
 
+def generarInforme(midb,ruta,vendedor):
+    pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and Fecha > current_date();",midb).to_excel(ruta)
+    enviar_correo(["njb.11@hotmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor}",ruta,"Informe.xlsx","")
+    # enviar_correo(["acciaiomatiassebastian@gmail.com"],f"Envios cargados {vendedor}",ruta,"Informe.xlsx","")
 
 def descargaDesdePlanillas():
     midb = connect_db()
@@ -25,4 +30,4 @@ def informeQualityShop():
     midb = connect_db()
     fecha = datetime.now()
     pd.read_sql("select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = 'Quality Shop' and Fecha = current_date();",midb).to_excel('descargas/informe.xlsx')
-    enviar_correo(["qualityshopargentina@gmail.com","josudavidg@gmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["qualityshopargentina@gmail.com","josudavidg@gmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","descargas/informe.xlsx","informe.xlsx"," ")
