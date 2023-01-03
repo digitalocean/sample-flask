@@ -9,9 +9,16 @@ select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,
 from ViajesFlexs
 """
 consultaMapa = """
-        select Numero_envío, Direccion,  Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
+        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
         from ViajesFlexs
-        where tipo_envio = 2 and not (estado_envio = 'Lista Para Retirar' and Vendedor in ('ONEARTARGENTINA','PF FERRETERIA','La querciola')) and estado_envio in ('algo','Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') or Zona like '%\deposito%'
+        where 
+            not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
+        and
+            tipo_envio = %s 
+        and 
+            estado_envio in ('Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') 
+        or 
+            (Zona like '%\deposito%' and tipo_envio = %s)
         """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
@@ -19,27 +26,16 @@ consultaMapa = """
 def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
-        session["consultaMapa"] = f"""
-        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
-        from ViajesFlexs
-        where 
-            not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
-        and
-            tipo_envio = {tipoEnvio} 
-        and 
-            estado_envio in ('Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') 
-        or 
-            Zona like '%\deposito%'
-        """
+        session["valuesMapa"] = (tipoEnvio,tipoEnvio)
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
         midb = database.connect_db()
         cursor = midb.cursor()
-        if "consultaMapa" in session.keys():
-            cursor.execute(session["consultaMapa"])
+        if "valuesMapa" in session.keys():
+            cursor.execute(consultaMapa,session["valuesMapa"])
         else:
-            cursor.execute(consultaMapa)
+            cursor.execute(consultaMapa,(2,2))
         for x in cursor.fetchall():
             jsonPendientes[x[0]] = {
                 "direccion":x[1],

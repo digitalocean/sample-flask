@@ -9,7 +9,7 @@ import pandas as pd
 
 def generarInforme(midb,ruta,vendedor):
     pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and Fecha > current_date();",midb).to_excel(ruta)
-    enviar_correo(["njb.11@hotmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor}",ruta,"Informe.xlsx","")
+    enviar_correo(["njb.11@hotmail.com","acciaiomatiassebastian@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor} {datetime.now()}" ,ruta,"Informe.xlsx","")
     # enviar_correo(["acciaiomatiassebastian@gmail.com"],f"Envios cargados {vendedor}",ruta,"Informe.xlsx","")
 
 def descargaDesdePlanillas():

@@ -39,7 +39,7 @@ def pendientes():
         if condicion == "EnCamino":
             sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Motivo,ifnull(ifnull(R.scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join sectorizado as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('En Camino','Reasignado') order by V.Fecha desc, Chofer"
         if condicion == "NoEntregado":
-            sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Motivo,ifnull(ifnull(R.scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join sectorizado as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('No Entregado') and V.Motivo != 'Cancelado' order by V.Fecha desc, Chofer"
+            sqlPendientes = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Motivo,ifnull(ifnull(R.scanner,S.Scanner),V.Scanner) from ViajesFlexs as V left join sectorizado as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() and V.estado_envio in('No Entregado') and not V.Motivo in ('Cancelado','Rechazado por el comprador') order by V.Fecha desc, Chofer"
         viajes,cant = consultaPendientes(sqlPendientes)
         return render_template("logistica/pendientes.html", 
                                 titulo="pendientes", 
