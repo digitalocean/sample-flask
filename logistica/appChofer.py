@@ -10,6 +10,9 @@ from database import database
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
+@pd.route("/retirado",methods=["POST"])
+def loginEmpleado():
+    return "JOSUGATO"
 
 @pd.route("/api/users/pending_delivery",methods=["POST"])
 def loginEmpleado():
