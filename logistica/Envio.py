@@ -109,6 +109,26 @@ class Envio:
                         viaje[18],viaje[19],viaje[28],viaje[29],viaje[19],viaje[30],viaje[31],viaje[32],viaje[33],viaje[34],True)
         else:
             return False
+
+    def enCamino(self,chofer):
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        modifica=session.get("user_id")
+        hora = datetime.now()-timedelta(hours=3)
+        sql = "update ViajesFlexs set Zona = null, `Check` = 'En Camino', estado_envio = 'En Camino', Motivo = 'En Camino',Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
+        cursor.execute(sql,(chofer,chofer,modifica,hora,self.Numero_envío))
+        midb.commit()
+
+    def entregado(self,chofer):
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        modifica=session.get("user_id")
+        hora = datetime.now()-timedelta(hours=3)
+        sql = "update ViajesFlexs set Zona = null, `Check` = null, estado_envio = 'Entregado', Motivo = 'Entregado sin novedades',Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
+        cursor.execute(sql,(chofer,chofer,modifica,hora,self.Numero_envío))
+        midb.commit()
+
+
     def cambioEstado(self,estado,chofer):
         """
         "En Camino":

@@ -17,13 +17,8 @@ def carga_noml():
         direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
         cobrar = request.form.get("cobrar")
         if session.get("user_auth") == "Cliente":
+            nro_envio = None
             vendedor = session.get("user_id")
-            cursor = midb.cursor()
-            cursor.execute("select count(*) from ViajesFlexs")
-            res = cursor.fetchone()
-            caracteres = len(str(res[0]))
-            agregar = 10 - caracteres
-            nro_envio = f"NOML{tipo_envio}"+ "0"*agregar + str(res[0])
             nombre = request.form.get("nombre")
             apellido = request.form.get("apellido")
             telefono = request.form.get("telefono")
