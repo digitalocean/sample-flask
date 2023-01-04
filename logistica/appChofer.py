@@ -16,7 +16,7 @@ def loginEmplead2o():
     data = request.get_json()
     print(data["Numero_envío"])
     try:
-        for x in request.form.keys():
+        for x in data:
             print(x)
     except:
         try:
