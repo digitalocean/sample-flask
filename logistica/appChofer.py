@@ -12,6 +12,14 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 @pd.route("/retirado",methods=["POST"])
 def loginEmplead2o():
+    try:
+        for x in request.form.keys():
+            print(x)
+    except:
+        try:
+            print(request)
+        except:
+            print("nada")
     return "JOSUGATO"
 
 @pd.route("/api/users/pending_delivery",methods=["POST"])
