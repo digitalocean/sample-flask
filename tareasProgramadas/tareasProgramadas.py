@@ -23,7 +23,6 @@ def descargaDesdePlanillas():
     cargaCamargoMe1(nrosEnvios)
     cargaformatoMMS(nrosEnvios,"Lapiz y Papel Libreria Flex","Viajes","Lapiz y Papel")
     geolocalizarFaltantes(midb)
-    midb.close()
 
 def informeEstados(vendedor):
     midb = connect_db()
