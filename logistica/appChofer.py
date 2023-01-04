@@ -12,6 +12,8 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 @pd.route("/retirado",methods=["POST"])
 def loginEmplead2o():
+    print(request.headers.get('Content-Type'))
+    print(request.get)
     try:
         for x in request.form.keys():
             print(x)
