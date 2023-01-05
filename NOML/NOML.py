@@ -46,7 +46,8 @@ def carga_noml():
         if vendedor == "Quality Shop":
             tipo_envio = 13
         viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,tipoEnvio=tipo_envio)
-        if viaje.toDB():
+        nro_envio = viaje.toDB()
+        if nro_envio:
             script.geolocalizarFaltantes(database.connect_db())
             return render_template("NOML/etiqueta.html",
                                 titulo="Envio agregado", 
@@ -78,11 +79,14 @@ def borrarEnvio():
         envio = request.form.get("envio")
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = "delete from ViajesFlexs where Numero_envío = %s and estado_envio = 'Lista Para Retirar'"
+        sql = """delete from ViajesFlexs where Numero_envío = %s and estado_envio = "Lista Para Retirar";"""
         values = (envio,)
         cursor.execute(sql,values)
+        midb.commit()
+        print(sql)
+        print(envio)
         midb.commit
-        redirect("/misenvios")
+    return redirect("/misenvios")
 
 @NOML.route("/etiqueta/", methods = ["GET","POST"])
 @auth.login_required

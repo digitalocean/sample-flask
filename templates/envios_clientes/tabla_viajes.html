@@ -27,9 +27,9 @@
                 <td><input type="submit" value="Generar etiqueta"></td>
             </form>
             {% if viaje.5 == "Lista Para Retirar" %}
-            <form action="/cancelar" method="post">
+            <form action="/borrar" method="POST">
                 <input type="hidden" name="envio" value="{{viaje.1}}">
-                <td><input type="submit" value="Cancelar"></td>
+                <td><input type="submit" value="borrar" onclick="return confirm('¿Estás seguro de querer borrar el envio?')"></td>
             </form>
             {% endif %}
             </tr>
