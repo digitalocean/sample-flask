@@ -76,7 +76,10 @@ def cambioZona():
         midb = database.connect_db()
         cursor = midb.cursor()
         zona = f"""'{str(zona).replace("'","")}'"""
-        sql = f"update ViajesFlexs set Zona = concat({zona},'/'),tipo_envio) where Numero_envío = '{envio}'"
+        sql = f"update ViajesFlexs set Zona = concat(concat({zona},'/'),tipo_envio) where Numero_envío = '{envio}'"
+        print(sql)
+        print(zona)
+        print(envio)
         cursor.execute(sql)
         midb.commit()
         print(sql)
