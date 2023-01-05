@@ -94,5 +94,6 @@ def background_task3():
     informeEstados("Quality Shop")
     informeEstados("Armin")
     informeEstados("Happe")
+    informeEstados("Universal Shop")
 
 scheduler.start()
