@@ -19,7 +19,8 @@ def consultaPendientes(sql):
 @hsList.route("/logistica/almapa/<envio>",methods=["GET","POST"])
 @auth.login_required
 def alMapa(envio):
-    sql = f"update ViajesFlexs set `Check` = null, estado_envio = 'Listo para salir (Sectorizado)',Motivo = null where Numero_envío = '{envio}'"
+    user_id = session.get("user_id")
+    sql = f"update ViajesFlexs set `Check` = null, estado_envio = 'Listo para salir (Sectorizado)',Motivo = null,Foto_domicilio = '{user_id}' where Numero_envío = '{envio}'"
     midb = database.connect_db()
     cursor = midb.cursor()
     print(sql)

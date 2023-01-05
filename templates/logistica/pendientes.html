@@ -46,7 +46,7 @@
             <td>QR no disponible</td>
             {% endif %}
             <td><form action="/logistica/almapa/{{viaje.2}}" method="post">
-                <input type="submit" value="Tirar al mapa" name="alMapa">
+                <input type="submit" value="Tirar al mapa" name="alMapa" onclick="return confirm('¿Estás seguro de cambiar el estado a sectorizado?')">
                 </form>
                 <form action="/etiqueta" method="POST">
                     <input type="hidden" name="envio" value="{{viaje.2}}">
