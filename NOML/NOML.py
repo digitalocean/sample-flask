@@ -17,6 +17,7 @@ def carga_noml():
         direccion_concatenada = f"{direccion}, {localidad}, Buenos Aires"
         cobrar = request.form.get("cobrar")
         if session.get("user_auth") == "Cliente":
+            estado = "Lista Para Retirar"
             nro_envio = None
             vendedor = session.get("user_id")
             nombre = request.form.get("nombre")
@@ -36,6 +37,7 @@ def carga_noml():
                 referencia = referencia + f"\ne/ {entre_calle1} y {entre_calle2}"
             comprador = nombre + " " + apellido
         else:
+            estado = "Retirado"
             nro_envio = request.form.get("nro_envio")
             vendedor = request.form.get("nombre_cliente")
             comprador = None
@@ -45,7 +47,7 @@ def carga_noml():
         tipo_envio = 2
         if vendedor == "Quality Shop":
             tipo_envio = 13
-        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,tipoEnvio=tipo_envio)
+        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,estadoEnvio=estado,tipoEnvio=tipo_envio)
         nro_envio = viaje.toDB()
         if nro_envio:
             script.geolocalizarFaltantes(database.connect_db())
