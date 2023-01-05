@@ -88,6 +88,7 @@ def background_task2():
     informeEstados("Quality Shop")
     informeEstados("Armin")
     informeEstados("Happe")
+    informeEstados("Universal Shop")
 
 @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=21)
 def background_task3():
