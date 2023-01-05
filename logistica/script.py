@@ -31,7 +31,8 @@ def geolocalizarFaltantesback(midatabase):
             values = (direccionCompleta,latlong[0],latlong[1],x[0])
             cursor.execute(sql,values)
             midatabase.commit()
-            midatabase.close()
+        midatabase.close()
+
 def geolocalizarFaltantes(db):
     t = Thread(target=geolocalizarFaltantesback, args=(db,))
     t.start()
