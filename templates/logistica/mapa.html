@@ -7,11 +7,27 @@
         height: 35px;
     }
     .selector{
-        width: 612px;
+        width: 304px;
         height: 35px;
         font-size: medium;
     }
 </style>
+<script>
+function geolocalizarFaltantes()
+{
+fetch('/descargalogixs', {
+  method: 'GET',
+})
+  .then(response => {
+    if (response.status === 200) {
+      alert("Geolocalizacion exitosa")
+    } else {
+      alert('Se ha producido un error');
+    }
+  });
+
+}
+</script>
 <div>
 <form action='/logistica/cambiozonamasivo' id="formzona" method="GET" name="formzona">
     <select name = "zonamasiva" id='zonamasiva' class="selector">
@@ -26,11 +42,11 @@
 
 <input type="button" value="Actualizar mapa" onclick="initMap()" class="boton">
 <input type="button" value="Reset poligono" onclick="clearPolygon()" class="boton">
+<input type="button" value="Geolocalizar faltantes" onclick="geolocalizarFaltantes()" class="boton">
 
 <input type="checkbox" checked name="listaParaRetirar" id="listaParaRetirar" value="True" >Lista para retirar.
 <input type="checkbox" checked name="retirado" id="retirado" value="True">Retirado
 <input type="checkbox" checked name="enDeposito" id="enDeposito" value="True">En deposito
-<input type="checkbox" checked name="dudoso" id="dudoso" value="True">Dudoso
 <input type="text" id="search" placeholder="Busqueda">
 </div>
 <form action="/logistica/jsonPendientes" method="post">

@@ -26,6 +26,12 @@
                 <input type="hidden" name="envio" value="{{viaje.1}}">
                 <td><input type="submit" value="Generar etiqueta"></td>
             </form>
+            {% if viaje.5 == "Lista Para Retirar" %}
+            <form action="/cancelar" method="post">
+                <input type="hidden" name="envio" value="{{viaje.1}}">
+                <td><input type="submit" value="Cancelar"></td>
+            </form>
+            {% endif %}
             </tr>
         {% endfor %}
     </table>
