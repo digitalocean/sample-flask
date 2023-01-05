@@ -45,9 +45,14 @@
             {%else%}
             <td>QR no disponible</td>
             {% endif %}
-            <form action="/logistica/almapa/{{viaje.2}}" method="post">
-                <td><input type="submit" value="Tirar al mapa" name="alMapa"></td>
-            </form>
+            <td><form action="/logistica/almapa/{{viaje.2}}" method="post">
+                <input type="submit" value="Tirar al mapa" name="alMapa">
+                </form>
+                <form action="/etiqueta" method="POST">
+                    <input type="hidden" name="envio" value="{{viaje.2}}">
+                    <td><input type="submit" value="Generar etiqueta"></td>
+                </form>
+            </td>
         </tr>
     {% endfor %}
     </table>
