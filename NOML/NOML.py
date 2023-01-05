@@ -73,7 +73,7 @@ def carga_noml():
 
 @NOML.route("/borrar/", methods = ["GET","POST"])
 @auth.login_required
-def generarEtiqueta():
+def borrarEnvio():
     if request.method == "POST": 
         envio = request.form.get("envio")
         midb = database.connect_db()
