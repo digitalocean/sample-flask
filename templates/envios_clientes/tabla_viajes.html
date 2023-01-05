@@ -1,7 +1,9 @@
 {% extends "index.html" %}
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
-
+<form action="/etiquetaspendientes" method="get">
+<input type="submit" value="Imprimir todo">
+</form>
     <table style="width: 100%; border: solid ;">
         <tr>
             {%for x in cabezeras%}

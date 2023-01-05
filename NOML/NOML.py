@@ -106,6 +106,20 @@ def generarEtiqueta():
     else:
         return redirect("/misenvios")
 
+from database.database import connect_db
+@NOML.route("/etiquetaspendientes")
+def multiplesEtiquetas():
+    vendedor = session.get("user_id")
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select Numero_envío,Fecha,comprador,Telefono,Direccion,Localidad,Referencia,sku,Cobrar from ViajesFlexs where estado_envio = 'Lista Para Retirar' and Vendedor = %s",(vendedor,))
+    envios = []
+    for x in cursor.fetchall():
+        envios.append(x)
+    return render_template("NOML/etiquetas.html",
+                        etiquetas=envios,
+                        vendedor=vendedor)
+
 @NOML.route("/etiqueta/impresa", methods = ["GET","POST"])
 @auth.login_required
 def etiquetaImpresa():

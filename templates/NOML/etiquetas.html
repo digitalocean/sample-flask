@@ -1,0 +1,36 @@
+<style>
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  img{
+            padding: 0%;
+  }
+  p{
+      margin: 4px;
+  }
+</style>
+<div class="container">
+  {% for etiqueta in etiquetas %}
+  <div style="border: solid;
+              margin-top: 15px;
+              margin-left: 10px;
+              page-break-inside: avoid;">
+  
+    <img src="../../static/logo.jpg" alt="Logo" style="height:56px; width: 200px">
+    <p>{{vendedor}}</p>
+    <p>Fecha: {{etiqueta.1}}</p><br>
+    <p>Número de envío: {{etiqueta.0}}</p>
+    <img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={"id":"{{nro_envio}}","sender_id":"{{vendedor}}","hash_code":"p/R/F6QWaRi3FGcWbbW775TiOYmkDXPuovLG/DVMoxA=","security_digit":"0"}' alt="Código QR" id="">
+    <p>Comprador {{etiqueta.2}}</p>
+    <p>Telefono {{etiqueta.3}}</p>
+    <p>Dirección {{etiqueta.4}}, {{etiqueta.5}}</p>
+    <p>{{etiqueta.6}}</p>
+    {% if etiqueta.7 != 0 %}<p>producto: {{etiqueta.7}}</p>{% endif %}
+    {% if etiqueta.8 != None %}
+    <h3>se debe cobrar ${{etiqueta.8}}</h3>
+    {% endif %}
+    </div>
+    <br><br>
+    {% endfor %}
+    </div>
