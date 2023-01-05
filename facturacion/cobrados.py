@@ -20,8 +20,8 @@ def busqueda():
     mjstbla = ""
     midb = database.connect_db()
     cursor = midb.cursor()
-    sql = f"select Fecha,Zona,Numero_envío,Direccion,Referencia,Localidad,Vendedor,Chofer,estado_envio,Motivo,Reprogramaciones from ViajesFlexs where Cobrar > 0 or Numero_envío like '%cobrar%' or Referencia like '%cobrar%' order by Fecha desc;"
-    cabezeras = ["Fecha","Zona","Numero_envío","Direccion","Referencia","Localidad","Vendedor","Chofer","estado_envio","Motivo","Reprogramaciones"]
+    sql = f"select Fecha,Zona,Numero_envío,Direccion,Referencia,Localidad,Vendedor,Chofer,estado_envio,Motivo,Cobrar from ViajesFlexs where (Cobrar > 0 or Numero_envío like '%cobrar%' or Referencia like '%cobrar%') and rendido != 'Rendido' order by Fecha desc;"
+    cabezeras = ["Fecha","Zona","Numero_envío","Direccion","Referencia","Localidad","Vendedor","Chofer","estado_envio","Motivo","Monto"]
     cursor.execute(sql)
     lista = []
     for x in cursor.fetchall():

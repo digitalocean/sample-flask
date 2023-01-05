@@ -71,14 +71,14 @@ def carga_noml():
                                 auth = session.get("user_auth"), 
                                 clientes=scriptGeneral.consultar_clientes(midb))
 
-
+@NOML.route("/borrar/", methods = ["GET","POST"])
 @auth.login_required
 def generarEtiqueta():
     if request.method == "POST": 
         envio = request.form.get("envio")
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = "update ViajesFlexs set estado_envio = 'Cancelado', Motivo = 'Cancelado' where Numero_envío = %s and estado_envio = 'Lista Para Retirar'"
+        sql = "delete from ViajesFlexs where Numero_envío = %s and estado_envio = 'Lista Para Retirar'"
         values = (envio,)
         cursor.execute(sql,values)
         midb.commit
