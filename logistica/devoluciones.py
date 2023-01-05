@@ -15,7 +15,7 @@ def devoluciones():
         cursor = midb.cursor()    
         cliente = request.form["cliente"]
         fecha = request.form["fecha"]
-        sql = "select Numero_envío, Direccion, Localidad, Motivo From ViajesFlexs where Vendedor = %s and Numero_envío in (select Numero_envío from devoluciones where Fecha = %s)"
+        sql = "select Numero_envío, Direccion, Localidad, Motivo From ViajesFlexs where vendedor(Vendedor) = %s and Numero_envío in (select Numero_envío from devoluciones where Fecha = %s)"
         values = (cliente,fecha)
         cursor.execute(sql,values)
         viajes = []
