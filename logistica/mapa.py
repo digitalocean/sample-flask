@@ -75,6 +75,7 @@ def cambioZona():
         envio = request.form.get("envio")
         midb = database.connect_db()
         cursor = midb.cursor()
+        zona = f"""'{str(zona).replace("'","")}'"""
         sql = f"update ViajesFlexs set Zona = concat({zona},'/'),tipo_envio) where Numero_envío = '{envio}'"
         cursor.execute(sql)
         midb.commit()
