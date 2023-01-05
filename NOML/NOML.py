@@ -29,6 +29,7 @@ def carga_noml():
             entre_calle2 = request.form.get("e/2")
             cp = request.form.get("cp")
             referencia = request.form.get("referencia")
+            producto = request.form.get("producto")
             if piso != '':
                 referencia = referencia + f"\npiso: {piso}"
             if dpto != '':
@@ -43,11 +44,12 @@ def carga_noml():
             comprador = None
             telefono = None
             referencia = None
+            producto=None
             cp = None
         tipo_envio = 2
         if vendedor == "Quality Shop":
             tipo_envio = 13
-        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,estadoEnvio=estado,tipoEnvio=tipo_envio)
+        viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,estadoEnvio=estado,sku=producto,tipoEnvio=tipo_envio)
         nro_envio = viaje.toDB()
         if nro_envio:
             script.geolocalizarFaltantes(database.connect_db())
