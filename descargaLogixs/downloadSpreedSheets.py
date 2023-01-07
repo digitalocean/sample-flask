@@ -38,7 +38,7 @@ def cargaCamargoMe1(nrosEnvios):
         else:
             print(f"error en {x}")
 
-def cargaformatoMMS(nrosEnvios,planilla,hoja,vendedor):
+def cargaformatoMMS(nrosEnvios,planilla,hoja,vendedor=None):
     sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
     sh = sa.open(planilla)
     wks = sh.worksheet(hoja)
@@ -51,6 +51,27 @@ def cargaformatoMMS(nrosEnvios,planilla,hoja,vendedor):
             if len(x) > 8:
                 cp = x[8]
             viaje = Envio(x[5],x[7],vendedor,x[1],x[3],x[4],x[6],cp,tipoEnvio=2)
+            if viaje.toDB():
+                print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
+            else:
+                print(f"algo fallo con {x}")
+        else:
+            print(f"error en {x}")
+
+
+def cargaRobotin(nrosEnvios):
+    sa = gspread.service_account(filename="silken-tenure-292020-e0dbd484ad63.json")
+    sh = sa.open("Cargas de Robotin")
+    wks = sh.worksheet("Como Ruteo de Primera")
+    envios = wks.get(f"B2:V{wks.row_count}") 
+    for x in envios:
+        if len(x) > 7 and x[1] in nrosEnvios.keys():
+            continue
+        elif len(x) > 7 and x[1] != "" and x[5] != "" and x[7] != "":
+            cp = None
+            if len(x) > 8:
+                cp = x[8]
+            viaje = Envio(x[5],x[7],x[10],x[1],x[2],referencia=x[6],valorDeclarado=x[20],cp=cp,tipoEnvio=2)
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
             else:

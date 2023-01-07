@@ -1,4 +1,4 @@
-from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1
+from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,cargaCamargoMe1,cargaRobotin
 from descargaLogixs.descargaLogixs import descargaLogixs
 from database.database import connect_db
 from logistica.script import  geolocalizarFaltantes
@@ -22,6 +22,7 @@ def descargaDesdePlanillas():
     cargaCamargo(nrosEnvios)
     cargaCamargoMe1(nrosEnvios)
     cargaformatoMMS(nrosEnvios,"Lapiz y Papel Libreria Flex","Viajes","Lapiz y Papel")
+    cargaRobotin(nrosEnvios)
     geolocalizarFaltantes(midb)
 
 def informeEstados(vendedor):
