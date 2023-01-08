@@ -19,7 +19,6 @@ class Envio:
             chars = '.,!"#$%&/()=?¡¿'
             self.Numero_envío = numeroEnvio.translate(str.maketrans('', '', chars))
         if type(numeroEnvio) != None and not fromDB:
-            print("consulta historial")
             cursor = midb.cursor()
             cursor.execute('''select "Listo para salir (Sectorizado)" from retirado where Numero_envío = %s 
                             union
@@ -31,9 +30,7 @@ class Envio:
             else:
                 self.estado_envio = estadoEnvio
         else:
-            print("no consulta historial")
             self.estado_envio = estadoEnvio
-        print(self.Numero_envío)
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         self.Check = None
         self.Zona = None
@@ -129,7 +126,7 @@ class Envio:
         midb.commit()
 
 
-    def cambioEstado(self,estado,chofer):
+    def cambioEstado(self,estado,chofer,fecha):
         """
         "En Camino":
             Check = "En Camino"
@@ -155,7 +152,6 @@ class Envio:
         modifica=session.get("user_id")
         motivo = None
         check = None
-        hora = datetime.now()-timedelta(hours=3)
         if estado == "En Camino":
             check = "En Camino"
         elif estado == "Entregado":
@@ -175,7 +171,7 @@ class Envio:
         elif estado == "cancelado":
             motivo == "Venta cancelada"
         sql = "update ViajesFlexs set Zona = null, `Check` = %s, estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
-        values = (check,estado,motivo,chofer,chofer,modifica,hora,numEnvio)
+        values = (check,estado,motivo,chofer,chofer,modifica,fecha,numEnvio)
         cursor.execute(sql,values)
         midb.commit()
         cursor.execute("update ViajesFlexs set Foto_domicilio = null where Numero_envío = %s",(self.Numero_envío,))

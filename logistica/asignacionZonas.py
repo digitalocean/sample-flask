@@ -77,9 +77,9 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(database.connect_db()))
-        viaje.cambioEstado("En Camino",chofer)
+        viaje.cambioEstado("En Camino",chofer,fecha)
         if "entregado" in request.form.keys():
-            viaje.cambioEstado("Entregado",chofer)
+            viaje.cambioEstado("Entregado",chofer,fecha)
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
                                 envio=numeroEnvio,
