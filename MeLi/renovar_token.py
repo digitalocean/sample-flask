@@ -57,7 +57,7 @@ def actualizar_token(idUser):
                 avisoCliente = "Se envio un correo automatico al cliente"
                 if correoCliente == None:
                     avisoCliente = "se debe enviar la solicitud nuevamente"    
-                scriptGeneral.enviar_correo(["acciaiomatiassebastian@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com","sistemas@mmslogistica.com"],
+                scriptGeneral.enviar_correo(["mmsmatiasacciaio@gmail.com","mmspackcheck@gmail.com","josudavidg@gmail.com","sistemas@mmslogistica.com"],
                                             f"Error en vinculacion con {cuentaML}",
                                             None,
                                             None,

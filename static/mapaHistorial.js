@@ -12,7 +12,6 @@ var globales = {
 
 
 function initMap() {
-  actualizarViajes()
   globales.markers = []
   const mapOptions = {
     zoom: 10,
