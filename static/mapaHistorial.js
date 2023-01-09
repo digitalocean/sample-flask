@@ -1,4 +1,4 @@
-const ruta = "https://whale-app-suwmc.ondigitalocean.app";
+const ruta = location.protocol + "//" + location.host 
 var map;
 var asignaciones = [];
 var poligonoZonificador
@@ -49,78 +49,6 @@ function initMap() {
 actualizarMapa();
 }
 
-
-
-
-
-function AddAsignacionesSiNoExiste(marker) {
-  for (var i = 0; i < asignaciones.length; i++) {
-      if (asignaciones[i].Paquete == marker.Paquete) {
-          return;
-      }
-  }
-  asignaciones.push(marker);
-}
-////////////////////////////////////////////////////////
-// var polygon = new google.maps.Polygon();
-function drawPolygon(points) {
-  if (points.length < 3) {
-      return;
-  }
-  // first delete the previous polygon
-  if (poligonoZonificador) {
-    poligonoZonificador.setMap(null);
-  }
-  // @see https://developers.google.com/maps/documentation/javascript/examples/polygon-simple
-  poligonoZonificador = new google.maps.Polygon({
-      paths: points,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1,
-      strokeWeight: 4,
-      fillColor: '#efe653',
-      fillOpacity: 0.35,
-      editable: true,
-      map: map
-  });
-
-
-  var place_polygon_path = poligonoZonificador.getPath();
-  google.maps.event.addListener(place_polygon_path, 'set_at', polygonChanged);
-  google.maps.event.addListener(place_polygon_path, 'insert_at', polygonChanged);
-  // display to input
-  displaySelectedMarkers(poligonoZonificador);
-}
-
-
-function polygonChanged() {
-  displaySelectedMarkers(poligonoZonificador);
-}
-
-function displaySelectedMarkers(polygon) {
-  // empty the input
-  asignaciones = [];
-  var contador = 0;
-  for (var i in globales.markers) {
-      // @see https://developers.google.com/maps/documentation/javascript/examples/poly-containsLocation
-      if (google.maps.geometry.poly.containsLocation(globales.markers[i].position, polygon)) {
-
-          if (globales.markers[i].visible) {
-            globales.markers[i].setIcon(new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|EF2A00"));
-            AddAsignacionesSiNoExiste(globales.markers[i]);
-            document.getElementById("mensaje").outerHTML = "<div id='mensaje'><h3>" + asignaciones.length + " seleccionados</h3></div>"
-
-          }
-          
-      }
-    else {
-        globales.markers[i].setIcon(getPinIcon(globales.markers[i].zona,globales.markers[i].estado))
-      }    
-  }
-  for (var i = 0;  i < asignaciones.length; i++){
-    contador = contador + 1
-    console.log(asignaciones[i].Paquete)
-  }
-}
 async function getJSON(url, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -137,10 +65,7 @@ async function getJSON(url, callback) {
   xhr.send();
 };
 
-function numeroZona(zona){
-  var zn = toString(zona).substring(2,3);
-  return zn
-}
+
  function actualizarMapa()
 {
   getJSON(ruta + "/historial/mapa",
@@ -171,7 +96,6 @@ function numeroZona(zona){
     }
   });
 }
-actualizarMapa();
 function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
@@ -199,75 +123,6 @@ var contenido = "<p>Envio: "+nro_env+
     });
     globales.markers.push(marker);
 }
-
-
-
-function clearPolygon(){
-  document.getElementById("mensaje").outerHTML = "<div id='mensaje'></div>"
-  poligonoZonificador.setMap(null);
-  asignaciones = [];
-  globales.polygonLocations = []
-  for (var i = 0; i < globales.markers.length; i++){
-    globales.markers[i].setIcon(getPinIcon(globales.markers[i].zona,globales.markers[i].estado))
-  }
-}
-
-function borrarPoligonoYpintarSeleccionado(zon){
-  document.getElementById("mensaje").outerHTML = "<div id='mensaje'></div>"
-  poligonoZonificador.setMap(null);
-  for (var i = 0; i < globales.markers.length; i++){
-    for(var e = 0; e < asignaciones.length; e++){
-      if (asignaciones[e].Paquete == globales.markers[i].Paquete){
-        globales.markers[i].zona = zon;
-        globales.markers[i].setIcon(getPinIcon(zon,globales.markers[i].estado));
-      }
-    }
-    
-  }
-  asignaciones = [];
-  globales.polygonLocations = []
-}
-
-function asignacionesToString(){
-  
-  var envios = "<input type='hidden' name='enviosAzonificar' id='enviosAzonificar' value='";
-  for (var i = 0;i < asignaciones.length;i++){
-    envios = envios + asignaciones[i].Paquete+","
-  }
-  if(asignaciones.length<1){
-    envios = envios.substring(0, envios.length - 1);
-  }
-  envios = envios.slice(0,-1) + "'></input>";
-  return envios;
-}
-
-
-function zonificar(){
-  var zona = document.getElementById("zonamasiva").value;
-  document.getElementById("enviosAzonificar").outerHTML = asignacionesToString();
-  document.getElementById("mensaje").outerHTML = "<div id='mensaje'><h3>" + asignaciones.length + " Asignados a " + zona + "</h3></div>"
-  for (var i;i < globales.markers.length; i++) {
-    // @see https://developers.google.com/maps/documentation/javascript/examples/poly-containsLocation
-    if (google.maps.geometry.poly.containsLocation(globales.markers[i].position, poligonoZonificador)) {
-
-        if (globales.markers[i].visible) {
-          globales.markers[i].setIcon(getPinColor(zona,""))
-          AddAsignacionesSiNoExiste(globales.markers[i]);
-          document.getElementById("mensaje").outerHTML = "<div id='mensaje'><h3>" + asignaciones.length + " seleccionados</h3></div>"
-
-        }
-      }
-    }
-  $.ajax({
-    url:'/logistica/cambiozonamasivo',
-    type:'post',
-    data:$('#formzona').serialize(),
-    success:function(){
-    }
-  });
-  borrarPoligonoYpintarSeleccionado(zona)
-}
-
 
 
 

@@ -27,7 +27,7 @@ def mapaHistorial():
         chofer = request.form["chofer"]
         sql = f"""
         select 
-            V.Numero_envío, V.Direccion,  V.Localidad, V.Vendedor, V.Latitud, V.Longitud, V.Fecha,V.chofer,V.estado_envio,V.Zona,V.Timechangestamp,V.Motivo
+            V.Numero_envío, V.Direccion,  V.Localidad, V.Vendedor, V.Latitud, V.Longitud, V.Fecha,V.chofer,V.estado_envio,H.Zona,V.Timechangestamp,V.Motivo
         from 
             ViajesFlexs as V
         JOIN
@@ -42,6 +42,7 @@ def mapaHistorial():
         cursor = midb.cursor()
         if "consultaMapaHistorial" in session.keys():
             cursor.execute(session["consultaMapaHistorial"])
+            print(session["consultaMapaHistorial"])
             for x in cursor.fetchall():
                 jsonPendientes[x[0]] = {
                     "direccion":x[1],
