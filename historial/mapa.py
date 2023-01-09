@@ -20,7 +20,7 @@ def carga_mapa_historial():
                             choferes=choferes)
 
 @mapaHS.route("/historial/mapa", methods = ["GET","POST"])
-# @auth.login_required
+@auth.login_required
 def mapaHistorial():
     if request.method == "POST":
         fecha = request.form["fecha"]
@@ -42,7 +42,6 @@ def mapaHistorial():
         cursor = midb.cursor()
         if "consultaMapaHistorial" in session.keys():
             cursor.execute(session["consultaMapaHistorial"])
-            print(session["consultaMapaHistorial"])
             for x in cursor.fetchall():
                 jsonPendientes[x[0]] = {
                     "direccion":x[1],

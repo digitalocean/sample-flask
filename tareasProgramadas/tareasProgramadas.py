@@ -8,7 +8,7 @@ from scriptGeneral.scriptGeneral import enviar_correo
 import pandas as pd
 
 def generarInforme(midb,ruta,vendedor):
-    pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and Fecha > current_date();",midb).to_excel(ruta)
+    pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and estado_envio = 'Lista Para Retirar';",midb).to_excel(ruta)
     enviar_correo(["njb.11@hotmail.com","mmsmatiasacciaio@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor} {datetime.now()}" ,ruta,"Informe.xlsx","")
 
 def descargaDesdePlanillas():
@@ -32,5 +32,5 @@ def informeEstados(vendedor):
     correoVendedor = cursor.fetchone()[0]
     print(correoVendedor)
     fecha = datetime.now()
-    pd.read_sql(f"select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = '{vendedor}' and estado_envio = 'Lista Para Retirar';",midb).to_excel('descargas/informe.xlsx')
+    pd.read_sql(f"select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = '{vendedor}' and Timechangestamp >= current_date();",midb).to_excel('descargas/informe.xlsx')
     enviar_correo([correoVendedor,"josudavidg@gmail.com","mmsmatiasacciaio@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {vendedor} {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","descargas/informe.xlsx","informe.xlsx"," ")
