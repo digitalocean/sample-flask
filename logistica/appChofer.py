@@ -14,9 +14,26 @@ def sectorizar(database,cursor,nEnvio):
     database.commit()
     database.close()
 
+@pd.route("/retirado",methods=["POST"])
+def algo():
+    return "JOSUGATO"
+
+@pd.route("/retirar",methods=["POST"])
+def scannerRetirar():
+    data = request.get_json()
+    envio = data["id"]
+    sender_id = data["sender_id"]
+    print(envio)
+    print(sender_id)
+    # chofer = data["Chofer"]
+    # midb = database.connect_db()
+    # cursor = midb.cursor()
+    # cursor.execute("update ViajesFlexs set estado_envio = 'Retirado' where Numero_envío = %s and estado_envio in ('Lista Para Retirar','Retirado');",(envio,))
+    # midb.commit()
+    return ""
+
 @pd.route("/sectorizar",methods=["POST"])
 def scannerSectorizar():
-    print(request.headers.get('Content-Type'))
     data = request.get_json()
     envio = data["id"]
     sender_id = data["sender_id"]
