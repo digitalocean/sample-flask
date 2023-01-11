@@ -10,17 +10,18 @@ from database import database
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
-@pd.route("/retirado",methods=["POST"])
-def scannerRetirar():
+@pd.route("/sectorizar",methods=["POST"])
+def scannerSectorizar():
     print(request.headers.get('Content-Type'))
     data = request.get_json()
-    print(data["id"])
-    print(data["sender_id"])
-    try:
-        print(data["Chofer"])
-    except:
-        print("Sin Chofer")
-    return jsonify({"data":"Josugato"})
+    envio = data["id"]
+    sender_id = data["sender_id"]
+    escanea = data["Chofer"]
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
+    res = cursor.fetchall()[0]
+    return jsonify({"Zona":res})
 
 @pd.route("/api/users/pending_delivery",methods=["POST"])
 def loginEmpleado():
