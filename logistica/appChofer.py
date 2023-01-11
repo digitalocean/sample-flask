@@ -14,15 +14,8 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 def loginEmplead2o():
     print(request.headers.get('Content-Type'))
     data = request.get_json()
-    print(data["Numero_envío"])
-    try:
-        for x in data:
-            print(x)
-    except:
-        try:
-            print(request)
-        except:
-            print("nada")
+    print(data["id"])
+    print(data["sender_id"])
     return "JOSUGATO"
 
 @pd.route("/api/users/pending_delivery",methods=["POST"])
