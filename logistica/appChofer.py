@@ -11,12 +11,16 @@ from database import database
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 @pd.route("/retirado",methods=["POST"])
-def loginEmplead2o():
+def scannerRetirar():
     print(request.headers.get('Content-Type'))
     data = request.get_json()
     print(data["id"])
     print(data["sender_id"])
-    return "JOSUGATO"
+    try:
+        print(data["Chofer"])
+    except:
+        print("Sin Chofer")
+    return jsonify({"data":"Josugato"})
 
 @pd.route("/api/users/pending_delivery",methods=["POST"])
 def loginEmpleado():
