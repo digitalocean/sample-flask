@@ -10,7 +10,7 @@ from database import database
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 def sectorizar(database,cursor,nEnvio):
-    cursor.execute("update ViajesFlexs set estado_envio = 'Listo para salir (Sectorizado)' Motivo = null where Numero_envío = %s",(nEnvio,))
+    cursor.execute("update ViajesFlexs set estado_envio = 'Listo para salir (Sectorizado)', Motivo = null where Numero_envío = %s",(nEnvio,))
     database.commit()
     database.close()
 
