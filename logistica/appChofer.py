@@ -4,11 +4,15 @@ from flask import (
     Blueprint, jsonify, g, redirect, render_template, request, session
 )
 from werkzeug.security import generate_password_hash,check_password_hash
-
+from threading import Thread
 from database import database
 
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
+def sectorizar(database,cursor,nEnvio):
+    cursor.execute("update ViajesFlexs set estado_envio = '' Motivo = null where Numero_envío = %s",(nEnvio,))
+    database.commit()
+    database.close()
 
 @pd.route("/sectorizar",methods=["POST"])
 def scannerSectorizar():
@@ -21,6 +25,8 @@ def scannerSectorizar():
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
     res = cursor.fetchall()[0]
+    t = Thread(target=sectorizar, args=(midb,cursor,envio))
+    t.start()
     return jsonify({"Zona":res})
 
 @pd.route("/api/users/pending_delivery",methods=["POST"])
