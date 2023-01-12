@@ -9,8 +9,17 @@ from database import database
 
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
-def sectorizar(database,cursor,nEnvio):
-    cursor.execute("update ViajesFlexs set estado_envio = 'Listo para salir (Sectorizado)', Motivo = null where Numero_envío = %s",(nEnvio,))
+def sectorizar(database,cursor,data,zona):
+    nenvio = data["id"]
+    chofer = data["chofer"]
+    print(zona,nenvio,str(data),chofer)
+    cursor.execute(
+        """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
+                (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`)
+            VALUES
+                (UUID(),%s,DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
+                ,%s,%s,%s);""",(zona,nenvio,str(data),chofer))
+
     database.commit()
     database.close()
 
@@ -38,13 +47,11 @@ def scannerRetirar():
 def scannerSectorizar():
     data = request.get_json()
     envio = data["id"]
-    sender_id = data["sender_id"]
-    escanea = data["Chofer"]
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
     res = cursor.fetchall()[0]
-    t = Thread(target=sectorizar, args=(midb,cursor,envio))
+    t = Thread(target=sectorizar, args=(midb,cursor,data,res[0]))
     t.start()
     return jsonify({"Zona":res})
 
