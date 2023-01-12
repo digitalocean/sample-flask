@@ -146,37 +146,3 @@ def nuevoEmpleado():
     except:
         return jsonify(success=False,message="Se produjo un error al intentar crear el usuario",data=None)
 
-@us.route("/api/users/login",methods=["POST"])
-def loginEmpleado():
-    dataLogin = request.get_json()
-    print(dataLogin['dni'])
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    sql =f"""select 
-            id,nombre,puesto,vehiculo,patente,
-            correo,dni,cbu,telefono,direccion,
-            `password` from empleado where dni = {dataLogin['dni']}"""
-    cursor.execute(sql)
-    res = cursor.fetchone()
-    if res is None:
-        return jsonify(success=False,message="Usuario inexistente",data=None)
-    midb.close()
-    if check_password_hash(res[10],dataLogin["password"]):
-        data = {
-            'id':res[0],
-            'nombre':res[1],
-            'puesto':res[2],
-            'vehiculo':res[3],
-            'patente':res[4],
-            'correo':res[5],
-            'dni':str(res[6]),
-            'cbu':str(res[7]),
-            'telefono':str(res[8]),
-            'direccion':res[9],
-            'password':res[10],
-            'session_token': None
-        }
-        return jsonify(success=True,message="Inicio de sesion correcto",data=data)
-    else:
-        return jsonify(success=False,message="Contraseña incorrecta",data=None)
-
