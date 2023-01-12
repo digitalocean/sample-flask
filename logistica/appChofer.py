@@ -26,6 +26,7 @@ def scannerRetirar():
     chofer = data["chofer"]
     print(envio)
     print(sender_id)
+    print(chofer)
     # chofer = data["Chofer"]
     # midb = database.connect_db()
     # cursor = midb.cursor()
