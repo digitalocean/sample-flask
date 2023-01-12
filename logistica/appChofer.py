@@ -27,11 +27,11 @@ def scannerRetirar():
     print(envio)
     print(sender_id)
     print(chofer)
-    # chofer = data["Chofer"]
-    # midb = database.connect_db()
-    # cursor = midb.cursor()
-    # cursor.execute("update ViajesFlexs set estado_envio = 'Retirado' where Numero_envío = %s and estado_envio in ('Lista Para Retirar','Retirado');",(envio,))
-    # midb.commit()
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("insert into retirado(fecha,hora,Numero_envío,chofer,estado,scanner) values(DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),%s,%s,'Retirado',%s);",(envio,chofer,data))
+    midb.commit()
+    midb.close()
     return ""
 
 @pd.route("/sectorizar",methods=["POST"])
