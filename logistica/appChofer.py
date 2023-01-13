@@ -79,9 +79,13 @@ def scannerSectorizar():
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
-    res = cursor.fetchall()[0]
-    t = Thread(target=sectorizar, args=(midb,cursor,data,res[0]))
-    t.start()
+    res = cursor.fetchall()
+    if res == None:
+        res = " No esta en lista "
+    else:
+        res = res[0]
+        t = Thread(target=sectorizar, args=(midb,cursor,data,res[0]))
+        t.start()
     return jsonify({"Zona":res})
 
 
