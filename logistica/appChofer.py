@@ -57,7 +57,10 @@ def scannerRetirar():
 
 def sectorizar(database,cursor,data,zona):
     nenvio = data["id"]
-    chofer = data["chofer"]
+    try:
+        chofer = data["chofer"]
+    except:
+        chofer = data["Chofer"]
     print(zona,nenvio,str(data),chofer)
     cursor.execute(
         """INSERT INTO `mmslogis_MMSPack`.`sectorizado`

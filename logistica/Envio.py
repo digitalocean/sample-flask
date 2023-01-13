@@ -107,13 +107,26 @@ class Envio:
         else:
             return False
 
-    def enCamino(self,chofer):
+    def enCamino(self,chofer,fechaHora=datetime.now()-timedelta(hours=3)):
         midb = database.connect_db()
         cursor = midb.cursor()
         modifica=session.get("user_id")
-        hora = datetime.now()-timedelta(hours=3)
-        sql = "update ViajesFlexs set Zona = null, `Check` = 'En Camino', estado_envio = 'En Camino', Motivo = 'En Camino',Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
-        cursor.execute(sql,(chofer,chofer,modifica,hora,self.Numero_envío))
+        sql = """
+        INSERT INTO `mmslogis_MMSPack`.`en_camino`
+            (`id`,
+            `fecha`,
+            `hora`,
+            `Numero_envío`,
+            `chofer`,
+            `scanner`)
+            VALUES
+            (UUID(),
+            %s,
+            %s,
+            %s,
+            correoChofer(%s),
+            "Asignado por %s");"""
+        cursor.execute(sql,(fechaHora,fechaHora,self.Numero_envío,chofer,modifica))
         midb.commit()
 
     def entregado(self,chofer):
