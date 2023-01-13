@@ -80,6 +80,7 @@ def scannerSectorizar():
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
     res = cursor.fetchall()
+    print(res)
     if res == None:
         res = " No esta en lista "
     else:
