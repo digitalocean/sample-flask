@@ -9,23 +9,35 @@ from database import database
 
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
-def sectorizar(database,cursor,data,zona):
-    nenvio = data["id"]
-    chofer = data["chofer"]
-    print(zona,nenvio,str(data),chofer)
-    cursor.execute(
-        """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
-                (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`)
-            VALUES
-                (UUID(),%s,DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
-                ,%s,%s,%s);""",(zona,nenvio,str(data),chofer))
 
-    database.commit()
-    database.close()
 
 @pd.route("/retirado",methods=["POST"])
 def algo():
     return "JOSUGATO"
+
+
+@pd.route("/api/users/login",methods=["POST"])
+def loginEmpleado():
+    dataLogin = request.get_json()
+    usser = dataLogin["ussername"]
+    password = dataLogin["password"]
+    print(usser," ",password)
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    sql ="""
+    SELECT 
+        `empleado`.`id`
+    FROM 
+        `mmslogis_MMSPack`.`empleado` where correo = %s and dni = %s;
+    """
+    cursor.execute(sql,(usser,password))
+    res = cursor.fetchone()
+    midb.close()
+    if res != None:
+        return jsonify(success=True,message="Inicio de sesion correcto",data=res)
+    else:
+        return jsonify(success=False,message="password invalid",data=None)
+
 
 @pd.route("/retirar",methods=["POST"])
 def scannerRetirar():
@@ -43,6 +55,20 @@ def scannerRetirar():
     midb.close()
     return ""
 
+def sectorizar(database,cursor,data,zona):
+    nenvio = data["id"]
+    chofer = data["chofer"]
+    print(zona,nenvio,str(data),chofer)
+    cursor.execute(
+        """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
+                (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`)
+            VALUES
+                (UUID(),%s,DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
+                ,%s,%s,%s);""",(zona,nenvio,str(data),chofer))
+
+    database.commit()
+    database.close()
+
 @pd.route("/sectorizar",methods=["POST"])
 def scannerSectorizar():
     data = request.get_json()
@@ -55,27 +81,38 @@ def scannerSectorizar():
     t.start()
     return jsonify({"Zona":res})
 
-@pd.route("/api/users/login",methods=["POST"])
-def loginEmpleado():
-    dataLogin = request.get_json()
-    usser = dataLogin["ussername"]
-    password = dataLogin["password"]
-    print(usser," ",password)
+
+@pd.route("/cargar",methods=["POST"])
+def cargar():
+    if True != None:
+        return jsonify(success=True,message="Cargado")
+    else:
+        return jsonify(success=False,message="Zona incorrecta")
+
+@pd.route("/mireparto",methods=["POST"])
+def miReparto():
+    data = request.get_json()
+    usser = data["chofer"]
     midb = database.connect_db()
     cursor = midb.cursor()
-    sql ="""
-    SELECT 
-        `empleado`.`nombre`,
-        `empleado`.`dni`
-    FROM 
-        `mmslogis_MMSPack`.`empleado` where correo = %s and dni = %s;
-"""
-
-    cursor.execute(sql,(usser,password))
-    res = cursor.fetchone()
-    midb.close()
-    print(res)
-    if res != None:
-        return jsonify(success=True,message="Inicio de sesion correcto",data=res)
-    else:
-        return jsonify(success=False,message="password invalid",data=None)
+    cursor.execute("""
+        select 
+            Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud 
+        from 
+            ViajesFlexs 
+        where 
+            estado_envio in ("En Camino","Reasignado")
+        and 
+            Correo_chofer = %s
+        """,(usser,))
+    result = cursor.fetchall()
+    envios = []
+    for x in result:
+        nEnvio = x[0]
+        dirCompleta = f"{x[1]}, {x[2]}"
+        vendedor = x[3]
+        latitud = x[4]
+        longitud = x[5]
+        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud}
+        envios.append(data)
+    return jsonify(envios)
