@@ -75,16 +75,16 @@ def sectorizar(database,cursor,data,zona):
 @pd.route("/sectorizar",methods=["POST"])
 def scannerSectorizar():
     data = request.get_json()
+    print(data)
     envio = data["id"]
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
-    res = cursor.fetchone()
-    print(res)
-    if res == None:
-        res = " No esta en lista "
+    zona = cursor.fetchone()
+    if zona == None:
+        zona = " No esta en lista "
     else:
-        zona = res[0]
+        zona = zona[0]
         t = Thread(target=sectorizar, args=(midb,cursor,data,zona))
         t.start()
     return jsonify({"Zona":zona})
