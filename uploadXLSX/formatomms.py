@@ -125,10 +125,10 @@ def subir_exel_formms():
             if direccion == "None" or localidad == "None":
                 continue
             informar = False
-            if vendedor == "Quality Shop" or vendedor == "Armin" or vendedor == "Happe" or vendedor == "Universal Shop":
+            if vendedor == "Quality Shop" or vendedor == "Armin" or vendedor == "Happe" or vendedor == "Universal Shop" or vendedor == "testEnvio13":
                 informar = True
                 tipo_envio = 13
-                nro_envio = None
+                nro_envio = f"{vendedor}{direccion}{fecha}"
             else:
                 chars = '.,!"#$%&/()=?¡¿'
                 if str(nro_envio).translate(str.maketrans('', '', chars)) in str(envios.keys()):
@@ -147,7 +147,8 @@ def subir_exel_formms():
                 omitido+=1
                 viajes.append([nro_envio,cliente,"","","","No registrado, el numero de envio ya existe!"])
         cabezeras = ["Numero de envío","Cliente","Direccion","Localidad","Telefono","Referencia","Monto","Producto"]
-        geolocalizarFaltantes(database.connect_db())
+        Tg = Thread(target=geolocalizarFaltantes, args=(database.connect_db(),))
+        Tg.start()
         if informar:
             t = Thread(target=generarInforme, args=(database.connect_db(),'descargas/informe.xlsx',vendedor))
             t.start()
