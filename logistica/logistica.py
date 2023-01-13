@@ -103,18 +103,18 @@ def busquedaNumeroEnvio():
     direccion = f"(select Direccion from ViajesFlexs where Numero_envío = '{busqueda}')"
     localidad = f"(select Localidad from ViajesFlexs where Numero_envío = '{busqueda}')"
     vendedor = f"vendedor((select Vendedor from ViajesFlexs where Numero_envío = '{busqueda}'))"
-    sql = f"""select fecha,hora,"",Numero_envío,{direccion},{localidad},{vendedor},"Retirado",choferCorreo(chofer) from retirado where Numero_envío = "{busqueda}"
+    sql = f"""select fecha,hora,"",Numero_envío,{direccion},{localidad},{vendedor},choferCorreo(chofer),"Retirado",scanner from retirado where Numero_envío = "{busqueda}"
     union
-    select fecha,hora,zona,Numero_envío,{direccion},{localidad},{vendedor},"Sectorizado",choferCorreo(chofer) from sectorizado where Numero_envío = "{busqueda}"
+    select fecha,hora,zona,Numero_envío,{direccion},{localidad},{vendedor},choferCorreo(chofer),"Sectorizado",scanner from sectorizado where Numero_envío = "{busqueda}"
     union
-    select fecha,hora,"",Numero_envío,{direccion},{localidad},{vendedor},"En Camino",choferCorreo(chofer) from en_camino where Numero_envío = "{busqueda}"
+    select fecha,hora,"",Numero_envío,{direccion},{localidad},{vendedor},choferCorreo(chofer),"En Camino",scanner from en_camino where Numero_envío = "{busqueda}"
     union
-    select Fecha,Hora,Zona,Numero_envío,{direccion},{localidad},{vendedor},estado_envio,Chofer from historial_estados where Numero_envío = "{busqueda}";
+    select Fecha,Hora,Zona,Numero_envío,{direccion},{localidad},{vendedor},Chofer,estado_envio,motivo_noenvio from historial_estados where Numero_envío = "{busqueda}";
     """
     print(sql)
     midb = database.connect_db()
     cursor = midb.cursor()
-    cabezeras = ["Fecha","Hora","Zona","Numero de envio","Direccion","Localidad","Vendedor","Estado","Chofer"]
+    cabezeras = ["Fecha","Hora","Zona","Numero de envio","Direccion","Localidad","Vendedor","Chofer","Estado","Motivo"]
     cursor.execute(sql)
     resultado = cursor.fetchall()
     lista = []
