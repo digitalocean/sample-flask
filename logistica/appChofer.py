@@ -81,7 +81,7 @@ def scannerSectorizar():
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
     res = cursor.fetchall()
     print(res)
-    if res == None:
+    if res == []:
         res = " No esta en lista "
     else:
         res = res[0]
