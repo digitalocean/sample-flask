@@ -92,8 +92,7 @@ def scannerSectorizar():
 
 @pd.route("/pendientes/<usser>")
 def pendientesGET(usser):
-    sql = """select V.Numero_envío,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud 
-                from ViajesFlexs as V inner join ZonasyChoferes as Z 
+    sql = """select V.Numero_envío from ViajesFlexs as V inner join ZonasyChoferes as Z 
                 on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
                 where Z.`Nombre Completo` = choferCorreo(%s);"""
     midb = database.connect_db()
@@ -142,7 +141,7 @@ def miReparto():
     
 @pd.route("/mireparto/<usser>")
 def miRepartoGET(usser):
-    sql = """select Numero_envío from ViajesFlexs 
+    sql = """select Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud from ViajesFlexs 
             where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
     midb = database.connect_db()
     cursor = midb.cursor()
