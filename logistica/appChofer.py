@@ -90,6 +90,28 @@ def scannerSectorizar():
     return jsonify({"Zona":zona})
 
 
+@pd.route("/pendientes/<usser>")
+def pendientesGET(usser):
+    sql = """select V.Numero_envío,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud 
+                from ViajesFlexs as V inner join ZonasyChoferes as Z 
+                on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
+                where Z.`Nombre Completo` = choferCorreo(%s);"""
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,(usser,))
+    result = cursor.fetchall()
+    envios = []
+    for x in result:
+        nEnvio = x[0]
+        dirCompleta = f"{x[1]}, {x[2]}"
+        vendedor = x[3]
+        latitud = x[4]
+        longitud = x[5]
+        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud}
+        envios.append(data)
+    return jsonify(envios)
+
+
 @pd.route("/cargar",methods=["POST"])
 def cargar():
     if True != None:
@@ -120,7 +142,7 @@ def miReparto():
     
 @pd.route("/mireparto/<usser>")
 def miRepartoGET(usser):
-    sql = """select Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud from ViajesFlexs 
+    sql = """select Numero_envío from ViajesFlexs 
             where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
     midb = database.connect_db()
     cursor = midb.cursor()
