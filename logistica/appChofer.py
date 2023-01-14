@@ -81,11 +81,12 @@ def scannerSectorizar():
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
     zona = cursor.fetchone()
+    midb.close()
     if zona == None:
         zona = " No esta en lista "
     else:
         zona = zona[0]
-        t = Thread(target=sectorizar, args=(midb,cursor,data,zona))
+        t = Thread(target=sectorizar, args=(database.connect_db(),cursor,data,zona))
         t.start()
     return jsonify({"Zona":zona})
 
@@ -101,17 +102,34 @@ def pendientesGET(usser):
     result = cursor.fetchall()
     envios = []
     for x in result:
-        print(x)
         envios.append(x[0])
     return jsonify(envios)
 
 
-@pd.route("/cargar",methods=["POST"])
+@pd.route("/carga",methods=["POST"])
 def cargar():
-    if True != None:
-        return jsonify(success=True,message="Cargado")
-    else:
-        return jsonify(success=False,message="Zona incorrecta")
+    data = request.get_json()
+    nenvio = data["id"]
+    chofer = data["chofer"]
+    statusOK = False
+    message = ""
+    try:
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        cursor.execute(
+            """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`)
+                VALUES
+                    (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
+                    ,%s,%s,%s);""",(nenvio,chofer,str(data)))
+        midb.commit()
+        midb.close()
+        statusOK = True
+        message = "Cargado"
+    except Exception as err:
+        statusOK = False
+        mensaje = err
+    return jsonify(success=statusOK,message=message)
 
 @pd.route("/mireparto",methods=["GET","POST"])
 def miReparto():
