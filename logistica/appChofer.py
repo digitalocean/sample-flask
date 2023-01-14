@@ -101,13 +101,8 @@ def pendientesGET(usser):
     result = cursor.fetchall()
     envios = []
     for x in result:
-        nEnvio = x[0]
-        dirCompleta = f"{x[1]}, {x[2]}"
-        vendedor = x[3]
-        latitud = x[4]
-        longitud = x[5]
-        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud}
-        envios.append(data)
+        print(x)
+        envios.append(x[0])
     return jsonify(envios)
 
 
