@@ -97,22 +97,34 @@ def cargar():
     else:
         return jsonify(success=False,message="Zona incorrecta")
 
-@pd.route("/mireparto",methods=["POST"])
+@pd.route("/mireparto",methods=["GET","POST"])
 def miReparto():
+    sql = """select Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud from ViajesFlexs 
+            where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
     data = request.get_json()
     usser = data["chofer"]
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("""
-        select 
-            Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud 
-        from 
-            ViajesFlexs 
-        where 
-            estado_envio in ("En Camino","Reasignado")
-        and 
-            Correo_chofer = %s
-        """,(usser,))
+    cursor.execute(sql,(usser,))
+    result = cursor.fetchall()
+    envios = []
+    for x in result:
+        nEnvio = x[0]
+        dirCompleta = f"{x[1]}, {x[2]}"
+        vendedor = x[3]
+        latitud = x[4]
+        longitud = x[5]
+        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud}
+        envios.append(data)
+    return jsonify(envios)
+    
+@pd.route("/mireparto/<usser>")
+def miRepartoGET(usser):
+    sql = """select Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud from ViajesFlexs 
+            where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,(usser,))
     result = cursor.fetchall()
     envios = []
     for x in result:
