@@ -129,7 +129,7 @@ def cargar():
     except Exception as err:
         statusOK = False
         mensaje = err
-    return jsonify(success=statusOK,message=message)
+    return jsonify(success=statusOK,message=message,envio=nenvio)
 
 @pd.route("/mireparto",methods=["GET","POST"])
 def miReparto():
