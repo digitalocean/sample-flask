@@ -95,7 +95,7 @@ def scannerSectorizar():
 def pendientesGET(usser):
     sql = """select V.Numero_envío from ViajesFlexs as V inner join ZonasyChoferes as Z 
                 on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
-                where Z.`Nombre Completo` = choferCorreo(%s);"""
+                where Z.`Nombre Completo` = choferCorreo(%s) and V.estado_envio in ("Lista Para Retirar","Retirado","Listo para salir (Sectorizado)");"""
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,(usser,))
