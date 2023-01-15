@@ -181,7 +181,7 @@ def entregado():
         estado_envio = "Entregado",
         Motivo = "Entregado sin novedades",
         Chofer = choferCorreo(%s),
-        Correo_chofer = %s
+        Correo_chofer = %s,
         Timechangestamp = %s,
         Currentlocation = %s
         where Numero_envío = %s
@@ -190,6 +190,8 @@ def entregado():
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
+    midb.commit()
+    midb.close()
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
 @pd.route("/noentregado",methods=["POST"])
