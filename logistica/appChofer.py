@@ -117,7 +117,7 @@ def cargar():
         midb = database.connect_db()
         cursor = midb.cursor()
         cursor.execute(
-            """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
+            """INSERT INTO `mmslogis_MMSPack`.`en_camino`
                     (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`)
                 VALUES
                     (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
