@@ -1,12 +1,10 @@
 
-import json
-from flask import (
-    Blueprint, jsonify, g, redirect, render_template, request, session
-)
+from flask import Blueprint, jsonify, request
 from werkzeug.security import generate_password_hash,check_password_hash
 from threading import Thread
 from database import database
-
+from datetime import datetime
+from logistica.Envio import Envio
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
@@ -105,7 +103,6 @@ def pendientesGET(usser):
         envios.append(x[0])
     return jsonify(envios)
 
-
 @pd.route("/carga",methods=["POST"])
 def cargar():
     data = request.get_json()
@@ -149,7 +146,7 @@ def miReparto():
         vendedor = x[3]
         latitud = x[4]
         longitud = x[5]
-        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud}
+        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"latitud":latitud,"longitud":longitud}
         envios.append(data)
     return jsonify(envios)
     
@@ -171,3 +168,13 @@ def miRepartoGET(usser):
         data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud}
         envios.append(data)
     return jsonify(envios)
+
+@pd.route("/entregado",methods=["POST"])
+def entregado():
+    data = request.get_json()
+    print(data)
+    nroEnvio = data["nEnvio"]
+    chofer = data["chofer"]
+    Envio.fromDB(nroEnvio).cambioEstado("Entregado",chofer,datetime.now())
+    return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
+
