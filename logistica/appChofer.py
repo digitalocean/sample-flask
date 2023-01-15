@@ -192,7 +192,7 @@ def entregado():
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
 @pd.route("/noentregado",methods=["POST"])
-def entregado():
+def noEntregado():
     data = request.get_json()
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
