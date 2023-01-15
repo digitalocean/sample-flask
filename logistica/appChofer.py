@@ -179,13 +179,14 @@ def entregado():
         update ViajesFlexs set 
         `Check` = null,
         estado_envio = "Entregado",
-        Motivo = "Entregado sin novedades,
+        Motivo = "Entregado sin novedades",
         Chofer = choferCorreo(%s),
         Correo_chofer = %s
         Timechangestamp = %s,
         Currentlocation = %s
+        where Numero_envío = %s
         """
-    values = (chofer,chofer,datetime.now()-timedelta(hours=3),"ubicacion pendiente")
+    values = (chofer,chofer,datetime.now()-timedelta(hours=3),"ubicacion pendiente",nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
@@ -196,5 +197,5 @@ def noEntregado():
     data = request.get_json()
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
-    print(chofer)
-    return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
+    print(data)
+    return jsonify(success=False,message="Todavia no esta lista esta seccion",envio=nroEnvio)
