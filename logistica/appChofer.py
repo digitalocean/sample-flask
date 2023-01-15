@@ -2,8 +2,8 @@
 from flask import Blueprint, jsonify, request
 from werkzeug.security import generate_password_hash,check_password_hash
 from threading import Thread
-from database import database
-from datetime import datetime
+from database.database import connect_db
+from datetime import datetime,timedelta
 from logistica.Envio import Envio
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
@@ -20,7 +20,7 @@ def loginEmpleado():
     usser = dataLogin["ussername"]
     password = dataLogin["password"]
     print(usser," ",password)
-    midb = database.connect_db()
+    midb = connect_db()
     cursor = midb.cursor()
     sql ="""
     SELECT 
@@ -46,7 +46,7 @@ def scannerRetirar():
     print(envio)
     print(sender_id)
     print(chofer)
-    midb = database.connect_db()
+    midb = connect_db()
     cursor = midb.cursor()
     cursor.execute("insert into retirado(fecha,hora,Numero_envío,chofer,estado,scanner) values(DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),%s,%s,'Retirado',%s);",(envio,chofer,str(data)))
     midb.commit()
@@ -75,7 +75,7 @@ def scannerSectorizar():
     data = request.get_json()
     print(data)
     envio = data["id"]
-    midb = database.connect_db()
+    midb = connect_db()
     cursor = midb.cursor()
     cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
     zona = cursor.fetchone()
@@ -84,7 +84,7 @@ def scannerSectorizar():
         zona = " No esta en lista "
     else:
         zona = zona[0]
-        t = Thread(target=sectorizar, args=(database.connect_db(),cursor,data,zona))
+        t = Thread(target=sectorizar, args=(connect_db(),cursor,data,zona))
         t.start()
     return jsonify({"Zona":zona})
 
@@ -94,7 +94,7 @@ def pendientesGET(usser):
     sql = """select V.Numero_envío from ViajesFlexs as V inner join ZonasyChoferes as Z 
                 on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
                 where Z.`Nombre Completo` = choferCorreo(%s) and V.estado_envio in ("Lista Para Retirar","Retirado","Listo para salir (Sectorizado)");"""
-    midb = database.connect_db()
+    midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,(usser,))
     result = cursor.fetchall()
@@ -111,7 +111,7 @@ def cargar():
     statusOK = False
     message = ""
     try:
-        midb = database.connect_db()
+        midb = connect_db()
         cursor = midb.cursor()
         cursor.execute(
             """INSERT INTO `mmslogis_MMSPack`.`en_camino`
@@ -135,7 +135,7 @@ def miReparto():
             where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
     data = request.get_json()
     usser = data["chofer"]
-    midb = database.connect_db()
+    midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,(usser,))
     result = cursor.fetchall()
@@ -154,7 +154,7 @@ def miReparto():
 def miRepartoGET(usser):
     sql = """select Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud from ViajesFlexs 
             where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
-    midb = database.connect_db()
+    midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,(usser,))
     result = cursor.fetchall()
@@ -175,6 +175,26 @@ def entregado():
     print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
-    Envio.fromDB(nroEnvio).cambioEstado("Entregado",chofer,datetime.now())
+    sql = """
+        update ViajesFlexs set 
+        `Check` = null,
+        estado_envio = "Entregado",
+        Motivo = "Entregado sin novedades,
+        Chofer = choferCorreo(%s),
+        Correo_chofer = %s
+        Timechangestamp = %s,
+        Currentlocation = %s
+        """
+    values = (chofer,chofer,datetime.now()-timedelta(hours=3),"ubicacion pendiente")
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
+@pd.route("/noentregado",methods=["POST"])
+def entregado():
+    data = request.get_json()
+    nroEnvio = data["nEnvio"]
+    chofer = data["chofer"]
+    print(chofer)
+    return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
