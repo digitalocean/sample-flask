@@ -108,6 +108,9 @@ def cargar():
     data = request.get_json()
     nenvio = data["id"]
     chofer = data["chofer"]
+    ubicacion = None
+    if "location" in data.keys():
+        ubicacion = data["location"]
     status = False
     message = ""
     try:
@@ -156,13 +159,15 @@ def entregado():
     print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
-    observacion,recibe,dni,quienRecibe = None,None,None,None
+    observacion,recibe,dni,quienRecibe,ubicacion = None,None,None,None,None
     if "observacion" in data.keys():
         observacion = data["observacion"]
     if "quienRecibe" in data.keys() and "dni" in data.keys():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
+    if "location" in data.keys():
+        ubicacion = data["location"]
     sql = """
         update ViajesFlexs set 
         `Check` = null,
@@ -176,7 +181,7 @@ def entregado():
         Currentlocation = %s
         where Numero_envío = %s
         """
-    values = (observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),"ubicacion pendiente",nroEnvio)
+    values = (observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),ubicacion,nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
