@@ -53,13 +53,14 @@ def scannerRetirar():
     midb.close()
     return ""
 
-def sectorizar(database,cursor,data,zona):
+def sectorizar(database,data,zona):
     nenvio = data["id"]
     try:
         chofer = data["chofer"]
     except:
         chofer = data["Chofer"]
     print(zona,nenvio,str(data),chofer)
+    cursor = database.cursor()
     cursor.execute(
         """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
                 (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`)
@@ -84,7 +85,7 @@ def scannerSectorizar():
         zona = " No esta en lista "
     else:
         zona = zona[0]
-        t = Thread(target=sectorizar, args=(connect_db(),cursor,data,zona))
+        t = Thread(target=sectorizar, args=(connect_db(),data,zona))
         t.start()
     return jsonify({"Zona":zona})
 
