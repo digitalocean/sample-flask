@@ -101,7 +101,7 @@ def bienvenido():
     return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from tareasProgramadas.tareasProgramadas import informeEstados,descargaDesdePlanillas
+from tareasProgramadas.tareasProgramadas import informeEstados,descargaDesdePlanillas,informeFinalDia
 
 scheduler = BackgroundScheduler()
 @scheduler.scheduled_job('cron',day_of_week='mon-fri',minute="*/8", hour="12-18")
@@ -125,5 +125,9 @@ def background_task3():
     informeEstados("Armin")
     informeEstados("Happe")
     informeEstados("Universal Shop")
+
+@scheduler.scheduled_job('cron', day_of_week='2-7', hour='0', minute='1')
+def background_task():
+    informeFinalDia()
 
 scheduler.start()
