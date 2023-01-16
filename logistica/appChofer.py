@@ -108,7 +108,7 @@ def cargar():
     data = request.get_json()
     nenvio = data["id"]
     chofer = data["chofer"]
-    statusOK = False
+    status = False
     message = ""
     try:
         midb = connect_db()
@@ -121,13 +121,13 @@ def cargar():
                     ,%s,%s,%s);""",(nenvio,chofer,str(data)))
         midb.commit()
         midb.close()
-        statusOK = True
+        status = True
         message = "Cargado"
     except Exception as err:
         print(err)
-        statusOK = False
+        status = False
         message = err
-    return jsonify(success=statusOK,message=message,envio=nenvio)
+    return jsonify(success=status,message=message,envio=nenvio)
 
     
 @pd.route("/mireparto/<usser>")
@@ -156,18 +156,27 @@ def entregado():
     print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
+    observacion,recibe,dni,quienRecibe = None,None,None,None
+    if "observacion" in data.keys():
+        observacion = data["observacion"]
+    if "quienRecibe" in data.keys() and "dni" in data.keys():
+        recibe = data["quienRecibe"] 
+        dni = data["dni"]
+        quienRecibe = f"{recibe} Dni: {dni}"
     sql = """
         update ViajesFlexs set 
         `Check` = null,
         estado_envio = "Entregado",
         Motivo = "Entregado sin novedades",
+        Observacion = %s,
+        Recibe_otro = %s,
         Chofer = choferCorreo(%s),
         Correo_chofer = %s,
         Timechangestamp = %s,
         Currentlocation = %s
         where Numero_envío = %s
         """
-    values = (chofer,chofer,datetime.now()-timedelta(hours=3),"ubicacion pendiente",nroEnvio)
+    values = (observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),"ubicacion pendiente",nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
@@ -175,6 +184,11 @@ def entregado():
     midb.close()
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
+
+#pendiente de programar, Debe incluir los siguientes motivos:
+#Nadie en domicilio(Reprogramado) --> Requiere foto
+#Rechazado por el comprador --> Requiere foto
+#OPCIONAL: campo de observacion
 @pd.route("/noentregado",methods=["POST"])
 def noEntregado():
     data = request.get_json()
