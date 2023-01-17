@@ -57,9 +57,10 @@ def sectorizar(database,data,zona):
     nenvio = data["id"]
     try:
         chofer = data["chofer"]
+        del data["chofer"]
     except:
         chofer = data["Chofer"]
-    print(zona,nenvio,str(data),chofer)
+        del data["Chofer"]
     cursor = database.cursor()
     cursor.execute(
         """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
@@ -109,9 +110,6 @@ def cargar():
     data = request.get_json()
     nenvio = data["id"]
     chofer = data["chofer"]
-    ubicacion = None
-    if "location" in data.keys():
-        ubicacion = data["location"]
     status = False
     message = ""
     try:

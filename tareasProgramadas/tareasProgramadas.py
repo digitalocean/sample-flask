@@ -41,7 +41,9 @@ def informeFinalDia():
     sql = """
         select ifnull(Chofer,"Sin Chofer") as Chofer,
 
-        count(CASE WHEN estado_envio in ('En Camino','Reasignado') THEN 1 END)  as En_camino_hoy,
+        count(CASE WHEN estado_envio = 'En Camino' THEN 1 END)  as En_camino_hoy,
+
+        count(CASE WHEN estado_envio = 'Reasignado' THEN 1 END)  as Reasignados_hoy,
 
         count(CASE when estado_envio in ("Entregado") then 1 end) as Entregados,
 
@@ -65,4 +67,4 @@ def informeFinalDia():
         from historial_estados as H1 where Fecha = current_date()-1 and estado_envio != "Lista Para Devolver" group by Chofer;"""
     pd.read_sql(sql,midb).to_excel('descargas/informe.xlsx')
     midb.close()
-    enviar_correo(["mmsmatiasacciaio@gmail.com"],f"Informe final del dia","descargas/informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniagonzales@gmail.com"],f"Informe final del dia","descargas/informe.xlsx","informe.xlsx"," ")

@@ -126,9 +126,9 @@ def background_task3():
     informeEstados("Happe")
     informeEstados("Universal Shop")
 
-# @scheduler.scheduled_job('cron', day_of_week='2-7', hour='0', minute='1')
-# def background_task4():
-#     informeFinalDia()
+@scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='0', minute='1')
+def background_task4():
+    informeFinalDia()
 
 
 scheduler.start()
