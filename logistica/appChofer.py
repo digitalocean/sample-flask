@@ -45,7 +45,10 @@ def enviosRetirados():
     result = cursor.fetchall()
     envios = {}
     for x in result:
-        envios[x[0]] = f"ya retirado el dia {x[1]} por {x[2]}"
+        nroEnvio = str(x[0]).replace("'","")
+        fecha = str(x[1]).replace("'","")
+        chofer = str(x[2]).replace("'","")
+        envios[nroEnvio] = f"ya retirado el dia {fecha} por {chofer}"
     print(envios)
     return jsonify(str(envios))
 
