@@ -72,6 +72,7 @@ def login():
                     session.clear()
                     session['user_id'] = x[0]
                     session['user_auth'] = x[2]
+                    session["tipoEnvio"] = 2
                     return redirect(url_for("bienvenido"))
                 else:
                     return render_template("login.html",titulo="Login", mensaje=U"Usuario y/o contraseña incorrecto")

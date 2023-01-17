@@ -12,14 +12,15 @@ def asignacion():
     midb = database.connect_db()
     cursor = midb.cursor()
     hoy = str(datetime.now())[0:10]
-    cursor.execute(f"select Zona from ViajesFlexs where Fecha = '{hoy}' and not Zona is null group by Zona")
+    tipoEnvio = session["tipoEnvio"]
+    cursor.execute(f"select Zona from ViajesFlexs where Fecha = '{hoy}' and tipo_envio = {tipoEnvio} and not Zona is null group by Zona")
     zonas = []
     for x in cursor.fetchall():
-        zonas.append(x[0])
-    cursor.execute("select `Nombre Zona`, `Nombre Completo` from ZonasyChoferes where tipoEnvio = 2")
+        zonas.append(x[0][:-2])
+    cursor.execute(f"select `Nombre Zona`, `Nombre Completo` from ZonasyChoferes where tipoEnvio = {tipoEnvio}")
     choferesAsignados = {}
     for x in cursor.fetchall():
-        choferesAsignados[f"{x[0]}/2"] = x[1]
+        choferesAsignados[f"{x[0]}"] = x[1]
     return render_template("logistica/asignacionChoferes.html",zonas = zonas, choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = choferesAsignados,auth = session.get("user_auth"))
 
 
@@ -29,13 +30,15 @@ def asignacion():
 def choferesAsignados():
     hoy = str(datetime.now())[0:10]
     midb = database.connect_db()
+    tipoEnvio = session["tipoEnvio"]
     for x in request.args.keys():
         zona = x
         chofer = request.args.get(x)
         if chofer != '':
             midb = database.verificar_conexion(midb)
             cursor = midb.cursor()
-            sql = f"update ZonasyChoferes set `Nombre Completo` = '{chofer}' where `Nombre Zona` = '{zona}/2'"
+            sql = f"update ZonasyChoferes set `Nombre Completo` = '{chofer}' where `Nombre Zona` = '{zona[:-2]}' and tipoEnvio = {tipoEnvio}"
+            print(sql)
             cursor.execute(sql)
             midb.commit()
     return redirect("/logistica/asignacionChoferes")
@@ -48,8 +51,9 @@ def limpiarZonas():
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute("select `Nombre Zona` from ZonasyChoferes")
+    tipoEnvio = session["tipoEnvio"]
     for zona in cursor.fetchall():
-        cursor.execute(f"update ZonasyChoferes set `Nombre Completo` = null where `Nombre Zona` = '{zona[0]}'")
+        cursor.execute(f"update ZonasyChoferes set `Nombre Completo` = null where `Nombre Zona` = '{zona[0]}' and tipo_envio = {tipoEnvio}")
         midb.commit()
     return redirect ("/logistica/asignacionChoferes")
 

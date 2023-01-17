@@ -24,6 +24,7 @@ consultaMapa = """
 def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
+        session["tipoEnvio"] = tipoEnvio
         session["valuesMapa"] = (tipoEnvio,tipoEnvio)
         return redirect("/logistica/vistamapa")
     else:
