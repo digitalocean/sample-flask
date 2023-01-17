@@ -50,6 +50,7 @@ def informeFinalDia():
         count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end) as Nadie_en_domicilio,
 
         count(case when motivo_noenvio = "Domicilio no visitado" then 1 end) as No_visitado,
+        
         ABS(count(CASE WHEN estado_envio in ('En Camino','Reasignado') THEN 1 END)-
         count(CASE when estado_envio in ("Entregado") then 1 end)-
         count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end)-
@@ -67,4 +68,4 @@ def informeFinalDia():
         from historial_estados as H1 where Fecha = current_date()-1 and estado_envio != "Lista Para Devolver" group by Chofer;"""
     pd.read_sql(sql,midb).to_excel('descargas/informe.xlsx')
     midb.close()
-    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniagonzales@gmail.com"],f"Informe final del dia","descargas/informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniamariel@gmail.com"],f"Informe final del dia","descargas/informe.xlsx","informe.xlsx"," ")

@@ -36,6 +36,19 @@ def loginEmpleado():
     else:
         return jsonify(success=False,message="password invalid",data=None)
 
+@pd.route("/retirado",methods=["GET"])
+def enviosRetirados():
+    sql = """select Numero_envío,fecha,choferCorreo(chofer) from retirado"""
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    envios = {}
+    for x in result:
+        envios[x[0]] = f"ya retirado el dia {x[1]} por {x[2]}"
+    print(envios)
+    return jsonify(str(envios))
+
 
 @pd.route("/retirar",methods=["POST"])
 def scannerRetirar():
