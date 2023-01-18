@@ -70,7 +70,6 @@ def informeFinalDia():
     df = pd.read_sql(sql,midb)
     horaSalida = "Horario_salida"
     horaFin = "Horario_fin"
-    print(df[horaSalida])
     df[horaSalida] = df[horaSalida].astype(str)
     df[horaSalida] = [i.split(" ")[-1] for i in df[horaSalida]]
     df[horaFin] = df[horaFin].astype(str)

@@ -84,7 +84,7 @@ def subir_exel_formms():
             else:
                 cliente = ""
             if "col_telefono" in locals():    
-                telefono = str(sheet_obj.cell(row = n_row, column = col_telefono).value)
+                telefono = str(sheet_obj.cell(row = n_row, column = col_telefono).value).replace("+54"."").replace(" ","")
             else:
                 telefono = None
             if "col_direccion" in locals(): 
