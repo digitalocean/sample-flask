@@ -66,6 +66,14 @@ def informeFinalDia():
         COUNT(CASE WHEN estado_envio IN ("Entregado") THEN 1 END) )),"%") as efectividad
 
         from historial_estados as H1 where Fecha = current_date()-1 and estado_envio != "Lista Para Devolver" group by Chofer;"""
-    pd.read_sql(sql,midb).to_excel('descargas/informe.xlsx')
+    df = pd.read_sql(sql,midb)
+    horaSalida = "Horario_salida"
+    horaFin = "Horario_fin"
+    print(df[horaSalida])
+    df[horaSalida] = df[horaSalida].astype(str)
+    df[horaSalida] = [i.split(" ")[-1] for i in df[horaSalida]]
+    df[horaFin] = df[horaFin].astype(str)
+    df[horaFin] = [i.split(" ")[-1] for i in df[horaFin]]
+    df.to_excel('descargas/informe.xlsx')
     midb.close()
     enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniamariel@gmail.com"],f"Informe final del dia","descargas/informe.xlsx","informe.xlsx"," ")
