@@ -10,7 +10,7 @@ from datetime import datetime
 
 def generarInforme(midb,ruta,vendedor):
     pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and estado_envio = 'Lista Para Retirar';",midb).to_excel(ruta)
-    enviar_correo(["njb.11@hotmail.com","mmsmatiasacciaio@gmail.com","mmsjuancarrillo@gmail.com"],f"Envios cargados {vendedor} {datetime.now()}" ,ruta,"Informe.xlsx","")
+    enviar_correo(["njb.11@hotmail.com","mmsmatiasacciaio@gmail.com","mmsjuancarrillo@gmail.com"],f"carga de envios de {vendedor} {datetime.now()}" ,ruta,"Informe.xlsx","")
 
 def descargaDesdePlanillas():
     midb = connect_db()
