@@ -2,10 +2,11 @@ from descargaLogixs.downloadSpreedSheets import cargaCamargo,cargaformatoMMS,car
 from descargaLogixs.descargaLogixs import descargaLogixs
 from database.database import connect_db
 from logistica.script import  geolocalizarFaltantes
-import pandas as pd
-from datetime import datetime
 from scriptGeneral.scriptGeneral import enviar_correo
 import pandas as pd
+import openpyxl
+from datetime import datetime
+
 
 def generarInforme(midb,ruta,vendedor):
     pd.read_sql(f"select Fecha,Numero_envío,comprador,Telefono,Direccion,Localidad,Referencia,Vendedor,estado_envio,sku,Cobrar from ViajesFlexs where Vendedor = '{vendedor}' and estado_envio = 'Lista Para Retirar';",midb).to_excel(ruta)
@@ -41,9 +42,9 @@ def informeFinalDia():
     sql = """
         select ifnull(Chofer,"Sin Chofer") as Chofer,
 
-        count(CASE WHEN estado_envio = 'En Camino' THEN 1 END)  as En_camino_hoy,
+        count(CASE WHEN estado_envio = 'En Camino' THEN 1 END)  as En_camino,
 
-        count(CASE WHEN estado_envio = 'Reasignado' THEN 1 END)  as Reasignados_hoy,
+        count(CASE WHEN estado_envio = 'Reasignado' THEN 1 END)  as Reasignados,
 
         count(CASE when estado_envio in ("Entregado") then 1 end) as Entregados,
 
@@ -74,6 +75,23 @@ def informeFinalDia():
     df[horaSalida] = [i.split(" ")[-1] for i in df[horaSalida]]
     df[horaFin] = df[horaFin].astype(str)
     df[horaFin] = [i.split(" ")[-1] for i in df[horaFin]]
-    df.to_excel('descargas/informe.xlsx')
+
+    book = openpyxl.Workbook()
+    writer = pd.ExcelWriter('descargas/informeFinalDia.xlsx', engine='openpyxl')
+    
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+    worksheet = writer.book['Sheet1']
+    worksheet.column_dimensions['A'].width = 20
+    worksheet.column_dimensions['B'].width = 20
+    worksheet.column_dimensions['C'].width = 20
+    worksheet.column_dimensions['D'].width = 20
+    worksheet.column_dimensions['E'].width = 20
+    worksheet.column_dimensions['F'].width = 20
+    worksheet.column_dimensions['G'].width = 35
+    worksheet.column_dimensions['H'].width = 20
+    worksheet.column_dimensions['I'].width = 20
+    worksheet.column_dimensions['J'].width = 20
+    worksheet.column_dimensions['K'].width = 20
+    writer.save()
     midb.close()
-    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniamariel@gmail.com"],f"Informe final del dia","descargas/informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniamariel@gmail.com","njb.11@hotmail.com","josudavidg@gmail.com"],f"final del dia","descargas/informe.xlsx","informe.xlsx"," ")
