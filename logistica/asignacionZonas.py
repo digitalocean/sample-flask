@@ -62,10 +62,8 @@ def limpiarZonas():
 @auth.login_required
 def agregarRetiro():
     if request.method == "GET":
-        fecha = str(datetime.now())[0:10]
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
-                                fecha=fecha,
                                 choferes=scriptGeneral.correoChoferes(database.connect_db()), 
                                 auth = session.get("user_auth")
                                 )
@@ -87,7 +85,6 @@ def agregarRetiro():
                                 titulo="Asignar",
                                 envio=numeroEnvio,
                                 chofer=chofer,
-                                fecha=fecha,
                                 choferes=scriptGeneral.correoChoferes(database.connect_db()), 
                                 auth = session.get("user_auth"))
 
