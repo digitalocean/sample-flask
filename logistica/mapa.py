@@ -104,7 +104,7 @@ def cambioZonaMasivo():
         print(zona)
         if zona != "null":
             zona = f"""'{str(zona).replace("'","")}'"""
-            sql = f"update ViajesFlexs set Zona = '{zona}' where Numero_envío in ({envios})"
+            sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"
         else:
             sql = f"update ViajesFlexs set Zona = null where Numero_envío in ({envios})"
         cursor.execute(sql)
