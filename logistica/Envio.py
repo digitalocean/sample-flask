@@ -107,7 +107,7 @@ class Envio:
         else:
             return False
 
-    def enCamino(self,chofer,fechaHora=datetime.now()-timedelta(hours=3)):
+    def enCamino(self,chofer,fechaHora=str(datetime.now()-timedelta(hours=3))[0:-7]):
         midb = database.connect_db()
         cursor = midb.cursor()
         modifica=session.get("user_id")
@@ -129,13 +129,21 @@ class Envio:
         cursor.execute(sql,(fechaHora,fechaHora,self.Numero_envío,chofer,modifica))
         midb.commit()
 
-    def entregado(self,chofer):
+    def entregado(self,chofer,fechaHora=str(datetime.now()-timedelta(hours=3))[0:-7]):
         midb = database.connect_db()
         cursor = midb.cursor()
         modifica=session.get("user_id")
-        hora = datetime.now()-timedelta(hours=3)
-        sql = "update ViajesFlexs set Zona = null, `Check` = null, estado_envio = 'Entregado', Motivo = 'Entregado sin novedades',Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
-        cursor.execute(sql,(chofer,chofer,modifica,hora,self.Numero_envío))
+        sql = """update ViajesFlexs set 
+                    Zona = null, 
+                    `Check` = null, 
+                    estado_envio = 'Entregado', 
+                    Motivo = 'Entregado sin novedades',
+                    Chofer = %s,
+                    Correo_chofer=correoChofer(%s),
+                    Foto_domicilio = concat('Modifico: ',%s),
+                    Timechangestamp=%s 
+                    where Numero_envío = %s"""
+        cursor.execute(sql,(chofer,chofer,modifica,fechaHora,self.Numero_envío))
         midb.commit()
 
 

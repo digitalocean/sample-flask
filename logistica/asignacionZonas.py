@@ -70,7 +70,6 @@ def agregarRetiro():
                                 auth = session.get("user_auth")
                                 )
     elif request.method == "POST":
-        fecha = request.form["fecha"]
         numeroEnvio = request.form["numeroEnvio"]
         chofer = request.form["chofer"]
         viaje = Envio.fromDB(numeroEnvio)
@@ -81,9 +80,9 @@ def agregarRetiro():
                                     mensaje_error=f"{numeroEnvio} no se encuentra registrado", 
                                     numeroEnvio=numeroEnvio,
                                     clientes=scriptGeneral.consultar_clientes(database.connect_db()))
-        viaje.enCamino(chofer,fecha)
+        viaje.enCamino(chofer)
         if "entregado" in request.form.keys():
-            viaje.cambioEstado("Entregado",chofer,fecha)
+            viaje.entregado(chofer)
         return render_template("logistica/nuevoRegistro.html", 
                                 titulo="Asignar",
                                 envio=numeroEnvio,

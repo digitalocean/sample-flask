@@ -70,6 +70,7 @@ def subir_exel_formms():
         if contadorCantidad > 200:
             cantidad = range(0,200)
         viajes = []
+        chars = '.,!-"#$%&/()=?¡¿:[]'
         for x in cantidad:
             n_row += 1
             if "col_numero_envio" in locals():
@@ -85,6 +86,9 @@ def subir_exel_formms():
                 cliente = ""
             if "col_telefono" in locals():    
                 telefono = str(sheet_obj.cell(row = n_row, column = col_telefono).value).replace("+54","").replace(" ","")
+                telefono = telefono.translate(str.maketrans('', '', chars))
+                if telefono[0:2] == "15":
+                    telefono = "11" + telefono[2:]
             else:
                 telefono = None
             if "col_direccion" in locals(): 
