@@ -107,14 +107,16 @@ def scannerSectorizar():
     return jsonify({"Zona":zona})
 
 
-@pd.route("/pendientes/<usser>")
-def pendientesGET(usser):
+@pd.route("/pendientes/")
+def pendientes(usser):
+    data = request.get_json()
+    chofer = data["chofer"]
     sql = """select V.Numero_envío from ViajesFlexs as V inner join ZonasyChoferes as Z 
                 on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
                 where Z.`Nombre Completo` = choferCorreo(%s) and V.estado_envio in ("Lista Para Retirar","Retirado","Listo para salir (Sectorizado)");"""
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute(sql,(usser,))
+    cursor.execute(sql,(chofer,))
     result = cursor.fetchall()
     envios = []
     for x in result:

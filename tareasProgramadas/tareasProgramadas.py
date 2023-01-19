@@ -93,4 +93,4 @@ def informeFinalDia():
     worksheet.column_dimensions['K'].width = 20
     writer.save()
     midb.close()
-    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniamariel@gmail.com","njb.11@hotmail.com","josudavidg@gmail.com"],f"final del dia","descargas/informe.xlsx","informe.xlsx"," ")
+    enviar_correo(["mmsmatiasacciaio@gmail.com","mmssoniamariel@gmail.com","njb.11@hotmail.com","josudavidg@gmail.com"],f"final del dia","descargas/informeFinalDia.xlsx","informe.xlsx"," ")
