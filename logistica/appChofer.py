@@ -152,7 +152,7 @@ def cargar():
     
 @pd.route("/mireparto/<usser>")
 def miReparto(usser):
-    sql = """select Numero_envío,Direccion,Localidad,Vendedor,Latitud,Longitud,tipo_envio from ViajesFlexs 
+    sql = """select Numero_envío,Comprador,Telefono,Direccion,Localidad,Vendedor,Latitud,Longitud,tipo_envio from ViajesFlexs 
             where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
     midb = connect_db()
     cursor = midb.cursor()
@@ -161,12 +161,14 @@ def miReparto(usser):
     envios = []
     for x in result:
         nEnvio = x[0]
-        dirCompleta = f"{x[1]}, {x[2]}"
-        vendedor = x[3]
-        latitud = x[4]
-        longitud = x[5]
-        tipoEnvio = x[6]
-        data = {"nEnvio":nEnvio,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio}
+        comprador = x[1]
+        telefono = x[2]
+        dirCompleta = f"{x[3]}, {x[4]}"
+        vendedor = x[5]
+        latitud = x[6]
+        longitud = x[7]
+        tipoEnvio = x[8]
+        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio}
         envios.append(data)
     return jsonify(envios)
 
