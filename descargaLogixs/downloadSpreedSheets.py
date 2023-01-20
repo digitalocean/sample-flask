@@ -28,8 +28,15 @@ def cargaCamargoMe1(nrosEnvios):
     for x in envios:
         if len(x) > 7 and x[1] in nrosEnvios.keys():
             continue
-        elif len(x) > 5 and (x[1] != "" and x[4] != "" and x[5] != ""):
+        elif len(x) > 14 and (x[1] != "" and x[4] != "" and x[5] != ""):
             viaje = Envio(x[3],x[4],"AJAXGOLD",x[1],x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2,sku=x[11])
+            print(x[7],x[8])
+            if viaje.toDB():
+                print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")
+            else:
+                print(f"algo fallo con {x}")
+        elif len(x) > 7 and (x[1] != "" and x[4] != "" and x[5] != ""):
+            viaje = Envio(x[3],x[4],"AJAXGOLD",x[1],x[2],referencia=x[6],recibeOtro=x[7],tipoEnvio=2)
             print(x[7],x[8])
             if viaje.toDB():
                 print(f"{viaje.Numero_envío} agregado de {viaje.Vendedor}")

@@ -19,12 +19,36 @@ def descargaDesdePlanillas():
     nrosEnvios = {}
     for env in cursor.fetchall():
         nrosEnvios[env[0]] = env[1]
-    descargaLogixs(midb,nrosEnvios)
-    cargaCamargo(nrosEnvios)
-    cargaCamargoMe1(nrosEnvios)
-    cargaformatoMMS(nrosEnvios,"Lapiz y Papel Libreria Flex","Viajes","Lapiz y Papel")
-    cargaRobotin(nrosEnvios)
-    geolocalizarFaltantes(midb)
+    try:
+        descargaLogixs(midb,nrosEnvios)
+    except Exception as e:
+        print("Error en descarga Logixs")
+        print(e)
+    try:
+        cargaCamargo(nrosEnvios)
+    except Exception as e:
+        print("Error en Carga Camargo(HOY)")
+        print(e)
+    try:
+        cargaCamargoMe1(nrosEnvios)
+    except Exception as e:
+        print("Error en Carga Camargo(Me1)")
+        print(e)
+    try:
+        cargaformatoMMS(nrosEnvios,"Lapiz y Papel Libreria Flex","Viajes","Lapiz y Papel")
+    except Exception as e:
+        print("Error en Carga formato MMS(Lapiz y papel)")
+        print(e)
+    try:
+        cargaRobotin(nrosEnvios)
+    except Exception as e:
+        print("Error en Carga Robotin")
+        print(e)
+    try:
+        geolocalizarFaltantes(midb)
+    except Exception as e:
+        print("Error en geolocalizar Faltantes")
+        print(e)
 
 def informeEstados(vendedor):
     midb = connect_db()
