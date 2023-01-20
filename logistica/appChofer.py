@@ -38,19 +38,15 @@ def loginEmpleado():
 
 @pd.route("/retirado",methods=["GET"])
 def enviosRetirados():
-    sql = """select Numero_envío,fecha,choferCorreo(chofer) from retirado"""
+    sql = """select Numero_envío from retirado"""
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
     result = cursor.fetchall()
-    envios = {}
+    envios = []
     for x in result:
-        nroEnvio = str(x[0]).replace("'","")
-        fecha = str(x[1]).replace("'","")
-        chofer = str(x[2]).replace("'","")
-        envios[nroEnvio] = f"ya retirado el dia {fecha} por {chofer}"
-    print(envios)
-    return jsonify(str(envios))
+        envios.append(x)
+    return jsonify(envios)
 
 
 @pd.route("/retirar",methods=["POST"])

@@ -65,7 +65,10 @@ def busqueda():
 			        (select Numero_envío from historial_estados where estado_envio in ('En Camino') or motivo_noenvio in ('Cancelado'))
             """
     else:
-        sql = f"select {columnas} from historial_estados where Numero_envío like '%{busqueda}%' or Chofer like '%{busqueda}%' or Vendedor like '%{busqueda}%' or Direccion_completa like '%{busqueda}%' or estado_envio like '%{busqueda}%' or motivo_noenvio like '%{busqueda}%' order by Fecha desc, Hora desc;"
+        cabezeras = "accion","Fecha","Hora","id","Zona","Numero de envío","Chofer","Direccion Completa","Localidad","Vendedor","Ubicacion","Estado","Motivo","Correo_chofer","Foto_domicilio"
+        sql = f"""select H.Fecha,H.Hora,H.id,H.Zona,H.Numero_envío,H.Chofer,H.Direccion_completa,H.Localidad,V.Vendedor,V.Currentlocation,H.estado_envio,H.motivo_noenvio,H.Correo_chofer,H.Foto_domicilio 
+        from historial_estados as H join ViajesFlexs as V on V.Numero_envío = H.Numero_envío
+        where V.Numero_envío like '%{busqueda}%' or H.Chofer like '%{busqueda}%' or V.Vendedor like '%{busqueda}%' or H.Direccion_completa like '%{busqueda}%' or H.estado_envio like '%{busqueda}%' or H.motivo_noenvio like '%{busqueda}%' order by Fecha desc, Hora desc;"""
     cursor.execute(sql)
     resultado = cursor.fetchall()
     if len(resultado) == 0:
