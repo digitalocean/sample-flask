@@ -59,9 +59,8 @@ def scannerRetirar():
     envio = data["id"]
     sender_id = data["sender_id"]
     chofer = data["chofer"]
-    print(envio)
-    print(sender_id)
-    print(chofer)
+    del data["chofer"]
+    del data["location"]
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute("insert into retirado(fecha,hora,Numero_envío,chofer,estado,scanner) values(DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),%s,%s,'Retirado',%s);",(envio,chofer,str(data)))
@@ -114,8 +113,6 @@ def pendientesChofer():
     sql = """select V.Numero_envío from ViajesFlexs as V inner join ZonasyChoferes as Z 
                 on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
                 where Z.`Nombre Completo` = choferCorreo(%s) and V.estado_envio in ("Lista Para Retirar","Retirado","Listo para salir (Sectorizado)");"""
-    print(sql)
-    print(chofer)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,(chofer,))
@@ -130,6 +127,7 @@ def cargar():
     data = request.get_json()
     nenvio = data["id"]
     chofer = data["chofer"]
+
     status = False
     message = ""
     try:
