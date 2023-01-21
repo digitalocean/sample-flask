@@ -35,7 +35,7 @@ def loginEmpleado():
 
 @pd.route("/retirado",methods=["GET","POST"])
 def enviosRetirados():
-    sql = """select Numero_envío from retirado"""
+    sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio from retirado as R inner join ViajesFlexs as V on R.Numero_envío = V.Numero_envío"""
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
