@@ -9,8 +9,6 @@ from logistica.Envio import Envio
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 
-
-
 @pd.route("/api/users/login",methods=["POST"])
 def loginEmpleado():
     dataLogin = request.get_json()
@@ -33,7 +31,7 @@ def loginEmpleado():
     else:
         return jsonify(success=False,message="password invalid",data=None)
 
-@pd.route("/retirado",methods=["GET","POST"])
+@pd.route("/retirado",methods=["POST"])
 def enviosRetirados():
     sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio from retirado as R inner join ViajesFlexs as V on R.Numero_envío = V.Numero_envío"""
     midb = connect_db()
@@ -42,7 +40,16 @@ def enviosRetirados():
     result = cursor.fetchall()
     envios = []
     for x in result:
-        envios.append(x)
+        nEnvio = x[0]
+        comprador = x[1]
+        telefono = x[2]
+        dirCompleta = f"{x[3]}, {x[4]}"
+        vendedor = x[5]
+        latitud = x[6]
+        longitud = x[7]
+        tipoEnvio = x[8]
+        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio}
+        envios.append(data)
     return jsonify(envios)
 
 
