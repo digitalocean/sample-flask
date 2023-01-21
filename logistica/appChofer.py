@@ -265,7 +265,7 @@ def noEntregado():
                 Numero_envío = %s 
             and 
                 Chofer = choferCorreo(%s)"""
-    values = (motivo,foto,nroEnvio,chofer,datetime.now()-timedelta(hours=3),location)
+    values = (motivo,foto,datetime.now()-timedelta(hours=3),location,nroEnvio,chofer)
     cursor.execute(sql,values)
     midb.commit()
     midb.close()
