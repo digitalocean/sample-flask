@@ -190,7 +190,7 @@ def entregado():
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
     if "location" in data.keys():
-        ubicacion = data["location"]
+        location = data["location"]
     sql = """
         update ViajesFlexs set 
         `Check` = null,
@@ -204,7 +204,7 @@ def entregado():
         Currentlocation = %s
         where Numero_envío = %s
         """
-    values = (observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),ubicacion,nroEnvio)
+    values = (observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
@@ -222,7 +222,53 @@ def noEntregado():
     data = request.get_json()
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
-    print(data)
+    motivo = data["motivo"]
+    location = data["location"]
+    foto = ""
+    midb = connect_db()
+    cursor = midb.cursor()
+    if "image" in data.keys():
+        foto = "si"
+        imagen = data["image"]
+        sql = """
+    INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
+        (`fecha`,
+        `hora`,
+        `Numero_envío`,
+        `ubicacion`,
+        `chofer`,
+        `foto`)
+        VALUES
+        (DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+        DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+        %s,
+        %s,
+        %s,
+        %s);
+        """
+        values = (nroEnvio,location,chofer,imagen)
+        cursor.execute(sql,values)
+        midb.commit()
+    else:
+        foto = "No"
+    
+    
+    sql = """
+            update ViajesFlexs 
+                set `Check` = null, 
+                estado_envio = 'No Entregado', 
+                Motivo = %s, 
+                foto_domicilio = %s,
+                Timechangestamp = %s,
+                Currentlocation = %s
+            where 
+                Numero_envío = %s 
+            and 
+                Chofer = choferCorreo(%s)"""
+    values = (motivo,foto,nroEnvio,chofer,datetime.now()-timedelta(hours=3),location)
+    cursor.execute(sql,values)
+    midb.commit()
+    midb.close()
     return jsonify(success=False,message="Todavia no esta lista esta seccion",envio=nroEnvio)
 
 
