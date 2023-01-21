@@ -33,7 +33,7 @@ def loginEmpleado():
 
 @pd.route("/retirado",methods=["POST"])
 def enviosRetirados():
-    sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio from retirado as R inner join ViajesFlexs as V on R.Numero_envío = V.Numero_envío"""
+    sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio,R.chofer,R.fecha from retirado as R inner join ViajesFlexs as V on R.Numero_envío = V.Numero_envío"""
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
@@ -48,7 +48,9 @@ def enviosRetirados():
         latitud = x[6]
         longitud = x[7]
         tipoEnvio = x[8]
-        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio}
+        chofer = x[9]
+        fecha = x[10]
+        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio,"chofer":chofer,"fecha":fecha}
         envios.append(data)
     return jsonify(envios)
 
@@ -152,7 +154,7 @@ def cargar():
     
 @pd.route("/mireparto/<usser>")
 def miReparto(usser):
-    sql = """select Numero_envío,Comprador,Telefono,Direccion,Localidad,Vendedor,Latitud,Longitud,tipo_envio from ViajesFlexs 
+    sql = """select Numero_envío,Comprador,Telefono,Direccion,Localidad,Vendedor,Latitud,Longitud,tipo_envio,Chofer,Fecha from ViajesFlexs 
             where estado_envio in ("En Camino","Reasignado") and Correo_chofer = %s"""
     midb = connect_db()
     cursor = midb.cursor()
@@ -168,7 +170,9 @@ def miReparto(usser):
         latitud = x[6]
         longitud = x[7]
         tipoEnvio = x[8]
-        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio}
+        chofer = x[9]
+        fecha = x[10]
+        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio,"chofer":chofer,"fecha":fecha}
         envios.append(data)
     return jsonify(envios)
 
