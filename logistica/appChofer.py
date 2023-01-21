@@ -9,9 +9,6 @@ from logistica.Envio import Envio
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 
-@pd.route("/retirado",methods=["POST"])
-def algo():
-    return "JOSUGATO"
 
 
 @pd.route("/api/users/login",methods=["POST"])
@@ -36,7 +33,7 @@ def loginEmpleado():
     else:
         return jsonify(success=False,message="password invalid",data=None)
 
-@pd.route("/retirado",methods=["GET"])
+@pd.route("/retirado",methods=["GET","POST"])
 def enviosRetirados():
     sql = """select Numero_envío from retirado"""
     midb = connect_db()
