@@ -224,3 +224,37 @@ def noEntregado():
     chofer = data["chofer"]
     print(data)
     return jsonify(success=False,message="Todavia no esta lista esta seccion",envio=nroEnvio)
+
+
+
+@pd.route("/imagen",methods = ["POST"])
+def subirImagen():
+    data = request.get_json()
+    nroEnvio = data["nEnvio"]
+    chofer = data["chofer"]
+    imagen = data["image"]
+    location = data["location"]
+
+    sql = """
+    INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
+        (`fecha`,
+        `hora`,
+        `Numero_envío`,
+        `ubicacion`,
+        `chofer`,
+        `foto`)
+        VALUES
+        (DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+        DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+        %s,
+        %s,
+        %s,
+        %s);
+        """
+    values = (nroEnvio,location,chofer,imagen)
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
+    midb.commit()
+    midb.close()
+    return ""
