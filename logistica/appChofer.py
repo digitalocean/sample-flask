@@ -249,6 +249,8 @@ def noEntregado():
         cursor.execute(sql,values)
         midb.commit()
         foto = cursor.lastrowid
+        cursor.execute("update ViajesFlexs set Foto_domicilio = %s where Numero_envío = %s",(foto,nroEnvio))
+        midb.commit()
     else:
         foto = None
     print(foto)
@@ -258,14 +260,14 @@ def noEntregado():
                 set `Check` = null, 
                 estado_envio = 'No Entregado', 
                 Motivo = %s, 
-                foto_domicilio = %s,
+                foto_domicilio = null,
                 Timechangestamp = %s,
                 Currentlocation = %s
             where 
                 Numero_envío = %s 
             and 
                 Chofer = choferCorreo(%s)"""
-    values = (motivo,foto,datetime.now()-timedelta(hours=3),location,nroEnvio,chofer)
+    values = (motivo,datetime.now()-timedelta(hours=3),location,nroEnvio,chofer)
     cursor.execute(sql,values)
     midb.commit()
     midb.close()
