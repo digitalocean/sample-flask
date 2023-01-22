@@ -27,6 +27,9 @@ function imprimir() {
         border-color: #afafaf;
     }
 </style>
+
+
+
 <table style="width: 100%; margin-top: 30px;" class="table">
     {% if contador %}
         <tr><h3>{{contador}} {{mensajeLogistica}}</h3></tr>
@@ -66,11 +69,14 @@ function imprimir() {
             {% if historial %}
                 <td>
                     <input type="submit" value="anular" onclick="confirmar('{{viaje.2}}')">
-                    {% if viaje.14 != None %}
+                    {% if viaje.14 != None and viaje.14 != "" %}
                     <form action="/image" method="post">
                         <input type="hidden" name="idFoto" value="{{viaje.14}}">
                         <input type="submit" name="Ver Foto" value="Ver Foto">
                     </form>
+                    {% endif %}
+                    {% if viaje.12 != None %}
+                    <button onclick="window.open('https://www.google.com.ar/maps/place/{{viaje.12}}', '_blank')">Ver ubicacion</button>
                     {% endif %}
                 </td>
             {% endif %}
