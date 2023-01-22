@@ -28,12 +28,14 @@ def get_image(image_id):
 
 
 @hsList.route('/image/<idFoto>')
+@auth.login_required
 def image(idFoto):
     image_binary = get_image(idFoto)
     response = Response(image_binary, content_type="image/jpeg")
     return response
 
 @hsList.route('/image',methods = ["POST"])
+@auth.login_required
 def image():
     idFoto = request.form["idFoto"]
     image_binary = get_image(idFoto)
