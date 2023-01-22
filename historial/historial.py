@@ -19,7 +19,7 @@ def consultaPendientes(sql):
 def get_image(image_id):
     conn = database.connect_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT foto FROM foto_domicilio WHERE id = %s", (image_id))
+    cursor.execute("SELECT foto FROM foto_domicilio WHERE id = %s", (image_id,))
     image_64 = cursor.fetchone()[0]
     print(image_64)
     image_binary = base64.b64decode(image_64)
