@@ -64,34 +64,17 @@ function imprimir() {
     {% for viaje in viajes %}
         <tr id="fila{{viaje.2}}">
             {% if historial %}
-                <td><input type="submit" value="anular" onclick="confirmar('{{viaje.2}}')"></td>
+                <td>
+                    <input type="submit" value="anular" onclick="confirmar('{{viaje.2}}')">
+                    <form action="/image" method="post">
+                        <input type="hidden" name="idFoto" value="{{viaje.14}}">
+                        <input type="submit" name="Ver Foto" value="Ver Foto">
+                    </form>
+                </td>
             {% endif %}
-            <td>{{viaje.0}}</td>
-            <td>{{viaje.1}}</td>
-            <td>{{viaje.2}}</td>
-            <td>{{viaje.3}}</td>
-            <td>{{viaje.4}}</td>
-            <td>{{viaje.5}}</td>
-            {% if cant_columnas > 6 %}
-            <td>{{viaje.6}}</td>
-            <td>{{viaje.7}}</td>
-            <td>{{viaje.8}}</td>
-            <td>{{viaje.9}}</td>
-            {% endif %}
-            {% if cant_columnas > 9 %}
-            <td>{{viaje.10}}</td>
-            <td>{{viaje.11}}</td>
-            <td>{{viaje.12}}</td>
-            {% endif %}
-            {% if viaje.13 %}
-            <td>{{viaje.13}}</td>
-            {% endif %}
-            {% if viaje.14 %}
-            <td>{{viaje.14}}</td>
-            {% endif %}
-            {% if viaje.15 %}
-            <td>{{viaje.15}}</td>
-            {% endif %}
+            {% for x in viaje %}
+            <td>{{x}}</td>
+            {% endfor %}
         </tr>
     {% endfor %}
     </table>

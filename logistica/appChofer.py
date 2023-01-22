@@ -228,7 +228,6 @@ def noEntregado():
     midb = connect_db()
     cursor = midb.cursor()
     if "image" in data.keys():
-        foto = "si"
         imagen = data["image"]
         sql = """
     INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
@@ -249,6 +248,7 @@ def noEntregado():
         values = (nroEnvio,location,chofer,imagen)
         cursor.execute(sql,values)
         midb.commit()
+        foto = cursor.lastrowid
     else:
         foto = "No"
     

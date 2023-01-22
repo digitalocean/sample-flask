@@ -1,4 +1,5 @@
-from flask import Blueprint, redirect, render_template, request, session
+from flask import Blueprint, redirect, render_template, request, session,Response
+import base64
 from auth import auth
 from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
@@ -15,6 +16,23 @@ def consultaPendientes(sql):
         viajes.append(x)
     return viajes,cant
 
+def get_image(image_id):
+    conn = database.connect_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT foto FROM foto_domicilio WHERE id = %s", (image_id))
+    image_64 = cursor.fetchone()[0]
+    print(image_64)
+    image_binary = base64.b64decode(image_64)
+    cursor.close()
+    return image_binary
+
+@hsList.route('/image',methods = ["POST"])
+def image():
+    idFoto = request.form["idFoto"]
+    
+    image_binary = get_image(idFoto)
+    response = Response(image_binary, content_type="image/jpeg")
+    return response
 
 @hsList.route("/logistica/almapa/<envio>",methods=["GET","POST"])
 @auth.login_required
@@ -84,7 +102,7 @@ def historial(pagina):
     for x in range(20):
         listaBotones.append(pagina-7)
         pagina = pagina + 1
-    return render_template("logistica/VistaTabla.html", 
+    return render_template("historial/VistaTabla.html", 
                             titulo="Busqueda", 
                             viajes=viajes,
                             tablas=True,
