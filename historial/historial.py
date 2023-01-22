@@ -26,10 +26,16 @@ def get_image(image_id):
     cursor.close()
     return image_binary
 
+
+@hsList.route('/image/<idFoto>')
+def image(idFoto):
+    image_binary = get_image(idFoto)
+    response = Response(image_binary, content_type="image/jpeg")
+    return response
+
 @hsList.route('/image',methods = ["POST"])
 def image():
     idFoto = request.form["idFoto"]
-    
     image_binary = get_image(idFoto)
     response = Response(image_binary, content_type="image/jpeg")
     return response

@@ -66,10 +66,12 @@ function imprimir() {
             {% if historial %}
                 <td>
                     <input type="submit" value="anular" onclick="confirmar('{{viaje.2}}')">
+                    {% if viaje.14 != None %}
                     <form action="/image" method="post">
                         <input type="hidden" name="idFoto" value="{{viaje.14}}">
                         <input type="submit" name="Ver Foto" value="Ver Foto">
                     </form>
+                    {% endif %}
                 </td>
             {% endif %}
             {% for x in viaje %}
