@@ -250,8 +250,8 @@ def noEntregado():
         midb.commit()
         foto = cursor.lastrowid
     else:
-        foto = "No"
-    
+        foto = None
+    print(foto)
     
     sql = """
             update ViajesFlexs 
