@@ -29,7 +29,7 @@ def get_image(image_id):
 
 @hsList.route('/image/<idFoto>')
 @auth.login_required
-def image(idFoto):
+def imageGet(idFoto):
     image_binary = get_image(idFoto)
     response = Response(image_binary, content_type="image/jpeg")
     return response
