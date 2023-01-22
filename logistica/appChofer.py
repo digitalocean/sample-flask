@@ -31,6 +31,11 @@ def loginEmpleado():
     else:
         return jsonify(success=False,message="password invalid",data=None)
 
+@pd.route("/ubicacion",methods = ["POST"])
+def guardarUbicacion():
+    print(request.get_json())
+    return "True"
+
 @pd.route("/retirado",methods=["POST"])
 def enviosRetirados():
     sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio,choferCorreo(R.chofer),R.fecha from retirado as R inner join ViajesFlexs as V on R.Numero_envío = V.Numero_envío"""
