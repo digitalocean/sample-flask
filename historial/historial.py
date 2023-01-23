@@ -1,5 +1,5 @@
-from flask import Blueprint, redirect, render_template, request, session,Response
-import base64
+from flask import Blueprint, redirect, render_template, request, session,Response,send_file
+from ftplib import FTP
 from auth import auth
 from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
@@ -16,31 +16,18 @@ def consultaPendientes(sql):
         viajes.append(x)
     return viajes,cant
 
-def get_image(image_id):
-    conn = database.connect_db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT foto FROM foto_domicilio WHERE id = %s", (image_id,))
-    image_64 = cursor.fetchone()[0]
-    print(image_64)
-    image_binary = base64.b64decode(image_64)
-    cursor.close()
-    return image_binary
 
+@hsList.route('/image/<filename>')
+def image(filename):
+    # filename = "Screenshot_1673795214.png"
+    ftp = FTP('109.106.251.113')
+    ftp.login(user='appChofer@mmslogistica.com', passwd='(15042020)_')
+    ftp.cwd('/foto_domicilio/')
+    # public_html/foto_domicilio/Screenshot_1673795214.png
+    image = ftp.retrbinary('RETR ' + filename, open('image.png', 'wb').write)
+    ftp.quit()
+    return send_file("image.png")
 
-@hsList.route('/image/<idFoto>')
-@auth.login_required
-def imageGet(idFoto):
-    image_binary = get_image(idFoto)
-    response = Response(image_binary, content_type="image/jpeg")
-    return response
-
-@hsList.route('/image',methods = ["POST"])
-@auth.login_required
-def image():
-    idFoto = request.form["idFoto"]
-    image_binary = get_image(idFoto)
-    response = Response(image_binary, content_type="image/jpeg")
-    return response
 
 @hsList.route("/logistica/almapa/<envio>",methods=["GET","POST"])
 @auth.login_required
