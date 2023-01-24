@@ -189,7 +189,7 @@ function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo
       zona:zona,
       tipoEnvio:tipo_envio,
       position: { lat: parseFloat(lati), lng:  parseFloat(lng)},
-      icon: getPinIcon(zona,est),
+      icon: getPinIcon(zona),
       map: map,
     });
 var contenido = "<p>Envio: "+nro_env+
@@ -285,7 +285,7 @@ function clearPolygon(){
   asignaciones = [];
   globales.polygonLocations = []
   for (var i = 0; i < globales.markers.length; i++){
-    globales.markers[i].setIcon(getPinIcon(globales.markers[i].zona,globales.markers[i].estado))
+    globales.markers[i].setIcon(getPinIcon(globales.markers[i].zona))
   }
 }
 
@@ -296,7 +296,7 @@ function borrarPoligonoYpintarSeleccionado(zon){
     for(var e = 0; e < asignaciones.length; e++){
       if (asignaciones[e].Paquete == globales.markers[i].Paquete){
         globales.markers[i].zona = zon;
-        globales.markers[i].setIcon(getPinIcon(zon,globales.markers[i].estado));
+        globales.markers[i].setIcon(getPinIcon(zon));
       }
     }
     
@@ -328,7 +328,7 @@ function zonificar(){
     if (google.maps.geometry.poly.containsLocation(globales.markers[i].position, poligonoZonificador)) {
 
         if (globales.markers[i].visible) {
-          globales.markers[i].setIcon(getPinColor(zona,""))
+          globales.markers[i].setIcon(getPinIcon(zona))
           AddAsignacionesSiNoExiste(globales.markers[i]);
           document.getElementById("mensaje").outerHTML = "<div id='mensaje'><h3>" + asignaciones.length + " seleccionados</h3></div>"
 
@@ -347,23 +347,9 @@ function zonificar(){
 
 
 
-function getPinIcon(zona,est){
+function getPinIcon(zona){
   var icon = "";
-  if (est == "Entregado" || est == "No entregado" ||  est == "No Entregado" || est == "En Camino" || zona === null){
-    icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + getPinColor(est))
-    return(icon)
-  }
-  // Rojo: #FF0000
-  // Verde: #00FF00
-  // Azul: #0000FF
-  // Amarillo: #FFFF00
-  // Naranja: #FFA500
-  // Morado: #800080
-  // Rosa: #FF00FF
-  // Marrón: #A52A2A
-  // Gris: #808080
-  // Verde claro: #00FF7F
-
+  if (zona != null){
   var zn = zona.charAt(3)
   switch (zn) {
     case "1":
@@ -397,47 +383,13 @@ function getPinIcon(zona,est){
       icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|808000");
       return icon;
     default:
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F3FF33")// + getPinColor(est))
-    return icon;
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F3FF33")
+    return icon; 
+  }
+  }
+  else{
+    return new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F3FF33")
   }
   
 }
 
-
-function getPinColor(estado) {
-    var color = "";
-    switch (estado) {
-        case "Entregado":
-          color = "E4E1B2";
-          break;
-        case "Lista Para Retirar":
-          color = "F3FF33";//amarillo
-          break;
-        case "Listo para Retirar":
-          color = "F3FF33";//amarillo
-          break;
-        case "Listo para salir (Sectorizado)":
-          color = "A4A16E";
-          break;
-        case " Listo para salir (Sectorizado)":
-            color = "A4A16E";
-            break;
-        case "En Camino":
-          color = "2A9B08";//verde
-          break;
-        case "Reasignado":
-          color = "2A9B08";//verde
-          break;
-        case "No entregado":
-          color = "ff0000";//rojo
-          break;
-        case "Retirado":
-          color = "8a2be2";//
-          break;
-          // "4c2882";//naranja
-        default:
-          color = "FFA500";//
-}
-    return color;
-
-}
