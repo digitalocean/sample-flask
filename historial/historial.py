@@ -46,20 +46,21 @@ def alMapa(envio):
 @auth.login_required
 def pendientes():
     cabezeras = ["Fecha", "Zona", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","QR"] 
-    sql = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Motivo,ifnull(ifnull(R.scanner,S.scanner),V.Scanner) from ViajesFlexs as V inner join sectorizado as S on V.Numero_envío = S.Numero_envío inner join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() "
+    sql = f"select V.Fecha, V.Zona, V.Numero_envío,V.Direccion,V.Localidad,vendedor(V.Vendedor),V.Chofer,V.estado_envio,V.Motivo,ifnull(ifnull(R.scanner,S.scanner),V.Scanner) from ViajesFlexs as V left join sectorizado as S on V.Numero_envío = S.Numero_envío left join retirado as R on R.Numero_envío = S.Numero_envío where V.Fecha <= current_date() "
     if request.method=="POST":
         condicion = request.form.get("filtro")
         group = request.form.get("agrupador")
         tipoEnvio = request.form.get("tipoEnvio")
         groupBy = f"group by V.Numero_envío order by V.Fecha desc, {group}"
         if condicion == "retirado":
-            sqlPendientes = f" and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('Listo para salir (Sectorizado)','Retirado') {groupBy}"
+            sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('Listo para salir (Sectorizado)','Retirado') {groupBy}"
         if condicion == "EnCamino":
             sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('En Camino','Reasignado') {groupBy}"
         if condicion == "NoEntregado":
             sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('No Entregado') and not V.Motivo in ('Cancelado','Rechazado por el comprador') {groupBy}"
         if condicion == "Lista Para Retirar":
             sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('Lista Para Retirar') {groupBy}"
+        print(sqlPendientes)
         viajes,cant = consultaPendientes(sqlPendientes)
         return render_template("logistica/pendientes.html", 
                                 titulo="pendientes", 
@@ -69,7 +70,7 @@ def pendientes():
                                 cant_columnas = len(cabezeras), 
                                 auth = session.get("user_auth"))
     else:
-        sqlPendientes = f"{sql} and V.estado_envio in('Cargado','En Camino','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado') and (V.Motivo != 'Cancelado' or V.Motivo is null) group by Numero_envío order by V.Fecha desc,V.Chofer"
+        sqlPendientes = f"{sql} and V.estado_envio in ('Cargado','En Camino','Listo para salir (Sectorizado)','No Entregado','Reasignado','Retirado') and (V.Motivo != 'Cancelado' or V.Motivo is null) group by Numero_envío order by V.Fecha desc,V.Chofer"
         viajes,cant = consultaPendientes(sqlPendientes)
         return render_template("logistica/pendientes.html", 
                                 titulo="pendientes", 
