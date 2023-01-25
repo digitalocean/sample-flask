@@ -22,33 +22,27 @@ def descargaDesdePlanillas():
     try:
         descargaLogixs(midb,nrosEnvios)
     except Exception as e:
-        print("Error en descarga Logixs")
-        print(e)
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Descarga Logixs)","","",e)
     try:
         cargaCamargo(nrosEnvios)
     except Exception as e:
-        print("Error en Carga Camargo(HOY)")
-        print(e)
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Camargo(HOY))","","",e)
     try:
         cargaCamargoMe1(nrosEnvios)
     except Exception as e:
-        print("Error en Carga Camargo(Me1)")
-        print(e)
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Camargo ME1)","","",e)
     try:
         cargaformatoMMS(nrosEnvios,"Lapiz y Papel Libreria Flex","Viajes","Lapiz y Papel")
     except Exception as e:
-        print("Error en Carga formato MMS(Lapiz y papel)")
-        print(e)
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Lapiz y Papel)","","",e)
     try:
         cargaRobotin(nrosEnvios)
     except Exception as e:
-        print("Error en Carga Robotin")
-        print(e)
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Robotin)","","",e)
     try:
         geolocalizarFaltantes(midb)
     except Exception as e:
-        print("Error en geolocalizar Faltantes")
-        print(e)
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Geolocalizacion)","","",e)
 
 def informeEstados(vendedor):
     midb = connect_db()
@@ -57,7 +51,7 @@ def informeEstados(vendedor):
     correoVendedor = cursor.fetchone()[0]
     print(correoVendedor)
     fecha = datetime.now()
-    pd.read_sql(f"select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = '{vendedor}' and Timechangestamp >= current_date();",midb).to_excel('descargas/informe.xlsx')
+    pd.read_sql(f"select Fecha,Numero_envío as Seguimiento,comprador,Direccion,Localidad,estado_envio as Estado,Motivo,Cobrar as Monto from ViajesFlexs where Vendedor = '{vendedor}' and Fecha = current_date() and estado_envio != 'Lista Para Retirar';",midb).to_excel('descargas/informe.xlsx')
     enviar_correo([correoVendedor,"josudavidg@gmail.com","mmsmatiasacciaio@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {vendedor} {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","descargas/informe.xlsx","informe.xlsx"," ")
 
 
