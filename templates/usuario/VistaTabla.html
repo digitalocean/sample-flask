@@ -22,8 +22,8 @@
     {% for cliente in clientes %}
         <tr id="fila{{cliente.0}}">
             <td>
-                <form action="clientes/modificar" method="post">
-                    <input type="hidden" name="idCliente" value="{{cliente.0}}">
+                <form action="clientes/modificar" method="get">
+                    <input type="hidden" name="idClientes" value="{{cliente.0}}">
                     <input type="submit" value="Modificar">
                 </form>
             </td>

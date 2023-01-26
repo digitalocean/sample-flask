@@ -11,27 +11,29 @@
     </div>
     {% endif %}
     <br><br><br>
-    <form action="/nuevo_cliente" method="POST">
+    <form action="{{urlForm}}" method="POST">
+        <input type="hidden" value="{{idClientes}}" name="idClientes">
         <label>Nombre</label><br>
-        <input type="text" name="nombre" placeholder="Nombre de cliente" required><BR>
+        <input type="text" name="nombre" placeholder="Nombre de cliente" value="{{nombre_cliente}}" required ><BR>
         <label>Razon social</label><br>
-        <input type="text" name="razon_social" placeholder="Razon social" required><br>
+        <input type="text" name="razon_social" placeholder="Razon social" value="{{razon_social}}" required><br>
         <label>CUIT</label><br>
-        <input type="text" name="cuit" placeholder="Cuit" required><br>
+        <input type="text" name="cuit" placeholder="Cuit" value="{{cuit}}" required><br>
         <label>Direccion</label><br>
-        <input type="text" name="direccion" placeholder="Direccion completa"><br>
+        <input type="text" name="direccion" placeholder="Direccion completa" value="{{direccion}}"><br>
         <label>Correo electronico</label><br>
-        <input type="email" name="correo_electronico" placeholder="Correo electronico" required><br>
+        <input type="email" name="correo_electronico" placeholder="Correo electronico" value="{{correo}}" required><br>
         <label>Telefono</label><br>
-        <input type="text" name="telefono" placeholder="Telefono"><br>        
+        <input type="text" name="telefono" placeholder="Telefono" value="{{telefono}}"><br>        
         <label>Telefono alternativo</label><br>
-        <input type="text" name="telefonoAlternativo" placeholder="Telefono Alternativo"><br>
+        <input type="text" name="telefonoAlternativo" placeholder="Telefono Alternativo" value="{{telefonoAlternativo}}"><br>
         <label>contraseña</label><br>
-        <input type="password" name="password" placeholder="Ingrese la contraseña" required><BR>
+        <input type="password" name="password" placeholder="Ingrese la contraseña" value="{{password}}" required><BR>
         <label>Modalidad de cobro</label><br>
-        <input type="text" name="modCobro" placeholder="Modalidad de cobro"><br>
+        <input type="text" name="modCobro" placeholder="Modalidad de cobro" value="{{modalidadCobro}}"><br>
         <label>Tarifa</label><br>
-        <select name="tarifa" required>        
+        <select name="tarifa" required>
+            <option value="{{tarifa}}">{{tarifa}}</option>
             {% for tarifa in tarifas %}
             <option value="{{tarifa.0}}">{{tarifa.1}}</option>
             {% endfor %}
