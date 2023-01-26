@@ -13,8 +13,8 @@ def connect_db():
 def connect_db_ML():
     midb = mysql.connector.connect(
     host = os.environ.get("FLASK_DATABASE_HOST"),
-    user=os.environ.get("FLASK_DATABASE_USER"),
-    password=os.environ.get("FLASK_DATABASE_PASSWORD"),
+    user=os.environ.get("FLASK_DATABASE_USER_ML"),
+    password=os.environ.get("FLASK_DATABASE_PASSWORD_ML"),
     database=os.environ.get("FLASK_DATABASE")
     )
     return midb    
