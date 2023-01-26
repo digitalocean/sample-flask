@@ -9,7 +9,7 @@ from .renovar_token import actualizar_token
  
 
 def consultar_envio(nro_envio,idUser):
-    midb = database.connect_db()
+    midb = database.connect_db_ML()
     cursor = midb.cursor()
     cursor.execute(f"select access_token from vinculacion where user_id = {idUser} and baja = 'No'")
     resultado = cursor.fetchone()

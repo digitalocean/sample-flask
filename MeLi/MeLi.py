@@ -35,7 +35,7 @@ def vinculacion():
                     nickname = ((str(infoML).split(",")[1]).split(":")[1]).replace('"','')
             access_token = r["access_token"]
             refresh_token = r["refresh_token"]
-            midb = database.connect_db()
+            midb = database.connect_db_ML()
             cursor = midb.cursor()    
             try:
                 sql = f"""insert into vinculacion 

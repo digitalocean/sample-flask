@@ -8,7 +8,7 @@ def consultaUsuarioMeLi(userId):
     return response2
 
 def consultaChoferMeli(nro_envio,sender_id):
-    midb = database.connect_db()
+    midb = database.connect_db_ML()
     cursor = midb.cursor()
     cursor.execute(f"select access_token from vinculacion where user_id = {sender_id}")
     access_token = cursor.fetchone()[0]
@@ -24,7 +24,7 @@ def consultaChoferMeli(nro_envio,sender_id):
         pass
     else:
         nickname = response2.get("nickname")
-        midb=database.connect_db()
+        midb=database.connect_db_ML()
         cursor = midb.cursor()
         sql = "INSERT INTO `mmslogis_MMSPack`.`enCaminoMeLi`(`fecha`,`hora`,`Numero_envío`,`nickname`,userId)VALUES(current_date(),current_timestamp()-'03:00:00',%s,%s,%s);"
         values = (nro_envio,nickname,userId)
