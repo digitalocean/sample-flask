@@ -7,32 +7,36 @@
     {{mensaje}}
     {% if confirmacion %}
     <div>
-        <h4>Usuario creado </h4>
+        <h3>Usuario creado </h3>
     </div>
     {% endif %}
-    <form action="/nuevo_empleado" method="POST">
+    <form action="/empleado/nuevoempleado" method="POST">
         <LABEl>Nombre/s</LABEl><br>
-        <input type="text" name="nombre" placeholder="Ingrese su nombre"><BR>
+        <input type="text" name="nombre" required><BR>
         <LABEl>Puesto/s</LABEl><br>
-        <input type="text" name="puesto" placeholder="Ingrese su puesto"><BR>
+        <input type="text" name="puesto"><BR>
+        <LABEl>Numero de legajo</LABEl><br>
+        <input type="text" name="nrolegajo"><BR>
         <label>Vehiculo</label><br>
-        <input type="text" name="Vehiculo"><br>
+        <input type="text" name="vehiculo"><br>
+        <label>Marca</label><br>
+        <input type="text" name="marca"><br>
+        <label>Modelo</label><br>
+        <input type="text" name="modelo"><br>
         <label>Patente</label><br>
         <input type="text" name="patente"><br>
         <label>Correo electronico</label><br>
-        <input type="text" name="correo"><br>
+        <input type="text" name="correo" required><br>
         <label>DNI</label><br>
-        <input type="text" name="dni"><br>
+        <input type="text" name="dni" required><br>
         <label>Telefono</label><br>
         <input type="text" name="telefono"><br>
+        <label>Telefono alternativo</label><br>
+        <input type="text" name="telefonoAlternativo"><br>
         <label>Direccion</label><br>
         <input type="text" name="direccion"><br>
         <label>Localidad</label><br>
         <input type="text" name="localidad"><br>
-        <label>Password</label><br>
-        <input type="text" name="password"><br>
-        <label>ConfirmPassword</label><br>
-        <input type="text" name="confirmpassword"><br>
         <label>Cbu</label><br>
         <input type="text" name="cbu"><br>
 

@@ -12,14 +12,23 @@
     {% endif %}
     <br><br><br>
     <form action="/nuevo_cliente" method="POST">
+        <label>Nombre</label><br>
         <input type="text" name="nombre" placeholder="Nombre de cliente" required><BR>
+        <label>Razon social</label><br>
         <input type="text" name="razon_social" placeholder="Razon social" required><br>
+        <label>CUIT</label><br>
         <input type="text" name="cuit" placeholder="Cuit" required><br>
+        <label>Direccion</label><br>
         <input type="text" name="direccion" placeholder="Direccion completa"><br>
+        <label>Correo electronico</label><br>
         <input type="email" name="correo_electronico" placeholder="Correo electronico" required><br>
+        <label>Telefono</label><br>
         <input type="text" name="telefono" placeholder="Telefono"><br>        
+        <label>Telefono alternativo</label><br>
         <input type="text" name="telefonoAlternativo" placeholder="Telefono Alternativo"><br>
+        <label>contraseña</label><br>
         <input type="password" name="password" placeholder="Ingrese la contraseña" required><BR>
+        <label>Modalidad de cobro</label><br>
         <input type="text" name="modCobro" placeholder="Modalidad de cobro"><br>
         <label>Tarifa</label><br>
         <select name="tarifa" required>        

@@ -21,34 +21,7 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 us = Blueprint('usuarios', __name__, url_prefix='/')
 
 
-@us.route("/nuevo_empleado", methods=["GET","POST"])
-@auth.login_required
-def crear_empleado():
-    if(request.method == "POST"):
-        nombre = request.form.get("nombre")
-        puesto = request.form.get("puesto")
-        vehiculo = request.form.get("vehiculo")
-        patente = request.form.get("patente")
-        correo = request.form.get("correo")
-        dni = request.form.get("dni")
-        cbu = request.form.get("cbu")
-        telefono = request.form.get("telefono")
-        direccion = request.form.get("direccion")
-        localidad = request.form.get("localidad")
-        password = request.form.get("password")
-        confirmpassword = request.form.get("confirmpassword")
-        if password == confirmpassword:
-            midb = database.connect_db()
-            cursor = midb.cursor()
-            sql = f"INSERT INTO `mmslogis_MMSPack`.`empleado`(`nombre`,`puesto`,`vehiculo`,`patente`,`correo`,`dni`,`cbu`,`telefono`,`direccion`,`localidad`,`fecha_alta`,`password`) VALUES('{nombre}','{puesto}','{vehiculo}','{patente}','{correo}',{dni},{cbu},{telefono},'{direccion}','{localidad}',current_date(),'{password}');"
-            cursor.execute(sql)
-            midb.commit()
-            midb.close()
-            return render_template("usuario/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Agregado")
-        else:
-            return render_template("usuario/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"),mensaje="Error al agregar")
-    else:
-        return render_template("usuario/nuevo_empleado.html",titulo="Nuevo empleado", auth = session.get("user_auth"))
+
 
 @us.route('/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required

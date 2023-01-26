@@ -63,6 +63,7 @@ def vinculacion():
 @ML.route("/notificacionesml", methods=["GET","POST"])
 def recibirnotificacion():
     data = request.get_json()
+    print(data)
     if request.method == "POST":
         t = Thread(target=procesarNotificacion, args=(data,))
         t.start()
