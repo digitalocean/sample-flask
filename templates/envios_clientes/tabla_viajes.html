@@ -22,11 +22,11 @@
             <td>{{viaje.6}}</td>
             <td>{{viaje.7}}</td>
             <td>{{viaje.8}}</td>
+            {% if viaje.5 == "Lista Para Retirar" %}
             <form action="/etiqueta" method="POST">
                 <input type="hidden" name="envio" value="{{viaje.1}}">
                 <td><input type="submit" value="Generar etiqueta"></td>
             </form>
-            {% if viaje.5 == "Lista Para Retirar" %}
             <form action="/borrar" method="POST">
                 <input type="hidden" name="envio" value="{{viaje.1}}">
                 <td><input type="submit" value="borrar" onclick="return confirm('¿Estás seguro de querer borrar el envio?')"></td>
