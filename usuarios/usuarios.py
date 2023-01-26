@@ -1,12 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
-# encoding: utf-8
-
 from flask import (
-    Blueprint, jsonify, g, redirect, render_template, request, session
+    Blueprint, render_template, request, session
 )
-from werkzeug.security import generate_password_hash,check_password_hash
-import json
 from auth import auth
 from datetime import datetime
 
@@ -21,9 +15,7 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 us = Blueprint('usuarios', __name__, url_prefix='/')
 
 
-
-
-@us.route('/nuevo_cliente', methods=["GET","POST"])
+@us.route('/clientes/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required
 def crear_cliente():
     if(request.method == "GET"):
@@ -70,52 +62,58 @@ def crear_cliente():
             modo_cobro,correo_electronico,tarifa))
         midb.commit()
         midb.close()
-        session.pop("nw_user_nombre",None)
         return render_template("usuario/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"))
 
-
-
-@us.route("/cambio_contrasena", methods=["GET","POST"])
+@us.route("clientes")
 @auth.login_required
-def cambio_contrasena():
-    if request.method == "POST":
-        user = session.get("user_id")
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        cursor.execute("select contraseña from usuario where nickname = %s", (user,))
-        for x in cursor:
-            contrasena = x[0]
-        actual = request.form.get("actual")
-        if actual == contrasena:
-            nueva = request.form.get("nueva")
-            confirma = request.form.get("confirma")
-            if nueva == confirma:
-                cursor.execute("UPDATE `usuario_web`.`usuario` SET `password` = %s WHERE (`nickname` = %s);", (nueva,user))
-                midb.commit()
-                midb.close()
-                mensaje = 'La contraseña se cambio correctamente, <a href="/">Clic aqui</a> para volver al inicio'
-                return mensaje
-            else:
-                return 'revise las contraseñas ingresadas<a href="/conf">Volver atras</a>'
-        else:
-            return 'revise las contraseñas ingresadas<a href="/conf">Volver atras</a>'
+def verClientes():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    columnas = ["idClientes","nombre_cliente","razon_social","CUIT","CBU","Direccion","Latlong",
+                "Telefono","Telefono_Alternativo","password","Fecha_Alta","Fecha_Baja","Modalidad_cobro",
+                "correo_electronico","tarifa"]
+    cursor.execute("select * from Clientes")
+    clientes = []
+    for x in cursor.fetchall():
+        clientes.append(x)
+    return render_template("usuario/VistaTabla.html",clientes=clientes,columnas=columnas, auth = session.get("user_auth"))
+
+
+@us.route("clientes/modificar",methods=["GET","POST"])
+@auth.login_required
+def modificarDatosClientes():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    if request.method == "GET":
+        idCliente = request.form.get("idCliente")
+        sql = """ select `nombre_cliente`,`razon_social`,`CUIT`,`CBU`,`Direccion`,`Latlong`,`Telefono`,
+                `Telefono_Alternativo`,`password`,`Fecha_Baja`,`Modalidad_cobro`,`correo_electronico`,
+                `tarifa` from Clientes where idClientes = %s"""
+        values = (idCliente,)
+        cursor.execute(sql,values)
+        resu = cursor.fetchone()
+        print(resu)
+        return render_template("usuario/formularioEdicionCliente.html")
     else:
-        return redirect("/")
+        sql = """
+            UPDATE `mmslogis_MMSPack`.`Clientes`
+                SET
+                `nombre_cliente` = %s,
+                `razon_social` = %s,
+                `CUIT` = %s,
+                `CBU` = %s,
+                `Direccion` = %s,
+                `Latlong` = %s,
+                `Telefono` = %s,
+                `Telefono_Alternativo` = %s,
+                `password` = %s,
+                `Fecha_Baja` = %s,
+                `Modalidad_cobro` = %s,
+                `correo_electronico` = %s,
+                `tarifa` = %s
+                WHERE `idClientes` = %s AND `nombre_cliente` = %s;
+            """
+        values = (nombre_cliente,razon_social,cuit,cbu,direccion,latlong,telefono,telefonoAlternativo,
+                password,fechaBaja,modalidadCobro,correo,tarifa)
 
-
-
-from database import database
-@us.route("/api/users/create",methods=["POST"])
-def nuevoEmpleado():
-    try:
-        data = request.get_json()
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        passw = generate_password_hash(data['password'])
-        cursor.execute(f"insert into empleado (nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,localidad,password) values('{data['nombre']}','{data['puesto']}','{data['vehiculo']}','{data['patente']}','{data['correo']}','{data['dni']}','{data['cbu']}','{data['telefono']}','{data['direccion']}','{data['localidad']}','{passw}')")
-        midb.commit()
-        midb.close()
-        return jsonify(success=True,message="Usuario Creado",data=None)
-    except:
-        return jsonify(success=False,message="Se produjo un error al intentar crear el usuario",data=None)
 
