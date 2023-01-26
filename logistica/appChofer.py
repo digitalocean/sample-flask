@@ -70,10 +70,16 @@ def scannerRetirar():
     del data["location"]
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("insert into retirado(fecha,hora,Numero_envío,chofer,estado,scanner) values(DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),%s,%s,'Retirado',%s);",(envio,chofer,str(data)))
-    midb.commit()
-    midb.close()
-    return ""
+    cursor.execute("SELECT fecha,chofer from retirado where Numero_envío = %s",(envio,))
+    resultado = cursor.fetchall()
+    if resultado == None:
+        cursor.execute("insert into retirado(fecha,hora,Numero_envío,chofer,estado,scanner) values(DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),%s,%s,'Retirado',%s);",(envio,chofer,str(data)))
+        midb.commit()
+        midb.close()
+        return jsonify(success=True,message="Retirado")
+    else:
+        midb.close()
+        return jsonify(success=False,message=f"Ya retirador por {resultado[1]} el {resultado[1]}")
 
 def sectorizar(database,data,zona):
     nenvio = data["id"]
