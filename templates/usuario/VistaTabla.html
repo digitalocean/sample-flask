@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div id="printableArea" >
+<style>
+    td{
+        border-left: solid;
+        border-top: solid ; 
+        border-color: #afafaf;
+    }
+</style>
+<table style="width: 100%; margin-top: 30px;" class="table">
+    <tr>
+        <td>Accion</td>
+    {% for columna in columnas %}
+        <td>{{columna}}</td>
+    {% endfor %}
+    </tr>
+
+    {% for cliente in clientes %}
+        <tr id="fila{{cliente.0}}">
+            <td>
+                <form action="clientes/modificar" method="post">
+                    <input type="hidden" name="idCliente" value="{{cliente.0}}">
+                    <input type="submit" value="Modificar">
+                </form>
+            </td>
+            {% for x in cliente %}
+            {% if x == None %}
+            <td></td>
+            {% else %}
+            <td>{{x}}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}
