@@ -11,7 +11,9 @@
         border-color: #afafaf;
     }
 </style>
-<table style="width: 100%; margin-top: 30px;" class="table">
+<script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
+<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+<table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
     <tr>
         <td>Accion</td>
     {% for columna in columnas %}
