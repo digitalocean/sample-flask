@@ -1,27 +1,54 @@
 {% extends "index.html" %}
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
+<script>
+    function searchTable() {
+      // Obtener el valor de búsqueda ingresado por el usuario
+      var input = document.getElementById("searchInput").value;
+      // Obtener todas las filas de la tabla
+      var rows = document.getElementById("myTable").getElementsByTagName("tr");
+
+      // Recorrer cada fila
+      for (var i = 0; i < rows.length; i++) {
+        // Obtener todas las celdas de la fila actual
+        var cells = rows[i].getElementsByTagName("td");
+        var found = false;
+        // Recorrer cada celda
+        for (var j = 0; j < cells.length; j++) {
+          // Comparar el valor de la celda con el valor de búsqueda
+          if (cells[j].innerHTML.toLowerCase().indexOf(input.toLowerCase()) > -1) {
+            found = true;
+          }
+        }
+        if (found) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    }
+  </script>
 <form action="/etiquetaspendientes" method="get">
 <input type="submit" value="Imprimir todo">
 </form>
-    <table style="width: 100%; border: solid ;">
+<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+    <table style="width: 100%; border: solid ;" >
         <tr>
             {%for x in cabezeras%}
             <td>{{x}}</td>
             {%endfor%}
         </tr>
-    
+    </table>
+        <table style="width: 100%; border: solid ;"  id="myTable">
         {% for viaje in viajes %}
             <tr>
-            <td>{{viaje.0}}</td>
-            <td>{{viaje.1}}</td>
-            <td>{{viaje.2}}</td>
-            <td>{{viaje.3}}</td>
-            <td>{{viaje.4}}</td>
-            <td>{{viaje.5}}</td>
-            <td>{{viaje.6}}</td>
-            <td>{{viaje.7}}</td>
-            <td>{{viaje.8}}</td>
+                {% for x in viaje %}
+                {% if x == None %}
+                    <td></td>
+                {% else %}
+                    <td>{{x}}</td>
+                {% endif %}
+                {% endfor %}
             {% if viaje.5 == "Lista Para Retirar" %}
             <form action="/etiqueta" method="POST">
                 <input type="hidden" name="envio" value="{{viaje.1}}">

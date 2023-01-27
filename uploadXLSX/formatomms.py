@@ -110,7 +110,7 @@ def subir_exel_formms():
             if cp == "":
                 cp = 0
             if "col_cobrar" in locals():
-                cobrar = str(sheet_obj.cell(row= n_row,column=col_cobrar).value)
+                cobrar = str(sheet_obj.cell(row= n_row,column=col_cobrar).value).translate(str.maketrans('', '', chars))
             else:
                 cobrar = 0
             if "col_producto" in locals():
