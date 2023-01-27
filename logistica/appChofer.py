@@ -67,7 +67,8 @@ def scannerRetirar():
     sender_id = data["sender_id"]
     chofer = data["chofer"]
     del data["chofer"]
-    del data["location"]
+    if "location" in data.keys():
+        del data["location"]
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
@@ -203,6 +204,8 @@ def entregado():
         quienRecibe = f"{recibe} Dni: {dni}"
     if "location" in data.keys():
         location = data["location"]
+    else:
+        location = None
     sql = """
         update ViajesFlexs set 
         `Check` = null,
@@ -235,7 +238,10 @@ def noEntregado():
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     motivo = data["motivo"]
-    location = data["location"]
+    if "location" in data.keys():
+        location = data["location"]
+    else:
+        location = None
     foto = ""
     midb = connect_db()
     cursor = midb.cursor()
@@ -293,7 +299,10 @@ def subirImagen():
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     imagen = data["image"]
-    location = data["location"]
+    if "location" in data.keys():
+        location = data["location"]
+    else:
+        location = NotImplementedError
 
     sql = """
     INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
