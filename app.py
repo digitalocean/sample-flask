@@ -44,8 +44,8 @@ from logistica import mapa
 app.register_blueprint(mapa.lgMapa)
 
 
-from usuarios import usuarios
-app.register_blueprint(usuarios.us)
+from cliente import cliente
+app.register_blueprint(cliente.cl)
 from envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
 from MeLi import MeLi
@@ -119,7 +119,7 @@ def background_task2():
     informeEstados("Happe")
     informeEstados("Universal Shop")
 
-@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=21)
+@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=22,min=30)
 def background_task3():
     informeEstados("Quality Shop")
     informeEstados("Armin")

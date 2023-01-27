@@ -90,7 +90,6 @@ def cambioZonaMasivo():
     midb = database.connect_db()
     cursor = midb.cursor()
     if request.method == "POST":
-        post = request.form.keys() 
         tipoEnvio = session["tipoEnvio"]
         zona = request.form.get("zonamasiva")
         zona = f"{zona}/{tipoEnvio}"
@@ -101,7 +100,6 @@ def cambioZonaMasivo():
         for x in listaEnvios:
             envios += "'" + x + "',"
         envios = envios[0:-1]
-        print(zona)
         if zona != "null":
             zona = f"""'{str(zona).replace("'","")}'"""
             sql = f"update ViajesFlexs set Zona = {zona} where Numero_envío in ({envios})"

@@ -12,10 +12,10 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 
 
 
-us = Blueprint('usuarios', __name__, url_prefix='/')
+cl = Blueprint('cliente', __name__, url_prefix='/')
 
 
-@us.route('/clientes/nuevo_cliente', methods=["GET","POST"])
+@cl.route('/clientes/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required
 def crear_cliente():
     if(request.method == "GET"):
@@ -27,7 +27,7 @@ def crear_cliente():
             id = x[0]
             tar = x[1]
             tarifas.append([id,tar])
-        return render_template("usuario/nuevo_cliente.html",
+        return render_template("cliente/nuevo_cliente.html",
                                 auth = session.get("user_auth"),
                                 tarifas=tarifas,urlForm = "/clientes/nuevo_cliente")
     elif(request.method == "POST"):
@@ -61,9 +61,9 @@ def crear_cliente():
             modo_cobro,correo_electronico,tarifa))
         midb.commit()
         midb.close()
-        return render_template("usuario/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"),urlForm = "/clientes/nuevo_cliente")
+        return render_template("cliente/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"),urlForm = "/clientes/nuevo_cliente")
 
-@us.route("clientes")
+@cl.route("clientes")
 @auth.login_required
 def verClientes():
     midb = database.connect_db()
@@ -75,10 +75,10 @@ def verClientes():
     clientes = []
     for x in cursor.fetchall():
         clientes.append(x)
-    return render_template("usuario/VistaTabla.html",clientes=clientes,columnas=columnas, auth = session.get("user_auth"))
+    return render_template("cliente/VistaTabla.html",clientes=clientes,columnas=columnas, auth = session.get("user_auth"))
 
 
-@us.route("clientes/modificar",methods=["GET","POST"])
+@cl.route("clientes/modificar",methods=["GET","POST"])
 @auth.login_required
 def modificarDatosClientes():
     midb = database.connect_db()
@@ -108,7 +108,7 @@ def modificarDatosClientes():
         correo = resu[8]
         tarifa = resu[9]
         midb.close()
-        return render_template("usuario/nuevo_cliente.html",nombre_cliente = nombre_cliente,
+        return render_template("cliente/nuevo_cliente.html",nombre_cliente = nombre_cliente,
                                 razon_social = razon_social,cuit = cuit,direccion = direccion,
                                 telefono = telefono,telefonoAlternativo = telefonoAlternativo,
                                 password = password,modalidadCobro = modalidadCobro,correo = correo,
