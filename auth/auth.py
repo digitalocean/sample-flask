@@ -30,6 +30,7 @@ def load_logged_in_user():
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
+        print(g.user)
         if g.user is None:
             return render_template("login.html",titulo="Login")
         return view(**kwargs)
