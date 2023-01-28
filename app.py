@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session,current_app
+from flask import Flask, render_template, session
 from flask_cors import CORS
 import os
 
@@ -94,7 +94,7 @@ def background_task2():
     informeEstados("Happe")
     informeEstados("Universal Shop")
 
-@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=22,min=30)
+@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=22,minute=30)
 def background_task3():
     informeEstados("Quality Shop")
     informeEstados("Armin")
