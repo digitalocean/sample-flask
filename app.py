@@ -2,33 +2,6 @@ from flask import Flask, render_template, session,current_app
 from flask_cors import CORS
 import os
 
-import logging
-
-# Configurar el registro
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-
-# Crear un manejador de archivo
-file_handler = logging.FileHandler('app.log')
-file_handler.setLevel(logging.INFO)
-
-# Crear un formateador
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(formatter)
-
-# Añadir el manejador al registro
-logger.addHandler(file_handler)
-
-class MaskFormatter(logging.Formatter):
-    REDACT_FIELDS = os.environ.keys()
-    def format(self, record):
-        for field in self.REDACT_FIELDS:
-            if hasattr(record, field):
-                setattr(record, field, "*"*8)
-        return super().format(record)
-    
-file_handler.setFormatter(MaskFormatter())
-
 
 
 app = Flask(__name__)
@@ -36,6 +9,8 @@ app.config.from_mapping(
     SECRET_KEY=os.environ.get("FLASK_SECRET_KEY")
     )
 CORS(app)
+
+
 from auth import auth
 app.register_blueprint(auth.auth)
 from logistica import logistica
