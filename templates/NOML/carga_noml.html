@@ -3,16 +3,27 @@
 {% block content %}
 
 
-<body><br><br><br>
+<body>
     <style>
-        div{
+        @media only screen and (max-width: 600px) {
+        #formulario_NOML{
+            width: 80%;
             float:right;
-            position: fixed;
+            position: relative;
+            display: flex;
+            align-items: left;
+            justify-content: center;
+            right: 25px;
+        
         }
+        }
+        
         form{
             text-align: left;
         }
+
     </style>    
+<div id="formulario_NOML">
     <form class="" action="/carga_noml" method="POST">
         {% if nro_envio %}
         <br>
@@ -87,6 +98,7 @@
         </table>      
         <input type="submit" value="Confirmar">
     </form>
+</div>
 </body>
 
 {% endblock %}

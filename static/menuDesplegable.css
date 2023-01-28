@@ -1,3 +1,11 @@
+#ideaJuli li:hover {
+    background:#DFDFDF;
+    /* AQUI SE ARREGLA MENU DESLGBL X/ENCIMA */
+    z-index: 1 !important;
+    display: block;
+    position: relative;
+    }
+
 * {
     padding: 0px;    
     margin: 0px;
@@ -19,6 +27,7 @@ nav li a {
     text-decoration:none;
     padding:10px 15px;
     display:block;
+    
     }
 
 nav li a :hover {
