@@ -32,7 +32,12 @@ def estadistica():
         hasta = request.form.get("hasta")
         midb = database.connect_db()
         cursor = midb.cursor()
-        sql = "select Localidad, count(Localidad) as Cantidad from historial_estados where estado_envio = 'En Camino' and Fecha BETWEEN %s AND %s group by Localidad"
+        sql = """select H.tipo_envio,ifnull(Z.nombre,"Sin cotizar"),count(*) as Cantidad 
+                from historial_estados as H 
+                left join localidad as L on H.Localidad = L.localidad
+                left join indicePrecio as IP on L.id = IP.id_localidad and IP.id_tarifa = 1
+                left join zona as Z on IP.id_zona = Z.id
+                where H.estado_envio = 'En Camino' and Fecha BETWEEN %s AND %s group by H.tipo_envio, Z.nombre;"""
         values = (desde,hasta)
         cursor.execute(sql, values)
         resultado = []

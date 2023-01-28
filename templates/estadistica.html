@@ -10,15 +10,21 @@
     <input type="submit" value="Enviar">
 </form>
 {%if data%}
-<table>
+<table style="border: solid;">
     <tr>
+        <td>Tipo de envio</td>
+        <td></td>
         <td>Localidad</td>
+        <td></td>
         <td>Cantidad</td>
     </tr>
 {% for x in data %}
 <tr>
-    <td>{{x[0]}}</td>
+    <td style="text-align: center;">{{x[0]}}</td>
+    <td></td>
     <td>{{x[1]}}</td>
+    <td></td>
+    <td>{{x[2]}}</td>
 </tr>
 {% endfor %}
 </table>
