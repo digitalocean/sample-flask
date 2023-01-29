@@ -1,0 +1,63 @@
+{% extends "index.html" %}
+
+{% block content %}
+<br><br><br>
+<form action="/logistica/fijos" method="post">
+<table style="border: solid;">
+    <tr>
+        <td>Fecha</td>
+        <td>Chofer</td>
+        <td>Cobra</td>
+        <td>Cantidad de paquetes</td>
+    </tr>
+    <tr>
+        <td><input type="date" name="fecha" id="fecha" value="{{fecha}}" required></td>
+        <td><select name="chofer" id="chofer" required>
+            <option></option>
+            {%for chofer in choferes%}
+            <option value="{{chofer}}">{{chofer}}</option>
+            {%endfor%}
+        </select></td>
+        <td><input type="number" name="costo"></td>
+        <td><input type="number" name="cantidad"></td>
+    </tr>
+    <tr><td><input type="submit" Value="Registrar"></td></tr>
+</table>
+</form>
+<script>
+    var hoy = new Date();
+    var dia = hoy.getDate();
+    var mes = hoy.getMonth() + 1;
+    var anio = hoy.getFullYear();
+    
+    if (dia < 10) {
+      dia = "0" + dia;
+    }
+    
+    if (mes < 10) {
+      mes = "0" + mes;
+    }
+    
+    document.getElementById("fecha").value = anio + "-" + mes + "-" + dia;
+  </script>
+  <br>
+<table style="border: solid;">
+    <tr>
+        <td>ID</td>
+        <td>Fecha</td>
+        <td>Chofer</td>
+        <td>Costo</td>
+        <td>Accion</td>
+    </tr>
+    {% for fijo in fijos %}
+    <tr>
+        {% for fj in fijo %}
+            <td>{{fj}}</td>
+        {% endfor %}
+        <td><input type="button" value="Modificar"></td>
+    </tr>
+    {% endfor %}
+</table>
+<br><br>
+{%if envio %}<h3>se asignaron {{envio}} horas a {{chofer}}</h3>{%endif%}
+{% endblock %}

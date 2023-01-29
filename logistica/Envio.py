@@ -6,7 +6,7 @@ import mysql.connector
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
-                recibeOtro=None,fotoDni=None,cobrar=0,reprogramaciones=0,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,columna3=None,fromDB=False,geolocalizar=False):
+                recibeOtro=None,fotoDni=None,cobrar=0,reprogramaciones=0,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,columna3=None,fromDB=False,geolocalizar=False,zona=None):
         midb = database.connect_db()
         if numeroEnvio == None:
             cursor = midb.cursor()
@@ -33,7 +33,7 @@ class Envio:
             self.estado_envio = estadoEnvio
         direccionCompleta = direccion + ", " + localidad + ", buenos aires"
         self.Check = None
-        self.Zona = None
+        self.Zona = zona
         self.Fecha = fecha
         self.nro_venta = numeroVenta
         self.comprador = comprador

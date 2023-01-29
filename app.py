@@ -51,6 +51,8 @@ from empleado import sueldo
 app.register_blueprint(sueldo.MS)
 
 #LOGISTICA
+from logistica import fijos
+app.register_blueprint(fijos.fj)
 from logistica import asignacionRetiros
 app.register_blueprint(asignacionRetiros.lgAR)
 from logistica import asignacionZonas
