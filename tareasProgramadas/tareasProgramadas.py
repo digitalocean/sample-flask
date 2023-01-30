@@ -73,6 +73,34 @@ def informeFinalDia():
         ABS(count(CASE WHEN estado_envio in ('En Camino','Reasignado') THEN 1 END)-
         count(CASE when estado_envio in ("Entregado") then 1 end)-
         count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end)-
+        count(case when motivo_noenvio = "Domicilio no visitado" then 1 end)) as Diferencia_cargados_visitados,
+
+        (select Hora from historial_estados as H2 where estado_envio in ("En Camino","Reasignado") 
+        and Fecha = current_date()-1 and H1.Chofer = H2.Chofer order by Hora desc limit 1) as Horario_salida,
+
+        (select Hora from historial_estados as H2 where Fecha = current_date()-1 and 
+        H1.Chofer = H2.Chofer order by Hora desc limit 1) as Horario_fin,
+
+        concat(((100 / COUNT(CASE WHEN estado_envio IN ('En Camino','Reasignado') THEN 1 END)  * 
+        COUNT(CASE WHEN estado_envio IN ("Entregado") THEN 1 END) )),"%") as efectividad
+
+        from historial_estados as H1 where Fecha = current_date()-2 and estado_envio != "Lista Para Devolver" group by Chofer 
+union
+     select "Totales",
+
+        count(CASE WHEN estado_envio = 'En Camino' THEN 1 END)  as En_camino,
+
+        count(CASE WHEN estado_envio = 'Reasignado' THEN 1 END)  as Reasignados,
+
+        count(CASE when estado_envio in ("Entregado") then 1 end) as Entregados,
+
+        count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end) as Nadie_en_domicilio,
+
+        count(case when motivo_noenvio = "Domicilio no visitado" then 1 end) as No_visitado,
+        
+        ABS(count(CASE WHEN estado_envio in ('En Camino','Reasignado') THEN 1 END)-
+        count(CASE when estado_envio in ("Entregado") then 1 end)-
+        count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end)-
         count(case when motivo_noenvio = "Domicilio no visitado" then 1 end)) as Diferencia_cargados_Entregados,
 
         (select Hora from historial_estados as H2 where estado_envio in ("En Camino","Reasignado") 
@@ -84,7 +112,7 @@ def informeFinalDia():
         concat(((100 / COUNT(CASE WHEN estado_envio IN ('En Camino','Reasignado') THEN 1 END)  * 
         COUNT(CASE WHEN estado_envio IN ("Entregado") THEN 1 END) )),"%") as efectividad
 
-        from historial_estados as H1 where Fecha = current_date()-1 and estado_envio != "Lista Para Devolver" group by Chofer;"""
+        from historial_estados as H1 where Fecha = current_date()-2 and estado_envio != "Lista Para Devolver" ;"""
     df = pd.read_sql(sql,midb)
     horaSalida = "Horario_salida"
     horaFin = "Horario_fin"
