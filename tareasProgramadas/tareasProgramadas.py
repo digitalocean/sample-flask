@@ -84,7 +84,7 @@ def informeFinalDia():
         concat(((100 / COUNT(CASE WHEN estado_envio IN ('En Camino','Reasignado') THEN 1 END)  * 
         COUNT(CASE WHEN estado_envio IN ("Entregado") THEN 1 END) )),"%") as efectividad
 
-        from historial_estados as H1 where Fecha = current_date()-2 and estado_envio != "Lista Para Devolver" group by Chofer 
+        from historial_estados as H1 where Fecha = current_date()-1 and estado_envio != "Lista Para Devolver" group by Chofer 
 union
      select "Totales",
 
@@ -112,7 +112,7 @@ union
         concat(((100 / COUNT(CASE WHEN estado_envio IN ('En Camino','Reasignado') THEN 1 END)  * 
         COUNT(CASE WHEN estado_envio IN ("Entregado") THEN 1 END) )),"%") as efectividad
 
-        from historial_estados as H1 where Fecha = current_date()-2 and estado_envio != "Lista Para Devolver" ;"""
+        from historial_estados as H1 where Fecha = current_date()-1 and estado_envio != "Lista Para Devolver" ;"""
     df = pd.read_sql(sql,midb)
     horaSalida = "Horario_salida"
     horaFin = "Horario_fin"
