@@ -91,6 +91,7 @@ def cambiarprecio():
         tarifa = request.form["tarifa"]
         zonaCambia = request.form["zona"]
         nuevoprecio = request.form["nuevoprecio"]
+        nuevoprecio = float(str(nuevoprecio).replace(",","."))
         sql = f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}"
         print(sql)
         cursor.execute(sql)

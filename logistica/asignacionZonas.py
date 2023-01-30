@@ -46,7 +46,6 @@ def choferesAsignados():
 
 @lgAZ.route("/logistica/limpiarzonas", methods=["GET","POST"])
 @auth.login_required
-@auth.admin_required
 def limpiarZonas():
     tipoEnvio = session["tipoEnvio"]
     midb = database.connect_db()
