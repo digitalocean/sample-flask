@@ -19,7 +19,6 @@ def consultar_envio(nro_envio,idUser):
         response =  requests.get(url)
         response_json = response.json()
         from scriptGeneral.scriptGeneral import enviar_correo
-        enviar_correo(["mmsmatiasacciaio@gmail.com"],"consultar_envio",None,None,response_json)
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
             comprador = dato_envio["receiver_name"]
