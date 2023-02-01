@@ -23,14 +23,15 @@ def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
         session["tipoEnvio"] = tipoEnvio
-        session["valuesMapa"] = (tipoEnvio,)
+        session["valuesMapa"] = tipoEnvio
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
         midb = database.connect_db()
         cursor = midb.cursor()
         if "valuesMapa" in session.keys():
-            cursor.execute(consultaMapa,session["valuesMapa"])
+            valueMapa = session["valuesMapa"]
+            cursor.execute(consultaMapa,(valueMapa,))
         else:
             cursor.execute(consultaMapa,(2,))
         for x in cursor.fetchall():
