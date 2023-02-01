@@ -5,7 +5,6 @@
 import requests
 from database import database
 from .renovar_token import actualizar_token
-from scriptGeneral.scriptGeneral import enviar_correo
  
 
 def consultar_envio(nro_envio,idUser):
@@ -19,9 +18,11 @@ def consultar_envio(nro_envio,idUser):
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}"
         response =  requests.get(url)
         response_json = response.json()
-        enviar_correo(["mmsmatiasacciaio@gmail.com "],f"consulta envio {nro_envio}",None,None,str(response_json))
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
+            if "municipality" in dato_envio.keys():
+                municipio=response_json["municipality"]
+                print(municipio)
             comprador = dato_envio["receiver_name"]
             tipo_envio = response_json["logistic_type"]
             direccion = dato_envio["address_line"]
