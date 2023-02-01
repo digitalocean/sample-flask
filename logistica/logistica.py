@@ -130,3 +130,38 @@ def busquedaNumeroEnvio():
                             cant_columnas = len(cabezeras),
                             contador = 0,
                             auth = session.get("user_auth"))
+
+
+
+@lg.route("/logistica/ruteo")
+@auth.login_required
+def RuteoPrimera():
+    from .mapa import consultaMapa
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cabezeras = ["Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Chofer","Estado"]
+    if "valuesMapa" in session.keys():
+        valueMapa = session["valuesMapa"]
+        cursor.execute(consultaMapa,(valueMapa,))
+    else:
+        cursor.execute(consultaMapa,(2,))
+    resultado = cursor.fetchall()
+    lista = []
+    for x in resultado:
+        zona = x[9]
+        fecha = x[6]
+        nEnvio = x[0]
+        direccion = x[1]
+        localidad = x[2]
+        cp = x[13]
+        vendedor = x[3]
+        chofer = x[7]
+        estado = x[8]
+        lista.append([zona,fecha,nEnvio,direccion,localidad,cp,vendedor,chofer,estado])
+    return render_template("logistica/VistaTabla.html", 
+                            titulo="Ruteo",
+                            viajes=lista,
+                            columnas = cabezeras,
+                            cant_columnas = len(cabezeras),
+                            contador = 0,
+                            auth = session.get("user_auth"))

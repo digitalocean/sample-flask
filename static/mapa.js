@@ -142,7 +142,7 @@ async function getJSON(url, callback) {
         }
       }
       document.getElementById("contadores").outerHTML = `<div id='contadores'>
-      <h3> ${listasParaRetirar} Para Retirar || ${retirados} Retirados || ${sectorizados} Sectorizados</h3>
+      <h1><a href="/logistica/ruteo"><input type="button" value="Ver en lista" class="boton"></a> ${listasParaRetirar} Para Retirar || ${retirados} Retirados || ${sectorizados} Sectorizados</h1>
       </div>`
       
     } else {
@@ -152,6 +152,8 @@ async function getJSON(url, callback) {
   };
   xhr.send();
 };
+
+
 
 function numeroZona(zona){
   var zn = toString(zona).substring(2,3);

@@ -36,7 +36,7 @@ function imprimir() {
     {% if cobra %}
         <h3>{{cobra}} a pagar</h3>
     {% endif %}
-
+<!-- 
     {% if tablas %}
     <a href="/logistica/historial/{{listaBotones[0]}}"><input type="button" value="{{listaBotones[0]}}"></a>
     <a href="/logistica/historial/{{listaBotones[1]}}"><input type="button" value="{{listaBotones[1]}}"></a>
@@ -54,7 +54,7 @@ function imprimir() {
     <a href="/logistica/historial/{{listaBotones[13]}}"><input type="button" value="{{listaBotones[13]}}"></a>
     <a href="/logistica/historial/{{listaBotones[14]}}"><input type="button" value="{{listaBotones[14]}}"></a>
     <a href="/logistica/historial/{{listaBotones[15]}}"><input type="button" value="{{listaBotones[15]}}"></a>
-    {% endif %}
+    {% endif %} -->
 
     <h4>{{mensaje_tabla}}</h4>
     <tr>
@@ -65,14 +65,11 @@ function imprimir() {
 
     {% for viaje in viajes %}
         <tr id="fila{{viaje.2}}">
-            {% if historial %}
-                <td><input type="submit" value="Borrar" onclick="confirmar('{{viaje.2}}')"></td>
-            {% endif %}
-            {% if viaje  %}
+            <!-- {% if viaje  %} -->
             {% for x in viaje %}
-            <td>{{x}}</td>
+                <td>{{x}}</td>
             {% endfor %}
-            {% endif %}
+            <!-- {% endif %} -->
         </tr>
     {% endfor %}
     </table>
