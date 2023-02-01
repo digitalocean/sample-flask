@@ -12,22 +12,6 @@
         font-size: medium;
     }
 </style>
-<script>
-function geolocalizarFaltantes()
-{
-fetch('/descargalogixs', {
-  method: 'GET',
-})
-  .then(response => {
-    if (response.status === 200) {
-      alert("Geolocalizacion exitosa")
-    } else {
-      alert('Se ha producido un error');
-    }
-  });
-
-}
-</script>
 <div>
 <form action='/logistica/cambiozonamasivo' id="formzona" method="GET" name="formzona">
     <select name = "zonamasiva" id='zonamasiva' class="selector">
@@ -49,6 +33,9 @@ fetch('/descargalogixs', {
 <input type="checkbox" checked name="enDeposito" id="enDeposito" value="True">En deposito
 <input type="text" id="search" placeholder="Busqueda">
 </div>
+<div>
+  <div id="mensaje"></div>
+</div>
 <form action="/logistica/jsonPendientes" method="post">
 <select name="tipoEnvio">
     <option value="2">Flexs</option>
@@ -56,9 +43,8 @@ fetch('/descargalogixs', {
 </select>
 <input type="submit" value="Filtrar" value="True">
 </form>
-<div id="mensaje"></div>
-</div>
-    </div>
+<div id="contadores" style="position: static; left: 25px;"></div>
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <style>
 /* Establezca siempre la altura del mapa explícitamente para definir el tamaño del div

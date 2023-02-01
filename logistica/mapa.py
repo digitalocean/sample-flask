@@ -5,7 +5,7 @@ from database import database
 lgMapa = Blueprint('mapa', __name__, url_prefix='/')
 
 consultaMapa = """
-        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio
+        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio,CP
         from ViajesFlexs
         where 
             not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
@@ -15,8 +15,6 @@ consultaMapa = """
             estado_envio in ('Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') 
         and
             not (estado_envio = "Lista Para Retirar" and Fecha > current_date())
-        or 
-            (Zona like '%\deposito%' and tipo_envio = %s)
         """
 
 @lgMapa.route("/logistica/jsonPendientes", methods = ["GET","POST"])
@@ -25,7 +23,7 @@ def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
         session["tipoEnvio"] = tipoEnvio
-        session["valuesMapa"] = (tipoEnvio,tipoEnvio)
+        session["valuesMapa"] = (tipoEnvio,)
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
@@ -34,7 +32,7 @@ def jsonPendientes():
         if "valuesMapa" in session.keys():
             cursor.execute(consultaMapa,session["valuesMapa"])
         else:
-            cursor.execute(consultaMapa,(2,2))
+            cursor.execute(consultaMapa,(2,))
         for x in cursor.fetchall():
             jsonPendientes[x[0]] = {
                 "direccion":x[1],
@@ -49,7 +47,8 @@ def jsonPendientes():
                 "fechaUltimoEstado":str(x[10])[0:10],
                 "horaUltimoEstado":str(x[10])[10:19],
                 "motivo":x[11],
-                "tipoEnvio":x[12]
+                "tipoEnvio":x[12],
+                "CP":x[13]
             }
         return jsonify(jsonPendientes)
 
@@ -67,6 +66,21 @@ def carga_mapa():
                             mapa=True,
                             zonas=zonas)
 
+@lgMapa.route("/logistica/mapa/novino", methods=["GET","POST"])
+@auth.login_required
+def noVinoMapa():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("""
+                    update ViajesFlexs 
+                        set 
+                            estado_envio = "No Vino",
+                            Motivo = null,
+                            `Check` = null,
+                            Zona = null where Numero_envío = %s and estado_envio = "Lista Para Retirar"
+                    """,(request.json["nro_envio"],))
+    midb.commit()
+    return ""
 
 @lgMapa.route("/cambiozona", methods=["GET","POST"])
 @auth.login_required

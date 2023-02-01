@@ -129,6 +129,22 @@ async function getJSON(url, callback) {
     var status = xhr.status;
     if (status === 200) {
       callback(null, xhr.response);
+      var listasParaRetirar = 0;
+      var retirados = 0;
+      var sectorizados = 0
+      for(var i in globales.markers){
+        if(globales.markers[i].estado == "Lista Para Retirar"){
+          listasParaRetirar ++
+        }else if((globales.markers[i].estado == "Retirado")){
+          retirados ++
+        }else if((globales.markers[i].estado == "Listo para salir (Sectorizado)")){
+          sectorizados ++
+        }
+      }
+      document.getElementById("contadores").outerHTML = `<div id='contadores'>
+      <h3> ${listasParaRetirar} Para Retirar || ${retirados} Retirados || ${sectorizados} Sectorizados</h3>
+      </div>`
+      
     } else {
       console.log("ERROR EN RESPUESTA JSON")
       callback(status, xhr.response);
@@ -165,9 +181,10 @@ function numeroZona(zona){
         var fechaUltimoEstado = new Date()
         fechaUltimoEstado = data[x]["fechaUltimoEstado"];
         var horaUltimoEstado = data[x]["horaUltimoEstado"];
-        var tipoEnvio = data[x]["tipoEnvio"]
+        var tipoEnvio = data[x]["tipoEnvio"];
+        var cp = data[x]["CP"];
         ultimoEstado = fechaUltimoEstado + " " + horaUltimoEstado;
-        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio)
+        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp)
       }  
     }
   });
@@ -192,7 +209,7 @@ for (let i = 0; i < iniciales.length; i++) {
     }
 }
   
-function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio){
+function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
       estado:est,
@@ -201,6 +218,7 @@ function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo
       vendedor:vendedor,
       zona:zona,
       tipoEnvio:tipo_envio,
+      cp:cp,
       position: { lat: parseFloat(lati), lng:  parseFloat(lng)},
       icon: getPinIcon(zona),
       map: map,
@@ -209,12 +227,20 @@ var contenido = "<p>Envio: "+nro_env+
 "<br>Fecha: "+fecha+
 "<br>Ultima actualizacion: "+ult_estado+
 "<br>Direccion: "+dir+", "+loc+
+"<br>CP: "+cp+
 " <br> Vendedor: " + vendedor + 
 "<br>Chofer: "+chofer+
 "<br>Estado: "+est+
 "<br>Motivo: " + motivo+
-`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+`')">Modificar</button>`+
-"<form action='/cambiozona' method='POST'><select name='zona' id='zona'>"+
+`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+`')">Modificar</button>`
+
+if(est == "Lista Para Retirar"){
+  contenido = contenido + `<button onclick="noVino('`+nro_env+`')">No Vino</button>`
+}
+
+
+
+contenido = contenido + "<form action='/cambiozona' method='POST'><select name='zona' id='zona'>"+
 "<option value='"+zona+"' selected disabled hidden>"+zona+"</option>"+
 "<option value='null'>Limpiar zona</option>"+
 options+
@@ -232,6 +258,39 @@ options+
 }
 
 
+function geolocalizarFaltantes()
+{
+fetch('/descargalogixs', {
+  method: 'GET',
+})
+  .then(response => {
+    if (response.status === 200) {
+      alert("Geolocalizacion exitosa")
+    } else {
+      alert('Se ha producido un error');
+    }
+  });
+
+}
+
+
+function noVino(nro_env)
+{
+fetch(`/logistica/mapa/novino`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ nro_envio: nro_env })
+})
+  .then(response => {
+    if (response.status === 200) {
+      console.log(`${nro_env} No Vino`)
+      initMap()
+    } else {
+      alert(`Se ha producido un error con ${nro_env}`);
+    }
+  });
+
+}
 
 function clearPolygon(){
   document.getElementById("mensaje").outerHTML = "<div id='mensaje'></div>"
