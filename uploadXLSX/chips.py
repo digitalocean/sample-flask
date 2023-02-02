@@ -175,7 +175,7 @@ def subir_exel_chips():
             informar = False
             chars = '.,!"#$%&/()=?¡¿'
             nro_envio = None
-            viaje = Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=15,sku="sim",fromDB=True,observacion=observacion,estadoEnvio="Para preparar")
+            viaje = Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=15,sku="sim",fromDB=True,observacion=observacion)
             print(referencia)
             resu = viaje.toDB()
             if resu:
