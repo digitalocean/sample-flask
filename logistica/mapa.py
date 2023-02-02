@@ -12,7 +12,7 @@ consultaMapa = """
         and
             tipo_envio = %s 
         and 
-            estado_envio in ('Lista Para Retirar','Retirado','Listo para salir (Sectorizado)') 
+            estado_envio in ('Lista Para Retirar','Para preparar','Retirado','Listo para salir (Sectorizado)') 
         and
             not (estado_envio = "Lista Para Retirar" and Fecha > current_date())
         """
