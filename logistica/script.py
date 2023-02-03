@@ -20,7 +20,7 @@ def geocoder(dir):
 def geolocalizarFaltantesback(midatabase):
     midatabase = database.verificar_conexion(midatabase)
     cursor = midatabase.cursor()
-    cursor.execute("UPDATE ViajesFlexs SET Direccion_completa = concat(Direccion,', ',Localidad,', Buenos Aires') WHERE Direccion_completa is null;")
+    cursor.execute("UPDATE ViajesFlexs SET Direccion_completa = concat(Direccion,', ',Localidad,', Buenos Aires') WHERE Direccion_completa is null and not tipo_envio = 15;")
     midatabase.commit()
     cursor.execute("select Numero_envío, Direccion,Localidad,Vendedor,tipo_envio from ViajesFlexs where (latitud is null or Longitud is null) and tipo_envio in (2,13,14)")
     resultado = cursor.fetchall()
