@@ -23,8 +23,8 @@ def envios_clientes():
     viajes = []
     midb = database.connect_db()
     cursor = midb.cursor()
-    cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Direccion","Estado","Motivo","Observación","Monto a cobrar"]
-    cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,Cobrar from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
+    cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Direccion","Estado","Motivo","Observación","Paquete","Monto a cobrar"]
+    cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
     for viaje in cursor:
         viajes.append(viaje)
     return render_template("envios_clientes/tabla_viajes.html", 

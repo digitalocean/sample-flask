@@ -147,57 +147,6 @@ class Envio:
         midb.commit()
 
 
-    def cambioEstado(self,estado,chofer,fecha):
-        """
-        "En Camino":
-            Check = "En Camino"
-            Zona = null
-        "Entregado":
-            motivo = "Entregado sin novedades"
-        "No visitado":
-            estado = "No Entregado"
-            motivo = "Domicilio no visitado"
-        "reprogramado":
-            estado = "No Entregado"
-            motivo = "Nadie en Domicilio (Reprogramado)
-        "zonaPeligrosa":
-            estado = "No Entregado"
-            motivo = "Zona Peligrosa"
-        "fueraDeZona":
-            estado = "Fuera de Zona"
-            motivo = "Fuera de Zona"
-            """
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        numEnvio=self.Numero_envío
-        modifica=session.get("user_id")
-        motivo = None
-        check = None
-        if estado == "En Camino":
-            check = "En Camino"
-        elif estado == "Entregado":
-            motivo = "Entregado sin novedades"
-        elif estado == "No visitado":
-            estado = "No Entregado"
-            motivo = "Domicilio no visitado"
-        elif estado == "reprogramado":
-            estado = "No Entregado"
-            motivo = "Nadie en Domicilio (Reprogramado)"
-        elif estado == "zonaPeligrosa":
-            estado = "No Entregado"
-            motivo = "Zona Peligrosa"
-        elif estado == "fueraDeZona":
-            estado = "Fuera de Zona"
-            motivo = "Fuera de Zona"
-        elif estado == "cancelado":
-            motivo == "Venta cancelada"
-        sql = "update ViajesFlexs set Zona = null, `Check` = %s, estado_envio = %s, Motivo = %s,Chofer = %s,Correo_chofer=correoChofer(%s),Foto_domicilio = concat('Modifico: ',%s),Timechangestamp=%s where Numero_envío = %s"
-        values = (check,estado,motivo,chofer,chofer,modifica,fecha,numEnvio)
-        cursor.execute(sql,values)
-        midb.commit()
-        cursor.execute("update ViajesFlexs set Foto_domicilio = null where Numero_envío = %s",(self.Numero_envío,))
-        midb.commit()
-        midb.close()
     @classmethod
     def deleteFromDB(self,nroEnvio):
         sql = "delete from ViajesFlexs where Numero_envío = %s"

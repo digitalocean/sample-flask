@@ -185,8 +185,9 @@ function numeroZona(zona){
         var horaUltimoEstado = data[x]["horaUltimoEstado"];
         var tipoEnvio = data[x]["tipoEnvio"];
         var cp = data[x]["CP"];
+        var bultos = data[x]["bultos"];
         ultimoEstado = fechaUltimoEstado + " " + horaUltimoEstado;
-        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp)
+        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp,bultos)
       }  
     }
   });
@@ -211,7 +212,7 @@ for (let i = 0; i < iniciales.length; i++) {
     }
 }
   
-function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp){
+function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp,bultos){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
       estado:est,
@@ -221,6 +222,7 @@ function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo
       zona:zona,
       tipoEnvio:tipo_envio,
       cp:cp,
+      bultos:bultos,
       position: { lat: parseFloat(lati), lng:  parseFloat(lng)},
       icon: getPinIcon(zona),
       map: map,
@@ -239,10 +241,27 @@ var contenido = "<p>Envio: "+nro_env+
 if(est == "Lista Para Retirar"){
   contenido = contenido + `<button onclick="noVino('`+nro_env+`')">No Vino</button>`
 }
+if(est != "Lista Para Retirar"){
+  contenido = contenido + `<button onclick="calcelado('`+nro_env+`')">Cancelado</button>`
+}
+contenido = contenido + 
+`<form action='/bultosporenvio' method='POST'>
+Bultos: <select name='bultos' id='bultos'>
+<option value=${bultos}>${bultos}</option>
+<option value=1>1</option>
+<option value=2>2</option>
+<option value=3>3</option>
+<option value=4>4</option>
+<option value=5>5</option>
+<option value=6>6</option>
+</select><input type='submit' value='Guardar'>
+<input type='hidden' value="${nro_env}" name='envio' id='envio'>
+</form></p>`
 
 
 
-contenido = contenido + "<form action='/cambiozona' method='POST'><select name='zona' id='zona'>"+
+contenido = contenido + 
+"<form action='/cambiozona' method='POST'><select name='zona' id='zona'>"+
 "<option value='"+zona+"' selected disabled hidden>"+zona+"</option>"+
 "<option value='null'>Limpiar zona</option>"+
 options+

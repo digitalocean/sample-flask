@@ -57,25 +57,18 @@ def subir_exel_chips():
                     col_referencia = contador
                 elif cab in "torre/monoblock":
                     col_TorreMonoblock = contador
-                    print("torre/monoblock")
                 elif cab in "piso":
                     col_Piso = contador
-                    print("piso")
                 elif cab in "departamento":
                     col_Departamento = contador
-                    print("departamento")
                 elif cab in "manzana":
                     col_Manzana = contador
-                    print("manzana")
                 elif cab in "barrio":
                     col_Barrio = contador
-                    print("barrio")
                 elif cab in "casa/lote":
                     col_casaLote = contador
-                    print("casa/lote")
                 elif cab in "entre_calles":
                     col_EntreCalles = contador
-                    print("entre_calles")
 
             print("\nasignacion completa\n")
         except Exception as cabezeras:
@@ -177,6 +170,7 @@ def subir_exel_chips():
             nro_envio = None
             viaje = Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=15,sku="sim",fromDB=True,observacion=observacion)
             print(referencia)
+            print(observacion)
             resu = viaje.toDB()
             if resu:
                 viajes.append([resu,cliente,direccion,localidad,telefono,referencia])

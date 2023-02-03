@@ -5,7 +5,7 @@ from database import database
 lgMapa = Blueprint('mapa', __name__, url_prefix='/')
 
 consultaMapa = """
-        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio,CP
+        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio,CP,columna_1
         from ViajesFlexs
         where 
             not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
@@ -49,7 +49,8 @@ def jsonPendientes():
                 "horaUltimoEstado":str(x[10])[10:19],
                 "motivo":x[11],
                 "tipoEnvio":x[12],
-                "CP":x[13]
+                "CP":x[13],
+                "bultos":x[14]
             }
         return jsonify(jsonPendientes)
 

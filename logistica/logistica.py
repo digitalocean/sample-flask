@@ -165,3 +165,18 @@ def RuteoPrimera():
                             cant_columnas = len(cabezeras),
                             contador = 0,
                             auth = session.get("user_auth"))
+
+
+
+@lg.route("/bultosporenvio",methods = ["POST"])
+@auth.login_required
+def bultosPorEnvio():
+    bultos = request.form["bultos"]
+    envio = request.form["envio"]
+    sql = "update ViajesFlexs set columna_1 = %s where Numero_envío = %s"
+    values = (bultos,envio)
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
+    midb.commit()
+    return redirect("/logistica/vistamapa")

@@ -34,8 +34,12 @@
     {% for viaje in data %}
 
         <tr>
-        
-            <td>{{viaje.0}}</td>
+        {% for x in viaje %}
+        <td>
+            {{x}}
+        </td>
+        {% endfor %}
+            <!-- <td>{{viaje.0}}</td>
             <td>{{viaje.1}}</td>
             <td>{{viaje.2}}</td>
             <td>{{viaje.3}}</td>
@@ -50,8 +54,8 @@
             <td>{{viaje.12}}</td>
             <td>{{viaje.13}}</td>
             <td>{{viaje.14}}</td>
-            <td>{{viaje.15}}</td>
-            
+            <td>{{viaje.15}}</td> -->
+                
         </tr>
 
     {% endfor %}

@@ -30,7 +30,8 @@ def procesarNotificacion(data):
                 if estado == "En Camino": consultaChoferMeli(nro_envio,user_id)
                 estadoDb = resEnvio.estado_envio
                 if tipo_envio == 2 and estadoDb != estado and estado == "Cancelado":
-                    resEnvio.cambioEstado("cancelado",None)
+                    #PENDIENTE CANCELAR
+                    # resEnvio.cambioEstado("cancelado",None)
                     print(f"Envio {nro_envio} cancelado")
                 else:
                     print(f"Envio {nro_envio} descartado se encuentra {estado} y en nuestra db {estadoDb}")

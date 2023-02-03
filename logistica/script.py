@@ -22,7 +22,7 @@ def geolocalizarFaltantesback(midatabase):
     cursor = midatabase.cursor()
     cursor.execute("UPDATE ViajesFlexs SET Direccion_completa = concat(Direccion,', ',Localidad,', Buenos Aires') WHERE Direccion_completa is null;")
     midatabase.commit()
-    cursor.execute("select Numero_envío, Direccion,Localidad,Vendedor from ViajesFlexs where latitud is null or Longitud is null")
+    cursor.execute("select Numero_envío, Direccion,Localidad,Vendedor from ViajesFlexs where latitud is null or Longitud is null and tipo_envio in (2,13,14)")
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
