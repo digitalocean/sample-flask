@@ -27,7 +27,7 @@
                 <option value="{{tarifa}}">{{tarifa}}</option>
                 {% endif %}
                 {%for tar in tarifas%}
-                <option value="{{tar}}">{{tar}}</option>
+                <option value="{{tar.0}}">{{tar.1}}</option>
                 {%endfor%}
             </select>
             <input type="submit">
