@@ -169,8 +169,8 @@ def subir_exel_chips():
             chars = '.,!"#$%&/()=?¡¿'
             nro_envio = None
             viaje = Envio(direccion,localidad,vendedor,nro_envio,cliente,telefono,referencia,cp,fecha,tipoEnvio=15,sku="sim",fromDB=True,observacion=observacion)
-            print(referencia)
-            print(observacion)
+            if referencia == "":
+                referencia = observacion
             resu = viaje.toDB()
             if resu:
                 viajes.append([resu,cliente,direccion,localidad,telefono,referencia])

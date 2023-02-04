@@ -68,7 +68,7 @@ def facturacionFlex():
     
     
     contador = 9
-    sql = f"select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"
+    sql = f"""select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"""
     cursor.execute(sql)
     sinprecio = 0
     for viajeTupla in cursor.fetchall():

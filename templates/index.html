@@ -44,14 +44,21 @@
         </ul></li>
         <li><a href="/estadistica">Estadistica</a></li>
         {% endif %}
-        {% if auth != "Chofer"%}
+        {% if auth != "Chofer" %}
         <li><a href="/carga_noml">Carga viaje NOML</a></li>
-        {%endif%}
+        {% endif %}
         {% if auth == "Cliente" %}
         <li><a href="/carga_formms">Subir Archivo</a></li>
         <li><a href="/upload">Subir Archivo ML</a></li>
         <li><a href="/logistica/carga_recorridos">Recorrido Chips</a></li>
         <li><a href="/misenvios">Mis envios</a></li>
+        {% endif %}
+        {% if auth == "Admin" %}
+        <li><a href="">Carga de archivos</a><ul>
+            <li><a href="/carga_formms">Como ruteo de primera</a></li>
+            <li><a href="/upload">Mercadolibre</a></li>
+            <li><a href="/logistica/carga_recorridos">Chips</a></li>
+        </ul></li>
         {% endif %}
         {% if auth == "Chofer"%}
         <li><a href="/misueldo">Mi sueldo</a></li>
