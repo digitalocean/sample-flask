@@ -32,7 +32,7 @@ def loginEmpleado():
 @pd.route("/store/apps/MMSPACK-Reparto")
 def descargaAppReparto():
     return send_file()
-@pd.route("/api/user/appvers2ion",methods=["POST"])
+@pd.route("/api/user/appversion",methods=["POST"])
 def appVersion():
     return "0.02"
 
