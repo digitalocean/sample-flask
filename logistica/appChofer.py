@@ -34,7 +34,7 @@ def descargaAppReparto():
     return send_file()
 @pd.route("/api/user/appvers2ion",methods=["POST"])
 def appVersion():
-    return "0.01"
+    return "0.02"
 
 @pd.route("/ubicacion",methods = ["POST"])
 def guardarUbicacion():
