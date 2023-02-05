@@ -1,10 +1,8 @@
 
-from flask import Blueprint, jsonify, request
-from werkzeug.security import generate_password_hash,check_password_hash
+from flask import Blueprint, jsonify, request,send_file
 from threading import Thread
 from database.database import connect_db
 from datetime import datetime,timedelta
-from logistica.Envio import Envio
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
@@ -30,6 +28,13 @@ def loginEmpleado():
         return jsonify(success=True,message="Inicio de sesion correcto",data=res)
     else:
         return jsonify(success=False,message="password invalid",data=None)
+
+@pd.route("/store/apps/MMSPACK-Reparto")
+def descargaAppReparto():
+    return send_file()
+@pd.route("/api/user/appvers2ion",methods=["POST"])
+def appVersion():
+    return "0.01"
 
 @pd.route("/ubicacion",methods = ["POST"])
 def guardarUbicacion():
@@ -227,7 +232,6 @@ def entregado():
     midb.close()
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
-
 #pendiente de programar, Debe incluir los siguientes motivos:
 #Nadie en domicilio(Reprogramado) --> Requiere foto
 #Rechazado por el comprador --> Requiere foto
@@ -290,8 +294,6 @@ def noEntregado():
     midb.commit()
     midb.close()
     return jsonify(success=False,message="Todavia no esta lista esta seccion",envio=nroEnvio)
-
-
 
 @pd.route("/imagen",methods = ["POST"])
 def subirImagen():
