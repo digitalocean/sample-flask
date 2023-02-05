@@ -31,10 +31,10 @@ def loginEmpleado():
 
 @pd.route("/store/apps/MMSPACK-Reparto")
 def descargaAppReparto():
-    return send_file("static/debug/RepartoMMS1.0.apk", as_attachment=True)
+    return send_file("static/debug/RepartoMMS.apk", as_attachment=True)
 @pd.route("/api/user/appversion",methods=["POST"])
 def appVersion():
-    return "0.02"
+    return "0.01"
 
 @pd.route("/ubicacion",methods = ["POST"])
 def guardarUbicacion():
