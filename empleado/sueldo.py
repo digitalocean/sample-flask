@@ -8,6 +8,19 @@ from database import database
 from scriptGeneral import scriptGeneral
 MS = Blueprint('sueldoChofer', __name__, url_prefix='/')
 
+
+def consultarViajesChofer(_desde,_hasta):
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    columnas = ["Fecha","Numero de envío","Direccion completa","Localidad","Vendedor","Estado","Motivo","Chofer","Precio","Costo"]
+    sql = "select Fecha,Numero_envío,Direccion_Completa,Localidad,Vendedor,estado_envio,motivo_noenvio,Chofer,Precio,Costo from historial_estados where Fecha between %s and %s"
+    values = (_desde,_hasta)
+    cursor.execute(sql,values)
+    viajes = []
+    for x in cursor.fetchall():
+        viajes.append(x)
+    return columnas,viajes
+
 @MS.route("/misueldo", methods=["GET","POST"])
 @auth.login_required
 def sueldoChofer():
@@ -20,6 +33,9 @@ def sueldoChofer():
                         clientes=scriptGeneral.consultar_clientes(database.connect_db()), 
                         tipo_facturacion="flex", 
                         auth = session.get("user_auth"))
+    
+
+
     elif request.method == "POST":
         midb = database.connect_db()
         cursor = midb.cursor()
@@ -55,6 +71,8 @@ def sueldoChofer():
                 if viaje[1] == 0:
                     sabados +=1
                 viajes.append(viaje)
+                Lista_viajes = consultarViajesChofer(desde,hasta)
+
             return render_template("facturacion/sueldoChofer.html",
                         desde=desde,
                         hasta=hasta,
@@ -63,6 +81,8 @@ def sueldoChofer():
                         cabezeras = cabezeras,
                         tipo_facturacion="flex", 
                         viajes=viajes,
+                        colTabla = Lista_viajes[0],
+                        viajesTabla = Lista_viajes[1],
                         total = total,
                         auth = session.get("user_auth")
                         )
