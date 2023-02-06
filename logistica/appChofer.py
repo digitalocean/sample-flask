@@ -168,7 +168,9 @@ def cargar():
     data = request.get_json()
     nenvio = data["id"]
     chofer = data["chofer"]
-
+    latlong = data["location"]
+    del data["chofer"]
+    del data["location"]
     status = False
     message = ""
     try:
@@ -176,10 +178,10 @@ def cargar():
         cursor = midb.cursor()
         cursor.execute(
             """INSERT INTO `mmslogis_MMSPack`.`en_camino`
-                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`)
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,comparacion)
                 VALUES
                     (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
-                    ,%s,%s,%s);""",(nenvio,chofer,str(data)))
+                    ,%s,%s,%s,%s);""",(nenvio,chofer,str(data),latlong))
         midb.commit()
         midb.close()
         status = True
