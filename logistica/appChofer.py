@@ -1,6 +1,7 @@
 
 from flask import Blueprint, jsonify, request,send_file
 from threading import Thread
+import requests
 from database.database import connect_db
 from datetime import datetime,timedelta
 
@@ -32,8 +33,28 @@ def loginEmpleado():
 @pd.route("/store/apps/MMSPACK-Reparto")
 def descargaAppReparto():
     return send_file("static/debug/RepartoMMS.apk", as_attachment=True)
+
+@pd.route('/version')
+def get_latest_version():
+    TOKEN_GIT = "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"
+    headers = {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': f'token {TOKEN_GIT}'
+    }
+    url = f'https://api.github.com/repos//Matyacc/appReparto/blob/main/app/build.gradle'
+    response = requests.get(url, headers=headers)
+
+
+    if response.status_code == 200:
+        release_info = response.json()
+        return str(release_info['tag_name'])
+    else:
+        return 'Error getting latest version'
+    
 @pd.route("/api/user/appversion",methods=["POST"])
 def appVersion():
+    
+    "https://github.com/Matyacc/appReparto/blob/main/app/build.gradle"
     return "0.01"
 
 @pd.route("/ubicacion",methods = ["POST"])
