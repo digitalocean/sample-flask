@@ -25,11 +25,34 @@ def envios_clientes():
     cursor = midb.cursor()
     cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Direccion","Estado","Motivo","Observación","Paquete","Monto a cobrar"]
     cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
+    
+    #ESTADOS
+    # Listo para salir (Sectorizado)
+    # Entregado
+    # Fuera de Zona
+    # Domicilio Incorrecto
+    # Zona Peligrosa
+    # Entregado, Buzón/Bajo Puerta
+
+    
+    paraRetirar = 0
+    sectorizado = 0
+    enCamino = 0
     for viaje in cursor:
+        if viaje[5] == "Lista Para Retirar":
+            paraRetirar += 1
+        elif viaje[5] == "Listo para salir (Sectorizado)":
+            sectorizado += 1
+        if viaje[5] == "En Camino":
+            enCamino += 1
         viajes.append(viaje)
+
+
+    message = f"{paraRetirar} Para Retirar || {sectorizado} Listo para salir || {enCamino} En Camino"
     return render_template("envios_clientes/tabla_viajes.html", 
                             cabezeras = cabezeras,
-                            viajes=viajes, 
+                            viajes=viajes,
+                            mensajeCliente=message,
                             auth = session.get("user_auth"))
 
 
@@ -54,6 +77,10 @@ def busqueda():
             print("error")
         print(x)
         lista.append(x)
-    return render_template("envios_clientes/tabla_viajes.html", titulo="Busqueda",infoviaje=infoviaje, viajes=lista, auth = session.get("user_auth"))
+    return render_template("envios_clientes/tabla_viajes.html", 
+                            titulo="Busqueda",
+                            infoviaje=infoviaje, 
+                            viajes=lista, 
+                            auth = session.get("user_auth"))
 
 

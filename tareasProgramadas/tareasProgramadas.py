@@ -55,6 +55,12 @@ def informeEstados(vendedor):
     enviar_correo([correoVendedor,"josudavidg@gmail.com","mmsjuancarrillo@gmail.com","njb.11@hotmail.com"],f"Informe de envios {vendedor} {fecha.day}-{fecha.month}-{fecha.year} {(fecha.hour)-3}hs","descargas/informe.xlsx","informe.xlsx"," ")
 
 
+def ponerNoVisitados():
+    midb = connect_db()
+    cursor = midb.cursos()
+    cursor.execute("update ViajesFlexs set estado_envio = 'No Entregado',Motivo = 'Domicilio no visitado' where estado_envio in ('En Camino','Reasignado')")
+    midb.commit()
+
 def informeFinalDia():
     midb = connect_db()
     sql = """

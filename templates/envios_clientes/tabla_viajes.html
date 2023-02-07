@@ -6,7 +6,8 @@
 <input type="submit" value="Imprimir todo">
 </form>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
-    <table style="width: 100%; border: solid ;" >
+  <H2>{{mensajeCliente}}</H2>
+    <table style="width: 100%; border: solid ;" class="table" id="myTable">
         <tr>
             {%for x in cabezeras%}
             <td>{{x}}</td>
