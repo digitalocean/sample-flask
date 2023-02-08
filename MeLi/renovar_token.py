@@ -38,10 +38,13 @@ def actualizar_token(idUser):
             cursor.execute("""
                             select 
                                     V.status,V.reported,V.nickname,C.correo_electronico from vinculacion as V 
-                            left join 
-                                Clientes as C 
+                            inner join 
+                                `Apodos y Clientes` as AyP 
                             on 
-                                V.idCliente = C.idClientes 
+                                V.user_id = AyP.sender_id
+							inner join 
+								Clientes as C
+							on AyP.id_cliente = C.idClientes
                             where 
                                 V.user_id = %s""",(idUser,))
             resuEstado = cursor.fetchone()

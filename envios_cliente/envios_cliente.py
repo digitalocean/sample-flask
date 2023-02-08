@@ -38,6 +38,7 @@ def envios_clientes():
     paraRetirar = 0
     sectorizado = 0
     enCamino = 0
+    retirado = 0
     for viaje in cursor:
         if viaje[5] == "Lista Para Retirar":
             paraRetirar += 1
@@ -45,10 +46,12 @@ def envios_clientes():
             sectorizado += 1
         if viaje[5] == "En Camino":
             enCamino += 1
+        if viaje[5] == "Retirado":
+            retirado += 1
         viajes.append(viaje)
 
 
-    message = f"{paraRetirar} Para Retirar || {sectorizado} Listo para salir || {enCamino} En Camino"
+    message = f"{paraRetirar} Para Retirar || {retirado} Retirados || {sectorizado} Listos para salir || {enCamino} En Camino"
     return render_template("envios_clientes/tabla_viajes.html", 
                             cabezeras = cabezeras,
                             viajes=viajes,

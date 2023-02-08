@@ -7,7 +7,7 @@ hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
  
 
 columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,vendedor(H.Vendedor),H.Localidad,H.Chofer,
-                H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio"""
+                H.estado_envio,H.motivo_noenvio,V.Observacion,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio"""
 
 def consultaPendientes(sql):
     viajes =[]
@@ -114,14 +114,19 @@ def busqueda():
         resultado = cursor.fetchone()
         lista = (resultado,)
         mjstbla = "No se registro historial de este envio"
-        cabezeras = ["Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor","Estado","Motivo"]
-        return render_template("historial/VistaTabla.html", 
+        cabezeras = "Fecha", "Numero_envío", "Direccion", "Localidad", "Vendedor","Estado","Motivo"
+        try:
+            return render_template("historial/VistaTabla.html", 
                                 titulo="Busqueda", 
                                 viajes=lista ,
                                 columnas = cabezeras, 
                                 cant_columnas = len(cabezeras), 
                                 mensaje_tabla = mjstbla, 
                                 historial = True, 
+                                auth = session.get("user_auth"))
+        except:
+            return render_template("historial/VistaTabla.html", 
+                                titulo="Busqueda", 
                                 auth = session.get("user_auth"))
     lista = []
     cobra = 0

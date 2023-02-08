@@ -72,6 +72,7 @@
                     <td>Localidad</td>
                     <td>Zona</td>
                     <td>Nueva Zona</td>
+                    <td>Partido</td>
                 </tr>
                 {%for localidad in localidades %}
                 <tr style="border: solid;">
@@ -86,6 +87,7 @@
                             <option value="{{x.0}}">{{x.1}}</option>
                             {%endfor%}
                         </select></td>
+                        <td>{{localidad.3}}</td>
                         <td><input type="submit" name="" id=""></td></tr>
                     </form>
                 </tr>
