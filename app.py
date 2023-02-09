@@ -74,6 +74,8 @@ from logistica import appChofer
 app.register_blueprint(appChofer.pd)
 from logistica import rutaChofer
 app.register_blueprint(rutaChofer.lgMR)
+from logistica import vistaGeneral
+app.register_blueprint(vistaGeneral.VG)
 
 #HISTORIAL
 from historial import historial
