@@ -70,9 +70,9 @@
             <table>
                 <tr>
                     <td>Localidad</td>
+                    <td>Partido</td>
                     <td>Zona</td>
                     <td>Nueva Zona</td>
-                    <td>Partido</td>
                 </tr>
                 {%for localidad in localidades %}
                 <tr style="border: solid;">
@@ -80,6 +80,7 @@
                         <input type="hidden" value="{{tarifa}}" name="tarifa">
                         <input type="hidden" value="{{localidad.2}}" name="localidad">
                         <td>{{localidad.0}}</td>
+                        <td>{{localidad.3}}</td>
                         <td>{{localidad.1}}</td>
                         <td><select name="zona">
                             <option value="{{localidad.1}}">{{localidad.1}}</option>
@@ -87,7 +88,6 @@
                             <option value="{{x.0}}">{{x.1}}</option>
                             {%endfor%}
                         </select></td>
-                        <td>{{localidad.3}}</td>
                         <td><input type="submit" name="" id=""></td></tr>
                     </form>
                 </tr>
