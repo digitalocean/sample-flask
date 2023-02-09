@@ -1,0 +1,59 @@
+from flask import Blueprint, render_template, request, session,redirect
+from auth import auth
+from database import database
+
+arregloLocalidades = Blueprint('arregloLocalidades', __name__, url_prefix='/')
+
+
+@arregloLocalidades.route("/facturacion/arreglolocalidad",methods = ["GET","POST"])
+@auth.login_required
+def arregloLocalidad():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    if request.method == "GET":
+        cabeceras = "H.id","H.Fecha","H.Numero_envío","H.Direccion_Completa","H.Localidad","V.CP","H.Precio","H.Costo","H.Vendedor","H.estado_envio","H.Chofer"
+        sql = """
+            select 
+                H.id,H.Fecha,H.Numero_envío,H.Direccion_Completa,
+                H.Localidad,V.CP,H.Precio,H.Costo,H.Vendedor,H.estado_envio,H.Chofer 
+            from 
+                historial_estados as H  join ViajesFlexs as V on H.Numero_envío = V.Numero_envío 
+            where 
+                ((H.Precio is null or H.Precio = 0) or (H.Costo is null or H.Costo = 0))
+            and 
+                (H.estado_envio in ("En Camino","Entregado") or H.motivo_noenvio like "%reprogramado%")
+            and 
+                H.Fecha >= "2023-01-01" 
+            order by H.Fecha desc"""
+        cursor.execute(sql)
+        resu = []
+        cont = 0
+        for x in cursor.fetchall():
+            resu.append(x)
+            cont += 1
+        localidades = []
+        cursor.execute("Select localidad from localidad")
+        for x in cursor.fetchall():
+            localidades.append(x[0])
+        midb.close()
+        return render_template("facturacion/tabla_viajes.html", 
+                                auth = session.get("user_auth"),
+                                cabeceras = cabeceras,
+                                mensaje_error = cont,
+                                localidades = localidades,
+                                viajes=resu)
+    else:
+        sql = "update historial_estados set Localidad = %s where id = %s"
+        sqlUpdatePrice = """update historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío
+	    set H.Precio = precio(H.Vendedor,H.Localidad,V.columna_1),
+        H.Costo = costo(H.Localidad,V.tipo_envio,V.columna_1) where id = %s"""
+
+        id = request.form.get("idReporte")
+        loc = request.form.get("localidad")
+        values = (loc,id)
+        cursor.execute(sql,values)
+        midb.commit()
+        cursor.execute(sqlUpdatePrice,(id,))
+        midb.commit()
+        midb.close()
+        return redirect("/facturacion/arreglolocalidad")
