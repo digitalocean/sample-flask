@@ -23,8 +23,12 @@ def arregloLocalidad():
             and 
                 (H.estado_envio in ("En Camino","Entregado") or H.motivo_noenvio like "%reprogramado%")
             and 
-                H.Fecha >= "2023-01-01" 
-            order by H.Fecha desc"""
+                not H.estado_envio = "Lista para Devolver"
+            and
+                H.Fecha >= "2023-01-01"
+            and 
+                not H.Vendedor in ("MMS Logistica","MMS") 
+            order by H.Numero_envío, H.Fecha desc"""
         cursor.execute(sql)
         resu = []
         cont = 0
