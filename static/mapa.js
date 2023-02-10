@@ -100,7 +100,6 @@ function polygonChanged() {
 function displaySelectedMarkers(polygon) {
   // empty the input
   asignaciones = [];
-  var contador = 0;
   for (var i in globales.markers) {
       // @see https://developers.google.com/maps/documentation/javascript/examples/poly-containsLocation
       if (google.maps.geometry.poly.containsLocation(globales.markers[i].position, polygon)) {
@@ -109,16 +108,11 @@ function displaySelectedMarkers(polygon) {
             globales.markers[i].setIcon(new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|EF2A00"));
             AddAsignacionesSiNoExiste(globales.markers[i]);
             document.getElementById("mensaje").outerHTML = "<div id='mensaje'><h3>" + asignaciones.length + " seleccionados</h3></div>"
-
           }
-          
       }
     else {
         globales.markers[i].setIcon(getPinIcon(globales.markers[i].zona,globales.markers[i].estado))
       }    
-  }
-  for (var i = 0;  i < asignaciones.length; i++){
-    contador = contador + 1
   }
 }
 async function getJSON(url, callback) {

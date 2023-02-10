@@ -10,6 +10,6 @@ VG = Blueprint('Vista General', __name__, url_prefix='/')
 def descargaLogixsBoton():
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select * from ViajesFlexs")
+    cursor.execute("select * from ViajesFlexs limit 100")
     resu = list(cursor.fetchall())
     return render_template("logistica/VistaTabla.html",viajes=resu)

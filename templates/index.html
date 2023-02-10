@@ -68,7 +68,7 @@
         </ul>
         {% if auth == "Logistica" or  auth == "Admin" or  auth == "Administracion"%}
         <form action="/busquedaAdmin" method="GET">
-            <input type="text" name="buscar">
+            <input type="text" minlength="3" name="buscar">
             <input type="submit" value="Buscar">
         </form>
         <form action="/busquedaNumeroEnvio" method="GET">

@@ -26,8 +26,7 @@ def arregloLocalidad():
                 not H.estado_envio = "Lista para Devolver"
             and
                 H.Fecha >= "2023-01-01"
-            and 
-                not H.Vendedor in ("MMS Logistica","MMS") 
+            and not H.Vendedor in ("MMS Logistica","MMS") 
             order by H.Numero_envío, H.Fecha desc"""
         cursor.execute(sql)
         resu = []
@@ -47,14 +46,18 @@ def arregloLocalidad():
                                 localidades = localidades,
                                 viajes=resu)
     else:
-        sql = "update historial_estados set Localidad = %s where id = %s"
+        sql = """update ViajesFlexs as V inner join historial_estados as H on V.Numero_envío = H.Numero_envío 
+        set V.Localidad = %s, H.Localidad = %s
+        where V.Numero_envío = %s and H.id = %s"""
         sqlUpdatePrice = """update historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío
 	    set H.Precio = precio(H.Vendedor,H.Localidad,V.columna_1),
-        H.Costo = costo(H.Localidad,V.tipo_envio,V.columna_1) where id = %s"""
+        H.Costo = cotizarChofer(H.Localidad,V.tipo_envio,V.columna_1) where id = %s"""
 
         id = request.form.get("idReporte")
         loc = request.form.get("localidad")
-        values = (loc,id)
+        nEnvio = request.form.get("numeroEnvio")
+        values = (loc,loc,nEnvio,id)
+        print(values)
         cursor.execute(sql,values)
         midb.commit()
         cursor.execute(sqlUpdatePrice,(id,))
