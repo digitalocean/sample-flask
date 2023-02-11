@@ -59,7 +59,8 @@ def jsonPendientes():
 def carga_mapa():
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("SELECT `Nombre Zona` FROM mmslogis_MMSPack.ZonasyChoferes")
+    tipoEnvio = session["valuesMapa"]
+    cursor.execute("SELECT `Nombre Zona` FROM mmslogis_MMSPack.ZonasyChoferes where tipoEnvio = %s",(tipoEnvio,))
     zonas = []
     for x in cursor.fetchall():
         zonas.append(x[0])
