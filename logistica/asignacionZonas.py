@@ -13,15 +13,19 @@ def asignacion():
     cursor = midb.cursor()
     hoy = str(datetime.now())[0:10]
     tipoEnvio = session["tipoEnvio"]
-    cursor.execute(f"select Zona from ViajesFlexs where tipo_envio = {tipoEnvio} and not Zona is null group by Zona")
+    cursor.execute(f"select Zona,count(*) from ViajesFlexs where tipo_envio = {tipoEnvio} and not Zona is null group by Zona")
     zonas = []
     for x in cursor.fetchall():
-        zonas.append(x[0].split("/")[0])
+        zonas.append([x[0].split("/")[0],x[1]])
     cursor.execute(f"select `Nombre Zona`, `Nombre Completo` from ZonasyChoferes where tipoEnvio = {tipoEnvio}")
     choferesAsignados = {}
     for x in cursor.fetchall():
         choferesAsignados[f"{x[0]}"] = x[1]
-    return render_template("logistica/asignacionChoferes.html",zonas = zonas, choferes = scriptGeneral.correoChoferes(midb).keys(),asignados = choferesAsignados,auth = session.get("user_auth"))
+    return render_template("logistica/asignacionChoferes.html",
+                           zonas = zonas, 
+                           choferes = scriptGeneral.correoChoferes(midb).keys(),
+                           asignados = choferesAsignados,
+                           auth = session.get("user_auth"))
 
 
 

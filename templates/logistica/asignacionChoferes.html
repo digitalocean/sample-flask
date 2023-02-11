@@ -1,11 +1,32 @@
 {% extends "logistica/navegadorLogistica.html" %}
 {% block listaViajes %}
 <br><br>
+<style>
+    tr{
+        border: solid;
+    }
+    td{
+        text-align: center;
+    }
+</style>
 <form action="/choferesAsignados" method="GET">
-    <table>
-        <tr><td>Zona</td><td>Chofer</td></tr>
+    <table style="border: solid;">
+        <tr>
+            <td>Zona</td>
+            <td>Chofer</td>
+            <td>Cantidad</td>
+        </tr>
     {% for zona in zonas %}
-        <tr><td>{{zona}}</td><td><select name="{{zona}}" id="{{zona}}"><option value="{{asignados[zona]}}">{{asignados[zona]}}</option>{% for chofer in choferes %}<option value="{{chofer}}">{{chofer}}</option>{% endfor %}</select></td></tr>
+        <tr>
+            <td>{{zona.0}}</td>
+            <td><select name="{{zona.0}}" id="{{zona.0}}">
+                <option value="{{asignados[zona[0]]}}">{{asignados[zona[0]]}}</option>
+                {% for chofer in choferes %}
+                <option value="{{chofer}}">{{chofer}}</option>
+                {% endfor %}</select>
+            </td>
+            <td>{{zona.1}}</td>
+        </tr>
     {% endfor %}
     </table>
     <input type="submit" value="Enviar">
