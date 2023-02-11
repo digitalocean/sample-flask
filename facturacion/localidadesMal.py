@@ -46,21 +46,23 @@ def arregloLocalidad():
                                 localidades = localidades,
                                 viajes=resu)
     else:
-        sql = """update ViajesFlexs as V inner join historial_estados as H on V.Numero_envío = H.Numero_envío 
-        set V.Localidad = %s, H.Localidad = %s
-        where V.Numero_envío = %s and H.id = %s"""
-        sqlUpdatePrice = """update historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío
-	    set H.Precio = precio(H.Vendedor,H.Localidad,V.columna_1),
-        H.Costo = cotizarChofer(H.Localidad,V.tipo_envio,V.columna_1) where id = %s"""
+        sql = """
+        update 
+            ViajesFlexs as V inner join historial_estados as H 
+                on V.Numero_envío = H.Numero_envío 
+        set 
+            V.Localidad = %s, H.Localidad = %s,
+            H.Precio = precio(H.Vendedor,%s,V.columna_1),
+            H.Costo = cotizarChofer(%s,V.tipo_envio,V.columna_1)
 
+        where V.Numero_envío = %s and H.id = %s
+        
+        """
         id = request.form.get("idReporte")
         loc = request.form.get("localidad")
         nEnvio = request.form.get("numeroEnvio")
-        values = (loc,loc,nEnvio,id)
-        print(values)
+        values = (loc,loc,loc,loc,nEnvio,id)
         cursor.execute(sql,values)
-        midb.commit()
-        cursor.execute(sqlUpdatePrice,(id,))
         midb.commit()
         midb.close()
         return redirect("/facturacion/arreglolocalidad")
