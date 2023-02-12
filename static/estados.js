@@ -26,7 +26,7 @@ function cancelado(nro_env)
         })
   .then(response => {
     if (response.status === 200) {
-      console.log(`${nro_env} No Vino`)
+      console.log(`${nro_env} Cancelado`)
       alert(`${nro_env} Cancelado`);
     } else {
       alert(`Se ha producido un error con ${nro_env}`);
@@ -45,8 +45,8 @@ fetch(`/logistica/mapa/fueradezona`, {
 })
   .then(response => {
     if (response.status === 200) {
-      console.log(`${nro_env} No Vino`)
-      alert(`${nro_env} Cancelado`);
+      console.log(`${nro_env} Fuera de Zona`)
+      alert(`${nro_env} Fuera de zona`);
     } else {
       alert(`Se ha producido un error con ${nro_env}`);
     }

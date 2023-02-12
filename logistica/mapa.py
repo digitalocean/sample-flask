@@ -97,7 +97,7 @@ def fueraDeZonaMapa():
                             estado_envio = "Fuera De Zona",
                             Motivo = null,
                             `Check` = null,
-                            Zona = null where Numero_envío = %s and estado_envio = "Lista Para Retirar"
+                            Zona = null where Numero_envío = %s;
                     """,(request.json["nro_envio"],))
     midb.commit()
     return ""
@@ -107,14 +107,17 @@ def fueraDeZonaMapa():
 def canceladoMapa():
     midb = database.connect_db()
     cursor = midb.cursor()
+    envio = request.json["nro_envio"]
     cursor.execute("""
                     update ViajesFlexs 
                         set 
                             estado_envio = "Cancelado",
                             Motivo = null,
                             `Check` = null,
-                            Zona = null where Numero_envío = %s and estado_envio = "Lista Para Retirar"
-                    """,(request.json["nro_envio"],))
+                            Zona = null 
+                        where
+                            Numero_envío = %s
+                    """,(envio,))
     midb.commit()
     return ""
 

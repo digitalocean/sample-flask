@@ -48,7 +48,7 @@ function imprimir() {
             </td>
             {% endif %}
             {% for x in viaje %}
-            {% if x == viaje.9 %}
+            {% if (viaje.9 != None) and  (x == viaje.9) %}
             <td><img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{viaje.9}}' alt="Código QR" id=""></td>
             {% else %}
             <td>{{x}}</td>
