@@ -5,7 +5,23 @@ from database import database
 lgMapa = Blueprint('mapa', __name__, url_prefix='/')
 
 consultaMapa = """
-        select Numero_envío, Direccion, Localidad, Vendedor, Latitud, Longitud, Fecha,chofer,estado_envio,Zona,Timechangestamp,Motivo,tipo_envio,CP,columna_1
+        select 
+            Numero_envío, 
+            Direccion, 
+            Localidad, 
+            Vendedor, 
+            Latitud, 
+            Longitud, 
+            Fecha,
+            chofer,
+            estado_envio,
+            Zona,
+            Timechangestamp,
+            Motivo,
+            tipo_envio,
+            CP,
+            columna_1,
+            Scanner
         from ViajesFlexs
         where 
             not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))

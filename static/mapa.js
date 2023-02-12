@@ -235,9 +235,6 @@ var contenido = "<p>Envio: "+nro_env+
 if(est == "Lista Para Retirar"){
   contenido = contenido + `<button onclick="noVino('`+nro_env+`')">No Vino</button>`
 }
-if(est != "Lista Para Retirar"){
-  contenido = contenido + `<button onclick="calcelado('`+nro_env+`')">Cancelado</button>`
-}
 contenido = contenido + 
 `<form action='/bultosporenvio' method='POST'>
 Bultos: <select name='bultos' id='bultos'>
