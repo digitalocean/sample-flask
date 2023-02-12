@@ -54,9 +54,7 @@ def arregloLocalidad():
             V.Localidad = %s, H.Localidad = %s,
             H.Precio = precio(H.Vendedor,%s,V.columna_1),
             H.Costo = cotizarChofer(%s,V.tipo_envio,V.columna_1)
-
         where V.Numero_envío = %s and H.id = %s
-        
         """
         id = request.form.get("idReporte")
         loc = request.form.get("localidad")

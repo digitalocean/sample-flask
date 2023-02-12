@@ -41,7 +41,7 @@ def RuteoPrimera():
     from .mapa import consultaMapa
     midb = database.connect_db()
     cursor = midb.cursor()
-    cabezeras = ["Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Chofer","Estado"]
+    cabezeras = ["Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Chofer","Estado","Acciones"]
     if "valuesMapa" in session.keys():
         valueMapa = session["valuesMapa"]
         cursor.execute(consultaMapa,(valueMapa,))
@@ -66,6 +66,7 @@ def RuteoPrimera():
                             columnas = cabezeras,
                             cant_columnas = len(cabezeras),
                             contador = 0,
+                            acciones = True,
                             auth = session.get("user_auth"))
 
 @lg.route("/bultosporenvio",methods = ["POST"])

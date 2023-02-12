@@ -69,6 +69,39 @@ def carga_mapa():
                             mapa=True,
                             zonas=zonas)
 
+
+@lgMapa.route("/logistica/mapa/fueradezona", methods=["GET","POST"])
+@auth.login_required
+def fueraDeZonaMapa():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("""
+                    update ViajesFlexs 
+                        set 
+                            estado_envio = "Fuera De Zona",
+                            Motivo = null,
+                            `Check` = null,
+                            Zona = null where Numero_envío = %s and estado_envio = "Lista Para Retirar"
+                    """,(request.json["nro_envio"],))
+    midb.commit()
+    return ""
+
+@lgMapa.route("/logistica/mapa/cancelado", methods=["GET","POST"])
+@auth.login_required
+def canceladoMapa():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("""
+                    update ViajesFlexs 
+                        set 
+                            estado_envio = "Cancelado",
+                            Motivo = null,
+                            `Check` = null,
+                            Zona = null where Numero_envío = %s and estado_envio = "Lista Para Retirar"
+                    """,(request.json["nro_envio"],))
+    midb.commit()
+    return ""
+
 @lgMapa.route("/logistica/mapa/novino", methods=["GET","POST"])
 @auth.login_required
 def noVinoMapa():

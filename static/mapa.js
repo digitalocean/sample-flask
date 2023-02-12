@@ -289,23 +289,6 @@ fetch('/descargalogixs', {
 }
 
 
-function noVino(nro_env)
-{
-fetch(`/logistica/mapa/novino`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ nro_envio: nro_env })
-})
-  .then(response => {
-    if (response.status === 200) {
-      console.log(`${nro_env} No Vino`)
-      initMap()
-    } else {
-      alert(`Se ha producido un error con ${nro_env}`);
-    }
-  });
-
-}
 
 function clearPolygon(){
   document.getElementById("mensaje").outerHTML = "<div id='mensaje'></div>"
