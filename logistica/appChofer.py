@@ -92,16 +92,26 @@ def scannerRetirar():
     envio = data["id"]
     sender_id = data["sender_id"]
     chofer = data["chofer"]
+    location = data["location"]
     del data["chofer"]
-    if "location" in data.keys():
-        del data["location"]
+    del data["location"]
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
     resultado = cursor.fetchone()
     print(resultado)
     if resultado == None:
-        cursor.execute("insert into retirado(fecha,hora,Numero_envío,chofer,estado,scanner) values(DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),%s,%s,'Retirado',%s);",(envio,chofer,str(data)))
+        cursor.execute("""insert into retirado
+                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
+                            values(
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                %s,
+                                %s,
+                                'Retirado',
+                                %s,
+                                %s);""",
+                                (envio,chofer,str(data),location))
         midb.commit()
         midb.close()
         return jsonify(success=True,message="Retirado")
@@ -112,18 +122,30 @@ def scannerRetirar():
 def sectorizar(database,data,zona):
     nenvio = data["id"]
     try:
+        print("version 1")
         chofer = data["chofer"]
+        location = data["location"]
         del data["chofer"]
+        del data["location"]
     except:
+        print("version 2")
         chofer = data["Chofer"]
+        location = data["location"]
         del data["Chofer"]
+        del data["location"]
+
     cursor = database.cursor()
     cursor.execute(
         """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
-                (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`)
+                (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`,Currentlocation)
             VALUES
-                (UUID(),%s,DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
-                ,%s,%s,%s);""",(zona,nenvio,str(data),chofer))
+                (UUID(),
+                %s,
+                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                %s,
+                %s,
+                %s);""",(zona,nenvio,str(data),chofer,location))
 
     database.commit()
     database.close()
@@ -178,7 +200,7 @@ def cargar():
         cursor = midb.cursor()
         cursor.execute(
             """INSERT INTO `mmslogis_MMSPack`.`en_camino`
-                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,comparacion)
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation)
                 VALUES
                     (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
                     ,%s,%s,%s,%s);""",(nenvio,chofer,str(data),latlong))
@@ -191,8 +213,7 @@ def cargar():
         status = False
         message = err
     return jsonify(success=status,message=message,envio=nenvio)
-
-    
+  
 @pd.route("/mireparto/<usser>")
 def miReparto(usser):
     sql = """select Numero_envío,Comprador,Telefono,Direccion,Localidad,Vendedor,Latitud,Longitud,tipo_envio,Chofer,Fecha from ViajesFlexs 
