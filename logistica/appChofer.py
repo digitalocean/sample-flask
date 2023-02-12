@@ -145,6 +145,7 @@ def sectorizar(database,data,zona):
                 DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
                 %s,
                 %s,
+                %s,
                 %s);""",(zona,nenvio,str(data),chofer,location))
 
     database.commit()
