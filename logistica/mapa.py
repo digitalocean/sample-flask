@@ -30,6 +30,8 @@ consultaMapa = """
         and 
             estado_envio in ('Lista Para Retirar','Para preparar','Retirado','Listo para salir (Sectorizado)') 
         and
+            not (tipo_envio = 15 and Fecha < current_date())
+        and
             not (estado_envio = "Lista Para Retirar" and Fecha > current_date())
         """
 
@@ -75,7 +77,10 @@ def jsonPendientes():
 def carga_mapa():
     midb = database.connect_db()
     cursor = midb.cursor()
-    tipoEnvio = session["valuesMapa"]
+    try:
+        tipoEnvio = session["valuesMapa"]
+    except: 
+        tipoEnvio = 2
     cursor.execute("SELECT `Nombre Zona` FROM mmslogis_MMSPack.ZonasyChoferes where tipoEnvio = %s",(tipoEnvio,))
     zonas = []
     for x in cursor.fetchall():
