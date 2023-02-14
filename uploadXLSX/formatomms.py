@@ -95,8 +95,6 @@ def subir_exel_formms():
                 direccion = str(sheet_obj.cell(row = n_row, column = col_direccion).value)
             else:
                 direccion = ""
-            if "/" in str(direccion):
-                direccion = str(direccion.split("/"))[0]
             if "col_referencia" in locals():
                 referencia = str(sheet_obj.cell(row = n_row, column = col_referencia).value)
             else:

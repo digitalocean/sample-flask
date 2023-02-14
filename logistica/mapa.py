@@ -39,15 +39,14 @@ def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
         session["tipoEnvio"] = tipoEnvio
-        session["valuesMapa"] = tipoEnvio
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
         midb = database.connect_db()
         cursor = midb.cursor()
-        if "valuesMapa" in session.keys():
-            valueMapa = session["valuesMapa"]
-            cursor.execute(consultaMapa,(valueMapa,))
+        if "tipoEnvio" in session.keys():
+            tipoEnvio = session["tipoEnvio"]
+            cursor.execute(consultaMapa,(tipoEnvio,))
         else:
             cursor.execute(consultaMapa,(2,))
         for x in cursor.fetchall():
@@ -76,7 +75,7 @@ def carga_mapa():
     midb = database.connect_db()
     cursor = midb.cursor()
     try:
-        tipoEnvio = session["valuesMapa"]
+        tipoEnvio = session["tipoEnvio"]
     except: 
         tipoEnvio = 2
     cursor.execute("SELECT `Nombre Zona` FROM mmslogis_MMSPack.ZonasyChoferes where tipoEnvio = %s",(tipoEnvio,))
