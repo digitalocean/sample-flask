@@ -15,7 +15,11 @@
                     <input type="hidden" name="{{viaje.0}}" value="{{viaje.0}}">
                     <input type="hidden" name="{{viaje.0}}nEnvio" value="{{viaje.2}}">
                     {% for Y in viaje %}
-                    <td>{{Y}}</td>
+                    {% if Y == None %}
+                        <td></td>
+                    {% else %}
+                        <td>{{Y}}</td>
+                    {% endif %}
                     {% endfor %}
                     {% if localidades %}
                     <td><select name="{{viaje.0}}localidad" id="{{viaje.0}}localidad">

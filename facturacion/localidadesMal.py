@@ -27,7 +27,7 @@ def arregloLocalidad():
             and
                 H.Fecha >= "2023-01-01"
             and not H.Vendedor in ("MMS Logistica","MMS") 
-            order by H.Numero_envío, H.Fecha desc"""
+            order by H.Fecha desc, H.Numero_envío"""
         cursor.execute(sql)
         resu = []
         cont = 0

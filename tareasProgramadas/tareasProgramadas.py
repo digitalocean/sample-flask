@@ -60,6 +60,7 @@ def ponerNoVisitados():
     cursor = midb.cursos()
     cursor.execute("update ViajesFlexs set estado_envio = 'No Entregado',Motivo = 'Domicilio no visitado' where estado_envio in ('En Camino','Reasignado')")
     midb.commit()
+    midb.close()
 
 def informeFinalDia():
     midb = connect_db()
