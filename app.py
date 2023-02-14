@@ -88,39 +88,39 @@ app.register_blueprint(mapa.mapaHS)
 def bienvenido():
     return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
-# from apscheduler.schedulers.background import BackgroundScheduler
-# from tareasProgramadas.tareasProgramadas import informeEstados,descargaDesdePlanillas,informeFinalDia,ponerNoVisitados
+from apscheduler.schedulers.background import BackgroundScheduler
+from tareasProgramadas.tareasProgramadas import informeEstados,descargaDesdePlanillas,informeFinalDia,ponerNoVisitados
 
-# scheduler = BackgroundScheduler()
-# @scheduler.scheduled_job('cron',day_of_week='mon-fri',minute="*/8", hour="12-18")
-# def background_task0():
-#     descargaDesdePlanillas()
+scheduler = BackgroundScheduler()
+@scheduler.scheduled_job('cron',day_of_week='mon-fri',minute="*/8", hour="12-18")
+def background_task0():
+    descargaDesdePlanillas()
 
-# @scheduler.scheduled_job('cron',day_of_week='sat',minute="*/8", hour="14-18")
-# def background_task1():
-#     descargaDesdePlanillas()
+@scheduler.scheduled_job('cron',day_of_week='sat',minute="*/8", hour="14-18")
+def background_task1():
+    descargaDesdePlanillas()
 
-# @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=16)
-# def background_task2():
-#     informeEstados("Quality Shop")
-#     informeEstados("Armin")
-#     informeEstados("Happe")
-#     informeEstados("Universal Shop")
+@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=16)
+def background_task2():
+    informeEstados("Quality Shop")
+    informeEstados("Armin")
+    informeEstados("Happe")
+    informeEstados("Universal Shop")
 
-# @scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=22,minute=30)
-# def background_task3():
-#     informeEstados("Quality Shop")
-#     informeEstados("Armin")
-#     informeEstados("Happe")
-#     informeEstados("Universal Shop")
+@scheduler.scheduled_job('cron', day_of_week='mon-fri', hour=22,minute=30)
+def background_task3():
+    informeEstados("Quality Shop")
+    informeEstados("Armin")
+    informeEstados("Happe")
+    informeEstados("Universal Shop")
 
-# @scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='3', minute='0')
-# def background_task4():
-#     ponerNoVisitados()
+@scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='3', minute='0')
+def background_task4():
+    ponerNoVisitados()
 
-# @scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='3', minute='1')
-# def background_task5():
-#     informeFinalDia()
+@scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='3', minute='1')
+def background_task5():
+    informeFinalDia()
 
 
-# scheduler.start()
+scheduler.start()
