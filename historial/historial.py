@@ -44,10 +44,9 @@ def imageGet(fileId):
 def image():
     idImage = request.form["idFoto"]
     image_base64_encoded = get_image_from_db(idImage)
-    # image_binary = b64decode(image_base64_encoded)        
+    image_binary = b64decode(image_base64_encoded)        
     with open("temp_image.jpg", "wb") as f:
-        # f.write(image_binary)
-        f.write(image_base64_encoded)
+        f.write(image_binary)
     return send_file("temp_image.jpg", mimetype="image/jpeg")
 
 # LECTURA DE HOSTINGER FTP
