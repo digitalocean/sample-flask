@@ -39,28 +39,37 @@ def arregloLocalidad():
         for x in cursor.fetchall():
             localidades.append(x[0])
         midb.close()
-        return render_template("facturacion/tabla_viajes.html", 
+        return render_template("facturacion/arregloLocalidad.html", 
                                 auth = session.get("user_auth"),
                                 cabeceras = cabeceras,
                                 mensaje_error = cont,
                                 localidades = localidades,
                                 viajes=resu)
     else:
-        sql = """
-        update 
-            ViajesFlexs as V inner join historial_estados as H 
-                on V.Numero_envío = H.Numero_envío 
-        set 
-            V.Localidad = %s, H.Localidad = %s,
-            H.Precio = precio(H.Vendedor,%s,V.columna_1),
-            H.Costo = cotizarChofer(%s,V.tipo_envio,V.columna_1)
-        where V.Numero_envío = %s and H.id = %s
-        """
-        id = request.form.get("idReporte")
-        loc = request.form.get("localidad")
-        nEnvio = request.form.get("numeroEnvio")
-        values = (loc,loc,loc,loc,nEnvio,id)
-        cursor.execute(sql,values)
-        midb.commit()
+        for x in request.form.keys():
+            if "localidad" in x or "nEnvio" in x:
+                continue
+            localidad = request.form[x+"localidad"]
+            nEnvio = request.form[x+"nEnvio"]
+            if localidad == "":
+                continue
+            print(f"{x} -- > {localidad}")
+            sql = """
+            update 
+                ViajesFlexs as V inner join historial_estados as H 
+                    on V.Numero_envío = H.Numero_envío 
+            set 
+                V.Localidad = %s, H.Localidad = %s,
+                H.Precio = precio(H.Vendedor,%s,V.columna_1),
+                H.Costo = cotizarChofer(%s,V.tipo_envio,V.columna_1)
+            where V.Numero_envío = %s and H.id = %s
+            """
+            # id = request.form.get("idReporte")
+            # loc = request.form.get("localidad")
+            # nEnvio = request.form.get("numeroEnvio")
+            values = (localidad,localidad,localidad,localidad,nEnvio,x)
+            print(values)
+            cursor.execute(sql,values)
+            midb.commit()
         midb.close()
         return redirect("/facturacion/arreglolocalidad")

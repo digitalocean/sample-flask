@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+    <form action="/facturacion/arreglolocalidad" method="post">
+        <td><input type="submit"value="Cambiar"></td>
+    <table style="width: 100%; border: solid ;">
+        <tr>
+            {%for x in cabeceras%}
+            <td>{{x}}</td>
+            {%endfor%}
+        </tr>
+        
+        {% for viaje in viajes %}
+                <tr>
+                    <input type="hidden" name="{{viaje.0}}" value="{{viaje.0}}">
+                    <input type="hidden" name="{{viaje.0}}nEnvio" value="{{viaje.2}}">
+                    {% for Y in viaje %}
+                    <td>{{Y}}</td>
+                    {% endfor %}
+                    {% if localidades %}
+                    <td><select name="{{viaje.0}}localidad" id="{{viaje.0}}localidad">
+                        <option value=""></option>
+                        {% for loc in localidades %}
+                        <option value="{{loc}}">{{loc}}</option>
+                        {% endfor %}
+                    </select></td>
+                    {% endif %}
+                </tr>
+            
+        {% endfor %}
+    </form>
+    </table>
+{% endblock %}
