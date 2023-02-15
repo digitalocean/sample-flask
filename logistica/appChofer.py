@@ -374,3 +374,29 @@ def subirImagen():
     midb.commit()
     midb.close()
     return ""
+
+
+@pd.route("/foto_rendicion",methods = ["POST"])
+def subirRendicion():
+    sql = """
+        insert into foto_rendicion
+        (`fecha`,
+        `hora`,
+        `chofer`,
+        `foto`)
+        VALUES
+        (DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+        DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+        %s,
+        %s);
+        """
+    data = request.get_json()
+    chofer = data["chofer"]
+    imagen = data["image"]
+    values = (chofer,imagen)
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
+    midb.commit()
+    midb.close()
+    return ""
