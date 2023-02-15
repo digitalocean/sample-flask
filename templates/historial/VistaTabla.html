@@ -84,6 +84,14 @@ function imprimir() {
             {% for x in viaje %}
             <td>{{x}}</td>
             {% endfor %}
+            {% if rendicion %}
+            <td>
+                <form action="/historial/verrendicion" method="post">
+                    <input type="hidden" name="idRendicion" value="{{viaje.0}}">
+                    <input type="submit" value="Ver">
+                </form>
+            </td>
+            {% endif %}
         </tr>
     {% endfor %}
     </table>

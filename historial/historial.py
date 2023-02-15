@@ -40,8 +40,30 @@ def get_rendicion_from_db(id):
     result = cursor.fetchone()
     cursor.close()
     conn.close()
-
     return result[0]
+
+@hsList.route("/historial/rendiciones")
+def verRendiciones():
+    sql = "select id,fecha,hora,chofer from foto_rendicion order by fecha,chofer"
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql)
+    cabezeras = "id","Fecha","Hora","Chofer"
+    resultado = list(cursor.fetchall())
+    return render_template("historial/VistaTabla.html",
+                           columnas = cabezeras,
+                           viajes = resultado,
+                           rendicion = True,
+                           auth = session.get("user_auth"))
+
+@hsList.route("historial/verrendicion",methods = ["POST"])
+def mostrarRendicion():
+    fileId = request.form["idRendicion"]
+    image_base64_encoded = get_rendicion_from_db(fileId)
+    image_binary = b64decode(image_base64_encoded)        
+    with open("temp_image.jpg", "wb") as f:
+        f.write(image_binary)
+    return send_file("temp_image.jpg", mimetype="image/jpeg")
 
 @hsList.route('/imageget/<fileId>')
 def imageGet(fileId):

@@ -3,6 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+import os 
 
 def correoChoferes(database):
   correoChoferes = {}
@@ -32,6 +33,7 @@ def quitarAcento(string):
     return string
 
 def enviar_correo(destinos,asunto,ruta_adjunto,nombre_adjunto,cuerpo):
+    smpt_pass = os.environ.get("SMTP_PASSWORD")
     remitente = 'mmspackcheck.informes@gmail.com'
     destinatarios = destinos
     mensaje = MIMEMultipart()
