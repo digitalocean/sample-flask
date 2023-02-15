@@ -32,9 +32,20 @@ def get_image_from_db(id):
 
     return result[0]
 
+def get_rendicion_from_db(id):
+    # Obtiene una conexión a la base de datos
+    conn = database.connect_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT foto FROM foto_rendicion WHERE id = %s", (id,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    return result[0]
+
 @hsList.route('/imageget/<fileId>')
 def imageGet(fileId):
-    image_base64_encoded = get_image_from_db(fileId)
+    image_base64_encoded = get_rendicion_from_db(fileId)
     image_binary = b64decode(image_base64_encoded)        
     with open("temp_image.jpg", "wb") as f:
         f.write(image_binary)
