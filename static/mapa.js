@@ -370,41 +370,76 @@ function zonificar(){
 function getPinIcon(zona){
   var icon = "";
   if (zona != null){
-  var zn = zona.charAt(3)
-  switch (zn) {
-    case "1":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000");
+    if(zona.includes("~En Deposito")){
+      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|000000");
       return icon;
-    case "2":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FF00");
-      return icon;
-    case "3":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|0000FF");
-      return icon;
-    case "4":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F5A623");
-      return icon;
-    case "5":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FFFF");
-      return icon;
-    case "6":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF00FF");
-      return icon;
-    case "7":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|800000");
-      return icon;
-    case "8":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|008000");
-      return icon;
-    case "9":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|000080");
-      return icon;
-    case "0":
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|808000");
-      return icon;
-    default:
-      icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F3FF33")
-    return icon; 
+      }else{
+    var zn = zona.substring(2, 4);
+    switch (zn) {
+      case "01":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000");
+        return icon;
+      case "02":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FF00");
+        return icon;
+      case "03":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|0000FF");
+        return icon;
+      case "04":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F5A623");
+        return icon;
+      case "05":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FFFF");
+        return icon;
+      case "06":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF00FF");
+        return icon;
+      case "07":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|800000");
+        return icon;
+      case "08":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|008000");
+        return icon;
+      case "09":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|000080");
+        return icon;
+      case "10":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF7F50");
+        return icon;
+      case "11":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000");
+        return icon;
+      case "12":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|800080");
+        return icon;
+      case "13":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|B22222");
+        return icon;
+      case "14":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|591d47");
+        return icon;
+      case "15":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00FFFF");
+        return icon;
+      case "16":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF00FF");
+        return icon;
+      case "17":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|800000");
+        return icon;
+      case "18":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|008000");
+        return icon;
+      case "19":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|000080");
+        return icon;
+      case "20":
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|808000");
+        return icon;
+      default:
+        icon = new google.maps.MarkerImage("https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF7F50")
+      return icon; 
+    }
   }
   }
   else{
