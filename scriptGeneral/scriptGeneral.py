@@ -33,7 +33,7 @@ def quitarAcento(string):
     return string
 
 def enviar_correo(destinos,asunto,ruta_adjunto,nombre_adjunto,cuerpo):
-    smpt_pass = os.environ.get("SMTP_PASSWORD")
+    SMTP_PASS = os.environ.get("SMTP_PASSWORD")
     remitente = 'mmspackcheck.informes@gmail.com'
     destinatarios = destinos
     mensaje = MIMEMultipart()
@@ -50,7 +50,7 @@ def enviar_correo(destinos,asunto,ruta_adjunto,nombre_adjunto,cuerpo):
         mensaje.attach(adjunto_MIME)
     sesion_smtp = smtplib.SMTP('smtp.gmail.com', 587)
     sesion_smtp.starttls()
-    sesion_smtp.login('mmspackcheck.informes@gmail.com',smpt_pass)
+    sesion_smtp.login('mmspackcheck.informes@gmail.com',SMTP_PASS)
     texto = mensaje.as_string()
     sesion_smtp.sendmail(remitente, destinatarios, texto)
     sesion_smtp.quit()
