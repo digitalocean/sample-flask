@@ -131,6 +131,8 @@ def busqueda():
         where 
             (H.estado_envio = 'entregado' or motivo_noenvio in 
                     ("Nadie en Domicilio (Reprogramado)","Rechazado por el comprador"))
+        and
+            not H.Chofer is null
         and 
             not H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'En Camino')
         """

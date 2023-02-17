@@ -15,14 +15,14 @@ def devoluciones():
         cursor = midb.cursor()    
         cliente = request.form["cliente"]
         fecha = request.form["fecha"]
-        sql = "select Numero_envío, Direccion, Localidad, Motivo From ViajesFlexs where vendedor(Vendedor) = %s and Numero_envío in (select Numero_envío from devoluciones where Fecha = %s)"
+        sql = "select Numero_envío, Direccion, Localidad, Motivo,sku From ViajesFlexs where vendedor(Vendedor) = %s and Numero_envío in (select Numero_envío from devoluciones where Fecha = %s)"
         values = (cliente,fecha)
         cursor.execute(sql,values)
         viajes = []
         for x in cursor.fetchall():
             contador += 1
             viajes.append(x)
-        cabezeras = ["Numero_envío","Direccion", "Motivo"]
+        cabezeras = ["Numero_envío","Direccion", "Motivo","Producto"]
         return render_template("logistica/devoluciones.html", 
                                 titulo="Hoja de ruta", 
                                 cliente=cliente,

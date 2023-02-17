@@ -112,8 +112,6 @@ def subir_exel_chips():
                     direccion = direccion +" "+ str(sheet_obj.cell(row = n_row, column = col_altura).value)
             else:
                 direccion = ""
-            if "/" in str(direccion):
-                direccion = str(direccion.split("/"))[0]
             if "col_referencia" in locals():
                 valor = str(sheet_obj.cell(row = n_row, column = col_referencia).value)
                 if valor == "None":
