@@ -85,7 +85,21 @@ def enviosRetirados():
         envios.append(data)
     return jsonify(envios)
 
-
+def retirar(_midb,_cursor,_envio,_chofer,_data,_location):
+    _cursor.execute("""insert into retirado
+                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
+                            values(
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                %s,
+                                %s,
+                                'Retirado',
+                                %s,
+                                %s);""",
+                                (_envio,_chofer,str(_data),_location))
+    _midb.commit()
+    _midb.close()
+    
 @pd.route("/retirar",methods=["POST"])
 def scannerRetirar():
     data = request.get_json()
@@ -101,19 +115,8 @@ def scannerRetirar():
     resultado = cursor.fetchone()
     print(resultado)
     if resultado == None:
-        cursor.execute("""insert into retirado
-                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
-                            values(
-                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-                                %s,
-                                %s,
-                                'Retirado',
-                                %s,
-                                %s);""",
-                                (envio,chofer,str(data),location))
-        midb.commit()
-        midb.close()
+        t = Thread(target=retirar, args=(midb,cursor,envio,chofer,data,location))
+        t.start()
         return jsonify(success=True,message="Retirado")
     else:
         midb.close()
