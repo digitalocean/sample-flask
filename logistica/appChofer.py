@@ -85,7 +85,7 @@ def enviosRetirados():
         envios.append(data)
     return jsonify(envios)
 
-def retirar(_midb,_cursor,_envio,_chofer,_data,_location):
+def hiloRetirar(_midb,_cursor,_envio,_chofer,_data,_location):
     _cursor.execute("""insert into retirado
                             (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
                             values(
@@ -115,7 +115,7 @@ def scannerRetirar():
     resultado = cursor.fetchone()
     print(resultado)
     if resultado == None:
-        t = Thread(target=retirar, args=(midb,cursor,envio,chofer,data,location))
+        t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
         t.start()
         return jsonify(success=True,message="Retirado")
     else:
