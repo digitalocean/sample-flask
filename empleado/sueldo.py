@@ -2,7 +2,7 @@ from flask import (
     Blueprint, g, render_template, request, session
 )
 from auth import auth
-from datetime import datetime
+from datetime import datetime,timedelta
 
 from database import database
 from scriptGeneral import scriptGeneral
@@ -24,6 +24,8 @@ def consultarViajesChofer(_desde,_hasta):
 @MS.route("/misueldo", methods=["GET","POST"])
 @auth.login_required
 def sueldoChofer():
+    session.permanent = True
+    MS.permanent_session_lifetime = timedelta(minutes=30)
     hoy = str(datetime.now())[0:10]
     if request.method == "GET":
         return render_template("empleado/sueldoChofer.html",
