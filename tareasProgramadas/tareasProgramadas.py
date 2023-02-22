@@ -23,10 +23,10 @@ def descargaDesdePlanillas():
         descargaLogixs(midb,nrosEnvios)
     except Exception as e:
         enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Descarga Logixs)","","",e)
-    # try:
-    #     cargaCamargo(nrosEnvios)
-    # except Exception as e:
-    #     enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Camargo(HOY))","","",e)
+    try:
+        cargaCamargo(nrosEnvios)
+    except Exception as e:
+        enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Camargo(HOY))","","",e)
     try:
         cargaCamargoMe1(nrosEnvios)
     except Exception as e:
@@ -36,7 +36,7 @@ def descargaDesdePlanillas():
     except Exception as e:
         enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Lapiz y Papel)","","",e)
     try:
-        cargaRobotin(nrosEnvios)
+        cargaRobotin(nrosEnvios) 
     except Exception as e:
         enviar_correo(["mmsmatiasacciaio@gmail.com","acciaiomatiassebastian@gmail.com"],"Error del sistema (Carga Robotin)","","",e)
     try:
