@@ -23,8 +23,8 @@ from cliente import cliente
 app.register_blueprint(cliente.cl)
 from envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
-# from MeLi import MeLi
-# app.register_blueprint(MeLi.ML)
+from MeLi import MeLi
+app.register_blueprint(MeLi.ML)
 from NOML import NOML
 app.register_blueprint(NOML.NOML)
 from estadistica import estadistica
