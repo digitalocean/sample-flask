@@ -26,7 +26,7 @@ consultaMapa = """
         where 
             not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
         and
-            tipo_envio = %s 
+            tipo_envio = %s and Fecha between %s and %s
         and 
             estado_envio in ('Lista Para Retirar','Para preparar','Retirado','Listo para salir (Sectorizado)') 
         and
@@ -38,7 +38,11 @@ consultaMapa = """
 def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
+        desde = request.form["desde"]
+        hasta = request.form["hasta"]
         session["tipoEnvio"] = tipoEnvio
+        session["desde"] = desde
+        session["hasta"] = hasta
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
@@ -46,9 +50,11 @@ def jsonPendientes():
         cursor = midb.cursor()
         if "tipoEnvio" in session.keys():
             tipoEnvio = session["tipoEnvio"]
-            cursor.execute(consultaMapa,(tipoEnvio,))
+            desde = session["desde"]
+            hasta = session["hasta"]
+            cursor.execute(consultaMapa,(tipoEnvio,desde,hasta))
         else:
-            cursor.execute(consultaMapa,(2,))
+            cursor.execute(consultaMapa,(2,"current_date()","current_date()"))
         for x in cursor.fetchall():
             jsonPendientes[x[0]] = {
                 "direccion":x[1],
