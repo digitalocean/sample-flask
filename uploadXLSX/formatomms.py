@@ -127,7 +127,7 @@ def subir_exel_formms():
             if direccion == "None" or localidad == "None":
                 continue
             informar = False
-            if vendedor == "Quality Shop" or vendedor == "Armin" or vendedor == "Happe" or vendedor == "Universal Shop" or vendedor == "testEnvio13":
+            if vendedor == "Quality Shop" or vendedor == "Armin" or vendedor == "Happe" or vendedor == "Universal Shop" or vendedor == "e-Mentors S.R.L.":
                 informar = True
                 tipo_envio = 13
                 nro_envio = f"{vendedor[0:3]}{fecha}-{n_row}-{cliente}"
