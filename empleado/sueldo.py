@@ -13,7 +13,7 @@ def consultarViajesChofer(_desde,_hasta):
     midb = database.connect_db()
     cursor = midb.cursor()
     columnas = ["Fecha","Numero de envío","Direccion completa","Localidad","Vendedor","Estado","Motivo","Chofer","Precio","Costo"]
-    sql = "select Fecha,Numero_envío,Direccion_Completa,Localidad,Vendedor,estado_envio,motivo_noenvio,Chofer,Precio,Costo from historial_estados where Fecha between %s and %s"
+    sql = "select Fecha,Numero_envío,Direccion_Completa,Localidad,Vendedor,estado_envio,motivo_noenvio,Chofer,Costo from sueldos where Fecha between %s and %s"
     values = (_desde,_hasta)
     cursor.execute(sql,values)
     viajes = []

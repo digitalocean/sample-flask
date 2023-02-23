@@ -18,7 +18,7 @@
                 {% for x in viaje %}
                     <td>{{x}}</td>
                 {% endfor %}
-            {% if viaje.5 == "Lista Para Retirar" %}
+            {% if viaje.6 == "Lista Para Retirar" %}
             <form action="/etiqueta" method="POST">
                 <input type="hidden" name="envio" value="{{viaje.1}}">
                 <td><input type="submit" value="Generar etiqueta"></td>

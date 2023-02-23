@@ -23,8 +23,8 @@ def envios_clientes():
     viajes = []
     midb = database.connect_db()
     cursor = midb.cursor()
-    cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Direccion","Estado","Motivo","Observación","Paquete","Monto a cobrar"]
-    cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
+    cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Telefono","Direccion","Estado","Motivo","Observación","Paquete","Monto a cobrar"]
+    cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,Telefono,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
     
     #ESTADOS
     # Listo para salir (Sectorizado)
@@ -40,13 +40,13 @@ def envios_clientes():
     enCamino = 0
     retirado = 0
     for viaje in cursor:
-        if viaje[5] == "Lista Para Retirar":
+        if viaje[6] == "Lista Para Retirar":
             paraRetirar += 1
-        elif viaje[5] == "Listo para salir (Sectorizado)":
+        elif viaje[6] == "Listo para salir (Sectorizado)":
             sectorizado += 1
-        if viaje[5] == "En Camino":
+        if viaje[6] == "En Camino":
             enCamino += 1
-        if viaje[5] == "Retirado":
+        if viaje[6] == "Retirado":
             retirado += 1
         viajes.append(viaje)
 
