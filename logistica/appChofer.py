@@ -181,7 +181,7 @@ def pendientesChofer():
     return jsonify(envios)
 
 @pd.route("/pendienteschofer2",methods=["POST"])
-def pendientesChofer():
+def pendientesChofer2():
     data = request.get_json()
     chofer = data["chofer"]
     sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio,V.Chofer,V.Fecha from ViajesFlexs as V inner join ZonasyChoferes as Z 
