@@ -124,18 +124,10 @@ def scannerRetirar():
 
 def sectorizar(database,data,zona):
     nenvio = data["id"]
-    try:
-        print("version 1")
-        chofer = data["chofer"]
-        location = data["location"]
-        del data["chofer"]
-        del data["location"]
-    except:
-        print("version 2")
-        chofer = data["Chofer"]
-        location = data["location"]
-        del data["Chofer"]
-        del data["location"]
+    chofer = data["chofer"]
+    location = data["location"]
+    del data["chofer"]
+    del data["location"]
 
     cursor = database.cursor()
     cursor.execute(
@@ -172,12 +164,27 @@ def scannerSectorizar():
         t.start()
     return jsonify({"Zona":zona})
 
-
 @pd.route("/pendienteschofer",methods=["POST"])
 def pendientesChofer():
     data = request.get_json()
     chofer = data["chofer"]
     sql = """select V.Numero_envío from ViajesFlexs as V inner join ZonasyChoferes as Z 
+                on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
+                where Z.`Nombre Completo` = choferCorreo(%s) and V.estado_envio in ("Lista Para Retirar","Retirado","Listo para salir (Sectorizado)");"""
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,(chofer,))
+    result = cursor.fetchall()
+    envios = []
+    for x in result:
+        envios.append(x[0])
+    return jsonify(envios)
+
+@pd.route("/pendienteschofer2",methods=["POST"])
+def pendientesChofer():
+    data = request.get_json()
+    chofer = data["chofer"]
+    sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio,V.Chofer,V.Fecha from ViajesFlexs as V inner join ZonasyChoferes as Z 
                 on concat(Z.`nombre Zona`,"/",tipoEnvio) = V.Zona
                 where Z.`Nombre Completo` = choferCorreo(%s) and V.estado_envio in ("Lista Para Retirar","Retirado","Listo para salir (Sectorizado)");"""
     midb = connect_db()

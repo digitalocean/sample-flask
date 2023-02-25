@@ -41,6 +41,7 @@ def carga_noml():
         else:
             estado = "Retirado"
             zona = request.form.get("zona")
+            if zona == "": zona = None
             vendedor = request.form.get("nombre_cliente")
             nro_envio = request.form.get("nro_envio")
             comprador = None

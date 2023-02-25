@@ -44,7 +44,7 @@ def get_rendicion_from_db(id):
 
 @hsList.route("/historial/rendiciones")
 def verRendiciones():
-    sql = "select id,fecha,hora,chofer from foto_rendicion order by fecha,chofer"
+    sql = "select id,fecha,hora,chofer from foto_rendicion order by fecha desc,chofer"
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
