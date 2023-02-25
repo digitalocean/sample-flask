@@ -193,7 +193,18 @@ def pendientesChofer2():
     result = cursor.fetchall()
     envios = []
     for x in result:
-        envios.append(x[0])
+        nEnvio = x[0]
+        comprador = x[1]
+        telefono = x[2]
+        dirCompleta = f"{x[3]}, {x[4]}"
+        vendedor = x[5]
+        latitud = x[6]
+        longitud = x[7]
+        tipoEnvio = x[8]
+        chofer = x[9]
+        fecha = x[10]
+        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio,"chofer":chofer,"fecha":fecha}
+        envios.append(data)
     return jsonify(envios)
 
 @pd.route("/carga",methods=["POST"])
