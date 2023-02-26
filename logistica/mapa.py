@@ -26,7 +26,7 @@ consultaMapa = """
         where 
             not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
         and
-            tipo_envio = %s and Fecha between %s and %s
+            tipo_envio = %s 
         and 
             estado_envio in ('Lista Para Retirar','Para preparar','Retirado','Listo para salir (Sectorizado)') 
         and
@@ -52,9 +52,9 @@ def jsonPendientes():
             tipoEnvio = session["tipoEnvio"]
             desde = session["desde"]
             hasta = session["hasta"]
-            cursor.execute(consultaMapa,(tipoEnvio,desde,hasta))
+            cursor.execute(consultaMapa,(tipoEnvio,))
         else:
-            cursor.execute(consultaMapa,(2,"current_date()","current_date()"))
+            cursor.execute(consultaMapa,(2,))
         for x in cursor.fetchall():
             jsonPendientes[x[0]] = {
                 "direccion":x[1],

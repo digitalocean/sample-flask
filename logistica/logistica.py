@@ -46,7 +46,7 @@ def RuteoPrimera():
         valueMapa = session["tipoEnvio"]
         desde = session["desde"]
         hasta = session["hasta"]
-        cursor.execute(consultaMapa,(valueMapa,desde,hasta))
+        cursor.execute(consultaMapa,(valueMapa,))
     else:
         cursor.execute(consultaMapa,(2,))
     resultado = cursor.fetchall()

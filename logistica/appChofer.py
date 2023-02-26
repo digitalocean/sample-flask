@@ -266,6 +266,7 @@ def entregado():
     print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
+    motivo = data["motivo"]
     observacion,recibe,dni,quienRecibe,ubicacion = None,None,None,None,None
     if "observacion" in data.keys():
         observacion = data["observacion"]
@@ -281,7 +282,7 @@ def entregado():
         update ViajesFlexs set 
         `Check` = null,
         estado_envio = "Entregado",
-        Motivo = "Entregado sin novedades",
+        Motivo = %s,
         Observacion = %s,
         Recibe_otro = %s,
         Chofer = choferCorreo(%s),
@@ -290,7 +291,7 @@ def entregado():
         Currentlocation = %s
         where Numero_envío = %s
         """
-    values = (observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,nroEnvio)
+    values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
