@@ -274,6 +274,10 @@ def entregado():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
+    if "image" in data.keys():
+        image = data["image"]
+    else:
+        image = None
     if "location" in data.keys():
         location = data["location"]
     else:
@@ -288,10 +292,11 @@ def entregado():
         Chofer = choferCorreo(%s),
         Correo_chofer = %s,
         Timechangestamp = %s,
-        Currentlocation = %s
+        Currentlocation = %s,
+        Foto_domicilio = %s
         where Numero_envío = %s
         """
-    values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,nroEnvio)
+    values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,image,nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
