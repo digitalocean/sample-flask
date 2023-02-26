@@ -274,10 +274,29 @@ def entregado():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
+    foto = None
     if "image" in data.keys():
-        image = data["image"]
-    else:
-        image = None
+            imagen = data["image"]
+            sql = """
+        INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
+            (`fecha`,
+            `hora`,
+            `Numero_envío`,
+            `ubicacion`,
+            `chofer`,
+            `foto`)
+            VALUES
+            (DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+            DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+            %s,
+            %s,
+            %s,
+            %s);
+            """
+            values = (nroEnvio,location,chofer,imagen)
+            cursor.execute(sql,values)
+            midb.commit()
+            foto = cursor.lastrowid
     if "location" in data.keys():
         location = data["location"]
     else:
@@ -296,7 +315,7 @@ def entregado():
         Foto_domicilio = %s
         where Numero_envío = %s
         """
-    values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,image,nroEnvio)
+    values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,foto,nroEnvio)
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
