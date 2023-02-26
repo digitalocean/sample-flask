@@ -262,6 +262,8 @@ def miReparto(usser):
 
 @pd.route("/entregado",methods=["POST"])
 def entregado():
+    midb = connect_db()
+    cursor = midb.cursor()
     data = request.get_json()
     print(data)
     nroEnvio = data["nEnvio"]
@@ -318,9 +320,7 @@ def entregado():
         where Numero_envío = %s
         """
     values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,foto,nroEnvio)
-    midb = connect_db()
-    cursorUpdate = midb.cursor()
-    cursorUpdate.execute(sql,values)
+    cursor.execute(sql,values)
     midb.commit()
     midb.close()
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
