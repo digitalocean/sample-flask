@@ -131,6 +131,9 @@ def subir_exel_formms():
                 informar = True
                 tipo_envio = 13
                 nro_envio = f"{vendedor[0:3]}{fecha}-{n_row}-{cliente}"
+            if vendedor == "Igalfer":
+                tipo_envio = 13
+                informar = True
             else:
                 chars = '.,!"#$%&/()=?¡¿'
                 if str(nro_envio).translate(str.maketrans('', '', chars)) in str(envios.keys()):

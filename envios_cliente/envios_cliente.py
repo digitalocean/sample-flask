@@ -25,16 +25,6 @@ def envios_clientes():
     cursor = midb.cursor()
     cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Telefono","Direccion","Estado","Motivo","Observación","Paquete","Monto a cobrar"]
     cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,Telefono,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where Vendedor = %s order by Fecha Desc", (session.get("user_id"),))
-    
-    #ESTADOS
-    # Listo para salir (Sectorizado)
-    # Entregado
-    # Fuera de Zona
-    # Domicilio Incorrecto
-    # Zona Peligrosa
-    # Entregado, Buzón/Bajo Puerta
-
-    
     paraRetirar = 0
     sectorizado = 0
     enCamino = 0
@@ -57,33 +47,3 @@ def envios_clientes():
                             viajes=viajes,
                             mensajeCliente=message,
                             auth = session.get("user_auth"))
-
-
-@envcl.route("/buscar")
-@auth.login_required
-def busqueda():
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    busqueda = request.args.get("buscar")
-    sql = "select Direccion, Localidad from ViajesFlexs where Numero_envío = %s;"
-    values = (busqueda,)
-    cursor.execute(sql,values)
-    infoviaje = cursor.fetchone()
-    print(infoviaje)
-    cursor.execute(f"select Fecha,Chofer,Precio,Costo,estado_envio from historial_estados where Numero_envío = '{busqueda}';")
-    lista = []
-    for x in cursor.fetchall():
-        try:
-            x[2] = x[2].split(",")[0]
-        except:
-            mensaje = "introdusca al menos 3 caracteres"
-            print("error")
-        print(x)
-        lista.append(x)
-    return render_template("envios_clientes/tabla_viajes.html", 
-                            titulo="Busqueda",
-                            infoviaje=infoviaje, 
-                            viajes=lista, 
-                            auth = session.get("user_auth"))
-
-
