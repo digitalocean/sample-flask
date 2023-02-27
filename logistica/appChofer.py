@@ -314,12 +314,12 @@ def entregado():
         Recibe_otro = %s,
         Chofer = choferCorreo(%s),
         Correo_chofer = %s,
-        Timechangestamp = %s,
+        Timechangestamp = DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
         Currentlocation = %s,
         Foto_domicilio = %s
         where Numero_envío = %s
         """
-    values = (motivo,observacion,quienRecibe,chofer,chofer,datetime.now()-timedelta(hours=3),location,foto,nroEnvio)
+    values = (motivo,observacion,quienRecibe,chofer,chofer,location,foto,nroEnvio)
     cursor.execute(sql,values)
     midb.commit()
     midb.close()

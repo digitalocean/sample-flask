@@ -44,8 +44,6 @@ def RuteoPrimera():
     cabezeras = ["Acciones","Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Chofer","Estado","QR"]
     if "tipoEnvio" in session.keys():
         valueMapa = session["tipoEnvio"]
-        desde = session["desde"]
-        hasta = session["hasta"]
         cursor.execute(consultaMapa,(valueMapa,))
     else:
         cursor.execute(consultaMapa,(2,))

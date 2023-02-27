@@ -38,11 +38,7 @@ consultaMapa = """
 def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
-        desde = request.form["desde"]
-        hasta = request.form["hasta"]
         session["tipoEnvio"] = tipoEnvio
-        session["desde"] = desde
-        session["hasta"] = hasta
         return redirect("/logistica/vistamapa")
     else:
         jsonPendientes = {}
@@ -50,8 +46,6 @@ def jsonPendientes():
         cursor = midb.cursor()
         if "tipoEnvio" in session.keys():
             tipoEnvio = session["tipoEnvio"]
-            desde = session["desde"]
-            hasta = session["hasta"]
             cursor.execute(consultaMapa,(tipoEnvio,))
         else:
             cursor.execute(consultaMapa,(2,))
