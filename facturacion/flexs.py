@@ -82,6 +82,8 @@ def facturacionFlex():
         comprador = viaje[5]
         cobrar = viaje[6]
         estado = viaje[7]
+        if viaje[7] != "Entregado":
+            viaje[6] = "0"
 
         if(precio == None):
             sinprecio = sinprecio +1
