@@ -180,16 +180,17 @@ function numeroZona(zona){
         var tipoEnvio = data[x]["tipoEnvio"];
         var cp = data[x]["CP"];
         var bultos = data[x]["bultos"];
+        var cobrar = data[x]["cobrar"]
         ultimoEstado = fechaUltimoEstado + " " + horaUltimoEstado;
-        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp,bultos)
+        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp,bultos,cobrar)
       }  
     }
   });
 }
 
 
-function modificarDatos(numEnvio,dir,loc,vend,est) {
-    window.open("/formularioEdicionLogistica?direccion=" + dir + "&localidad=" + loc + "&vendedor=" + vend + "&numeroEnvio=" + numEnvio + "&estado=" + est,'_blank', 'modal=true,height=400,width=300');
+function modificarDatos(numEnvio,dir,loc,vend,est,cobrar) {
+    window.open("/formularioEdicionLogistica?direccion=" + dir + "&localidad=" + loc + "&vendedor=" + vend + "&numeroEnvio=" + numEnvio + "&cobrar=" + cobrar + "&estado=" + est,'_blank', 'modal=true,height=400,width=300');
   }
 
 let iniciales = ["C","N", "O", "S"];
@@ -206,7 +207,7 @@ for (let i = 0; i < iniciales.length; i++) {
     }
 }
   
-function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp,bultos){
+function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp,bultos,cobrar){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
       estado:est,
@@ -230,7 +231,8 @@ var contenido = "<p>Envio: "+nro_env+
 "<br>Chofer: "+chofer+
 "<br>Estado: "+est+
 "<br>Motivo: " + motivo+
-`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+`')">Modificar</button>`
+"<br>Monto a cobrar: $" + cobrar +
+`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+"','"+cobrar+`')">Modificar</button>`
 
 if(est == "Lista Para Retirar"){
   contenido = contenido + `<button onclick="noVino('`+nro_env+`')">No Vino</button>`

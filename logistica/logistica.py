@@ -18,19 +18,27 @@ def mostrarFormulario():
   direccion = request.args.get('direccion')
   localidad = request.args.get('localidad')
   vendedor = request.args.get('vendedor')
+  cobrar = request.args.get('cobrar')
   numeroEnvio = request.args.get('numeroEnvio')
   estado = request.args.get('estado')
-  return render_template('logistica/formularioEdicion.html', direccion=direccion, localidad=localidad, vendedor=vendedor, numeroEnvio=numeroEnvio, estado=estado)
+  return render_template('logistica/formularioEdicion.html', 
+                         direccion=direccion, 
+                         localidad=localidad, 
+                         vendedor=vendedor, 
+                         cobrar=cobrar,
+                         numeroEnvio=numeroEnvio, 
+                         estado=estado)
 
 @lg.route('/guardarCambiosEnvio',methods=["POST"])
 def guardarCambiosEnvio():
     numEnvio = request.form.get("numEnvio")
     direccion = request.form.get("direccion")
     localidad = request.form.get("localidad")
+    cobrar = request.form.get("cobrar")
     vendedor = request.form.get("vendedor")
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("update ViajesFlexs set Direccion = %s,Localidad = %s where Numero_envío = %s",(direccion,localidad,numEnvio))
+    cursor.execute("update ViajesFlexs set Direccion = %s,Localidad = %s,Cobrar = %s where Numero_envío = %s",(direccion,localidad,cobrar,numEnvio))
     midb.commit()
     geolocalizarFaltantes(midb)
     return "exito"
@@ -41,7 +49,7 @@ def RuteoPrimera():
     from .mapa import consultaMapa
     midb = database.connect_db()
     cursor = midb.cursor()
-    cabezeras = ["Acciones","Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Chofer","Estado","QR"]
+    cabezeras = ["Acciones","Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Cobrar","Chofer","Estado","QR"]
     if "tipoEnvio" in session.keys():
         valueMapa = session["tipoEnvio"]
         cursor.execute(consultaMapa,(valueMapa,))
@@ -60,7 +68,8 @@ def RuteoPrimera():
         chofer = x[7]
         estado = x[8]
         qr = x[15]
-        lista.append([zona,fecha,nEnvio,direccion,localidad,cp,vendedor,chofer,estado,qr])
+        cobrar = x[16]
+        lista.append([zona,fecha,nEnvio,direccion,localidad,cp,vendedor,cobrar,chofer,estado,qr])
     return render_template("logistica/ruteo.html", 
                             titulo="Ruteo",
                             viajes=lista,

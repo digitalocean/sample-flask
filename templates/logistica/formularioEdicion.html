@@ -24,6 +24,8 @@ fetch('/guardarCambiosEnvio', {
     <input type="text" id="direccion" name="direccion" value="{{ direccion }}"><br>
     <label for="localidad">Localidad:</label><br>
     <input type="text" id="localidad" name="localidad" value="{{ localidad }}"><br>
+    <label for="cobrar">Cobrar</label><br>
+    <input type="number" name="cobrar" value="{{cobrar}}"><br>
     <label for="vendedor">Vendedor: {{ vendedor }}</label><br>
     <label for="estado">Estado: {{ estado }}</label><br>
     <input type="button" value="Guardar cambios" onclick="cerrar()">

@@ -29,6 +29,7 @@ function imprimir() {
     }
 </style>
 <script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
+<script src="{{url_for('static', filename='mapa.js')}}"></script>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
 <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
     <tr>
@@ -42,13 +43,14 @@ function imprimir() {
             <td>
                 <input type="button" value="Fuera de Zona" onclick="fueraDeZona('{{viaje.2}}')">
                 <input type="button" value="Cancelado" onclick="cancelado('{{viaje.2}}')">
-                {% if viaje.8 == "Lista Para Retirar" %}
+                {% if viaje.9 == "Lista Para Retirar" %}
                 <input type="button" value="No Vino" onclick="noVino('{{viaje.2}}')">
                 {% endif %}
+                <input type="button" value="Modificar" onclick="modificarDatos('{{viaje.2}}','{{viaje.3}}','{{viaje.4}}','{{viaje.6}}','{{viaje.9}}','{{viaje.7}}')">
             </td>
             {% endif %}
             {% for x in viaje %}
-            {% if (viaje.9 != None) and  (x == viaje.9) %}
+            {% if (viaje.10 != None) and  (x == viaje.10) %}
             <td><img src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl={{viaje.9}}' alt="Código QR" id=""></td>
             {% else %}
             <td>{{x}}</td>

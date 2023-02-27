@@ -27,12 +27,16 @@ def geolocalizarFaltantesback(midatabase):
     resultado = cursor.fetchall()
     if len(resultado) > 0:
         for x in resultado:
-            latlong = geocoder(f"{x[1]}, {x[2]}, Buenos Aires")
-            sql = "UPDATE ViajesFlexs SET Direccion_completa = %s,`latitud` = %s, `longitud` = %s WHERE (`Numero_envío` = %s);"
-            direccionCompleta = f"{x[1]}, {x[2]}, Buenos Aires"
-            values = (direccionCompleta,latlong[0],latlong[1],x[0])
-            cursor.execute(sql,values)
-            midatabase.commit()
+            try:
+                latlong = geocoder(f"{x[1]}, {x[2]}, Buenos Aires")
+                sql = "UPDATE ViajesFlexs SET Direccion_completa = %s,`latitud` = %s, `longitud` = %s WHERE (`Numero_envío` = %s);"
+                direccionCompleta = f"{x[1]}, {x[2]}, Buenos Aires"
+                values = (direccionCompleta,latlong[0],latlong[1],x[0])
+                cursor.execute(sql,values)
+                midatabase.commit()
+            except:
+                print(f"Error al geolocalizar {x[1]}, {x[2]}, Buenos Aires")
+                continue
     midatabase.close()
 
 def geolocalizarFaltantes(db):
