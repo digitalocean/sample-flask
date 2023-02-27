@@ -73,7 +73,6 @@ def sueldoChofer():
                 if viaje[1] == 0:
                     sabados +=1
                 viajes.append(viaje)
-                Lista_viajes = consultarViajesChofer(desde,hasta)
 
             return render_template("facturacion/sueldoChofer.html",
                         desde=desde,
@@ -83,8 +82,6 @@ def sueldoChofer():
                         cabezeras = cabezeras,
                         tipo_facturacion="flex", 
                         viajes=viajes,
-                        colTabla = Lista_viajes[0],
-                        viajesTabla = Lista_viajes[1],
                         total = total,
                         auth = session.get("user_auth")
                         )

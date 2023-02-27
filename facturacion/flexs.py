@@ -61,14 +61,14 @@ def facturacionFlex():
     sheet["F9"] = "Precio"
     sheet["E3"] = desde
     sheet["E4"] = hasta
-    for row in sheet['A9:F9']:
+    for row in sheet['A9:H9']:
         for cell in row:
             cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
             cell.font = Font(color='FFFFFF')
     
     
     contador = 9
-    sql = f"""select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"""
+    sql = f"""select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador,V.Cobrar,V.estado_envio from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"""
     cursor.execute(sql)
     sinprecio = 0
     for viajeTupla in cursor.fetchall():
@@ -80,7 +80,8 @@ def facturacionFlex():
         localidad = viaje[3]
         precio = viaje[4]
         comprador = viaje[5]
-
+        cobrar = viaje[6]
+        estado = viaje[7]
 
         if(precio == None):
             sinprecio = sinprecio +1
@@ -93,6 +94,11 @@ def facturacionFlex():
         sheet["D"+str(contador)] = direccionCompleta
         sheet["E"+str(contador)] = localidad
         sheet["F"+str(contador)] = precio
+        if estado == "Entregado":
+            sheet["G"+str(contador)] = cobrar
+        else:
+            sheet["G"+str(contador)] = "0"
+        sheet["H"+str(contador)] = estado
         viajes.append(viaje)
     sheet["E1"] = cliente
     sheet["E2"] = f"cantidad: {contador-9}"
