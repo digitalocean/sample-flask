@@ -240,14 +240,22 @@ if(est == "Lista Para Retirar"){
 contenido = contenido + 
 `<form action='/bultosporenvio' method='POST'>
 Bultos: <select name='bultos' id='bultos'>
-<option value=${bultos}>${bultos}</option>
-<option value=1>1</option>
-<option value=2>2</option>
-<option value=3>3</option>
-<option value=4>4</option>
-<option value=5>5</option>
-<option value=6>6</option>
+  <option value=${bultos}>${bultos}</option>
+  <option value=1>1</option>
+  <option value=2>2</option>
+  <option value=3>3</option>
+  <option value=4>4</option>
+  <option value=5>5</option>
+  <option value=6>6</option>
 </select><input type='submit' value='Guardar'>
+<input type='hidden' value="${nro_env}" name='envio' id='envio'>
+</form></p>
+<form action='/cambiartipoenvio' method='POST'>
+Bultos: <select name='tipoEnvio'>
+  <option value=2>Flexs</option>
+  <option value=13>Recorrido</option>
+  <option value=15>Chips</option>
+</select><input type='submit' value='Guardar'></input>
 <input type='hidden' value="${nro_env}" name='envio' id='envio'>
 </form></p>`
 

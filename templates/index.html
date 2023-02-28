@@ -53,14 +53,15 @@
         <li><a href="/carga_formms">Subir Archivo</a></li>
         <li><a href="/upload">Subir Archivo ML</a></li>
         <li><a href="/logistica/carga_recorridos">Recorrido Chips</a></li>
-        <li><a href="/misenvios">Mis envios</a></li>
+        <li><a href="/envios">Mis envios</a></li>
         {% endif %}
-        {% if auth == "Admin" %}
+        {% if auth == "Admin" or auth == "Logistica" %}
         <li><a href="">Carga de archivos</a><ul>
             <li><a href="/carga_formms">Como ruteo de primera</a></li>
             <li><a href="/upload">Mercadolibre</a></li>
             <li><a href="/logistica/carga_recorridos">Chips</a></li>
         </ul></li>
+        <li><a href="/envios">Envios clientes</a></li>
         {% endif %}
         {% if auth == "Chofer"%}
         <li><a href="/misueldo">Mi sueldo</a></li>
