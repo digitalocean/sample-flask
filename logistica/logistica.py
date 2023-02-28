@@ -79,6 +79,20 @@ def RuteoPrimera():
                             acciones = True,
                             auth = session.get("user_auth"))
 
+
+@lg.route("/cambiartipoenvio",methods = ["POST"])
+@auth.login_required
+def cambioTipoEnvio():
+    tipoEnvio = request.form["tipoEnvio"]
+    envio = request.form["envio"]
+    sql = "update ViajesFlexs set tipo_envio = %s where Numero_envío = %s"
+    values = (tipoEnvio,envio)
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
+    midb.commit()
+    return redirect("/logistica/vistamapa")
+
 @lg.route("/bultosporenvio",methods = ["POST"])
 @auth.login_required
 def bultosPorEnvio():
