@@ -55,7 +55,7 @@ def get_latest_version():
 def appVersion():
     
     "https://github.com/Matyacc/appReparto/blob/main/app/build.gradle"
-    return "0.02"
+    return "0.03"
 
 @pd.route("/ubicacion",methods = ["POST"])
 def guardarUbicacion():
