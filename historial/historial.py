@@ -221,16 +221,26 @@ def pendientes():
     if request.method=="POST":
         condicion = request.form.get("filtro")
         group = request.form.get("agrupador")
-        tipoEnvio = request.form.get("tipoEnvio")
+        tipoEnvio = [0,99]#request.form.get("tipoEnvio")
+        flex = request.form.get("flex")
+        recorrido = request.form.get("recorrido")
+        chips = request.form.get("chips")
+        if flex != None:
+            tipoEnvio.append(2)
+        if recorrido!= None:
+            tipoEnvio.append(13)
+        if chips != None:
+            tipoEnvio.append(15)            
+        tipoEnvio = tuple(tipoEnvio)
         groupBy = f"group by V.Numero_envío order by V.Fecha desc, {group}"
         if condicion == "retirado":
-            sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('Listo para salir (Sectorizado)','Retirado') {groupBy}"
+            sqlPendientes = f"{sql} and V.tipo_envio in {tipoEnvio} and V.estado_envio in ('Listo para salir (Sectorizado)','Retirado') {groupBy}"
         if condicion == "EnCamino":
-            sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('En Camino','Reasignado') {groupBy}"
+            sqlPendientes = f"{sql} and V.tipo_envio in {tipoEnvio} and V.estado_envio in ('En Camino','Reasignado') {groupBy}"
         if condicion == "NoEntregado":
-            sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('No Entregado') and not V.Motivo in ('Cancelado','Rechazado por el comprador') {groupBy}"
+            sqlPendientes = f"{sql} and V.tipo_envio in {tipoEnvio} and V.estado_envio in ('No Entregado') and not V.Motivo in ('Cancelado','Rechazado por el comprador') {groupBy}"
         if condicion == "Lista Para Retirar":
-            sqlPendientes = f"{sql} and V.tipo_envio = {tipoEnvio} and V.estado_envio in ('Lista Para Retirar') {groupBy}"
+            sqlPendientes = f"{sql} and V.tipo_envio in {tipoEnvio} and V.estado_envio in ('Lista Para Retirar') {groupBy}"
         print(sqlPendientes)
         viajes,cant = consultaPendientes(sqlPendientes)
         return render_template("historial/pendientes.html", 

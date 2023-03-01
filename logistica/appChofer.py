@@ -104,7 +104,6 @@ def hiloRetirar(_midb,_cursor,_envio,_chofer,_data,_location):
 def scannerRetirar():
     data = request.get_json()
     envio = data["id"]
-    sender_id = data["sender_id"]
     chofer = data["chofer"]
     location = data["location"]
     del data["chofer"]

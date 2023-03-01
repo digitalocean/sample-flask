@@ -28,7 +28,11 @@
         {% for viaje in viajes %}
             <tr>
                 {% for x in viaje %}
-                    <td>{{x}}</td>
+                    {% if x == None %}
+                        <td></td>
+                    {% else %}
+                        <td>{{x}}</td>
+                    {% endif %}
                 {% endfor %}
             {% if viaje.6 == "Lista Para Retirar" %}
             <form action="/etiqueta" method="POST">
