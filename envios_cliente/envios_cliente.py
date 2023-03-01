@@ -45,7 +45,7 @@ def verEnvios(_vendedor,_desde,_hasta):
             retirado += 1
         elif viaje[6] == "Entregado":
             entregado += 1
-        elif viaje[6] == "No Entregado":
+        elif viaje[6] in ["No Entregado","Dirección Incorrecta"]:
             noentregado +=1
         elif viaje[6] == "Lista para Devolver":
             listaParaDevolver += 1
