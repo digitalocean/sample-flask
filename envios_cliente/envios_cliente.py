@@ -31,12 +31,15 @@ def verEnvios(_vendedor,_desde,_hasta):
     noentregado = 0
     listaParaDevolver = 0
     devuelto = 0
+    otros = 0
+    noVino = 0
+    cancelados = 0
     for viaje in cursor:
         if viaje[6] == "Lista Para Retirar":
             paraRetirar += 1
         elif viaje[6] == "Listo para salir (Sectorizado)":
             sectorizado += 1
-        elif viaje[6] == "En Camino":
+        elif viaje[6] in ["En Camino","Reasignado"]:
             enCamino += 1
         elif viaje[6] == "Retirado":
             retirado += 1
@@ -48,15 +51,28 @@ def verEnvios(_vendedor,_desde,_hasta):
             listaParaDevolver += 1
         elif viaje[6] == "devuelto":
             devuelto += 1
+        elif viaje[6] == "No Vino":
+            noVino += 1
+        elif viaje[6] == "Cancelado":
+            cancelados += 1
+        else:
+            otros += 1
+            print(f"Estado desconocido: -> {viaje[6]}")
         viajes.append(viaje)
     message = f"{paraRetirar} Para Retirar || {retirado} Retirados || {sectorizado} Listos para salir || {enCamino} En Camino || {entregado} Entregados || {noentregado} No entregados"
     if session.get("user_auth") != "Cliente":        
-        message = f"{paraRetirar} Para Retirar || {retirado} Retirados || {sectorizado} Listos para salir || {enCamino} En Camino || {entregado} Entregados || {noentregado} No entregados || {listaParaDevolver} Para devolver || {devuelto} devueltos"
+        message = f"""{_vendedor} --> {paraRetirar} Para Retirar || 
+        {retirado} Retirados || {sectorizado} Listos para salir || {enCamino} En Camino || {entregado} Entregados || {noentregado} No entregados || {listaParaDevolver} Para devolver || {devuelto} devueltos || {noVino} No Vino || {cancelados} Cancelados"""
+        if otros > 0:
+            message += f" || {otros} Otros"
     return cabezeras,viajes,message
 
 @envcl.route("/envios", methods=["GET","POST"])
 @auth.login_required
 def envios_clientes():
+    desde = str(datetime.now()-timedelta(days=15))[0:10]
+    hasta = str(datetime.now()+timedelta(days=7))[0:10]
+    vendedores = []
     vendedor = session.get("user_id")
     if request.method == "POST":
         desde = request.form.get("desde")
@@ -67,17 +83,20 @@ def envios_clientes():
         cabezeras,viajes,message = verEnvios(vendedor,desde,hasta)
         return render_template("envios_clientes/tabla_viajes.html", 
                             cabezeras = cabezeras,
+                                    desde = desde,
+                                    hasta = hasta,
                                     viajes=viajes,
                                     mensajeCliente=message,
                                     vendedores = vendedores,
                                     auth = session.get("user_auth"))
     else:
         cabezeras,viajes,message = verEnvios(vendedor,datetime.now()-timedelta(days=15),datetime.now()+timedelta(days=7))
-        vendedores = []
         if session.get("user_auth") != "Cliente":
             vendedores = consultar_clientes(database.connect_db())
         return render_template("envios_clientes/tabla_viajes.html", 
                             cabezeras = cabezeras,
+                                    desde = desde,
+                                    hasta = hasta,
                                     viajes=viajes,
                                     mensajeCliente=message,
                                     vendedores=vendedores,
