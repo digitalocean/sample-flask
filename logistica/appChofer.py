@@ -334,6 +334,7 @@ def noEntregado():
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     motivo = data["motivo"]
+    imagen = data["image"]
     if "location" in data.keys():
         location = data["location"]
     else:
@@ -341,9 +342,7 @@ def noEntregado():
     foto = ""
     midb = connect_db()
     cursor = midb.cursor()
-    if "image" in data.keys():
-        imagen = data["image"]
-        sql = """
+    sql = """
     INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
         (`fecha`,
         `hora`,
@@ -359,29 +358,28 @@ def noEntregado():
         %s,
         %s);
         """
-        values = (nroEnvio,location,chofer,imagen)
-        cursor.execute(sql,values)
-        midb.commit()
-        foto = cursor.lastrowid
-        cursor.execute("update ViajesFlexs set Foto_domicilio = %s where Numero_envío = %s",(foto,nroEnvio))
-        midb.commit()
-    else:
-        foto = None
-    print(foto)
-    
+    values = (nroEnvio,location,chofer,imagen)
+    cursor.execute(sql,values)
+    midb.commit()
+    foto = cursor.lastrowid
     sql = """
             update ViajesFlexs 
                 set `Check` = null, 
                 estado_envio = 'No Entregado', 
                 Motivo = %s, 
-                foto_domicilio = null,
+                foto_domicilio = %s,
                 Timechangestamp = %s,
                 Currentlocation = %s
             where 
                 Numero_envío = %s 
             and 
                 Chofer = choferCorreo(%s)"""
-    values = (motivo,datetime.now()-timedelta(hours=3),location,nroEnvio,chofer)
+    values = (motivo,
+              foto,
+              datetime.now()-timedelta(hours=3),
+              location,
+              nroEnvio,
+              chofer)
     cursor.execute(sql,values)
     midb.commit()
     midb.close()
