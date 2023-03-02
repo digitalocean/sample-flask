@@ -2,6 +2,26 @@
 
 {% block content %}
 <script>
+    function enviar() {
+        var chofer = document.getElementById('chofer').value;
+        var image = document.getElementById('image').files[0];
+        var datos = {
+            'chofer': chofer,
+            'image': image
+        };
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/foto_rendicion');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.log('Error: ' + xhr.statusText);
+            }
+        };
+        xhr.send(JSON.stringify(datos));
+    }
+    
     function confirmar(id){
     if(confirm("¿Seguro?")){
         //document.getElementById("fila"+id).outerHTML = "";
@@ -59,6 +79,15 @@ function imprimir() {
     {% endif %}
 
     <h4>{{mensaje_tabla}}</h4>
+    {% if rendicion %}
+    <br><h3>Cargar rendicion</h3>
+    <form>
+        <input type="text" id="chofer" placeholder="Chofer">
+        <input type="file" id="image">
+        <button type="button" onclick="enviar()">Enviar</button>
+    </form>
+    
+    {% endif %}
     <tr>
     {% for columna in columnas %}
         <td>{{columna}}</td>
