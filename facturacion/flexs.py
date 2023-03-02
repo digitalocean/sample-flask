@@ -50,6 +50,8 @@ def consultaInfoViajes(_db,_vendedor,_desde,_hasta):
         vendedor(H.Vendedor) = '{_vendedor}' and H.Fecha between '{_desde}' and '{_hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"""
     cursor.execute(sql)
     return cursor.fetchall()
+
+
 @fb.route("/facturacion_flex", methods=["GET"])
 @auth.login_required
 def facturacionFlex():
@@ -87,13 +89,12 @@ def facturacionFlex():
     output = io.BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet = workbook.add_worksheet()
-    
-    contador = 9
-    
-    sinprecio = 0
     for i,viajeTupla in enumerate(resultadoConsulta):
         for j, value in enumerate(viajeTupla):
             worksheet.write(i, j, value)
+    contador = 9
+    sinprecio = 0
+    for viajeTupla in resultadoConsulta:
         viaje = list(viajeTupla)
         contador += 1
         fecha = viaje[0]

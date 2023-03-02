@@ -387,15 +387,6 @@ def noEntregado():
 
 @pd.route("/imagen",methods = ["POST"])
 def subirImagen():
-    data = request.get_json()
-    nroEnvio = data["nEnvio"]
-    chofer = data["chofer"]
-    imagen = data["image"]
-    if "location" in data.keys():
-        location = data["location"]
-    else:
-        location = NotImplementedError
-
     sql = """
     INSERT INTO `mmslogis_MMSPack`.`foto_domicilio`
         (`fecha`,
@@ -412,6 +403,14 @@ def subirImagen():
         %s,
         %s);
         """
+    data = request.get_json()
+    nroEnvio = data["nEnvio"]
+    chofer = data["chofer"]
+    imagen = data["image"]
+    if "location" in data.keys():
+        location = data["location"]
+    else:
+        location = NotImplementedError
     values = (nroEnvio,location,chofer,imagen)
     midb = connect_db()
     cursor = midb.cursor()
@@ -436,9 +435,10 @@ def subirRendicion():
         %s);
         """
     data = request.get_json()
+    print(data)
     chofer = data["chofer"]
     imagen = data["image"]
-    values = (chofer,imagen)
+    values = (chofer,imagen) 
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
