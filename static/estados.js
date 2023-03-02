@@ -53,3 +53,22 @@ fetch(`/logistica/mapa/fueradezona`, {
   });
 }
 }
+
+function zonaPeligrosa(nro_env)
+{
+    if (confirm("¿seguro que es el envio "+nro_env+" es Zona peligrosa?")) {
+fetch(`/logistica/mapa/zonapeligrosa`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ nro_envio: nro_env })
+})
+  .then(response => {
+    if (response.status === 200) {
+      console.log(`${nro_env} Fuera de Zona`)
+      alert(`${nro_env} Cancelado`);
+    } else {
+      alert(`Se ha producido un error con ${nro_env}`);
+    }
+  });
+}
+}

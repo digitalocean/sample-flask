@@ -251,7 +251,7 @@ Bultos: <select name='bultos' id='bultos'>
 <input type='hidden' value="${nro_env}" name='envio' id='envio'>
 </form></p>
 <form action='/cambiartipoenvio' method='POST'>
-Bultos: <select name='tipoEnvio' required>
+Pasar a: <select name='tipoEnvio' required>
 <option value=""></option>
   <option value=2>Flexs</option>
   <option value=13>Recorrido</option>

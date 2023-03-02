@@ -1,12 +1,15 @@
 from datetime import datetime
 from flask import (
-    Blueprint, g, render_template, request, session,send_file
+    Blueprint, g, render_template, request, session,send_file,make_response
 )
 from auth import auth
 from informeErrores import informeErrores
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Font
+import io
+import xlsxwriter
+
 
 
 
@@ -32,21 +35,35 @@ def consultaFlexs():
                         tipo_facturacion="flex", 
                         auth = session.get("user_auth"))
 
+def consultaInfoViajes(_db,_vendedor,_desde,_hasta):
+    cursor = _db.cursor()
+    sql = f"""
+    select 
+        H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador,V.Cobrar,V.estado_envio 
+    from 
+        historial_estados as H 
+    inner join 
+        ViajesFlexs as V 
+    on 
+        V.Numero_envío = H.Numero_envío 
+    where 
+        vendedor(H.Vendedor) = '{_vendedor}' and H.Fecha between '{_desde}' and '{_hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"""
+    cursor.execute(sql)
+    return cursor.fetchall()
 @fb.route("/facturacion_flex", methods=["GET"])
 @auth.login_required
 def facturacionFlex():
     midb = database.connect_db()
-    cursor = midb.cursor()
     cliente = request.args.get("cliente")
     desde = request.args.get("desde")
     hasta = request.args.get("hasta")
+    resultadoConsulta = consultaInfoViajes(midb,cliente,desde,hasta)
     viajes = []
     suma = 0
     book = Workbook()
     sheet = book.active
     image = Image("static/logo_grande.jpeg")
     sheet.add_image(image, 'A1')
-
     sheet.column_dimensions['A'].width = 20
     sheet.column_dimensions['B'].width = 20
     sheet.column_dimensions['C'].width = 30
@@ -59,19 +76,24 @@ def facturacionFlex():
     sheet["D9"] = "Direccion_Completa"
     sheet["E9"] = "Localidad"
     sheet["F9"] = "Precio"
+    sheet["G9"] = "Monto a cobrar"
+    sheet["H9"] = "Estado"
     sheet["E3"] = desde
     sheet["E4"] = hasta
     for row in sheet['A9:H9']:
         for cell in row:
             cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
             cell.font = Font(color='FFFFFF')
-    
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
     
     contador = 9
-    sql = f"""select H.Fecha, H.Numero_envío,H.Direccion_Completa,H.Localidad,H.Precio,V.comprador,V.Cobrar,V.estado_envio from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío where vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio in ('En Camino','Levantada') order by Fecha desc"""
-    cursor.execute(sql)
+    
     sinprecio = 0
-    for viajeTupla in cursor.fetchall():
+    for i,viajeTupla in enumerate(resultadoConsulta):
+        for j, value in enumerate(viajeTupla):
+            worksheet.write(i, j, value)
         viaje = list(viajeTupla)
         contador += 1
         fecha = viaje[0]
@@ -102,6 +124,7 @@ def facturacionFlex():
             sheet["G"+str(contador)] = "0"
         sheet["H"+str(contador)] = estado
         viajes.append(viaje)
+    workbook.close()
     sheet["E1"] = cliente
     sheet["E2"] = f"cantidad: {contador-9}"
     sheet["E3"] = "Subtotal: "
@@ -112,6 +135,12 @@ def facturacionFlex():
     sheet["F6"] = "=SUM(E3:E4)"
     book.save("liquidacion.xlsx")
     cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
+    output.seek(0)
+    response = make_response(output.getvalue())
+    response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
+    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return response
     return render_template("facturacion/tabla_viajes.html",
                             cliente=cliente,
                             desde=desde,

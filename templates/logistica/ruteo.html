@@ -43,6 +43,7 @@ function imprimir() {
             <td>
                 <input type="button" value="Fuera de Zona" onclick="fueraDeZona('{{viaje.2}}')">
                 <input type="button" value="Cancelado" onclick="cancelado('{{viaje.2}}')">
+                <input type="button" value="Zona Peligrosa" onclick="zonaPeligrosa('{{viaje.2}}')">
                 {% if viaje.9 == "Lista Para Retirar" %}
                 <input type="button" value="No Vino" onclick="noVino('{{viaje.2}}')">
                 {% endif %}
