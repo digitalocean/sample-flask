@@ -331,6 +331,7 @@ def entregado():
 @pd.route("/noentregado",methods=["POST"])
 def noEntregado():
     data = request.get_json()
+    print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     motivo = data["motivo"]
