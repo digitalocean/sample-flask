@@ -340,6 +340,8 @@ def noEntregado():
         observacion = data["observacion"]
     except:
         pass
+    print("observacion")
+    print(observacion)
     if "location" in data.keys():
         location = data["location"]
     else:
