@@ -31,8 +31,8 @@ from estadistica import estadistica
 app.register_blueprint(estadistica.est)
 
 #FACTURACION
-from facturacion import flexs
-app.register_blueprint(flexs.fb)
+#from facturacion import flexs
+#app.register_blueprint(flexs.fb)
 from facturacion import cobrados
 app.register_blueprint(cobrados.cb)
 from facturacion import gsolutions
