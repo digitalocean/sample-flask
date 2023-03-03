@@ -324,10 +324,10 @@ def entregado():
     midb.close()
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
-#pendiente de programar, Debe incluir los siguientes motivos:
-#Nadie en domicilio(Reprogramado) --> Requiere foto
-#Rechazado por el comprador --> Requiere foto
-#OPCIONAL: campo de observacion
+
+
+
+
 @pd.route("/noentregado",methods=["POST"])
 def noEntregado():
     data = request.get_json()
@@ -335,6 +335,11 @@ def noEntregado():
     chofer = data["chofer"]
     motivo = data["motivo"]
     imagen = data["image"]
+    observacion = None
+    try:
+        observacion = data["observacion"]
+    except:
+        pass
     if "location" in data.keys():
         location = data["location"]
     else:
@@ -367,6 +372,7 @@ def noEntregado():
                 set `Check` = null, 
                 estado_envio = 'No Entregado', 
                 Motivo = %s, 
+                Observacion = %s,
                 foto_domicilio = %s,
                 Timechangestamp = %s,
                 Currentlocation = %s
@@ -375,6 +381,7 @@ def noEntregado():
             and 
                 Chofer = choferCorreo(%s)"""
     values = (motivo,
+              observacion,
               foto,
               datetime.now()-timedelta(hours=3),
               location,

@@ -4,11 +4,13 @@
 <script>
     function enviar() {
         var chofer = document.getElementById('chofer').value;
-        var image = document.getElementById('image').files[0];
+        var foto = document.getElementById('foto').files[0];
+        
         var datos = {
             'chofer': chofer,
-            'image': image
+            'image': foto
         };
+    
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/foto_rendicion');
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -83,7 +85,7 @@ function imprimir() {
     <br><h3>Cargar rendicion</h3>
     <form>
         <input type="text" id="chofer" placeholder="Chofer">
-        <input type="file" id="image">
+        <input type="file" id="foto">
         <button type="button" onclick="enviar()">Enviar</button>
     </form>
     
