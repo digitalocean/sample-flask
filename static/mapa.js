@@ -256,6 +256,7 @@ Pasar a: <select name='tipoEnvio' required>
   <option value=2>Flexs</option>
   <option value=13>Recorrido</option>
   <option value=15>Chips</option>
+  <option value=20>Robado/Extraviado</option>
 </select><input type='submit' value='Guardar'></input>
 <input type='hidden' value="${nro_env}" name='envio' id='envio'>
 </form></p>`
