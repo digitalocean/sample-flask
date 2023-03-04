@@ -268,6 +268,7 @@ def entregado():
     cursor = midb.cursor()
     data = request.get_json()
     print(data)
+    
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     location = data["location"]
