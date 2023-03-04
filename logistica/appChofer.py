@@ -268,16 +268,21 @@ def entregado():
     cursor = midb.cursor()
     data = request.get_json()
     print(data)
-    
+
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     location = data["location"]
+    
     try:
         motivo = data["motivo"]
     except:
         motivo = None
-    observacion = data["observacion"]
-    recibe,dni,quienRecibe= None,None,None
+    try:
+        observacion = data["observacion"]
+    except:
+        observacion = None
+    
+    
     if "quienRecibe" in data.keys() and "dni" in data.keys():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
