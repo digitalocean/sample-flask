@@ -84,7 +84,11 @@ function imprimir() {
     {% if rendicion %}
     <br><h3>Cargar rendicion</h3>
     <form action="/foto_rendicion_from_web" enctype="multipart/form-data" method="POST">
-        <input type="text" name="chofer" placeholder="Chofer">
+        <select name="chofer">
+            {% for chofer in choferes %}
+            <option value="{{chofer.1}}">{{chofer.0}}</option>
+            {% endfor %}
+        </select>
         <input type="file" name="image">
         <input type="submit" value="Enviar">
     </form>

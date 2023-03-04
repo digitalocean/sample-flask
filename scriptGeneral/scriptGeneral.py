@@ -14,6 +14,13 @@ def correoChoferes(database):
           correoChoferes[x[0]] = x[1]
   return correoChoferes
 
+def consultaChoferCorreo(database):
+    choferes = []
+    cursor = database.cursor()
+    cursor.execute("select nombre,correo from empleado where fecha_baja is null order by nombre")
+    for x in cursor.fetchall():
+        choferes.append(x)
+    return choferes
 
 def consultar_clientes(database):
     cursor = database.cursor()

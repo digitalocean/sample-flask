@@ -3,6 +3,7 @@ from ftplib import FTP
 from base64 import b64decode
 from auth import auth
 from database import database
+from scriptGeneral.scriptGeneral import consultaChoferCorreo
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
  
 
@@ -45,14 +46,17 @@ def get_rendicion_from_db(id):
 def verRendiciones():
     sql = "select id,fecha,hora,chofer from foto_rendicion order by fecha desc,chofer"
     midb = database.connect_db()
+    choferes = consultaChoferCorreo(midb)
     cursor = midb.cursor()
     cursor.execute(sql)
     cabezeras = "id","Fecha","Hora","Chofer"
     resultado = list(cursor.fetchall())
+    midb.close()
     return render_template("historial/VistaTabla.html",
                            columnas = cabezeras,
                            viajes = resultado,
                            rendicion = True,
+                           choferes = choferes,
                            auth = session.get("user_auth"))
 
 @hsList.route("historial/verrendicion",methods = ["POST"])
