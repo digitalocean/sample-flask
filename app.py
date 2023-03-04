@@ -11,78 +11,78 @@ app.config.from_mapping(
 CORS(app)
 
 
-from auth import auth
+from Backend.auth import auth
 app.register_blueprint(auth.auth)
-from logistica import logistica
+from Backend.logistica import logistica
 app.register_blueprint(logistica.lg)
-from logistica import mapa
+from Backend.logistica import mapa
 app.register_blueprint(mapa.lgMapa)
 
 
-from cliente import cliente
+from Backend.cliente import cliente
 app.register_blueprint(cliente.cl)
-from envios_cliente import envios_cliente
+from Backend.envios_cliente import envios_cliente
 app.register_blueprint(envios_cliente.envcl)
-from MeLi import MeLi
+from Backend.MeLi import MeLi
 app.register_blueprint(MeLi.ML)
-from NOML import NOML
+from Backend.NOML import NOML
 app.register_blueprint(NOML.NOML)
-from estadistica import estadistica
+from Backend.estadistica import estadistica
 app.register_blueprint(estadistica.est)
 
 #FACTURACION
-from facturacion import facturacion
+from Backend.facturacion import facturacion
 app.register_blueprint(facturacion.FcGeneral)
-from facturacion import flexs
+from Backend.facturacion import flexs
 app.register_blueprint(flexs.fb)
-from facturacion import cobrados
+from Backend.facturacion import cobrados
 app.register_blueprint(cobrados.cb)
-from facturacion import gsolutions
+from Backend.facturacion import gsolutions
 app.register_blueprint(gsolutions.fa)
-from facturacion import precios
+from Backend.facturacion import precios
 app.register_blueprint(precios.pr)
-from facturacion import apodos
+from Backend.facturacion import apodos
 app.register_blueprint(apodos.ap)
-from facturacion import localidadesMal
+from Backend.facturacion import localidadesMal
 app.register_blueprint(localidadesMal.arregloLocalidades)
 
 
 #CARGA XLSX
-from uploadXLSX import chips
+from Backend.uploadXLSX import chips
 app.register_blueprint(chips.formatSim)
-from uploadXLSX import formatomms
+from Backend.uploadXLSX import formatomms
 app.register_blueprint(formatomms.formms)
-from uploadXLSX import formatoMeLi
+from Backend.uploadXLSX import formatoMeLi
 app.register_blueprint(formatoMeLi.upML)
 
 #EMPLEADO
-from empleado import empleado
+from Backend.empleado import empleado
 app.register_blueprint(empleado.em)
-from empleado import sueldo
+from Backend.empleado import sueldo
 app.register_blueprint(sueldo.MS)
 
 #LOGISTICA
-from logistica import fijos
+from Backend.logistica import fijos
 app.register_blueprint(fijos.fj)
-from logistica import asignacionRetiros
+from Backend.logistica import asignacionRetiros
 app.register_blueprint(asignacionRetiros.lgAR)
-from logistica import asignacionZonas
+from Backend.logistica import asignacionZonas
 app.register_blueprint(asignacionZonas.lgAZ)
-from logistica import hojaRuta
+from Backend.logistica import hojaRuta
 app.register_blueprint(hojaRuta.hojaRuta)
-from logistica import devoluciones
+from Backend.logistica import devoluciones
 app.register_blueprint(devoluciones.devolucion)
-from logistica import appChofer
+from Backend.logistica import appChofer
 app.register_blueprint(appChofer.pd)
-from logistica import rutaChofer
+from Backend.logistica import rutaChofer
 app.register_blueprint(rutaChofer.lgMR)
-from logistica import vistaGeneral
+from Backend.logistica import vistaGeneral
 app.register_blueprint(vistaGeneral.VG)
 
 #HISTORIAL
-from historial import historial
+from Backend.historial import historial
 app.register_blueprint(historial.hsList)
-from historial import mapa
+from Backend.historial import mapa
 app.register_blueprint(mapa.mapaHS)
 
 @app.route("/")
@@ -91,7 +91,7 @@ def bienvenido():
     return render_template("index.html", titulo="Bienvenido a MMSPack", auth = session.get("user_auth"), usuario = session.get("user_id"))
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from tareasProgramadas.tareasProgramadas import informeEstados,descargaDesdePlanillas,informeFinalDia,ponerNoVisitados
+from Backend.tareasProgramadas.tareasProgramadas import informeEstados,descargaDesdePlanillas,informeFinalDia,ponerNoVisitados
 
 scheduler = BackgroundScheduler()
 @scheduler.scheduled_job('cron',day_of_week='mon-fri',minute="*/8", hour="12-18")
