@@ -270,21 +270,17 @@ def entregado():
     print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
-    motivo = None
+    location = data["location"]
+    foto,motivo,observacion,recibe,dni,quienRecibe = None,None,None,None,None,None
     if "motivo" in data.keys():
         motivo = data["motivo"]
-    observacion,recibe,dni,quienRecibe,ubicacion = None,None,None,None,None
     if "observacion" in data.keys():
         observacion = data["observacion"]
     if "quienRecibe" in data.keys() and "dni" in data.keys():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
-    if "location" in data.keys():
-        location = data["location"]
-    else:
-        location = None
-    foto = None
+    
     if "image" in data.keys():
             imagen = data["image"]
             sql = """
