@@ -281,12 +281,12 @@ def entregado():
         observacion = data["observacion"]
     except:
         observacion = None
-    
-    
-    if "quienRecibe" in data.keys() and "dni" in data.keys():
+    try:
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
+    except:
+        quienRecibe = None
     foto = None
     if "image" in data.keys():
             imagen = data["image"]
