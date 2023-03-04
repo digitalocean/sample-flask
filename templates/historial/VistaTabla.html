@@ -101,14 +101,14 @@ function imprimir() {
             {% if historial %}
                 <td>
                     <input type="submit" value="anular" onclick="confirmar('{{viaje.2}}')">
-                    {% if viaje.15 != None and viaje.15 != "" %}
+                    {% if viaje.16 != None and viaje.16 != "" %}
                     <form action="/image" method="post">
-                        <input type="hidden" name="idFoto" value="{{viaje.16}}">
+                        <input type="hidden" name="idFoto" value="{{viaje.17}}">
                         <input type="submit" name="Ver Foto" value="Ver Foto">
                     </form>
                     {% endif %}
-                    {% if viaje.14 != None %}
-                    <button onclick="window.open('https://www.google.com.ar/maps/place/{{viaje.14}}', '_blank')">Ver ubicacion</button>
+                    {% if viaje.15 != None %}
+                    <button onclick="window.open('https://www.google.com.ar/maps/place/{{viaje.15}}', '_blank')">Ver ubicacion</button>
                     {% endif %}
                 </td>
             {% endif %}
