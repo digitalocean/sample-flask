@@ -378,16 +378,21 @@ def noEntregado():
                 foto_domicilio = %s,
                 Timechangestamp = %s,
                 Currentlocation = %s,
-                reprogramaciones = reprogramaciones+1
+                reprogramaciones = reprogramaciones+%s
             where 
                 Numero_envío = %s 
             and 
                 Chofer = choferCorreo(%s)"""
+    if motivo in ("Nadie en domicilio","Rechazado"):
+        reprogramaciones = 1
+    else:
+        reprogramaciones = 0
     values = (motivo,
               observacion,
               foto,
               datetime.now()-timedelta(hours=3),
               location,
+              reprogramaciones,
               nroEnvio,
               chofer)
     cursor.execute(sql,values)

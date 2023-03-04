@@ -6,7 +6,7 @@ from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
  
 
-columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Observacion,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.columna_3"""
+columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Observacion,V.reprogramaciones,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.columna_3"""
 
 def consultaPendientes(sql):
     viajes =[]
@@ -139,7 +139,7 @@ def busqueda():
         """
     #H.Fecha,H.Hora,H.id,H.Zona,H.Numero_envío,H.Chofer,H.Direccion_completa,H.Localidad,V.Vendedor,V.Currentlocation,H.estado_envio,H.motivo_noenvio,H.Correo_chofer,H.Foto_domicilio 
     else:
-        cabezeras = "accion","Fecha","Hora","id","Numero de envío","Telefono","Direccion Completa","Localidad","Vendedor","Chofer","Estado","Motivo","Observacion","Precio","Costo","Ubicacion","Correo_chofer","Foto_domicilio","Cobrar","Multiplicador","extra","extra"
+        cabezeras = "accion","Fecha","Hora","id","Numero de envío","Telefono","Direccion Completa","Localidad","Vendedor","Chofer","Estado","Motivo","Observacion","Visitas","Precio","Costo","Ubicacion","Correo_chofer","Foto_domicilio","Cobrar","Multiplicador","extra","extra"
         sql = f"""select {columnas} from historial_estados as H join ViajesFlexs as V on V.Numero_envío = H.Numero_envío
         where V.Numero_envío like '%{busqueda}%' or H.Chofer like '%{busqueda}%' or V.Vendedor like '%{busqueda}%' or H.Direccion_completa like '%{busqueda}%' or H.estado_envio like '%{busqueda}%' or H.motivo_noenvio like '%{busqueda}%' order by Fecha desc, Hora desc;"""
     cursor.execute(sql)
@@ -268,7 +268,7 @@ def historial(pagina):
     pagina = int(pagina)
     opcion = pagina-1
     limiteMinimo = opcion*300
-    cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Telefono","Direccion","Localidad","Vendedor","Chofer","Estado envio","Motivo","Observacion","precio","Costo","Ubicacion estado","Modifico","Tiene Foto","Monto a cobrar","Multiplicador de precio/costo","pendiente","pendiente"]
+    cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Telefono","Direccion","Localidad","Vendedor","Chofer","Estado envio","Motivo","Observacion","Visitas","precio","Costo","Ubicacion estado","Modifico","Tiene Foto","Monto a cobrar","Multiplicador de precio/costo","pendiente","pendiente"]
     sql = f"select {columnas} from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío order by id desc limit {limiteMinimo},300"
     midb = database.connect_db()
     cursor = midb.cursor()
