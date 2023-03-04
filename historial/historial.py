@@ -6,7 +6,7 @@ from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
  
 
-columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,V.Observacion,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.columna_3"""
+columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Observacion,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.columna_3"""
 
 def consultaPendientes(sql):
     viajes =[]
