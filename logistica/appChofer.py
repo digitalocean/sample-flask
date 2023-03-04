@@ -373,12 +373,12 @@ def noEntregado():
             update ViajesFlexs 
                 set `Check` = null, 
                 estado_envio = 'No Entregado', 
+                Timechangestamp = (DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                reprogramaciones = reprogramaciones+1,
                 Motivo = %s, 
                 Observacion = %s,
                 foto_domicilio = %s,
-                Timechangestamp = %s,
-                Currentlocation = %s,
-                reprogramaciones = reprogramaciones+1
+                Currentlocation = %s
             where 
                 Numero_envío = %s 
             and 
@@ -386,7 +386,6 @@ def noEntregado():
     values = (motivo,
               observacion,
               foto,
-              datetime.now()-timedelta(hours=3),
               location,
               nroEnvio,
               chofer)
