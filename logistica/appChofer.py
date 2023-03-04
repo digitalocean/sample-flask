@@ -268,25 +268,22 @@ def entregado():
     cursor = midb.cursor()
     data = request.get_json()
     print(data)
-
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
-    location = data["location"]
-    
-    try:
+    motivo = None
+    if "motivo" in data.keys():
         motivo = data["motivo"]
-    except:
-        motivo = None
-    try:
+    observacion,recibe,dni,quienRecibe,ubicacion = None,None,None,None,None
+    if "observacion" in data.keys():
         observacion = data["observacion"]
-    except:
-        observacion = None
-    try:
+    if "quienRecibe" in data.keys() and "dni" in data.keys():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
-    except:
-        quienRecibe = None
+    if "location" in data.keys():
+        location = data["location"]
+    else:
+        location = None
     foto = None
     if "image" in data.keys():
             imagen = data["image"]
