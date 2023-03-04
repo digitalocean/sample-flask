@@ -1,5 +1,5 @@
 
-from flask import Blueprint, jsonify, request,send_file
+from flask import Blueprint, jsonify, request,send_file,redirect
 from threading import Thread
 import requests
 from database.database import connect_db
@@ -436,6 +436,22 @@ def subirImagen():
     midb.close()
     return ""
 
+import base64
+@pd.route('/foto_rendicion_from_web', methods=['POST'])
+def upload():
+    image = request.files['image'].read()
+    chofer = request.form["chofer"]
+    encoded_image = base64.b64encode(image).decode('utf-8')
+
+    # Hacer la solicitud POST a la URL deseada con los datos de la imagen en el cuerpo
+    # La URL debe ser reemplazada por la URL a la que deseas enviar los datos de la imagen
+    url = "https://www.mmspack.online/foto_rendicion"
+    headers = {'Content-type': 'application/json'}
+    data = {'chofer':chofer,'image': encoded_image}
+    requests.post(url, headers=headers, json=data)
+
+    # Devolver la respuesta de la URL
+    return redirect("/historial/rendiciones")
 
 @pd.route("/foto_rendicion",methods = ["POST"])
 def subirRendicion():
@@ -448,7 +464,7 @@ def subirRendicion():
         VALUES
         (DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
         DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-        %s,
+        choferCorreo(%s),
         %s);
         """
     data = request.get_json()

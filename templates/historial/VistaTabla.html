@@ -83,10 +83,10 @@ function imprimir() {
     <h4>{{mensaje_tabla}}</h4>
     {% if rendicion %}
     <br><h3>Cargar rendicion</h3>
-    <form>
-        <input type="text" id="chofer" placeholder="Chofer">
-        <input type="file" id="foto">
-        <button type="button" onclick="enviar()">Enviar</button>
+    <form action="/foto_rendicion_from_web" enctype="multipart/form-data" method="POST">
+        <input type="text" name="chofer" placeholder="Chofer">
+        <input type="file" name="image">
+        <input type="submit" value="Enviar">
     </form>
     
     {% endif %}
