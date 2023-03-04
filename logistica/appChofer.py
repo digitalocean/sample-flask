@@ -315,7 +315,7 @@ def entregado():
         Timechangestamp = DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
         Currentlocation = %s,
         Foto_domicilio = %s,
-        reprogramaciones = reprograaciones +1
+        reprogramaciones = reprogramaciones +1
         where Numero_envío = %s
         """
     values = (motivo,observacion,quienRecibe,chofer,chofer,location,foto,nroEnvio)
