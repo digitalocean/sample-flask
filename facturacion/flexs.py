@@ -8,7 +8,6 @@ from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Font
 import io
-import xlsxwriter
 
 
 
@@ -86,12 +85,20 @@ def facturacionFlex():
         for cell in row:
             cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
             cell.font = Font(color='FFFFFF')
-    output = io.BytesIO()
-    workbook = xlsxwriter.Workbook(output)
-    worksheet = workbook.add_worksheet()
-    for i,viajeTupla in enumerate(resultadoConsulta):
-        for j, value in enumerate(viajeTupla):
-            worksheet.write(i, j, value)
+     
+    # output = io.BytesIO()
+    # workbook = xlsxwriter.Workbook(output)
+    # worksheet = workbook.add_worksheet()
+    # for i,viajeTupla in enumerate(resultadoConsulta):
+    #     for j, value in enumerate(viajeTupla):
+    #         worksheet.write(i, j, value)
+    # workbook.close()
+    # output.seek(0)
+    # response = make_response(output.getvalue())
+    # response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
+    # response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    # return response
+    
     contador = 9
     sinprecio = 0
     for viajeTupla in resultadoConsulta:
@@ -125,7 +132,7 @@ def facturacionFlex():
             sheet["G"+str(contador)] = "0"
         sheet["H"+str(contador)] = estado
         viajes.append(viaje)
-    workbook.close()
+   
     sheet["E1"] = cliente
     sheet["E2"] = f"cantidad: {contador-9}"
     sheet["E3"] = "Subtotal: "
@@ -136,12 +143,7 @@ def facturacionFlex():
     sheet["F6"] = "=SUM(E3:E4)"
     book.save("liquidacion.xlsx")
     cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
-    output.seek(0)
-    response = make_response(output.getvalue())
-    response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
-    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
-    return response
     return render_template("facturacion/tabla_viajes.html",
                             cliente=cliente,
                             desde=desde,

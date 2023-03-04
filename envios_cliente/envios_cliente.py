@@ -34,7 +34,9 @@ def verEnvios(_vendedor,_desde,_hasta):
     otros = 0
     noVino = 0
     cancelados = 0
+    total = 0
     for viaje in cursor:
+        total += 1
         if viaje[6] == "Lista Para Retirar":
             paraRetirar += 1
         elif viaje[6] == "Listo para salir (Sectorizado)":
@@ -61,8 +63,18 @@ def verEnvios(_vendedor,_desde,_hasta):
         viajes.append(viaje)
     message = f"{paraRetirar} Para Retirar || {retirado} Retirados || {sectorizado} Listos para salir || {enCamino} En Camino || {entregado} Entregados || {noentregado} No entregados"
     if session.get("user_auth") != "Cliente":        
-        message = f"""{_vendedor} --> {paraRetirar} Para Retirar || 
-        {retirado} Retirados || {sectorizado} Listos para salir || {enCamino} En Camino || {entregado} Entregados || {noentregado} No entregados || {listaParaDevolver} Para devolver || {devuelto} devueltos || {noVino} No Vino || {cancelados} Cancelados"""
+        message = f"""{_vendedor} --> 
+                        {total} Total ||
+                        {paraRetirar} Para Retirar || 
+                        {retirado} Retirados || 
+                        {sectorizado} Listos para salir || 
+                        {enCamino} En Camino || 
+                        {entregado} Entregados || 
+                        {noentregado} No entregados || 
+                        {listaParaDevolver} Para devolver || 
+                        {devuelto} devueltos || 
+                        {noVino} No Vino || 
+                        {cancelados} Cancelados"""
         if otros > 0:
             message += f" || {otros} Otros"
     return cabezeras,viajes,message

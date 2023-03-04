@@ -2,7 +2,7 @@
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
 
-    <form action="/facturacion_{{tipo_facturacion}}" method="GET" style="position: initial; width: 30%;">
+    <form action="/facturacion/facturar" method="post" style="position: initial; width: 30%;">
         <!-- <a href="/facturacion/borrar_repetido"><input type="button" value="Borrar repetidos"></a><br> -->
         <label>Desde</label><br>
         <input type="date" name="desde" value="{{desde}}"><br>
@@ -14,6 +14,11 @@
             <option value="{{cliente}}">{{cliente}}</option>
             {% endfor %}
           </select>
+        <select name="estrategiaFacturacion">
+            <option value="strategyEnCamino">En Camino</option>
+            <option value="strategyPorDireccion">Por Direccion</option>
+            <option value="strategyEntregado">Entregado</option>
+        </select>
         <input type="submit" value="Buscar">
     </form>
     {% if total %}

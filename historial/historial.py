@@ -6,28 +6,7 @@ from database import database
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
  
 
-columnas = """ H.Fecha, 
-                H.Hora, 
-                H.id, 
-                H.Numero_envío,
-                V.Telefono,
-                H.Direccion_completa,
-                vendedor(H.Vendedor),
-                H.Localidad,
-                H.Chofer,
-                H.estado_envio,
-                H.motivo_noenvio,
-                V.Observacion,
-                H.Precio,
-                H.Costo,
-                H.Currentlocation,
-                H.Correo_chofer,
-                H.Foto_domicilio,
-                V.Cobrar,
-                V.columna_1,
-                V.columna_2,
-                V.columna_3
-            """
+columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,V.Observacion,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.columna_3"""
 
 def consultaPendientes(sql):
     viajes =[]
@@ -136,20 +115,20 @@ def busqueda():
     cabezeras = ["Accion","Fecha","Hora","ID","Zona","Numero de envio","Chofer","Direccion","Vendedor","Precio","Costo","estado_envio","Motivo","Modifico","Tiene foto"]
     order = " order by H.Fecha desc, H.Numero_envío"
     if busqueda.lower() == "entregadoduplicado":
-        sql = f"select {columnas} from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(*) >1) and estado_envio = 'Entregado' and Fecha > '2022-09-01' {order}"
+        sql = f"select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(*) >1) and H.estado_envio = 'Entregado' and Fecha > '2022-09-01' {order}"
     elif busqueda.lower() == "noentregadoduplicado":
-        sql = f"select {columnas} from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'No Entregado' and not motivo_noenvio in ('Domicilio no visitado','Cancelado') and not estado_envio = 'Lista para Devolver' and tipo_envio = 2 group by Numero_envío having count(*) >1) and motivo_noenvio in ('Nadie en Domicilio (Reprogramado)','Rechazado por el comprador') {order}"
+        sql = f"select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'No Entregado' and not motivo_noenvio in ('Domicilio no visitado','Cancelado') and not estado_envio = 'Lista para Devolver' and tipo_envio = 2 group by Numero_envío having count(*) >1) and H.motivo_noenvio in ('Nadie en Domicilio (Reprogramado)','Rechazado por el comprador') {order}"
     elif busqueda.lower() == "encaminoduplicado":
-        sql = f"select {columnas} from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'En Camino' group by Numero_envío having count(*) >1) and estado_envio = 'En Camino' {order}"
+        sql = f"select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'En Camino' group by Numero_envío having count(*) >1) and H.estado_envio = 'En Camino' {order}"
     elif busqueda.lower() == "segundasvueltas":
-        sql = f"select {columnas} from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' and not estado_envio = 'Lista para Devolver' group by Numero_envío having count(*) >1) and estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' {order}"
+        sql = f"select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' and not estado_envio = 'Lista para Devolver' group by Numero_envío having count(*) >1) and H.estado_envio = 'Entregado' or H.motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' {order}"
     elif busqueda.lower() == "tercerasvueltas":
-        sql = f"select {columnas} from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' group by Numero_envío having count(*) >2) {order}"
+        sql = f"select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en Domicilio (Reprogramado)' group by Numero_envío having count(*) >2) {order}"
     elif busqueda.lower() == "levantada":
-        sql = f"select {columnas} from historial_estados as H where H.estado_envio = 'Levantada' {order}"
+        sql = f"select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H where H.estado_envio = 'Levantada' {order}"
     elif busqueda.lower() == "sinencamino":
         sql = f"""
-        select {columnas} from historial_estados as H join ViajesFlexs as V on H.Numero_envío = V.Numero_envío
+        select H.Fecha, H.Hora, H.id, H.Numero_envío,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,H.Cobrar from historial_estados as H 
         where 
             (H.estado_envio = 'entregado' or motivo_noenvio in 
                     ("Nadie en Domicilio (Reprogramado)","Rechazado por el comprador"))
@@ -160,7 +139,7 @@ def busqueda():
         """
     #H.Fecha,H.Hora,H.id,H.Zona,H.Numero_envío,H.Chofer,H.Direccion_completa,H.Localidad,V.Vendedor,V.Currentlocation,H.estado_envio,H.motivo_noenvio,H.Correo_chofer,H.Foto_domicilio 
     else:
-        cabezeras = "accion","Fecha","Hora","id","Zona","Numero de envío","Chofer","Direccion Completa","Localidad","Vendedor","Ubicacion","Estado","Motivo","Correo_chofer","Foto_domicilio"
+        cabezeras = "accion","Fecha","Hora","id","Numero de envío","Telefono","Direccion Completa","Localidad","Vendedor","Chofer","Estado","Motivo","Observacion","Precio","Costo","Ubicacion","Correo_chofer","Foto_domicilio","Cobrar","Multiplicador","extra","extra"
         sql = f"""select {columnas} from historial_estados as H join ViajesFlexs as V on V.Numero_envío = H.Numero_envío
         where V.Numero_envío like '%{busqueda}%' or H.Chofer like '%{busqueda}%' or V.Vendedor like '%{busqueda}%' or H.Direccion_completa like '%{busqueda}%' or H.estado_envio like '%{busqueda}%' or H.motivo_noenvio like '%{busqueda}%' order by Fecha desc, Hora desc;"""
     cursor.execute(sql)
