@@ -271,7 +271,10 @@ def entregado():
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     location = data["location"]
-    motivo = data["motivo"]
+    try:
+        motivo = data["motivo"]
+    except:
+        motivo = None
     observacion = data["observacion"]
     recibe,dni,quienRecibe= None,None,None
     if "quienRecibe" in data.keys() and "dni" in data.keys():
