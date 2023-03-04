@@ -317,6 +317,7 @@ def entregado():
         Foto_domicilio = %s,
         reprogramaciones = reprogramaciones +1
         where Numero_envío = %s
+        
         """
     values = (motivo,observacion,quienRecibe,chofer,chofer,location,foto,nroEnvio)
     cursor.execute(sql,values)
