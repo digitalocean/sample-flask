@@ -209,12 +209,14 @@ def pendientesChofer2():
 @pd.route("/carga",methods=["POST"])
 def cargar():
     data = request.get_json()
-    print(data)
     nenvio = data["id"]
     chofer = data["chofer"]
     latlong = data["location"]
-    del data["chofer"]
-    del data["location"]
+    print(nenvio)
+    print(chofer)
+    print(latlong)
+    # del data["chofer"]
+    # del data["location"]
     status = False
     message = ""
     try:

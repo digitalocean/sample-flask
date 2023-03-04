@@ -268,7 +268,7 @@ def historial(pagina):
     pagina = int(pagina)
     opcion = pagina-1
     limiteMinimo = opcion*300
-    cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Direccion","Vendedor","Localidad","Chofer","Estado envio","Motivo","precio","Costo","Ubicacion estado","Modifico","Tiene Foto"]
+    cabezeras = ["Accion","Fecha", "Hora", "id", "Numero_envío","Telefono","Direccion","Localidad","Vendedor","Chofer","Estado envio","Motivo","Observacion","precio","Costo","Ubicacion estado","Modifico","Tiene Foto","Monto a cobrar","Multiplicador de precio/costo","pendiente","pendiente"]
     sql = f"select {columnas} from historial_estados as H inner join ViajesFlexs as V on V.Numero_envío = H.Numero_envío order by id desc limit {limiteMinimo},300"
     midb = database.connect_db()
     cursor = midb.cursor()
