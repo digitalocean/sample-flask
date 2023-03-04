@@ -145,16 +145,20 @@ def canceladoMapa():
 @lgMapa.route("/logistica/mapa/novino", methods=["GET","POST"])
 @auth.login_required
 def noVinoMapa():
+    usuario = session['user_id']
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute("""
                     update ViajesFlexs 
                         set 
+                            `Check` = null,
+                            Zona = null,
                             estado_envio = "No Vino",
                             Motivo = null,
-                            `Check` = null,
-                            Zona = null where Numero_envío = %s and estado_envio = "Lista Para Retirar"
-                    """,(request.json["nro_envio"],))
+                            Correo_chofer = %s
+                        where 
+                            Numero_envío = %s and estado_envio = "Lista Para Retirar"
+                    """,(usuario,request.json["nro_envio"],))
     midb.commit()
     return ""
 
