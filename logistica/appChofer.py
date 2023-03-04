@@ -377,7 +377,8 @@ def noEntregado():
                 Observacion = %s,
                 foto_domicilio = %s,
                 Timechangestamp = %s,
-                Currentlocation = %s
+                Currentlocation = %s,
+                reprogramaciones = reprogramaciones+1
             where 
                 Numero_envío = %s 
             and 
