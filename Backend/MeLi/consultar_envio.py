@@ -5,7 +5,7 @@
 import requests
 from Backend.database import database
 from .renovar_token import actualizar_token
- 
+from Backend.scriptGeneral.scriptGeneral import enviar_correo
 
 def consultar_envio(nro_envio,idUser):
     midb = database.connect_db_ML()
@@ -18,7 +18,6 @@ def consultar_envio(nro_envio,idUser):
         url = f"https://api.mercadolibre.com/shipments/{nro_envio}?access_token={authorization}"
         response =  requests.get(url)
         response_json = response.json()
-        from scriptGeneral.scriptGeneral import enviar_correo
         if "receiver_address" in response_json.keys():
             dato_envio=response_json["receiver_address"]
             comprador = dato_envio["receiver_name"]
