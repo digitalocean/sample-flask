@@ -6,6 +6,8 @@ from datetime import datetime,timedelta
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Font
+import io
+import xlsxwriter
 from Backend.auth import auth
 from .estrategiaDeFacturacion import *
 from Backend.database.database import connect_db
@@ -14,7 +16,8 @@ from Backend.scriptGeneral import scriptGeneral
 FcGeneral = Blueprint('facturacionGeneral', __name__, url_prefix='/')
 
 class EnvioAFacturar():
-    def __init__(self,fecha,nEnvio,direccionCompleta,localidad,precio,comprador,cobrar,estado,estadoActual):
+    def __init__(self,id,fecha,nEnvio,direccionCompleta,localidad,precio,comprador,cobrar,estado,estadoActual):
+        self.id = id
         self.Fecha = fecha
         self.Numero_envío = nEnvio
         self.Direccion = direccionCompleta
@@ -58,19 +61,6 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
         for cell in row:
             cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
             cell.font = Font(color='FFFFFF')
-     
-    # output = io.BytesIO()
-    # workbook = xlsxwriter.Workbook(output)
-    # worksheet = workbook.add_worksheet()
-    # for i,viajeTupla in enumerate(resultadoConsulta):
-    #     for j, value in enumerate(viajeTupla):
-    #         worksheet.write(i, j, value)
-    # workbook.close()
-    # output.seek(0)
-    # response = make_response(output.getvalue())
-    # response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
-    # response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    # return response
     suma = 0
     contador = 9
     sinprecio = 0
@@ -87,7 +77,6 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
         estado = viaje[7]
         if viaje[7] != "Entregado":
             viaje[6] = "0"
-
         if(precio == None):
             sinprecio = sinprecio +1
             precio = "Sin precio"
@@ -105,7 +94,6 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
             sheet["G"+str(contador)] = "0"
         sheet["H"+str(contador)] = estado
         viajes.append(viaje)
-   
     sheet["E1"] = _cliente
     sheet["E2"] = f"cantidad: {contador-9}"
     sheet["E3"] = "Subtotal: "
@@ -117,6 +105,20 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
     book.save(ruta_archivo)
     return ruta_archivo
 
+def generarExcel(envios):
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+    for i,viajeTupla in enumerate(envios):
+        for j, value in enumerate(viajeTupla):
+            worksheet.write(i, j, value)
+    workbook.close()
+    output.seek(0)
+    response = make_response(output.getvalue())
+    response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
+    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    return response
+
 @FcGeneral.route("/facturacion/facturar",methods = ["GET","POST"])
 @auth.login_required
 def facturar():
@@ -125,8 +127,8 @@ def facturar():
         desde = request.form.get("desde")
         hasta = request.form.get("hasta")
         estrategiaDeFacturacion = request.form.get("estrategiaFacturacion")
-        sql = f"""
-        select 
+        sql = f"""select 
+            H.id,
             H.Fecha, 
             H.Numero_envío,
             H.Direccion_Completa,
@@ -149,7 +151,7 @@ def facturar():
         cursor.execute(sql)
         viajes = []
         for x in cursor.fetchall():
-            viajes.append(EnvioAFacturar(x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8]))
+            viajes.append(EnvioAFacturar(x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]))
         estrategia = EnCaminoStrategy()
         if estrategiaDeFacturacion == "strategyEnCamino":
             estrategia = EnCaminoStrategy()

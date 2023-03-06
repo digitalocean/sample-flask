@@ -23,4 +23,10 @@ def busqueda():
     lista = []
     for x in cursor.fetchall():
         lista.append(x)
-    return render_template("logistica/VistaTabla.html", titulo="Busqueda", viajes=lista,columnas = cabezeras, cant_columnas = len(cabezeras),contador = 0, auth = session.get("user_auth"))
+    return render_template("logistica/VistaTabla.html", 
+                            titulo="Busqueda", 
+                            viajes=lista,
+                            columnas = cabezeras, 
+                            cant_columnas = len(cabezeras),
+                            contador = 0, 
+                            auth = session.get("user_auth"))

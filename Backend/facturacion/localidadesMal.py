@@ -19,9 +19,9 @@ def arregloLocalidad():
             from 
                 historial_estados as H  join ViajesFlexs as V on H.Numero_envío = V.Numero_envío 
             where 
-                ((H.Precio is null or H.Precio = 0) or (H.Costo is null or H.Costo = 0))
+                (H.Precio is null or H.Costo is null)
             and 
-                (H.estado_envio in ("En Camino","Entregado") or H.motivo_noenvio like "%reprogramado%")
+                (H.estado_envio in ("En Camino","Entregado") or H.motivo_noenvio like "%reprogramado%" or H.motivo_noenvio like "%rechazado%")
             and 
                 not H.estado_envio = "Lista para Devolver"
             and
