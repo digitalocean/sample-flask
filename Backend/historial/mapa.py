@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, session,jsonify
 from Backend.auth import auth
 from Backend.database import database
+from Backend.scriptGeneral.scriptGeneral import consultaChoferCorreo
 from datetime import datetime
 
 mapaHS = Blueprint('mapaHistorial', __name__, url_prefix='/')
@@ -8,16 +9,16 @@ mapaHS = Blueprint('mapaHistorial', __name__, url_prefix='/')
 @mapaHS.route("/historial/vistamapa")
 @auth.login_required
 def carga_mapa_historial():
-    midb = database.connect_db()
-    cursor = midb.cursor()
-    cursor.execute("SELECT Chofer FROM mmslogis_MMSPack.historial_estados GROUP BY Chofer")
-    choferes = []
-    for x in cursor.fetchall():
-        choferes.append(x[0])
+    # midb = database.connect_db()
+    # cursor = midb.cursor()
+    # cursor.execute("SELECT Chofer FROM mmslogis_MMSPack.historial_estados GROUP BY Chofer")
+    # choferes = []
+    # for x in cursor.fetchall():
+    #     choferes.append(x[0])
     return render_template("historial/mapa.html", 
                             auth = session.get("user_auth"),
                             mapa=True,
-                            choferes=choferes)
+                            choferes=consultaChoferCorreo(database.connect_db()))
 
 @mapaHS.route("/historial/mapa", methods = ["GET","POST"])
 @auth.login_required

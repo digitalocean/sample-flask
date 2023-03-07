@@ -18,7 +18,7 @@
 <select name = "chofer" id='chofer' class="selector">
     <option value='null'>Seleccione un chofer</option>
     {% for ch in choferes %}
-    <option value='{{ch}}'>{{ch}}</option>
+    <option value='{{ch.0}}'>{{ch.0}}</option>
     {% endfor %}
 </select>
 <input type="date" name="fecha">
