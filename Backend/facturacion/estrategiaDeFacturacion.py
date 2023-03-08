@@ -15,14 +15,14 @@ class EnCaminoStrategy(Strategy):
         for viaje in viajes:
             if viaje.estado_envio == "En Camino":
                 total += viaje.Precio_Cliente
-            viajes2.append([viaje.Fecha, 
-            viaje.Numero_envío,
-            viaje.Direccion,
-            viaje.Localidad,
-            viaje.Precio_Cliente,
-            viaje.comprador,
-            viaje.Cobrar,
-            viaje.estadoActual])
+                viajes2.append([viaje.Fecha, 
+                viaje.Numero_envío,
+                viaje.Direccion,
+                viaje.Localidad,
+                viaje.Precio_Cliente,
+                viaje.comprador,
+                viaje.Cobrar,
+                viaje.estadoActual])
         return total,viajes2
     
 
