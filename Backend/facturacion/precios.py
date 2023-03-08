@@ -134,7 +134,7 @@ def cambioLocalidadZona():
         id_tarifa = %s,id_localidad = %s,id_tipoEnvio = %s,id_zona = %s;"""
 
     values = (idTarifa,idLocalidad,idTipoEnvio,idTarifa,idLocalidad,idTipoEnvio,idZona,idTarifa,idLocalidad,idTipoEnvio,idZona)
-
+    print(sql % values)
     midb = database.connect_db()
     cursor = midb.cursor()
     cursor.execute(sql,values)
