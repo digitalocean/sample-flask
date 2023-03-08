@@ -68,13 +68,11 @@ def crear_cliente():
 def verClientes():
     midb = database.connect_db()
     cursor = midb.cursor()
-    columnas = ["idClientes","nombre_cliente","razon_social","CUIT","CBU","Direccion","Latlong",
-                "Telefono","Telefono_Alternativo","password","Fecha_Alta","Fecha_Baja","Modalidad_cobro",
-                "correo_electronico","tarifa"]
     cursor.execute("select * from Clientes")
     clientes = []
     for x in cursor.fetchall():
         clientes.append(x)
+    columnas = [i[0] for i in cursor.description]
     return render_template("cliente/VistaTabla.html",clientes=clientes,columnas=columnas, auth = session.get("user_auth"))
 
 
