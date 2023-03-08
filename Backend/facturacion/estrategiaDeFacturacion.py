@@ -62,6 +62,7 @@ class EnCaminoUnicoStrategy(Strategy):
                 viajePack = [viaje.Fecha, viaje.Numero_envío,viaje.Direccion,viaje.Localidad,
                             viaje.Precio_Cliente,viaje.comprador,viaje.Cobrar,viaje.estadoActual]
                 viajes2.append(viajePack)
+                
         from Backend.database.database import connect_db
         midb = connect_db()
         cursor = midb.cursor()
