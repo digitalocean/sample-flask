@@ -51,11 +51,9 @@ function imprimir() {
                 <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.2}}','{{viaje.3}}','{{viaje.5}}','{{viaje.6}}','{{viaje.8}}','{{viaje.10}}')">
             </td>
             {% endif %}
-            <!-- {% if viaje  %} -->
             {% for x in viaje %}
                 <td>{{x}}</td>
             {% endfor %}
-            <!-- {% endif %} -->
         </tr>
     {% endfor %}
     </table>
