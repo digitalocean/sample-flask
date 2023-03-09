@@ -124,6 +124,8 @@ def cambioLocalidadZona():
     idTarifa = request.form["tarifa"]
     idLocalidad = request.form["localidad"]
     idZona = request.form["zona"]
+    if int(idTarifa) < 10:
+        idTarifa = f"0{idTarifa}" 
     idTipoEnvio = 2
     sql = """
     insert into indicePrecio 
