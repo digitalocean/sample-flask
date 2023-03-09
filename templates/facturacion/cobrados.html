@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block content %}
+<script src="{{url_for('static', filename='estados.js')}}"></script>
+<script>
+    function confirmar(id){
+    if(confirm("¿Seguro?")){
+        // document.getElementById("fila"+id).outerHTML = "";
+        window.location.href = "/logistica/historial/anular/"+id;
+    }   
+}
+function imprimir() {
+	  var ficha = document.getElementById("printableArea");
+	  var ventimp = window.open(' ', 'popimpr');
+	  ventimp.document.write( ficha.innerHTML );
+	  ventimp.document.close();
+	  ventimp.print( );
+	  ventimp.close();
+	}
+</script>
+<script src="{{url_for('static', filename='mapa.js')}}"></script>
+<input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
+<!-- <a href="javascript:void(0);" id="printButton">Print</a>   -->
+<div id="printableArea" class="table-responsive">
+<style>
+    td{
+        border-left: solid;
+        border-top: solid ; 
+        border-color: #afafaf;
+    }
+</style>
+<script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
+<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+<table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
+    {% if contador %}
+        <tr><h3>{{contador}} {{mensajeLogistica}}</h3></tr>
+    {% endif %}
+    {% if cobra %}
+        <h3>{{cobra}} a pagar</h3>
+    {% endif %}
+    <h4>{{mensaje_tabla}}</h4>
+    <tr>
+    {% for columna in columnas %}
+        <td>{{columna}}</td>
+    {% endfor %}
+    </tr>
+    {% for viaje in viajes %}
+        <tr id="fila{{viaje.2}}">
+            {% if acciones %}
+            <td>
+                <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.2}}','{{viaje.3}}','{{viaje.5}}','{{viaje.6}}','{{viaje.8}}','{{viaje.10}}')">
+            </td>
+            {% endif %}
+            <!-- {% if viaje  %} -->
+            {% for x in viaje %}
+                <td>{{x}}</td>
+            {% endfor %}
+            <!-- {% endif %} -->
+        </tr>
+    {% endfor %}
+    </table>
+    {% if cobra %}
+    <h4>A cobrar: {{cobra}}</h4>
+    {% endif %}
+</div>
+{% endblock %}
