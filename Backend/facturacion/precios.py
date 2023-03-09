@@ -126,7 +126,7 @@ def cambioLocalidadZona():
     idZona = request.form["zona"]
     idTipoEnvio = 2
     sql = """
-    insert ignore into indicePrecio 
+    insert into indicePrecio 
         (id,id_tarifa,id_localidad,id_tipoEnvio,id_zona)
     values
         (concat(%s,%s,%s),%s,%s,%s,%s) 
