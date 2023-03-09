@@ -120,7 +120,7 @@ def background_task3():
 def background_task4():
     ponerNoVisitados()
 
-@scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='3', minute='1')
+@scheduler.scheduled_job('cron', day_of_week='tue-sun', hour='3', minute='5')
 def background_task5():
     informeFinalDia()
 
