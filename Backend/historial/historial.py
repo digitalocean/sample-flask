@@ -195,7 +195,8 @@ def busquedaNumeroEnvio():
     union
     select fecha,hora,"",Numero_envío,{direccion},{localidad},{vendedor},choferCorreo(chofer),"En Camino",scanner from en_camino where Numero_envío = "{busqueda}"
     union
-    select Fecha,Hora,Zona,Numero_envío,{direccion},{localidad},{vendedor},Chofer,estado_envio,motivo_noenvio from historial_estados where Numero_envío = "{busqueda}";
+    select Fecha as fecha,Hora as hora,Zona,Numero_envío,{direccion},{localidad},{vendedor},Chofer,estado_envio,motivo_noenvio from historial_estados where Numero_envío = "{busqueda}"
+    order by fecha desc,hora desc;
     """
     print(sql)
     midb = database.connect_db()
