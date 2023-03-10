@@ -4,12 +4,12 @@ from abc import ABC, abstractmethod
 
 class Strategy(ABC):
     @abstractmethod
-    def facturar_viajes(self, viajes):
+    def facturar_viajes(self, viajes,sobreEscribe):
         pass
 
 
 class EnCaminoStrategy(Strategy):
-    def facturar_viajes(self, viajes):
+    def facturar_viajes(self, viajes,sobreEscribe=False):
         total = 0
         viajes2 = []
         for viaje in viajes:
@@ -27,7 +27,7 @@ class EnCaminoStrategy(Strategy):
     
 
 class EntregadoStrategy(Strategy):
-    def facturar_viajes(self, viajes):
+    def facturar_viajes(self, viajes,sobreEscribe=False):
         total = 0
         viajes2 = []
         for viaje in viajes:
@@ -45,7 +45,7 @@ class EntregadoStrategy(Strategy):
     
 
 class EnCaminoUnicoStrategy(Strategy):
-    def facturar_viajes(self, viajes):
+    def facturar_viajes(self, viajes,sobreEscribe=False):
         total = 0
         direcciones = {}
         no_se_cobran = []
@@ -62,13 +62,13 @@ class EnCaminoUnicoStrategy(Strategy):
                 viajePack = [viaje.Fecha, viaje.Numero_envío,viaje.Direccion,viaje.Localidad,
                             viaje.Precio_Cliente,viaje.comprador,viaje.Cobrar,viaje.estadoActual]
                 viajes2.append(viajePack)
-                
-        from Backend.database.database import connect_db
-        midb = connect_db()
-        cursor = midb.cursor()
-        no_se_cobran = tuple(no_se_cobran)
-        print(no_se_cobran)
-        sql = f"update historial_estados set Precio = 0,Costo = 0 where Numero_envío in {no_se_cobran}"
-        cursor.execute(sql)
-        midb.commit()
+        if len(no_se_cobran) > 0 and sobreEscribe:
+            from Backend.database.database import connect_db
+            midb = connect_db()
+            cursor = midb.cursor()
+            no_se_cobran = tuple(no_se_cobran)
+            print(no_se_cobran)
+            sql = f"update historial_estados set Precio = 0,Costo = 0 where Numero_envío in {no_se_cobran}"
+            cursor.execute(sql)
+            midb.commit()
         return total,viajes2

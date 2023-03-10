@@ -32,8 +32,8 @@ class Facturador:
     def __init__(self, strategy):
         self.strategy = strategy
         
-    def facturar_viajes(self, viajes):
-        return self.strategy.facturar_viajes(viajes)
+    def facturar_viajes(self, viajes,sobreEscribir):
+        return self.strategy.facturar_viajes(viajes,sobreEscribir)
 
 def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
     viajes = []
@@ -126,6 +126,7 @@ def facturar():
         cliente = request.form.get("cliente")
         desde = request.form.get("desde")
         hasta = request.form.get("hasta")
+        sobreEscribir = request.form.get("sobreEscribir")
         estrategiaDeFacturacion = request.form.get("estrategiaFacturacion")
         sql = f"""select 
             H.id,
@@ -160,7 +161,7 @@ def facturar():
         elif estrategiaDeFacturacion == "strategyEntregado":
             estrategia = EntregadoStrategy()        
         facturador = Facturador(estrategia)
-        total_viajes,viajesEnCamino = facturador.facturar_viajes(viajes)
+        total_viajes,viajesEnCamino = facturador.facturar_viajes(viajes,sobreEscribir)
         cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
         ruta = generarExcelLiquidacion(viajesEnCamino,desde,hasta,cliente,"Liquidacion.xlsx")
         return render_template("facturacion/tabla_viajes.html",

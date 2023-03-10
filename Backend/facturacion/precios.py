@@ -124,18 +124,18 @@ def cambioLocalidadZona():
     idTarifa = request.form["tarifa"]
     idLocalidad = request.form["localidad"]
     idZona = request.form["zona"]
-    if int(idTarifa) < 10:
-        idTarifa = f"0{idTarifa}" 
     idTipoEnvio = 2
+    if len(idTarifa) == 1:
+        idTarifa = f"0{idTarifa}"
     sql = """
-    insert into indicePrecio 
+    insert ignore into indicePrecio 
         (id,id_tarifa,id_localidad,id_tipoEnvio,id_zona)
     values
-        (concat(%s,%s,%s),%s,%s,%s,%s) """
-    #ON DUPLICATE KEY UPDATE    
-     #   id_tarifa = %s,id_localidad = %s,id_tipoEnvio = %s,id_zona = %s;"""
+        (concat(%s,%s,%s),%s,%s,%s,%s) 
+    ON DUPLICATE KEY UPDATE    
+        id_tarifa = %s,id_localidad = %s,id_tipoEnvio = %s,id_zona = %s;"""
 
-    values = (idTarifa,idLocalidad,idTipoEnvio,idTarifa,idLocalidad,idTipoEnvio,idZona)#,idTarifa,idLocalidad,idTipoEnvio,idZona)
+    values = (idTarifa,idLocalidad,idTipoEnvio,idTarifa,idLocalidad,idTipoEnvio,idZona,idTarifa,idLocalidad,idTipoEnvio,idZona)
     print(sql % values)
     midb = database.connect_db()
     cursor = midb.cursor()
