@@ -1,35 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Formulario CRM</title>
-</head>
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
 <div class="container">
 	<img src="https://raw.githubusercontent.com/Matyacc/digitalocean/main/images/mmspacklogo.png" alt="Descripción de la imagen">
 </div>
-<style>
-	.container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 20vh;
-	}
-
-	img {
-		height: 100px;
-	}
-</style>
-<style>
-legend {
-	text-align: center;
-  }
-</style>
-
-
-<style>
-	form {
-		text-align: center;
-	  }
-	</style>
 <body>
 	
 	<form action="/clientes/nuevo_prospecto" method="POST">
@@ -154,5 +128,4 @@ legend {
       <button type="submit">Enviale por tu codigo</button>
     </form>
   </body>
-  </html>
-  
+  {% endblock %}

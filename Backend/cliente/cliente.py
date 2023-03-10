@@ -71,13 +71,13 @@ def crear_prospecto():
         respobsable_1_cargo=request.form.get("responsable_1_cargo")
         responsable_1_telefono=request.form.get("responsable_1_telefono")
         responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
-        estado_contacto="Pendiente de agregar al  html"
-        proxima_accion="Pendiente de agregar al html"
-        fecha_proxima_accion="Pendiente de agregar al html"
-        presupuesto="Pendiente de agregar al html"
-        mapa_cotizacion="Pendiente de agregar al html"
-        modifico="Pendiente de agregar al html"
-        responsable_proxima_accion="Pendiente de agregar al html"
+        estado_contacto=request.form.get("")
+        proxima_accion=request.form.get("")
+        fecha_proxima_accion=request.form.get("")
+        presupuesto=request.form.get("")
+        mapa_cotizacion=request.form.get("")
+        modifico=request.form.get("")
+        responsable_proxima_accion=request.form.get("")
         dpto=request.form.get("dpto")
         values=(nombre_cliente,razon_social,CUIT,direccion,localidad,piso,dpto,telefono,correo_electronico,rubro,estado_contacto,
                 locales_cantidad,como_nos_conocio,proxima_accion,fecha_proxima_accion,responsable_proxima_accion,observaciones,presupuesto,mapa_cotizacion,modifico,URL)

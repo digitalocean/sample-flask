@@ -1,0 +1,19 @@
+
+	.container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 20vh;
+	}
+
+	img {
+		height: 100px;
+	}
+legend {
+	text-align: center;
+  }
+
+
+	form {
+		text-align: center;
+	  }
