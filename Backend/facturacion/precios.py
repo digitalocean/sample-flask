@@ -45,7 +45,7 @@ def obtenerPrecios(tarifa,db):
 
 def obtenerZonas(tarifa,db):
     cursor = db.cursor()
-    cursor.execute(f"""select L.localidad,Z.nombre,L.id,LCP.partido from localidad as L inner join localidadCpPartido as LCP  on L.localidad = LCP.localidad left join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa}
+    cursor.execute(f"""select L.localidad,Z.nombre,L.id,LCP.partido from localidad as L left join localidadCpPartido as LCP  on L.localidad = LCP.localidad left join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa}
 left join zona as Z on I.id_zona = Z.id 
 group by L.localidad
 order by LCP.partido,Z.nombre, L.localidad """)
