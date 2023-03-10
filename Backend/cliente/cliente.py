@@ -71,25 +71,29 @@ def crear_prospecto():
         respobsable_1_cargo=request.form.get("responsable_1_cargo")
         responsable_1_telefono=request.form.get("responsable_1_telefono")
         responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
-        estado_contacto=request.form.get("")
-        proxima_accion=request.form.get("")
-        fecha_proxima_accion=request.form.get("")
-        presupuesto=request.form.get("")
-        mapa_cotizacion=request.form.get("")
-        modifico=request.form.get("")
-        responsable_proxima_accion=request.form.get("")
-        dpto=request.form.get("dpto")
-        values=(nombre_cliente,razon_social,CUIT,direccion,localidad,piso,dpto,telefono,correo_electronico,rubro,estado_contacto,
-                locales_cantidad,como_nos_conocio,proxima_accion,fecha_proxima_accion,responsable_proxima_accion,observaciones,presupuesto,mapa_cotizacion,modifico,URL)
+        estado_contacto=request.form.get("estado_contacto")
+        proxima_accion=request.form.get("proxima_accion")
+        fecha_proxima_accion=request.form.get("fecha_proxima_accion")
+        presupuesto=request.form.get("presupuesto")
+        mapa_cotizacion=request.form.get("mapa_cotizacion")
+        modalidad_de_cobro=request.form.get("modalidad_de_cobro")
+        modifico = session.get("user_id")
+        responsable_proxima_accion=request.form.get("responsable_proxima_accion")
+        values=(nombre_cliente,razon_social,CUIT,direccion,localidad,piso,dpto,telefono,
+                modalidad_de_cobro,correo_electronico,rubro,estado_contacto,locales_cantidad,
+                como_nos_conocio,proxima_accion,fecha_proxima_accion,responsable_proxima_accion,
+                observaciones,presupuesto,mapa_cotizacion,modifico,URL)
         cursor.execute("""INSERT INTO `mmslogis_MMSPack`.`Clientes`(
-                        `nombre_cliente`,`razon_social`,`CUIT`,`Direccion`,`localidad`,`piso`,`departamento`,`Telefono`,
-                        `Modalidad_cobro`,`correo_electronico`,`rubro`,`estado_contacto`,`locales_cantidad`,
-                        `como_nos_conocio`,`proxima_accion`,`fecha_proxima_accion`,`responsable_proxima_accion`,`observaciones`,`presupuesto`,`mapa_cotizacion`,`URL`)
+                        `nombre_cliente`,`razon_social`,`CUIT`,`Direccion`,`localidad`,
+                        `piso`,`departamento`,`Telefono`,`Modalidad_cobro`,`correo_electronico`,
+                        `rubro`,`estado_contacto`,`locales_cantidad`,`como_nos_conocio`,
+                        `proxima_accion`,`fecha_proxima_accion`,`responsable_proxima_accion`,
+                        `observaciones`,`presupuesto`,`mapa_cotizacion`,`modifico`,`URL`)
                         VALUES
-                        (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",values)
+                        (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",values)
         midb.commit()           
         midb.close()
-        return "Funcionó"
+        return redirect("/clientes")
 
 @cl.route('/clientes/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required

@@ -1,6 +1,7 @@
 {% extends "index.html" %}
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
+<link rel ="stylesheet" href="{{url_for('static', filename='nuevo_prospecto.css')}}">
 <div class="container">
 	<img src="https://raw.githubusercontent.com/Matyacc/digitalocean/main/images/mmspacklogo.png" alt="Descripción de la imagen">
 </div>
@@ -94,8 +95,8 @@
 			<label for="mapa_cotizacion">Mapa (cotizacion):</label><br>
 			<input type="file" name="mapa_cotizacion" id="mapa_cotizacion"><br><br>
 
-			<label for="modifico">Modificó:</label><br>
-			<input type="text" name="modifico" id="modifico"><br><br>
+			<label for="modalidad_de_cobro">Modalida de cobro:</label><br>
+			<input type="text" name="modalidad_de_cobro" id="modalidad_de_cobro"><br><br>
 
 			<label for="responsable_proxima_accion">Responsable de próxima acción:</label><br>
 			<input type="text" name="responsable_proxima_accion" id="responsable_proxima_accion"><br><br>
