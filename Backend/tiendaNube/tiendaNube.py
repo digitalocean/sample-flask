@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,redirect, request, session
-from database.database import connect_db
+from Backend.database.database import connect_db
 TN = Blueprint('TN', __name__, url_prefix='/')
 
 @TN.route("/bienvenido")
