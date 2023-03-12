@@ -13,7 +13,7 @@ def vinvulacionTiendaNube():
     
 
     payload = {
-        "client_id": "5888",
+        "client_id": os.environ.get("APP_ID_TN"),
         "client_secret": os.environ.get("CLIENT_SECRET_TN"),
         "grant_type": "authorization_code",
         "code": code
