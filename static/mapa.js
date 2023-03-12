@@ -47,6 +47,7 @@ function initMap() {
       // now let's add a globales.polygon
       drawPolygon(globales.polygonLocations);
   });
+clearPolygon()
 actualizarMapa();
 }
 

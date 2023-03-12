@@ -1,5 +1,4 @@
 from flask import Blueprint, redirect, render_template, request, session,Response,send_file
-from ftplib import FTP
 from base64 import b64decode
 from Backend.auth import auth
 from Backend.database import database
@@ -85,17 +84,7 @@ def image():
         f.write(image_binary)
     return send_file("temp_image.jpg", mimetype="image/jpeg")
 
-# LECTURA DE HOSTINGER FTP
-@hsList.route('/imageFTP/<filename>')
-def imageFTP(filename):
-    # filename = "Screenshot_1673795214.png"
-    ftp = FTP('109.106.251.113')
-    ftp.login(user='appChofer@mmslogistica.com', passwd='(15042020)_')
-    ftp.cwd('/foto_domicilio/')
-    # public_html/foto_domicilio/Screenshot_1673795214.png
-    image = ftp.retrbinary('RETR ' + filename, open('image.png', 'wb').write)
-    ftp.quit()
-    return send_file("image.png")
+
 
 @hsList.route("/logistica/almapa/<envio>",methods=["GET","POST"])
 @auth.login_required
