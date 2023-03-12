@@ -19,10 +19,19 @@ def vinvulacionTiendaNube():
     }
 
     response = requests.post("https://www.tiendanube.com/apps/authorize/token", data=payload)
-
-    responseText = response.text
+    access_token = response["access_token"]
+    token_type = response["token_type"]
+    scope = response["scope"]
+    user_id = response["user_id"]
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("INSERT INTO `mmslogis_MMSPack`.`testTN`(`test`)VALUES(%s);",(str(responseText),))
+    cursor.execute("""
+                    INSERT INTO `mmslogis_MMSPack`.`vinculacion_tn`
+                        (`access_token`,
+                        `token_type`,
+                        `scope`,
+                        `user_id`)
+                        VALUES
+                        (%s,%s,%s,%s);""",(access_token,token_type,scope,user_id))
     midb.commit()
     return "Bienvenido a MMSPACK, la vinculacion se realizo correctamente"
