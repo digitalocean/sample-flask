@@ -8,6 +8,6 @@ def vinvulacionTiendaNube():
     print(data)
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("INSERT INTO `mmslogis_MMSPack`.`testTN`(`test`)VALUES(%s);",(data,))
+    cursor.execute("INSERT INTO `mmslogis_MMSPack`.`testTN`(`test`)VALUES(%s);",(str(data),))
     midb.commit()
     return "Bienvenido a MMSPACK, la vinculacion se realizo correctamente"
