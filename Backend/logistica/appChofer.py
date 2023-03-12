@@ -13,7 +13,6 @@ def loginEmpleado():
     dataLogin = request.get_json()
     usser = dataLogin["ussername"]
     password = dataLogin["password"]
-    print(usser," ",password)
     midb = connect_db()
     cursor = midb.cursor()
     sql ="""
@@ -112,7 +111,6 @@ def scannerRetirar():
     cursor = midb.cursor()
     cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
     resultado = cursor.fetchone()
-    print(resultado)
     if resultado == None:
         t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
         t.start()
@@ -148,7 +146,6 @@ def sectorizar(database,data,zona):
 @pd.route("/sectorizar",methods=["POST"])
 def scannerSectorizar():
     data = request.get_json()
-    print(data)
     envio = data["id"]
     midb = connect_db()
     cursor = midb.cursor()
@@ -212,9 +209,6 @@ def cargar():
     nenvio = data["id"]
     chofer = data["chofer"]
     latlong = data["location"]
-    print(nenvio)
-    print(chofer)
-    print(latlong)
     # del data["chofer"]
     # del data["location"]
     status = False
@@ -267,7 +261,6 @@ def entregado():
     midb = connect_db()
     cursor = midb.cursor()
     data = request.get_json()
-    print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     location = data["location"]
@@ -332,18 +325,12 @@ def entregado():
 @pd.route("/noentregado",methods=["POST"])
 def noEntregado():
     data = request.get_json()
-    print(data)
     nroEnvio = data["nEnvio"]
     chofer = data["chofer"]
     motivo = data["motivo"]
     imagen = data["image"]
     observacion = None
-    try:
-        observacion = data["observacion"]
-    except:
-        pass
-    print("observacion")
-    print(observacion)
+    observacion = data["observacion"]
     if "location" in data.keys():
         location = data["location"]
     else:
@@ -468,7 +455,6 @@ def subirRendicion():
         %s);
         """
     data = request.get_json()
-    print(data)
     chofer = data["chofer"]
     imagen = data["image"]
     values = (chofer,imagen) 
