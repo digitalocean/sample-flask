@@ -9,8 +9,6 @@ TN = Blueprint('TN', __name__, url_prefix='/')
 def vinvulacionTiendaNube():
     data = request.args
     code = data["code"]
-    print(data)
-    
 
     payload = {
         "client_id": os.environ.get("APP_ID_TN"),
@@ -27,13 +25,19 @@ def vinvulacionTiendaNube():
     user_id = json_data["user_id"]
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("""
-                    INSERT INTO `mmslogis_MMSPack`.`vinculacion_tn`
-                        (`access_token`,
-                        `token_type`,
-                        `scope`,
-                        `user_id`)
-                        VALUES
-                        (%s,%s,%s,%s);""",(access_token,token_type,scope,user_id))
+    sql = """
+        INSERT INTO `mmslogis_MMSPack`.`vinculacion_tn`
+                (`access_token`,
+                `token_type`,
+                `scope`,
+                `user_id`)
+                VALUES
+                (%s,%s,%s,%s)
+            ON DUPLICATE KEY UPDATE    
+                access_token = %s,
+                token_type = %s,
+                scope = %s;"""
+    values = (access_token,token_type,scope,user_id,access_token,token_type,scope)
+    cursor.execute(sql,values)
     midb.commit()
     return "Bienvenido a MMSPACK, la vinculacion se realizo correctamente"
