@@ -9,10 +9,7 @@ def vinvulacionTiendaNube():
     data = request.args
     code = data["code"]
     print(data)
-    midb = connect_db()
-    cursor = midb.cursor()
-    cursor.execute("INSERT INTO `mmslogis_MMSPack`.`testTN`(`test`)VALUES(%s);",(str(data),))
-    midb.commit()
+    
 
     payload = {
         "client_id": "5888",
@@ -23,5 +20,9 @@ def vinvulacionTiendaNube():
 
     response = requests.post("https://www.tiendanube.com/apps/authorize/token", data=payload)
 
-    print(response.text)
+    responseText = response.text
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("INSERT INTO `mmslogis_MMSPack`.`testTN`(`test`)VALUES(%s);",(str(responseText),))
+    midb.commit()
     return "Bienvenido a MMSPACK, la vinculacion se realizo correctamente"
