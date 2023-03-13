@@ -93,7 +93,7 @@ def borrarEnvio():
         print(sql)
         print(envio)
         midb.commit
-    return redirect("/misenvios")
+    return redirect("/envios")
 
 @NOML.route("/etiqueta/", methods = ["GET","POST"])
 @auth.login_required
@@ -127,7 +127,7 @@ def generarEtiqueta():
                             referencia = referencia,
                             cobrar = cobrar)                        
     else:
-        return redirect("/misenvios")
+        return redirect("/envios")
 
 from Backend.database.database import connect_db
 @NOML.route("/etiquetaspendientes")
@@ -152,4 +152,4 @@ def etiquetaImpresa():
     cursor.execute(f"update ViajesFlexs set Observacion = 'Etiqueta impresa {str(datetime.now())[0:-10]}' where Numero_envío = '{envio}' and Observacion is null")
     midb.commit()
     midb.close()
-    return redirect("/misenvios")
+    return redirect("/envios")
