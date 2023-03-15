@@ -125,13 +125,12 @@ def cambioLocalidadZona():
     idLocalidad = request.form["localidad"]
     idZona = request.form["zona"]
     idTipoEnvio = 2
-    if len(idTarifa) == 1:
-        idTarifa = f"0{idTarifa}"
+    # id = f"{idTarifa},"
     sql = """
     insert ignore into indicePrecio 
         (id,id_tarifa,id_localidad,id_tipoEnvio,id_zona)
     values
-        (concat(%s,%s,%s),%s,%s,%s,%s) 
+        (concat(%s,"-",%s,"-",%s),%s,%s,%s,%s) 
     ON DUPLICATE KEY UPDATE    
         id_tarifa = %s,id_localidad = %s,id_tipoEnvio = %s,id_zona = %s;"""
 

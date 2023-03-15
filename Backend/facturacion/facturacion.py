@@ -16,7 +16,7 @@ from Backend.scriptGeneral import scriptGeneral
 FcGeneral = Blueprint('facturacionGeneral', __name__, url_prefix='/')
 
 class EnvioAFacturar():
-    def __init__(self,id,fecha,nEnvio,direccionCompleta,localidad,precio,comprador,cobrar,estado,estadoActual):
+    def __init__(self,id,fecha,nEnvio,direccionCompleta,localidad,precio,comprador,cobrar,estado,motivo,estadoActual):
         self.id = id
         self.Fecha = fecha
         self.Numero_envío = nEnvio
@@ -26,6 +26,7 @@ class EnvioAFacturar():
         self.comprador = comprador
         self.Cobrar = cobrar
         self.estado_envio = estado
+        self.motivo = motivo
         self.estadoActual = estadoActual
 
 class Facturador:
@@ -142,6 +143,7 @@ def facturar():
             V.comprador,
             V.Cobrar,
             H.estado_envio,
+            H.motivo_noenvio,
             V.estado_envio as estadoActual
         from 
             historial_estados as H 
@@ -156,14 +158,16 @@ def facturar():
         cursor.execute(sql)
         viajes = []
         for x in cursor.fetchall():
-            viajes.append(EnvioAFacturar(x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]))
+            viajes.append(EnvioAFacturar(x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10]))
         estrategia = EnCaminoStrategy()
         if estrategiaDeFacturacion == "strategyEnCamino":
             estrategia = EnCaminoStrategy()
         elif estrategiaDeFacturacion == "strategyPorDireccion":
             estrategia = EnCaminoUnicoStrategy()
         elif estrategiaDeFacturacion == "strategyEntregado":
-            estrategia = EntregadoStrategy()        
+            estrategia = EntregadoStrategy()      
+        elif estrategiaDeFacturacion == "strategyPorVisita":
+            estrategia = PorVisitaStrategy()    
         facturador = Facturador(estrategia)
         total_viajes,viajesEnCamino = facturador.facturar_viajes(viajes,sobreEscribir)
         cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
