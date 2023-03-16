@@ -20,6 +20,7 @@ def carga_mapaCompleto_historial():
 def mapaCompletoHistorial():
     if request.method == "POST":
         fecha = request.form["fecha"]
+        tipoEnvio = request.form["tipoEnvio"]
         sql = f"""
         select 
             V.Numero_envío, V.Direccion,  V.Localidad, V.Vendedor, V.Latitud, V.Longitud, V.Fecha,V.chofer,V.estado_envio,H.Zona,V.Timechangestamp,V.Motivo
@@ -28,7 +29,7 @@ def mapaCompletoHistorial():
         JOIN
             historial_estados as H
         ON
-            V.Numero_envío = H.Numero_envío where H.Fecha = '{fecha}' and H.estado_envio in ('En Camino','Reasignado')"""
+            V.Numero_envío = H.Numero_envío where H.Fecha = '{fecha}' and V.tipo_envio = {tipoEnvio} and H.estado_envio in ('En Camino','Reasignado')"""
         session["consultaMapaHistorial"] = sql
         return redirect("/historial/vistamapacompleto")
     elif request.method == "GET":
