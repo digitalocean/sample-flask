@@ -66,7 +66,6 @@ def obtenerZonasId(db):
 
 @pr.route('/facturacion/verprecio', methods=["GET","POST"])
 @auth.login_required
-@auth.admin_required
 def consultarPrecio():
     midb = database.connect_db()
     if request.method == "POST":
