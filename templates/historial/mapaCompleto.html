@@ -1,0 +1,47 @@
+{% extends "logistica/navegadorLogistica.html" %}
+
+{% block listaViajes %}
+    <div>
+    <br><br>
+<style>
+    .boton{
+        width: 150px;
+        height: 35px;
+    }
+    .selector{
+        width: 612px;
+        height: 35px;
+        font-size: medium;
+    }
+</style>
+<form action="/historial/mapacompleto" method="post">
+<input type="date" name="fecha">
+<input type="submit" value="Filtrar" value="True">
+</form>
+<div id="mensaje"></div>
+</div>
+    </div>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+/* Establezca siempre la altura del mapa explícitamente para definir el tamaño del div
+       * elemento que contiene el mapa. */
+       #map {
+  height: 80%;
+}
+
+/* Opcional: Hace que la página de muestra llene la ventana.*/
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+    </style>
+    <script src="{{url_for('static', filename='mapaHistorialCompleto.js')}}"></script>
+    <div id="map"></div>
+    <!-- El script asíncrono se ejecuta inmediatamente y debe estar después de cualquier elemento DOM utilizado en la devolución de llamada.  -->
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CqHvT0eiesSF0kuzId-bNHfsw7RChXg&callback=initMap">
+</script>
+{% endblock %}
+
