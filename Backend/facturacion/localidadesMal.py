@@ -21,7 +21,7 @@ def arregloLocalidad():
             where 
                 (H.Precio is null or H.Costo is null)
             and 
-                (H.estado_envio in ("En Camino","Entregado") or H.motivo_noenvio like "%reprogramado%" or H.motivo_noenvio like "%rechazado%")
+                (H.estado_envio in ("En Camino","Entregado") or H.motivo_noenvio = "Nadie en domicilio" or H.motivo_noenvio like "%rechazado%")
             and 
                 not H.estado_envio = "Lista para Devolver"
             and
