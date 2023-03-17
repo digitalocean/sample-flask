@@ -1,7 +1,7 @@
 from Backend.database import database
 from Backend.auth import auth
-from flask import Blueprint, g, render_template, request, session
-from Backend.scriptGeneral import scriptGeneral
+from flask import Blueprint, g, render_template, request, session,redirect
+from threading import Thread
 pr = Blueprint('precios', __name__, url_prefix='/')
 
 def obtenerIdTarifas(db):
@@ -63,6 +63,28 @@ def obtenerZonasId(db):
         zonas.append(x)
     return zonas
 
+def nuevaTarifaThread(nuevatarifa):
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select id,id_tarifa,id_localidad,id_tipoEnvio,id_zona from indicePrecio where id_tarifa = 1")
+    for x in cursor.fetchall():
+        sql = f"""
+        insert ignore into indicePrecio(
+            id,
+            id_tarifa,
+            id_localidad,
+            id_tipoEnvio,
+            id_zona
+            ) 
+            values(
+                "{nuevatarifa}-{x[2]}-{x[3]}",
+                {nuevatarifa},
+                {x[2]},
+                {x[3]},
+                {x[4]})"""
+        cursor.execute(sql)
+        midb.commit()
+    midb.close()
 
 @pr.route('/facturacion/verprecio', methods=["GET","POST"])
 @auth.login_required
@@ -148,3 +170,48 @@ def cambioLocalidadZona():
                             tarifas=obtenerIdTarifas(midb),
                             localidades = obtenerZonas(idTarifa,midb),
                             auth = session.get("user_auth"))
+
+
+@pr.route("/facturacion/nuevalocalidad",methods=["POST"])
+@auth.login_required
+@auth.admin_required
+def nuevaLocalidad():
+    localidad = request.form["nombreLocalidad"]
+    partido = request.form["nombrePartido"]
+    cp = request.form["CP"]
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    midb.start_transaction()
+    try:
+        cursor.execute("insert into localidad (localidad) values(%s)",(localidad,))
+        idLocalidad = cursor.lastrowid
+        print(idLocalidad)
+        cursor.execute("insert into localidadCpPartido (localidad,cp,partido) values(%s,%s,%s)",(localidad,cp,partido))
+        midb.commit()
+        print("cargo")
+    except Exception as e:
+        print(e)
+        midb.rollback()
+    midb.close()
+    return redirect("/facturacion/verprecio")
+
+
+@pr.route("/facturacion/nuevatarifa",methods=["POST"])
+@auth.login_required
+@auth.admin_required
+def nuevaTarifa():
+    nombreTarifa = request.form["nombreTarifa"]
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    try:
+        cursor.execute("insert into tarifa (nombre) values (%s)",(nombreTarifa,))
+        idTarifa = cursor.lastrowid
+        cursor.execute("insert into zonaTarifaPrecio (id_tarifa,id_zona) values(%s,1),(%s,2),(%s,3),(%s,4)",(idTarifa,idTarifa,idTarifa,idTarifa))
+        midb.commit()
+        tarifaNueva = Thread(target=nuevaTarifaThread, args=(idTarifa,))
+        tarifaNueva.start()
+    except Exception as e:
+        print(e)
+        midb.rollback()
+    midb.close()
+    return redirect("/facturacion/verprecio")

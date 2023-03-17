@@ -21,6 +21,17 @@
     
     
     <div class="box1">
+        <form action="/facturacion/nuevatarifa" method="post">
+            <tr>
+                <td>
+                    Nombre de tarifa
+                </td>
+                <td>
+                    <input type="text" name="nombreTarifa" required>
+                </td>
+            </tr>
+            <input type="submit" value="Agregar">
+        </form><br><br>
         <form action="/facturacion/verprecio" method="POST">
             Tarifa: <select name="tarifa">
                 {% if tarifa%}
@@ -66,6 +77,34 @@
         </table>
     </div>
     <div class="box2">
+
+        <form action="/facturacion/nuevalocalidad" method="post">
+            <tr>
+                <td>
+                    Localidad
+                </td>
+                <td>
+                    <input type="text" name="nombreLocalidad" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Partido
+                </td>
+                <td>
+                    <input type="text" name="nombrePartido" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CP
+                </td>
+                <td>
+                    <input type="number" name="CP" required>
+                </td>
+            </tr>
+            <input type="submit" value="Agregar">
+        </form><br><br>
             <input type="hidden" name="tarifa" value="{{tarifa}}">
             <table>
                 <tr>
