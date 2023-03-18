@@ -181,7 +181,7 @@ def modificarDatosClientes():
         direccion = resu[3]
         telefono = resu[4]
         telefonoAlternativo = resu[5]
-        password = resu[5]
+        password = resu[6]
         modalidadCobro = resu[7]
         correo = resu[8]
         tarifa = resu[9]
