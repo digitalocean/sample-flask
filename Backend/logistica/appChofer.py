@@ -36,7 +36,7 @@ def loginEmpleado():
 def descargaAppReparto():
     return send_file("static/debug/RepartoMMS.apk", as_attachment=True)
   
-@pd.route("/api/user/appversion",methods=["POST","GET"])
+@pd.route("/api/user/appversion",methods=["POST"])
 def appVersion():
     token = os.environ.get("TokenGit")
     # Autenticarse con su token de acceso a la API de GitHub
@@ -52,7 +52,7 @@ def appVersion():
     version_code_start_index = decoded_content.index(" ", version_code_index) + 1
     version_code_end_index = decoded_content.index("\n", version_code_start_index)
     version_code = decoded_content[version_code_start_index:version_code_end_index].strip()
-    # Imprimir el valor de versionCode
+    # devolver el valor de versionCode
     return f"0.0{version_code}"
 
 @pd.route("/ubicacion",methods = ["POST"])
