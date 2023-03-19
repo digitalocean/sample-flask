@@ -1,5 +1,6 @@
 
 from flask import Blueprint, jsonify, request,send_file,redirect
+from github import Github
 from threading import Thread
 import requests
 from Backend.database.database import connect_db
@@ -29,6 +30,7 @@ def loginEmpleado():
     else:
         return jsonify(success=False,message="password invalid",data=None)
 
+
 @pd.route("/store/apps/MMSPACK-Reparto")
 def descargaAppReparto():
     return send_file("static/debug/RepartoMMS.apk", as_attachment=True)
@@ -40,10 +42,12 @@ def get_latest_version():
         'Accept': 'application/vnd.github+json',
         'Authorization': f'token {TOKEN_GIT}'
     }
-    url = f'https://api.github.com/repos//Matyacc/appReparto/blob/main/app/build.gradle'
-    response = requests.get(url, headers=headers)
+    username = 'MatyAcc'
+    password = 'Agustin_1504'
+    url = f'https://github.com/Matyacc/appReparto/blob/main/app/build.gradle'
+    response = requests.get(url, headers=headers,auth=(username, password))
 
-
+    print(response)
     if response.status_code == 200:
         release_info = response.json()
         return str(release_info['tag_name'])
@@ -52,9 +56,21 @@ def get_latest_version():
     
 @pd.route("/api/user/appversion",methods=["POST"])
 def appVersion():
-    
-    "https://github.com/Matyacc/appReparto/blob/main/app/build.gradle"
-    return "0.04"
+    # Autenticarse con su token de acceso a la API de GitHub
+    g = Github("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")
+    # Obtener un objeto de repositorio de GitHub
+    repo = g.get_repo("Matyacc/appReparto")
+    # Obtener el contenido de un archivo especifico
+    content = repo.get_contents("app/build.gradle")
+    # Decodificar el contenido del archivo
+    decoded_content = content.decoded_content.decode('utf-8')
+    # Buscar el valor de versionCode en el contenido del archivo
+    version_code_index = decoded_content.index("versionCode")
+    version_code_start_index = decoded_content.index(" ", version_code_index) + 1
+    version_code_end_index = decoded_content.index("\n", version_code_start_index)
+    version_code = decoded_content[version_code_start_index:version_code_end_index].strip()
+    # Imprimir el valor de versionCode
+    return f"0.0{version_code}"
 
 @pd.route("/ubicacion",methods = ["POST"])
 def guardarUbicacion():

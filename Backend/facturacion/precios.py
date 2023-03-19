@@ -56,7 +56,6 @@ def obtenerZonas(tarifa,db):
                         left join zona as Z on I.id_zona = Z.id 
                         group by L.localidad
                         order by LCP.partido,Z.nombre, L.localidad """)
-    # cursor.execute(f"select L.localidad,Z.nombre,L.id from localidad as L left join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} left join zona as Z on I.id_zona = Z.id order by Z.nombre, L.localidad")#union select localidad,'Sin asignar',id from localidad where not id in (select L.id from localidad as L join indicePrecio as I on L.id = I.id_localidad and I.id_tarifa = {tarifa} join zona as Z on I.id_zona = Z.id)")
     localidades = []
     for x in cursor.fetchall():
         localidades.append(x)
