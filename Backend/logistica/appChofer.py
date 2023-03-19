@@ -1,5 +1,6 @@
 
 from flask import Blueprint, jsonify, request,send_file,redirect
+import os
 from github import Github
 from threading import Thread
 import requests
@@ -34,30 +35,12 @@ def loginEmpleado():
 @pd.route("/store/apps/MMSPACK-Reparto")
 def descargaAppReparto():
     return send_file("static/debug/RepartoMMS.apk", as_attachment=True)
-
-@pd.route('/version')
-def get_latest_version():
-    TOKEN_GIT = "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"
-    headers = {
-        'Accept': 'application/vnd.github+json',
-        'Authorization': f'token {TOKEN_GIT}'
-    }
-    username = 'MatyAcc'
-    password = 'Agustin_1504'
-    url = f'https://github.com/Matyacc/appReparto/blob/main/app/build.gradle'
-    response = requests.get(url, headers=headers,auth=(username, password))
-
-    print(response)
-    if response.status_code == 200:
-        release_info = response.json()
-        return str(release_info['tag_name'])
-    else:
-        return 'Error getting latest version'
-    
-@pd.route("/api/user/appversion",methods=["POST"])
+  
+@pd.route("/api/user/appversion",methods=["POST","GET"])
 def appVersion():
+    token = os.environ.get("TokenGit")
     # Autenticarse con su token de acceso a la API de GitHub
-    g = Github("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")
+    g = Github(token)
     # Obtener un objeto de repositorio de GitHub
     repo = g.get_repo("Matyacc/appReparto")
     # Obtener el contenido de un archivo especifico
