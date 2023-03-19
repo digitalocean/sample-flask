@@ -19,7 +19,6 @@ function imprimir() {
 	}
 </script>
 <input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
-<div id="printableArea" class="table-responsive">
 <style>
     td{
         border-left: solid;
@@ -58,8 +57,10 @@ function imprimir() {
     
 </form>
 <script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
+<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+<div id="printableArea" class="table-responsive">
 <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
-    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+
     <tr>
     {% for columna in columnas %}
         <td>{{columna}}</td>
