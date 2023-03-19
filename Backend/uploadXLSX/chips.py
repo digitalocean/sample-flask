@@ -9,7 +9,7 @@ from Backend.logistica.Envio import Envio
 from Backend.logistica.script import geolocalizarFaltantes
 from Backend.scriptGeneral import scriptGeneral
 from threading import Thread
-from Backend.tareasProgramadas.tareasProgramadas import generarInforme
+from Backend.tareas.tareasProgramadas import generarInforme
 formatSim = Blueprint('formatSim', __name__, url_prefix='/')
 
 @formatSim.route("/logistica/carga_recorridos", methods = ["GET","POST"])

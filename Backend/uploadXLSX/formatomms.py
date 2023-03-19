@@ -9,7 +9,7 @@ from Backend.logistica import Envio
 from Backend.logistica.script import geolocalizarFaltantes
 from Backend.scriptGeneral import scriptGeneral
 from threading import Thread
-from Backend.tareasProgramadas.tareasProgramadas import generarInforme
+from Backend.tareas.tareasProgramadas import generarInforme
 formms = Blueprint('formms', __name__, url_prefix='/')
 
 @formms.route("/carga_formms", methods = ["GET","POST"])
