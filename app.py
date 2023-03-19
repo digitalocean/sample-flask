@@ -10,6 +10,8 @@ app.config.from_mapping(
     )
 CORS(app)
 
+from Backend.tareas import tareas
+app.register_blueprint(tareas.ToDo)
 
 from Backend.auth import auth
 app.register_blueprint(auth.auth)
