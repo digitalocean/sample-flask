@@ -7,6 +7,7 @@
 <link rel ="stylesheet" href="{{url_for('static', filename='menuDesplegable.css')}}">
 <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='login/logo.ico')}}"/>
 </head>
+<script src="{{url_for('static', filename='index.js')}}"></script>
 <script src="{{url_for('static', filename='jquery-3.6.0.min.js')}}"></script>
 <div id="ideaJuli">
     <nav class="header"
@@ -14,7 +15,7 @@
             <li><a href="/logout">Cerrar sesion</a></li>
         {% if auth == "Logistica" or  auth == "Admin" or  auth == "Administracion"%}
             <li><a href="">Logistica</a><UL>
-                <li><a href="/logistica/asignacionChoferes">Asignar Zonas</a></li>
+                <li><a onclick="nuevaVentana('/logistica/asignacionChoferes','400','300')">Asignar Zonas</a></li>
                 <li><a href="/logistica/asignar/retirodeproductos">Asignar Retiros</a></li>
                 <li><a href="/logistica/reasignar">Asignar envio</a></li>
                 <li><a href="/logistica/ayudadeposito">Horas trabajadas</a></li>
