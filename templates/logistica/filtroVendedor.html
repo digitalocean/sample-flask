@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+<!-- la idea de esta plantilla es mostrar todos los 
+vendedores en forma de checkbox con el objetivo 
+de filtrar en el mapa estos vendedores cuando el 
+estado_envio = "Lista Para Retirar" -->
+{% block content %}
+{% for x in vendedores %}
+    <td>
+        {{x}}
+    </td>
+{% endfor %}
+{% endblock %}
