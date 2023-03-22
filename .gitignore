@@ -11,3 +11,4 @@ test*
 .env
 *.log
 temp_image.*
+*.xlsx
