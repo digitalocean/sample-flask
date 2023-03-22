@@ -17,11 +17,6 @@ from Backend.scriptGeneral import scriptGeneral
 fb = Blueprint('facturacion', __name__, url_prefix='/')
 
 
-@fb.route("/descargaresumen")
-@auth.login_required
-def descargaResumen():
-    return send_file('liquidacion.xlsx')
-
 @fb.route('/consulta_flexs')
 @auth.login_required
 def consultaFlexs():

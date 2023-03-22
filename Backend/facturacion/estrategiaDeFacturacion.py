@@ -22,6 +22,7 @@ class EnCaminoStrategy(Strategy):
                 viaje.Precio_Cliente,
                 viaje.comprador,
                 viaje.Cobrar,
+                viaje.valorDeclarado,
                 viaje.estadoActual])
         return total,viajes2
     
@@ -40,6 +41,7 @@ class EntregadoStrategy(Strategy):
                 viaje.Precio_Cliente,
                 viaje.comprador,
                 viaje.Cobrar,
+                viaje.valorDeclarado,
                 viaje.estadoActual])
         return total,viajes2
     
@@ -55,12 +57,12 @@ class EnCaminoUnicoStrategy(Strategy):
                 if viaje.Fecha in direcciones and f"{viaje.Direccion}, {viaje.Localidad}" == direcciones[viaje.Fecha]:
                     no_se_cobran.append(viaje.Numero_envío)
                     viajes2.append([viaje.Fecha, viaje.Numero_envío,viaje.Direccion,viaje.Localidad,
-                         0,viaje.comprador,viaje.Cobrar,viaje.estadoActual])
+                         0,viaje.comprador,viaje.Cobrar,viaje.valorDeclarado,viaje.estadoActual])
                     continue    
                 total += viaje.Precio_Cliente
                 direcciones[viaje.Fecha] = f"{viaje.Direccion}, {viaje.Localidad}"
                 viajePack = [viaje.Fecha, viaje.Numero_envío,viaje.Direccion,viaje.Localidad,
-                            viaje.Precio_Cliente,viaje.comprador,viaje.Cobrar,viaje.estadoActual]
+                            viaje.Precio_Cliente,viaje.comprador,viaje.Cobrar,viaje.valorDeclarado,viaje.estadoActual]
                 viajes2.append(viajePack)
         if len(no_se_cobran) > 0 and sobreEscribe:
             from Backend.database.database import connect_db
@@ -88,7 +90,7 @@ class PorVisitaStrategy:
                     facturas[viaje.Direccion]["precio_total"] += viaje.Precio_Cliente * 0.7
                     precio = viaje.Precio_Cliente * 0.7
                 precio_viaje = viaje.Precio_Cliente if viaje.estado_envio == "Entregado" else viaje.Precio_Cliente * 0.7
-                informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador, precio_viaje, viaje.estadoActual)
+                informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador, precio_viaje,viaje.valorDeclarado, viaje.estadoActual)
                 viajes2.append(informacion_viaje)
                 total_a_cobrar += precio_viaje
         return total_a_cobrar, viajes2

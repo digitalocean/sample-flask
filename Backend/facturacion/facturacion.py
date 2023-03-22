@@ -16,7 +16,7 @@ from Backend.scriptGeneral import scriptGeneral
 FcGeneral = Blueprint('facturacionGeneral', __name__, url_prefix='/')
 
 class EnvioAFacturar():
-    def __init__(self,id,fecha,nEnvio,direccionCompleta,localidad,precio,comprador,cobrar,estado,motivo,estadoActual):
+    def __init__(self,id,fecha,nEnvio,direccionCompleta,localidad,precio,comprador,cobrar,estado,motivo,valorDeclarado,estadoActual):
         self.id = id
         self.Fecha = fecha
         self.Numero_envío = nEnvio
@@ -27,6 +27,7 @@ class EnvioAFacturar():
         self.Cobrar = cobrar
         self.estado_envio = estado
         self.motivo = motivo
+        self.valorDeclarado = valorDeclarado
         self.estadoActual = estadoActual
 
 class Facturador:
@@ -36,7 +37,7 @@ class Facturador:
     def facturar_viajes(self, viajes,sobreEscribir):
         return self.strategy.facturar_viajes(viajes,sobreEscribir)
 
-def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
+def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
     viajes = []
     book = Workbook()
     sheet = book.active
@@ -55,10 +56,11 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
     sheet["E9"] = "Localidad"
     sheet["F9"] = "Precio"
     sheet["G9"] = "Monto a cobrar"
-    sheet["H9"] = "Estado"
+    sheet["H9"] = "Valor declarado"
+    sheet["I9"] = "Estado"
     sheet["E3"] = _desde
     sheet["E4"] = _hasta
-    for row in sheet['A9:H9']:
+    for row in sheet['A9:I9']:
         for cell in row:
             cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
             cell.font = Font(color='FFFFFF')
@@ -75,9 +77,10 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
         precio = viaje[4]
         comprador = viaje[5]
         cobrar = viaje[6]
-        estado = viaje[7]
-        if viaje[7] != "Entregado":
-            viaje[6] = "0"
+        valorDeclarado = viaje[7]
+        estado = viaje[8]
+        if estado != "Entregado":
+            cobrar = "0"
         if(precio == None):
             sinprecio = sinprecio +1
             precio = "Sin precio"
@@ -93,7 +96,8 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
             sheet["G"+str(contador)] = cobrar
         else:
             sheet["G"+str(contador)] = "0"
-        sheet["H"+str(contador)] = estado
+        sheet["H"+str(contador)] = valorDeclarado
+        sheet["I"+str(contador)] = estado
         viajes.append(viaje)
     sheet["E1"] = _cliente
     sheet["E2"] = f"cantidad: {contador-9}"
@@ -103,6 +107,7 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente,ruta_archivo):
     sheet["F3"] = "=SUM(F10:F"+str(contador)+")"
     sheet["F4"] = "=F3 * 0.21"
     sheet["F6"] = "=SUM(E3:E4)"
+    ruta_archivo = f"{_desde}-{_hasta} {_cliente}.xlsx"
     book.save(ruta_archivo)
     return ruta_archivo
 
@@ -119,6 +124,12 @@ def generarExcel(envios):
     response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     return response
+
+@FcGeneral.route("/descargaresumen")
+@auth.login_required
+def descargaResumen():
+    return send_file('liquidacion.xlsx')
+
 
 @FcGeneral.route("/facturacion/facturar",methods = ["GET","POST"])
 @auth.login_required
@@ -144,6 +155,7 @@ def facturar():
             V.Cobrar,
             H.estado_envio,
             H.motivo_noenvio,
+            V.valordeclarado,
             V.estado_envio as estadoActual
         from 
             historial_estados as H 
@@ -158,7 +170,7 @@ def facturar():
         cursor.execute(sql)
         viajes = []
         for x in cursor.fetchall():
-            viajes.append(EnvioAFacturar(x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10]))
+            viajes.append(EnvioAFacturar(x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10],x[11]))
         estrategia = EnCaminoStrategy()
         if estrategiaDeFacturacion == "strategyEnCamino":
             estrategia = EnCaminoStrategy()
@@ -171,20 +183,21 @@ def facturar():
         facturador = Facturador(estrategia)
         total_viajes,viajesEnCamino = facturador.facturar_viajes(viajes,sobreEscribir)
         cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
-        ruta = generarExcelLiquidacion(viajesEnCamino,desde,hasta,cliente,"Liquidacion.xlsx")
-        return render_template("facturacion/tabla_viajes.html",
-                            cliente=cliente,
-                            desde=desde,
-                            hasta=hasta,
-                            titulo="Facturacion", 
-                            cabeceras = cabeceras,
-                            tipo_facturacion="flex", 
-                            viajes=viajesEnCamino, 
-                            ruta_archivo = ruta,
-                            total=f"${total_viajes} y {0} viajes sin precio", 
-                            clientes = scriptGeneral.consultar_clientes(midb), 
-                            auth = session.get("user_auth")
-                            )
+        ruta = generarExcelLiquidacion(viajesEnCamino,desde,hasta,cliente)
+        return send_file(ruta,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        # return render_template("facturacion/tabla_viajes.html",
+        #                     cliente=cliente,
+        #                     desde=desde,
+        #                     hasta=hasta,
+        #                     titulo="Facturacion", 
+        #                     cabeceras = cabeceras,
+        #                     tipo_facturacion="flex", 
+        #                     viajes=viajesEnCamino, 
+        #                     ruta_archivo = ruta,
+        #                     total=f"${total_viajes} y {0} viajes sin precio", 
+        #                     clientes = scriptGeneral.consultar_clientes(midb), 
+        #                     auth = session.get("user_auth")
+        #                     )
     else:
         return render_template("facturacion/tabla_viajes.html",
                             titulo="Facturacion", 
