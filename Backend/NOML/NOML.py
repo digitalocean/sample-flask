@@ -95,6 +95,24 @@ def borrarEnvio():
         midb.commit
     return redirect("/envios")
 
+
+@NOML.route("/cancelar/", methods = ["GET","POST"])
+@auth.login_required
+def cancelarEnvio():
+    if request.method == "POST": 
+        envio = request.form.get("envio")
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        sql = """update ViajesFlexs set estado_envio = "Cancelado" where Numero_envío = %s and estado_envio = "Lista Para Retirar";"""
+        values = (envio,)
+        cursor.execute(sql,values)
+        midb.commit()
+        print(sql)
+        print(envio)
+        midb.commit
+    return redirect("/envios")
+
+
 @NOML.route("/etiqueta/", methods = ["GET","POST"])
 @auth.login_required
 def generarEtiqueta():

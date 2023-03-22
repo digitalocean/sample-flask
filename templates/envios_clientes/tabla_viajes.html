@@ -39,9 +39,9 @@
                 <input type="hidden" name="envio" value="{{viaje.1}}">
                 <td><input type="submit" value="Generar etiqueta"></td>
             </form>
-            <form action="/borrar" method="POST">
+            <form action="/cancelar" method="POST">
                 <input type="hidden" name="envio" value="{{viaje.1}}">
-                <td><input type="submit" value="borrar" onclick="return confirm('¿Estás seguro de querer borrar el envio?')"></td>
+                <td><input type="submit" value="Cancelar" onclick="return confirm('¿Estás seguro de querer cancelar el envio?')"></td>
             </form>
             {% endif %}
             </tr>
