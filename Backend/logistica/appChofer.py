@@ -10,6 +10,14 @@ from datetime import datetime,timedelta
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=None, recibe_nombre=None):
+    print(str(contenido))
+    sender_id = contenido["sender_id"]
+    info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
+    nickname = ""
+    for infoML in info:
+        if "nickname" in str(infoML):
+            nickname = (str(infoML).split(",")[1]).split(":")[1]
+            nickname = nickname.replace('"','')
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
         "MensajeroId": mensajero_id,
@@ -17,7 +25,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Path": path,
         "Scan": str(contenido),
         "IdML": id_ml,
-        "Nickname": contenido["sender_id"],
+        "Nickname": nickname,
         "Sender_id": contenido["sender_id"],
         "recibeDNI": recibe_dni,
         "RecibeNombre": recibe_nombre
