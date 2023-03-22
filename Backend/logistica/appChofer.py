@@ -9,6 +9,25 @@ from datetime import datetime,timedelta
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
+def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=None, recibe_nombre=None):
+    url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
+    data = {
+        "MensajeroId": mensajero_id,
+        "EntregaOretiro": tipo_operacion,
+        "Path": path,
+        "Scan": str(contenido),
+        "IdML": id_ml,
+        "Nickname": contenido["sender_id"],
+        "Sender_id": contenido["sender_id"],
+        "recibeDNI": recibe_dni,
+        "RecibeNombre": recibe_nombre
+    }
+    response = requests.post(url, data=data)
+    if response.status_code == 200:
+        return "Estado actualizado con éxito en Logixs"
+    else:
+        return f"Se produjo un error al actualizar el estado en Logixs: {response.text}"
+    
 
 @pd.route("/api/users/login",methods=["POST"])
 def loginEmpleado():
@@ -106,6 +125,11 @@ def scannerRetirar():
     location = data["location"]
     del data["chofer"]
     del data["location"]
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(0, "retiro", "MMS", data, envio))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs (Retiro)")
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
@@ -208,6 +232,11 @@ def cargar():
     nenvio = data["id"]
     chofer = data["chofer"]
     latlong = data["location"]
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(0, "carga", "MMS", data, nenvio))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs (CARGA)")
     # del data["chofer"]
     # del data["location"]
     status = False
@@ -268,11 +297,17 @@ def entregado():
         motivo = data["motivo"]
     if "observacion" in data.keys():
         observacion = data["observacion"]
+    recibe = None
+    dni = None
     if "quienRecibe" in data.keys() and "dni" in data.keys():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
-    
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(0, "entrega", "MMS", data, nroEnvio, dni, recibe))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs")
     if "image" in data.keys():
             imagen = data["image"]
             sql = """
