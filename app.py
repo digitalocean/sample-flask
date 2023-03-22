@@ -3,7 +3,6 @@ from flask_cors import CORS
 import os
 
 
-
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY=os.environ.get("FLASK_SECRET_KEY")
