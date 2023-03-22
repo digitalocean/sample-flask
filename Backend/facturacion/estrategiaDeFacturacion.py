@@ -50,7 +50,7 @@ class EnCaminoUnicoStrategy(Strategy):
     def facturar_viajes(self, viajes,sobreEscribe=False):
         total = 0
         direcciones = {}
-        no_se_cobran = []
+        no_se_cobran = ["un pedido fantasma para que cuando solo haya 1 envio no ocurra una excepcion"]
         viajes2 = []
         for viaje in viajes:
             if viaje.estado_envio == "En Camino":
@@ -69,6 +69,7 @@ class EnCaminoUnicoStrategy(Strategy):
             midb = connect_db()
             cursor = midb.cursor()
             no_se_cobran = tuple(no_se_cobran)
+            print(no_se_cobran)
             sql = f"update historial_estados set Precio = 0,Costo = 0 where Numero_envío in {no_se_cobran}"
             cursor.execute(sql)
             midb.commit()
