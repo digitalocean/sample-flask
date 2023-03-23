@@ -7,8 +7,9 @@ qr.jpg
 test.html
 test.py
 datab.py
-test*
+*test*
 .env
 *.log
 temp_image.*
 *.xlsx
+apptest.py
