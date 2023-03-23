@@ -1,3 +1,4 @@
+from Backend.database.database import connect_db
 from abc import ABC, abstractmethod
 
 
@@ -66,7 +67,6 @@ class EnCaminoUnicoStrategy(Strategy):
                             viaje.Precio_Cliente,viaje.comprador,viaje.Cobrar,viaje.valorDeclarado,viaje.estadoActual]
                 viajes2.append(viajePack)
         if len(no_se_cobran) > 0 and sobreEscribe:
-            from Backend.database.database import connect_db
             midb = connect_db()
             cursor = midb.cursor()
             no_se_cobran = tuple(no_se_cobran)
@@ -80,6 +80,7 @@ class EnCaminoUnicoStrategy(Strategy):
 class PorVisitaStrategy:
     def facturar_viajes(self, viajes,sobreEscribe=False):
         facturas = {}
+        alSetentaPorciento = []
         total_a_cobrar = 0
         viajes2 = []
         for viaje in viajes:
@@ -88,6 +89,7 @@ class PorVisitaStrategy:
                     facturas[viaje.Direccion] = {"visitas": 1, "precio_unitario": viaje.Precio_Cliente, "precio_total": viaje.Precio_Cliente}
                     precio = viaje.Precio_Cliente
                 else:
+                    alSetentaPorciento.append(viaje.id)
                     facturas[viaje.Direccion]["visitas"] += 1
                     facturas[viaje.Direccion]["precio_total"] += viaje.Precio_Cliente * 0.7
                     precio = viaje.Precio_Cliente * 0.7
@@ -95,4 +97,13 @@ class PorVisitaStrategy:
                 informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador, precio_viaje,viaje.valorDeclarado, viaje.estadoActual)
                 viajes2.append(informacion_viaje)
                 total_a_cobrar += precio_viaje
+        if sobreEscribe:
+            for _id in alSetentaPorciento:
+                sql = "update historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío set H.Precio = precio(H.Vendedor,H.Localidad,V.columna_1)*0.7 where H.id = %s"
+                midb = connect_db()
+                cursor = midb.cursor()
+                cursor.execute(sql,(_id,))
+                midb.commit()
+                midb.close()
+                print(sql % _id)
         return total_a_cobrar, viajes2

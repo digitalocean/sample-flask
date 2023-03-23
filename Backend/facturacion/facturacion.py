@@ -143,6 +143,7 @@ def facturar():
             sobreEscribir = True
         else:
             sobreEscribir = False
+        print(sobreEscribir)
         estrategiaDeFacturacion = request.form.get("estrategiaFacturacion")
         sql = f"""select 
             H.id,

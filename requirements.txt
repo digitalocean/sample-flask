@@ -10,7 +10,6 @@ MarkupSafe==1.1.1
 Werkzeug==1.0.1
 geopy==2.2.0
 mysql-connector-python==8.0.29
-numpy==1.22.3
 openpyxl==3.0.9
 requests==2.27.1
 flask_cors
@@ -23,3 +22,4 @@ qrcode==7.3.1
 image==1.5.33
 xlsxwriter
 PyGithub==1.58.1
+numpy==1.22.3
