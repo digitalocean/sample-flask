@@ -136,7 +136,7 @@ def scannerRetirar():
     del data["chofer"]
     del data["location"]
     try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(0, "retiro", "MMS", data, envio))
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "retiro", "MMS", data, envio))
         threadActualizaLogixs.start()
     except:
         print("Fallo informe a logixs (Retiro)")
@@ -243,7 +243,7 @@ def cargar():
     chofer = data["chofer"]
     latlong = data["location"]
     try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(0, "carga", "MMS", data, nenvio))
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "carga", "MMS", data, nenvio))
         threadActualizaLogixs.start()
     except:
         print("Fallo informe a logixs (CARGA)")
@@ -314,7 +314,7 @@ def entregado():
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
     try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(0, "entrega", "MMS", data, nroEnvio, dni, recibe))
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio, dni, recibe))
         threadActualizaLogixs.start()
     except:
         print("Fallo informe a logixs")
