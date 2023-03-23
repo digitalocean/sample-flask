@@ -8,6 +8,7 @@ class Strategy(ABC):
         pass
 
 
+
 class EnCaminoStrategy(Strategy):
     def facturar_viajes(self, viajes,sobreEscribe=False):
         total = 0
