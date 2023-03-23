@@ -32,9 +32,11 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     }
     response = requests.post(url, data=data)
     if response.status_code == 200:
+        print(response.content)
         return "Estado actualizado con éxito en Logixs"
     else:
-        return f"Se produjo un error al actualizar el estado en Logixs: {response.text}"
+        print(f"Se produjo un error al actualizar el estado en Logixs: {response.text}")
+        return ""
     
 
 @pd.route("/api/users/login",methods=["POST"])

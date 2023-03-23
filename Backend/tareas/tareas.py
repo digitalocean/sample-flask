@@ -10,7 +10,7 @@ def Todo():
     midb = connect_db()
     cursor = midb.cursor()
     if request.method == "GET":
-        cursor.execute("Select fecha, tarea, descripcion, solicita from tareas order by prioridad desc")
+        cursor.execute("Select fecha, tarea, descripcion, solicita from tareas where estado != 'Completo' order by prioridad desc")
         resu = cursor.fetchall()
         columnas = [i[0] for i in cursor.description]
         listaTareas = []
