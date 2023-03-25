@@ -74,10 +74,12 @@ def crear_prospecto():
         estado_contacto=request.form.get("estado_contacto")
         proxima_accion=request.form.get("proxima_accion")
         fecha_proxima_accion=request.form.get("fecha_proxima_accion")
-        presupuesto=request.files["presupuesto"].read()
-        presupuesto = upload("/presupuesto",presupuesto)
-        mapa_cotizacion=request.files["mapa_cotizacion"].read()
-        mapa_cotizacion = upload("/mapa_cotizacion",mapa_cotizacion)
+        presupuesto=request.files["presupuesto"]
+        filenamePresupuesto = presupuesto.filename
+        presupuesto = upload("/presupuesto",presupuesto.read(),filenamePresupuesto)
+        mapa_cotizacion=request.files["mapa_cotizacion"]
+        filenameMapa_cotizacion = mapa_cotizacion.filename
+        mapa_cotizacion = upload("/mapa_cotizacion",mapa_cotizacion.read(),filenameMapa_cotizacion)
         modalidad_de_cobro=request.form.get("modalidad_de_cobro")
         modifico = session.get("user_id")
         responsable_proxima_accion=request.form.get("responsable_proxima_accion")

@@ -7,15 +7,16 @@ import mimetypes
 from ftplib import FTP
 ftp = Blueprint('ftpFlask', __name__, url_prefix='/')
 
-def generate_unique_filename(file):
-    # ext = filename.rsplit('.', 1)[1].lower() # obtener la extensión del archivo original
-    # unique_filename = str(uuid.uuid4()) + '.' + ext
-    # return unique_filename
-    filename = str(uuid.uuid4())
-    return filename + ".pdf"
+def generate_unique_filename(filename):
+    ext = filename.rsplit('.', 1)[1].lower() # obtener la extensión del archivo original
+    unique_filename = str(uuid.uuid4()) + '.' + ext
+    return unique_filename
+    # filename = str(uuid.uuid4())
+    # return filename + ".pdf"
 
-def upload(patch,file):
-    unique_filename = str(uuid.uuid4()) + ".pdf"
+def upload(patch,file,filename):
+    # unique_filename = str(uuid.uuid4()) + ".pdf"
+    unique_filename = generate_unique_filename(filename)
     ftp = FTP('109.106.251.113')
     ftp.login(user='appChofer@mmslogistica.com', passwd='(15042020)_')
     ftp.cwd(patch) # directorio de destino en el servidor FTP
