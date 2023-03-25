@@ -21,7 +21,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(f"select Vendedor from ViajesFlexs where Numero_envío = {id_ml}")
-    nickname = cursor.fetchone()
+    nickname = cursor.fetchone()[0]
     print(nickname)
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
