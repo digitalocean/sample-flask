@@ -12,4 +12,5 @@ datab.py
 *.log
 temp_image.*
 *.xlsx
+*.pdf
 apptest.py

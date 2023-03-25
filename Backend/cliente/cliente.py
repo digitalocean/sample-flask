@@ -1,10 +1,10 @@
 from flask import (
     Blueprint, render_template, request, session,redirect
 )
-from Backend.auth import auth
 from datetime import datetime
-
+from Backend.auth import auth
 from Backend.database import database
+from Backend.ftp.FTP import upload
 
 ahora = (datetime.today())
 fecha_hoy = str(ahora.year)+"/"+str(ahora.month)+"/"+str(ahora.day)
@@ -74,8 +74,10 @@ def crear_prospecto():
         estado_contacto=request.form.get("estado_contacto")
         proxima_accion=request.form.get("proxima_accion")
         fecha_proxima_accion=request.form.get("fecha_proxima_accion")
-        presupuesto=request.form.get("presupuesto")
-        mapa_cotizacion=request.form.get("mapa_cotizacion")
+        presupuesto=request.files["presupuesto"].read()
+        presupuesto = upload("/presupuesto",presupuesto)
+        mapa_cotizacion=request.files["mapa_cotizacion"].read()
+        mapa_cotizacion = upload("/mapa_cotizacion",mapa_cotizacion)
         modalidad_de_cobro=request.form.get("modalidad_de_cobro")
         modifico = session.get("user_id")
         responsable_proxima_accion=request.form.get("responsable_proxima_accion")
