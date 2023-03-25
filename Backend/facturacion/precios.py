@@ -69,6 +69,12 @@ def obtenerZonasId(db):
         zonas.append(x)
     return zonas
 
+def obtenerPartidos(db):
+    cursor = db.cursor()
+    cursor.execute("select * from partido order by partido")
+    partidos = list(cursor.fetchall())
+    return partidos
+
 def nuevaTarifaThread(nuevatarifa):
     midb = database.connect_db()
     cursor = midb.cursor()
@@ -110,6 +116,7 @@ def consultarPrecio():
     else:
         return render_template("facturacion/tarifas.html",
                                 localidades = obtenerZonas("1",midb),
+                                partidos = obtenerPartidos(midb),
                                 zonas = obtenerZonasId(midb),
                                 precios=obtenerPrecios("1",midb),
                                 clientes = obtenerTarifaPorCliente(midb),

@@ -11,13 +11,18 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=None, recibe_nombre=None):
     print(str(contenido))
-    sender_id = contenido["sender_id"]
-    info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
-    nickname = ""
-    for infoML in info:
-        if "nickname" in str(infoML):
-            nickname = (str(infoML).split(",")[1]).split(":")[1]
-            nickname = nickname.replace('"','')
+    # sender_id = contenido["sender_id"]
+    # info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
+    # nickname = ""
+    # for infoML in info:
+    #     if "nickname" in str(infoML):
+    #         nickname = (str(infoML).split(",")[1]).split(":")[1]
+    #         nickname = nickname.replace('"','')
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(f"select Vendedor from ViajesFlexs where Numero_envío = {id_ml}")
+    nickname = cursor.fetchone()
+    print(nickname)
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
         "MensajeroId": mensajero_id,
@@ -26,7 +31,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Scan": str(contenido),
         "IdML": id_ml,
         "Nickname": nickname,
-        "Sender_id": contenido["sender_id"],
+        "Sender_id": 123,#contenido["sender_id"],
         "recibeDNI": recibe_dni,
         "RecibeNombre": recibe_nombre
     }
