@@ -36,7 +36,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Scan": str(contenido),
         "IdML": id_ml,
         "Nickname": nickname,
-        "Sender_id": contenido["sender_id"],
+        "Sender_id": sender_id,
         "recibeDNI": recibe_dni,
         "RecibeNombre": recibe_nombre
     }
