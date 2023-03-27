@@ -358,7 +358,7 @@ def entregado():
         Currentlocation = %s,
         Foto_domicilio = %s,
         reprogramaciones = reprogramaciones +1
-        where Numero_envío = %s
+        where Numero_envío = %s and estado_envio != "Entregado"
         
         """
     values = (motivo,observacion,quienRecibe,chofer,chofer,location,foto,nroEnvio)
@@ -420,7 +420,9 @@ def noEntregado():
             where 
                 Numero_envío = %s 
             and 
-                Chofer = choferCorreo(%s)"""
+                Chofer = choferCorreo(%s)
+             and estado_envio != "No Entregado"
+            """
     if motivo in ("Nadie en domicilio","Rechazado"):
         reprogramaciones = 1
     else:
