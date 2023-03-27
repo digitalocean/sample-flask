@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="table-responsive">
+<style>
+    td{
+        border-left: solid;
+        border-top: solid ; 
+        border-color: #afafaf;
+    }
+</style>
+<script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
+<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+<table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
+    <tr>
+    {% for columna in cabezeras %}
+        <td>{{columna}}</td>
+    {% endfor %}
+    </tr>
+    {% for item in vinculaciones %}
+        <tr>
+            {% for x in item %}
+                <td>{{x}}</td>
+            {% endfor %}
+            <td>
+                {% if item.6 == "No" %}
+                <form action="/logistica/vinculacionml/baja" method="post">
+                    <input type="hidden" name="id" value="{{item.0}}">
+                    <input type="submit" value="Baja">
+                </form>
+                {% else %}
+                <form action="/logistica/vinculacionml/alta" method="post">
+                    <input type="hidden" name="id" value="{{item.0}}">
+                    <input type="submit" value="Alta">
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

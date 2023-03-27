@@ -3,13 +3,45 @@
 # encoding: utf-8
 from threading import Thread
 from Backend.database import database
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, redirect, request,render_template,session
+from Backend.database.database import connect_db
 import requests
 
 from Backend.MeLi.consultar_envio import consultar_envio
 from .procesarNotificacion import procesarNotificacion
 from Backend.informeErrores import informeErrores
 ML = Blueprint('MeLi', __name__, url_prefix='/')
+
+@ML.route("/logistica/vinculacionml/baja", methods=["GET","POST"])
+def bajaVinculacion():
+    id = request.form.get("id")
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("update vinculacion set baja = 'Yes' where id = %s",(id,))
+    midb.commit()
+    return redirect("/logistica/vinculacionml")
+
+@ML.route("/logistica/vinculacionml/alta", methods=["GET","POST"])
+def altaVinculacion():
+    id = request.form.get("id")
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("update vinculacion set baja = 'No' where id = %s",(id,))
+    midb.commit()
+    return redirect("/logistica/vinculacionml")
+
+@ML.route("/logistica/vinculacionml", methods=["GET","POST"])
+def verVinculaciones():
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select id,nickname,user_id,status,reported,alta,baja from vinculacion")
+    vinculaciones = list(cursor.fetchall())
+    columnas = [i[0] for i in cursor.description]
+    return render_template("/MeLi/vinculacion.html",
+                            vinculaciones=vinculaciones,
+                            cabezeras = columnas, 
+                            auth = session.get("user_auth"))
+
 
 @ML.route("/callbacks", methods=["GET","POST"])
 def vinculacion():
