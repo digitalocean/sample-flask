@@ -52,7 +52,7 @@ class EnCaminoUnicoStrategy(Strategy):
     def facturar_viajes(self, viajes,sobreEscribe=False):
         total = 0
         direcciones = {}
-        no_se_cobran = ["un pedido fantasma para que cuando solo haya 1 envio no ocurra una excepcion"]
+        no_se_cobran = ["un pedido fantasma para que cuando solo haya 1 envio no ocurra una excepcion","y algo mas"]
         viajes2 = []
         for viaje in viajes:
             if viaje.estado_envio == "En Camino":
@@ -99,7 +99,8 @@ class PorVisitaStrategy(Strategy):
                 total_a_cobrar += precio_viaje
         if sobreEscribe:
             for _id in alSetentaPorciento:
-                sql = "update historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío set H.Precio = precio(H.Vendedor,H.Localidad,V.columna_1)*0.7 where H.id = %s"
+                sql = """update historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío set H.Precio = precio(H.Vendedor,H.Localidad,V.columna_1)*0.7
+                where H.id = %s"""
                 midb = connect_db()
                 cursor = midb.cursor()
                 cursor.execute(sql,(_id,))

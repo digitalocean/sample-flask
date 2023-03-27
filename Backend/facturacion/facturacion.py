@@ -49,6 +49,36 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
     sheet.column_dimensions['D'].width = 65
     sheet.column_dimensions['E'].width = 20
     sheet.column_dimensions['F'].width = 15
+    # sheet["E1"] = _cliente
+    # sheet["E2"] = f"cantidad: {contador-9}"
+    # sheet["E3"] = "Subtotal: "
+    # sheet["E4"] = "IVA: "
+    # sheet["F6"] = "Total: "
+    # sheet["F3"] = "=SUM(F10:F"+str(contador)+")"
+    # sheet["F4"] = "=F3 * 0.21"
+    # sheet["F6"] = "=SUM(E3:E4)"
+
+    sheet["E3"] = "Fecha inicial:"
+    sheet["F3"] = _desde
+    sheet["E4"] = "Fecha final:"
+    sheet["F4"] = _hasta
+    sheet["E5"] = "Vendedor:"
+    sheet["F5"] = _cliente
+    sheet["E6"] = "Cantidad:"
+    sheet["F6"] = len(envios)
+
+    sheet["H3"] = "Subtotal:"
+    sheet["I3"] = "=SUM(F3:F4)"
+    sheet["H4"] = "Seguro:"
+    sheet["I4"] = "=I5*J4"
+    sheet["H5"] = "Cobrar:"
+    sheet["I5"] = "=SUMA(G10:G2817)"
+    sheet["H6"] = "IVA:"
+    sheet["I6"] = "=(I3+I4)*0.21"
+    sheet["H7"] = "Total:"
+    sheet["I7"] = "=I3+I4+I6"
+    sheet["J4"] = "3"
+    
     sheet["A9"] = "Fecha"
     sheet["B9"] = "Numero de envío"
     sheet["C9"] = "Comprador"
@@ -99,31 +129,10 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
         sheet["H"+str(contador)] = valorDeclarado
         sheet["I"+str(contador)] = estado
         viajes.append(viaje)
-    sheet["E1"] = _cliente
-    sheet["E2"] = f"cantidad: {contador-9}"
-    sheet["E3"] = "Subtotal: "
-    sheet["E4"] = "IVA: "
-    sheet["F6"] = "Total: "
-    sheet["F3"] = "=SUM(F10:F"+str(contador)+")"
-    sheet["F4"] = "=F3 * 0.21"
-    sheet["F6"] = "=SUM(E3:E4)"
     ruta_archivo = f"{_desde}-{_hasta} {_cliente}.xlsx"
     book.save(ruta_archivo)
     return ruta_archivo
 
-def generarExcel(envios):
-    output = io.BytesIO()
-    workbook = xlsxwriter.Workbook(output)
-    worksheet = workbook.add_worksheet()
-    for i,viajeTupla in enumerate(envios):
-        for j, value in enumerate(viajeTupla):
-            worksheet.write(i, j, value)
-    workbook.close()
-    output.seek(0)
-    response = make_response(output.getvalue())
-    response.headers['Content-Disposition'] = 'attachment; filename=datos.xlsx'
-    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    return response
 
 @FcGeneral.route("/descargaresumen")
 @auth.login_required

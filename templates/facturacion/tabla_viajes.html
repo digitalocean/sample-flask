@@ -24,12 +24,11 @@
             <option value="True">Si</option>
             <option value="False">No</option>
         </select>
-        <input type="submit" value="Buscar">
+        <input type="submit" value="Descargar">
     </form>
     {% if total %}
     <h4>Total: {{total}}</h4>
     {% endif %}
-    <a href="/descargaresumen"><input type="button" name="descarga" id="descarga" value="Descarga exel cliente"></a>
     <h3>{{mensaje_error}}</h3>
     <br><br>
     <table style="width: 100%; border: solid ;">
