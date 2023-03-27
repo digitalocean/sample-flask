@@ -15,16 +15,18 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         sender_id = contenido["sender_id"]
     except:
         sender_id = 123
-    # info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
-    # nickname = ""
-    # for infoML in info:
-    #     if "nickname" in str(infoML):
-    #         nickname = (str(infoML).split(",")[1]).split(":")[1]
-    #         nickname = nickname.replace('"','')
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(f"select Vendedor from ViajesFlexs where Numero_envío = '{id_ml}'")
-    nickname = str(cursor.fetchone()[0]).title()
+    try:
+        nickname = str(cursor.fetchone()[0]).title()
+    except:
+        info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
+        nickname = ""
+        for infoML in info:
+            if "nickname" in str(infoML):
+                nickname = (str(infoML).split(",")[1]).split(":")[1]
+                nickname = nickname.replace('"','')
     print(nickname)
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
