@@ -11,7 +11,10 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=None, recibe_nombre=None):
     print(str(contenido))
-    # sender_id = contenido["sender_id"]
+    try:
+        sender_id = contenido["sender_id"]
+    except:
+        sender_id = 123
     # info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
     # nickname = ""
     # for infoML in info:
@@ -31,7 +34,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Scan": str(contenido),
         "IdML": id_ml,
         "Nickname": nickname,
-        "Sender_id": 123,#contenido["sender_id"],
+        "Sender_id": contenido["sender_id"],
         "recibeDNI": recibe_dni,
         "RecibeNombre": recibe_nombre
     }
