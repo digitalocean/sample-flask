@@ -17,10 +17,62 @@ function imprimir() {
 	  ventimp.print( );
 	  ventimp.close();
 	}
+
+function rendido(nro_env,user){
+    if (confirm("¿seguro que es el envio "+nro_env+"?")) {
+        fetch(`/facturacion/rendido`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nro_envio: nro_env, user: user })
+        })
+  .then(response => {
+    if (response.status === 200) {
+      console.log(`${nro_env} Rendido`)
+      document.getElementById("fila"+nro_env).outerHTML = "";
+    
+    } else {
+      alert(`Se ha producido un error con ${nro_env}`);
+    }
+  });
+}
+}
+
+function searchTable() {
+      // Obtener el valor de búsqueda ingresado por el usuario
+      var total = document.getElementById("total")
+      // variable para almacenar la suma de la onceava columna
+      var sum = 0; 
+      var input = document.getElementById("searchInput").value;
+      // Obtener todas las filas de la tabla
+      var rows = document.getElementById("myTable").getElementsByTagName("tr");
+      // Recorrer cada fila, comenzando desde la segunda
+        for (var i = 1; i < rows.length; i++) {
+        // Obtener todas las celdas de la fila actual
+        var cells = rows[i].getElementsByTagName("td");
+        var found = false;
+        // Recorrer cada celda
+        for (var j = 0; j < cells.length; j++) {
+          // Comparar el valor de la celda con el valor de búsqueda
+          if (cells[j].innerHTML.toLowerCase().indexOf(input.toLowerCase()) > -1) {
+            found = true;
+          }
+          if ((j == 10 && found) || (j == 10 && input === '')) {
+            sum += parseFloat(cells[j].innerHTML);
+            }
+        }
+        if (found) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    // Escribir el resultado de la suma en el tag HTML con id "total"
+    total.innerHTML = "Total: " + sum;
+    }
+
 </script>
 <script src="{{url_for('static', filename='mapa.js')}}"></script>
 <input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
-<!-- <a href="javascript:void(0);" id="printButton">Print</a>   -->
 <div id="printableArea" class="table-responsive">
 <style>
     td{
@@ -29,28 +81,24 @@ function imprimir() {
         border-color: #afafaf;
     }
 </style>
-<script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+<h3 id="total">Total: {{total}}</h3>
 <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
-    {% if contador %}
-        <tr><h3>{{contador}} {{mensajeLogistica}}</h3></tr>
-    {% endif %}
-    {% if cobra %}
-        <h3>{{cobra}} a pagar</h3>
-    {% endif %}
-    <h4>{{mensaje_tabla}}</h4>
     <tr>
+        <td>Acciones</td>
     {% for columna in columnas %}
         <td>{{columna}}</td>
     {% endfor %}
     </tr>
     {% for viaje in viajes %}
-        <tr id="fila{{viaje.2}}">
-            {% if acciones %}
+        <tr id="fila{{viaje.1}}">
             <td>
-                <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.2}}','{{viaje.3}}','{{viaje.5}}','{{viaje.6}}','{{viaje.8}}','{{viaje.10}}')">
+                <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.1}}','{{viaje.2}}','{{viaje.4}}','{{viaje.5}}','{{viaje.7}}','{{viaje.9}}')">
+                {% if user == "MatyAcc" or user == "Josudavidg" or user == "Lucas Bustos" %}
+                    <input type="button" value="Rendido" onclick="rendido('{{viaje.1}}','{{user}}')">
+                {% endif %}
             </td>
-            {% endif %}
+            
             {% for x in viaje %}
                 <td>{{x}}</td>
             {% endfor %}

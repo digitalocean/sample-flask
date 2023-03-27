@@ -77,7 +77,7 @@ class EnCaminoUnicoStrategy(Strategy):
         return total,viajes2
     
 
-class PorVisitaStrategy:
+class PorVisitaStrategy(Strategy):
     def facturar_viajes(self, viajes,sobreEscribe=False):
         facturas = {}
         alSetentaPorciento = []

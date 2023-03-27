@@ -11,13 +11,21 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=None, recibe_nombre=None):
     print(str(contenido))
-    sender_id = contenido["sender_id"]
-    info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
-    nickname = ""
-    for infoML in info:
-        if "nickname" in str(infoML):
-            nickname = (str(infoML).split(",")[1]).split(":")[1]
-            nickname = nickname.replace('"','')
+    try:
+        sender_id = contenido["sender_id"]
+    except:
+        sender_id = 123
+    # info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
+    # nickname = ""
+    # for infoML in info:
+    #     if "nickname" in str(infoML):
+    #         nickname = (str(infoML).split(",")[1]).split(":")[1]
+    #         nickname = nickname.replace('"','')
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(f"select Vendedor from ViajesFlexs where Numero_envío = '{id_ml}'")
+    nickname = str(cursor.fetchone()[0]).title()
+    print(nickname)
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
         "MensajeroId": mensajero_id,
@@ -353,7 +361,7 @@ def entregado():
         Currentlocation = %s,
         Foto_domicilio = %s,
         reprogramaciones = reprogramaciones +1
-        where Numero_envío = %s
+        where Numero_envío = %s and estado_envio != "Entregado"
         
         """
     values = (motivo,observacion,quienRecibe,chofer,chofer,location,foto,nroEnvio)
@@ -415,7 +423,9 @@ def noEntregado():
             where 
                 Numero_envío = %s 
             and 
-                Chofer = choferCorreo(%s)"""
+                Chofer = choferCorreo(%s)
+             and estado_envio != "No Entregado"
+            """
     if motivo in ("Nadie en domicilio","Rechazado"):
         reprogramaciones = 1
     else:
