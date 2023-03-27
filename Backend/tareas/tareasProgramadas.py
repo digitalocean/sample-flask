@@ -74,13 +74,13 @@ def informeFinalDia():
 
         count(CASE when estado_envio in ("Entregado") then 1 end) as Entregados,
 
-        count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end) as Nadie_en_domicilio,
+        count(CASE when motivo_noenvio = "	Nadie en domicilio" then 1 end) as Nadie_en_domicilio,
 
         count(case when motivo_noenvio = "Domicilio no visitado" then 1 end) as No_visitado,
         
         ABS(count(CASE WHEN estado_envio in ('En Camino','Reasignado') THEN 1 END)-
         count(CASE when estado_envio in ("Entregado") then 1 end)-
-        count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end)-
+        count(CASE when motivo_noenvio = "	Nadie en domicilio" then 1 end)-
         count(case when motivo_noenvio = "Domicilio no visitado" then 1 end)) as Diferencia_cargados_visitados,
 
         (select Hora from historial_estados as H2 where estado_envio in ("En Camino","Reasignado") 
@@ -102,13 +102,13 @@ union
 
         count(CASE when estado_envio in ("Entregado") then 1 end) as Entregados,
 
-        count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end) as Nadie_en_domicilio,
+        count(CASE when motivo_noenvio = "	Nadie en domicilio" then 1 end) as Nadie_en_domicilio,
 
         count(case when motivo_noenvio = "Domicilio no visitado" then 1 end) as No_visitado,
         
         ABS(count(CASE WHEN estado_envio in ('En Camino','Reasignado') THEN 1 END)-
         count(CASE when estado_envio in ("Entregado") then 1 end)-
-        count(CASE when motivo_noenvio = "Nadie en Domicilio (Reprogramado)" then 1 end)-
+        count(CASE when motivo_noenvio = "	Nadie en domicilio" then 1 end)-
         count(case when motivo_noenvio = "Domicilio no visitado" then 1 end)) as Diferencia_cargados_Entregados,
 
         (select Hora from historial_estados as H2 where estado_envio in ("En Camino","Reasignado") 
