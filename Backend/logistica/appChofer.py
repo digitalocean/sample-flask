@@ -34,7 +34,6 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
             if "nickname" in str(infoML):
                 nickname = (str(infoML).split(",")[1]).split(":")[1]
                 nickname = nickname.replace('"','')
-    print(nickname)
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
         "MensajeroId": mensajero_id,
@@ -47,6 +46,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "recibeDNI": recibe_dni,
         "RecibeNombre": recibe_nombre
     }
+    print(data)
     response = requests.post(url, data=data)
     if response.status_code == 200:
         print(response.content)
