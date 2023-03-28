@@ -23,7 +23,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     print(resultado)
     if len(resultado) > 0:
         nickname = resultado[0].title()
-        sender_id = json.loads(resultado[1])["sender_id"]
+        sender_id = json.loads(str(resultado[1]).replace("'",'"'))["sender_id"]
     else:
         info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
         nickname = ""
