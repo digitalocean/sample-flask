@@ -10,7 +10,7 @@ from datetime import datetime,timedelta
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
-def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=None, recibe_nombre=None):
+def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=0, recibe_nombre=None):
     print(str(contenido))
     try:
         sender_id = contenido["sender_id"]
@@ -23,7 +23,10 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     print(resultado)
     if len(resultado) > 0:
         nickname = resultado[0].title()
-        sender_id = json.loads(str(resultado[1]).replace("'",'"'))["sender_id"]
+        try:
+            sender_id = json.loads(str(resultado[1]).replace("'",'"'))["sender_id"]
+        except:
+            print("No se encontro hash del qr")
     else:
         info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
         nickname = ""
