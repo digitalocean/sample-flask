@@ -21,10 +21,10 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     cursor.execute(f"select Vendedor,Scanner from ViajesFlexs where Numero_envío = '{id_ml}'")
     resultado = cursor.fetchone()
     print(resultado)
-    try:
+    if len(resultado) > 0:
         nickname = resultado[0].title()
         sender_id = json.loads(resultado[1])["sender_id"]
-    except:
+    else:
         info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
         nickname = ""
         for infoML in info:
