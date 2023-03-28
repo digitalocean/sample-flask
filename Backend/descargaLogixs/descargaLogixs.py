@@ -44,13 +44,14 @@ def descargaLogixs(midatabase,dicNrosEnviosDB):
             latitud = str(x['Lat']).replace("'"," ")
             longitud = str(x['Lng']).replace("'"," ")
             referencia = str(referencia).replace("\n", " ")
+            ValorDeclarado = str(x["ValorDeclarado"]).replace("'","")
             direccionCompleta = f"{direccion}, {localidad}, Buenos aires"
-            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}', 'Lista Para Retirar',2),"
+            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}',{ValorDeclarado}, 'Lista Para Retirar',2),"
             # viaje = Envio.Envio(direccion,localidad,vendedor,nroEnvio,comprador,fecha=fecha_entrega,telefono=telefono,referencia=referencia,cp=cp,latitud=latitud,longitud=longitud,tipoEnvio=2)
             # viaje.toDB()
     if len(enviosLogixsNuevos) > 0:
         enviosLogixsNuevos = enviosLogixsNuevos[0:-1]
-        sql_insert = f"INSERT IGNORE INTO ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, Direccion_Completa, Latitud, Longitud, estado_envio, tipo_envio) VALUES {enviosLogixsNuevos}"
+        sql_insert = f"INSERT IGNORE INTO ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, Direccion_Completa, Latitud, Longitud,valordeclarado, estado_envio, tipo_envio) VALUES {enviosLogixsNuevos}"
         cursor.execute(sql_insert)
         midatabase.commit()
     # if len(enviosLogixs) > 0:
