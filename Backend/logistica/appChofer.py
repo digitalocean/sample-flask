@@ -10,7 +10,7 @@ from datetime import datetime,timedelta
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
-def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=123456, recibe_nombre=None):
+def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni=123456, recibe_nombre="titular"):
     print(str(contenido))
     try:
         sender_id = contenido["sender_id"]
