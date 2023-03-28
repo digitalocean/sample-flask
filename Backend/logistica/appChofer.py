@@ -20,6 +20,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     cursor = midb.cursor()
     cursor.execute(f"select Vendedor,Scanner from ViajesFlexs where Numero_envío = '{id_ml}'")
     resultado = cursor.fetchone()
+    print(resultado)
     try:
         nickname = resultado[0].title()
         sender_id = json.loads(resultado[1])["sender_id"]
