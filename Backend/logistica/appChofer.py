@@ -331,7 +331,7 @@ def entregado():
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
     try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio))
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, " entrega", "MMS", data, nroEnvio))
         threadActualizaLogixs.start()
     except:
         print("Fallo informe a logixs")
