@@ -1,5 +1,6 @@
 
 from flask import Blueprint, jsonify, request,send_file,redirect
+import json
 import os
 from github import Github
 from threading import Thread
@@ -17,9 +18,11 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         sender_id = 123
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select Vendedor from ViajesFlexs where Numero_envío = '{id_ml}'")
+    cursor.execute(f"select Vendedor,Scanner from ViajesFlexs where Numero_envío = '{id_ml}'")
+    resultado = cursor.fetchone()
     try:
-        nickname = str(cursor.fetchone()[0]).title()
+        nickname = resultado[0].title()
+        sender_id = json.loads(resultado[1])["sender_id"]
     except:
         info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
         nickname = ""
