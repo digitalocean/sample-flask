@@ -12,21 +12,22 @@ pd = Blueprint('pendientes', __name__, url_prefix='/')
 
 def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni="1234567", recibe_nombre="titular"):
     print(str(contenido))
-    try:
-        sender_id = contenido["sender_id"]
-    except:
-        sender_id = 123
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(f"select Vendedor,Scanner from ViajesFlexs where Numero_envío = '{id_ml}'")
     resultado = cursor.fetchone()
     print(resultado)
-    if len(resultado) > 0:
-        nickname = resultado[0].title()
-        try:
+    if "sender_id" in contenido.keys():
+        sender_id = contenido["sender_id"]
+    else:
+        if resultado != None:
             sender_id = json.loads(str(resultado[1]).replace("'",'"'))["sender_id"]
-        except:
-            print("No se encontro hash del qr")
+        else:
+            print("No se Obtuvo el sender id")
+
+    if resultado != None:
+        nickname = resultado[0].title()
+        
     else:
         info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
         nickname = ""
@@ -55,7 +56,6 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         print(f"Se produjo un error al actualizar el estado en Logixs: {response.text}")
         return ""
     
-
 @pd.route("/api/users/login",methods=["POST"])
 def loginEmpleado():
     dataLogin = request.get_json()
@@ -378,10 +378,6 @@ def entregado():
     midb.commit()
     midb.close()
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
-
-
-
-
 
 @pd.route("/noentregado",methods=["POST"])
 def noEntregado():

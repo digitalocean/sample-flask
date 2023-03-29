@@ -6,6 +6,18 @@ from flask import (
 from Backend.scriptGeneral import scriptGeneral
 ap = Blueprint('apodos', __name__, url_prefix='/')
 
+@ap.route("facturacion/apodos/nuevo", methods=["POST"])
+@auth.login_required
+def nuevoApodo():
+    apodo = request.form["apodo"]
+    cliente = request.form["cliente"]
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("insert into `Apodos y Clientes` (Apodo,Cliente) values(%s,%s)",(apodo,cliente))
+    midb.commit()
+    midb.close()
+    return redirect("/facturacion/apodos")
+
 @ap.route("/facturacion/apodos", methods=["GET","POST"])
 @auth.login_required
 def apodos():
