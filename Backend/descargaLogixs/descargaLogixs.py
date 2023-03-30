@@ -29,8 +29,8 @@ def descargaLogixs(midatabase,dicNrosEnviosDB):
         #si el numero de envio del json no se encuentra en DB
         else:
             vendedor = str(x['Nickname_Vend']).replace("'"," ")
-            if vendedor == "Lopezgas Online":
-                continue
+            if "zippin" in vendedor:
+                vendedor = vendedor.replace("zippin(","")[0:-1]
             contadorAgregados +=1
             referencia = str(x['Comment']).replace("'"," ")
             comprador = str(x['Nombre_Destino']).replace("'"," ")
