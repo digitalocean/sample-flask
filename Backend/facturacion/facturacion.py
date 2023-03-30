@@ -5,7 +5,7 @@ from flask import (
 from datetime import datetime,timedelta
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
-from openpyxl.styles import PatternFill, Font
+from openpyxl.styles import PatternFill, Font,Alignment
 import io
 import xlsxwriter
 from Backend.auth import auth
@@ -43,46 +43,53 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
     sheet = book.active
     image = Image("static/logo_grande.jpeg")
     sheet.add_image(image, 'A1')
-    sheet.column_dimensions['A'].width = 20
+    sheet.column_dimensions['A'].width = 12
     sheet.column_dimensions['B'].width = 20
-    sheet.column_dimensions['C'].width = 30
-    sheet.column_dimensions['D'].width = 65
+    sheet.column_dimensions['C'].width = 20
+    sheet.column_dimensions['D'].width = 40
     sheet.column_dimensions['E'].width = 20
     sheet.column_dimensions['F'].width = 15
-    # sheet["E1"] = _cliente
-    # sheet["E2"] = f"cantidad: {contador-9}"
-    # sheet["E3"] = "Subtotal: "
-    # sheet["E4"] = "IVA: "
-    # sheet["F6"] = "Total: "
-    # sheet["F3"] = "=SUM(F10:F"+str(contador)+")"
-    # sheet["F4"] = "=F3 * 0.21"
-    # sheet["F6"] = "=SUM(E3:E4)"
+    sheet.column_dimensions['G'].width = 15
+    sheet.column_dimensions['H'].width = 15
+    sheet.column_dimensions['I'].width = 15
 
-    sheet["E3"] = "Fecha inicial:"
-    sheet["F3"] = _desde
-    sheet["E4"] = "Fecha final:"
-    sheet["F4"] = _hasta
-    sheet["E5"] = "Vendedor:"
-    sheet["F5"] = _cliente
-    sheet["E6"] = "Cantidad:"
-    sheet["F6"] = len(envios)
 
-    sheet["H2"].value = "Servicio:"
-    sheet["I2"].value = "=SUM(F10:F1500)"
-    sheet["H3"].value = "Seguro sobre valor declarado:"
-    sheet["I3"].value = "=SUM(H10:H1500)*J3"
-    sheet["J3"].value = "1%"
-    sheet["H4"].value = "Subtotal:"
-    sheet["I4"].value = "=SUM(I2:I3)"
-    sheet["H5"].value = "Seguro:"
-    sheet["I5"].value = "=I6*J5"
-    sheet["J5"].value = "3%"
-    sheet["H6"].value = "Cobrar:"
-    sheet["I6"].value = "=SUM(G10:G1500)"
-    sheet["H7"].value = "IVA:"
-    sheet["I7"].value = "=(I2+I3)*0.21"
-    sheet["H8"].value = "Total:"
-    sheet["I8"].value = "=I4+I7"
+    sheet["D3"].alignment = Alignment(horizontal='right')
+    sheet["D4"].alignment = Alignment(horizontal='right')
+    sheet["D5"].alignment = Alignment(horizontal='right')
+    sheet["D6"].alignment = Alignment(horizontal='right')
+    sheet["D3"].value = "Fecha inicial:"
+    sheet["E3"].value = _desde
+    sheet["D4"].value = "Fecha final:"
+    sheet["E4"].value = _hasta
+    sheet["D5"].value = "Vendedor:"
+    sheet["E5"].value = _cliente
+    sheet["D6"].value = "Cantidad:"
+    sheet["E6"].value = len(envios)
+
+    sheet["G2"].value = "Servicio:"
+    sheet["H2"].value = "=SUM(F10:F3000)"
+    sheet["G3"].value = "Seguro sobre valor declarado:"
+    sheet["H3"].value = "=SUM(H10:h3000)*I3"
+    sheet["I3"].value = "1%"
+    sheet["G4"].font = Font(bold=True)
+    sheet["G4"].value = "Subtotal:"
+    sheet["H4"].font = Font(bold=True)
+    sheet["H4"].value = "=SUM(H2:H3)"
+    sheet["G5"].value = "Seguro:"
+    sheet["H5"].value = "=H6*I5"
+    sheet["I5"].value = "3%"
+    sheet["G6"].value = "Cobrar:"
+    sheet["H6"].value = "=SUM(G10:G3000)"
+    sheet["G7"].font = Font(bold=True)
+    sheet["G7"].value = "IVA:"
+    sheet["H7"].font = Font(bold=True)
+    sheet["H7"].value = "=(H2+H3)*0.21"
+    sheet["G8"].value = "Total:"
+    sheet["H8"].font = Font(bold=True)
+    sheet["H8"].fill = PatternFill(fgColor='00FF00', fill_type='solid')
+
+    sheet["H8"].value = "=H4+H7"
     
     
     sheet["A9"] = "Fecha"
@@ -94,8 +101,6 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
     sheet["G9"] = "Monto a cobrar"
     sheet["H9"] = "Valor declarado"
     sheet["I9"] = "Estado"
-    sheet["E3"] = _desde
-    sheet["E4"] = _hasta
     for row in sheet['A9:I9']:
         for cell in row:
             cell.fill = PatternFill(fgColor='FF0000', fill_type='solid')
