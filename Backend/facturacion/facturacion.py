@@ -67,17 +67,23 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
     sheet["E6"] = "Cantidad:"
     sheet["F6"] = len(envios)
 
-    sheet["H3"] = "Subtotal:"
-    sheet["I3"] = "=SUM(F3:F4)"
-    sheet["H4"] = "Seguro:"
-    sheet["I4"] = "=I5*J4"
-    sheet["H5"] = "Cobrar:"
-    sheet["I5"] = "=SUMA(G10:G2817)"
-    sheet["H6"] = "IVA:"
-    sheet["I6"] = "=(I3+I4)*0.21"
-    sheet["H7"] = "Total:"
-    sheet["I7"] = "=I3+I4+I6"
-    sheet["J4"] = "3"
+    sheet["H2"].value = "Servicio:"
+    sheet["I2"].value = "=SUM(F10:F1500)"
+    sheet["H3"].value = "Seguro sobre valor declarado:"
+    sheet["I3"].value = "=SUM(H10:H1500)*J3"
+    sheet["J3"].value = "1%"
+    sheet["H4"].value = "Subtotal:"
+    sheet["I4"].value = "=SUM(I2:I3)"
+    sheet["H5"].value = "Seguro:"
+    sheet["I5"].value = "=I6*J5"
+    sheet["J5"].value = "3%"
+    sheet["H6"].value = "Cobrar:"
+    sheet["I6"].value = "=SUM(G10:G1500)"
+    sheet["H7"].value = "IVA:"
+    sheet["I7"].value = "=(I2+I3)*0.21"
+    sheet["H8"].value = "Total:"
+    sheet["I8"].value = "=I4+I7"
+    
     
     sheet["A9"] = "Fecha"
     sheet["B9"] = "Numero de envío"
@@ -152,7 +158,6 @@ def facturar():
             sobreEscribir = True
         else:
             sobreEscribir = False
-        print(sobreEscribir)
         estrategiaDeFacturacion = request.form.get("estrategiaFacturacion")
         sql = f"""select 
             H.id,
@@ -174,7 +179,7 @@ def facturar():
         on 
             V.Numero_envío = H.Numero_envío 
         where 
-            vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}';"""
+            vendedor(H.Vendedor) = '{cliente}' and H.Fecha between '{desde}' and '{hasta}' and H.estado_envio != "Lista para Devolver";"""
         midb = connect_db()
         cursor = midb.cursor()
         cursor.execute(sql)

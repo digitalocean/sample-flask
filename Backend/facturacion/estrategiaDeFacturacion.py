@@ -85,16 +85,17 @@ class PorVisitaStrategy(Strategy):
         viajes2 = []
         for viaje in viajes:
             if viaje.estado_envio in ["Entregado"] or viaje.motivo in ["Nadie en domicilio", "Rechazado"]:
-                if viaje.Direccion not in facturas:
-                    facturas[viaje.Direccion] = {"visitas": 1, "precio_unitario": viaje.Precio_Cliente, "precio_total": viaje.Precio_Cliente}
+                if viaje.Numero_envío not in facturas:
+                    facturas[viaje.Numero_envío] = {"visitas": 1, "precio_unitario": viaje.Precio_Cliente, "precio_total": viaje.Precio_Cliente}
+                    facturas[f"{viaje.Numero_envío}precio"] = viaje.Precio_Cliente
                     precio = viaje.Precio_Cliente
                 else:
                     alSetentaPorciento.append(viaje.id)
-                    facturas[viaje.Direccion]["visitas"] += 1
-                    facturas[viaje.Direccion]["precio_total"] += viaje.Precio_Cliente * 0.7
-                    precio = viaje.Precio_Cliente * 0.7
+                    facturas[viaje.Numero_envío]["visitas"] += 1
+                    facturas[viaje.Numero_envío]["precio_total"] += viaje.Precio_Cliente * 0.7
+                    precio = facturas[f"{viaje.Numero_envío}precio"] * 0.7
                 precio_viaje = viaje.Precio_Cliente if viaje.estado_envio == "Entregado" else viaje.Precio_Cliente * 0.7
-                informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador, precio_viaje,viaje.valorDeclarado, viaje.estadoActual)
+                informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador,viaje.Cobrar,viaje.valorDeclarado, viaje.estadoActual)
                 viajes2.append(informacion_viaje)
                 total_a_cobrar += precio_viaje
         if sobreEscribe:
