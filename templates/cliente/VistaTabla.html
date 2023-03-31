@@ -11,6 +11,13 @@
         border-color: #afafaf;
     }
 </style>
+<script>
+    function confirmRedirect(url) {
+      if (confirm("¿Estás seguro de que quieres redirigir a esta URL?")) {
+        window.location.href = url;
+      }
+    }
+    </script>
 <script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
 <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
@@ -28,6 +35,9 @@
                     <input type="hidden" name="idClientes" value="{{cliente.0}}">
                     <input type="submit" value="Modificar">
                 </form>
+                {% if cliente.15 == None %}
+                <button onclick="confirmRedirect('/cliente/baja/{{cliente.0}}')">Dar de baja</button>
+                {% endif %}
             </td>
             {% for x in cliente %}
             {% if x == None %}

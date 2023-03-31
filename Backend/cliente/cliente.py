@@ -147,7 +147,7 @@ def crear_cliente():
         midb.close()
         return render_template("cliente/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"),urlForm = "/clientes/nuevo_cliente")
 
-@cl.route("clientes")
+@cl.route("/clientes")
 @auth.login_required
 def verClientes():
     midb = database.connect_db()
@@ -159,8 +159,18 @@ def verClientes():
     columnas = [i[0] for i in cursor.description]
     return render_template("cliente/VistaTabla.html",clientes=clientes,columnas=columnas, auth = session.get("user_auth"))
 
+@cl.route("/cliente/baja/<id>")
+@auth.login_required
+def bajaCliente(id):
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("update Clientes set Fecha_Baja = current_date() where idClientes = %s",(id,))
+    midb.commit()
+    midb.close()
+    return redirect("/clientes")
 
-@cl.route("clientes/modificar",methods=["GET","POST"])
+
+@cl.route("/clientes/modificar",methods=["GET","POST"])
 @auth.login_required
 def modificarDatosClientes():
     midb = database.connect_db()

@@ -25,7 +25,7 @@ def consultaChoferCorreo(database):
 def consultar_clientes(database):
     cursor = database.cursor()
     lista_clientes = []
-    cursor.execute("SELECT Cliente FROM mmslogis_MMSPack.`Apodos y Clientes` group by Cliente")
+    cursor.execute("SELECT nombre_cliente FROM mmslogis_MMSPack.`Clientes` where Fecha_Baja is null order by nombre_cliente")
     for cliente in cursor.fetchall():
         Cliente = cliente
         lista_clientes.append(Cliente[0])
