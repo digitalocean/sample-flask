@@ -2,7 +2,15 @@
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
 <script>
-    function filterOptions() {
+function showSelect() {
+  var select = document.getElementById("mySelect");
+  select.size = 3;
+}
+function hideSelect() {
+  var select = document.getElementById("mySelect");
+  select.size = 1;
+}
+function filterOptions() {
   // Obtiene el valor del input de búsqueda
   var input, filter, options, texto;
   input = document.getElementById("myInput");
@@ -20,38 +28,22 @@
       options[i].style.display = "none";
     }
   }
-    }
-
-    function showOptions() {
-    var select = document.getElementById("mySelect");
-    select.style.display = "block";
-    }
-
-    function hideOptions() {
-    var select = document.getElementById("mySelect");
-    select.style.display = "none";
-    }
-
-    document.addEventListener("click", function(event) {
-    var select = document.getElementById("mySelect");
-    var input = document.getElementById("myInput");
-    if (!select.contains(event.target) && !input.contains(event.target)) {
-        hideOptions();
-    }
-    });
+}
 </script>
     <form action="/facturacion/facturar" method="post" style="position: initial; width: 30%;">
         <label>Desde</label><br>
         <input type="date" name="desde" value="{{desde}}"><br>
         <label>Hasta</label><br>
         <input type="date" name="hasta" value="{{hasta}}"><br>
-        <select name="cliente" id="mySelect">
+        <input type="text" id="myInput" onkeyup="filterOptions()" onclick="showSelect()" placeholder="Buscar cliente..."><br>
+        <select name="cliente" onchange="hideSelect()" id="mySelect">
+            {% if cliente %}
             <option value="{{cliente}}">{{cliente}}</option>
+            {% endif %}
             {% for cliente in clientes %}
             <option value="{{cliente}}">{{cliente}}</option>
             {% endfor %}
           </select>
-        <input type="text" id="myInput" onkeyup="filterOptions()" onclick="showOptions()" placeholder="Buscar cliente...">
         <select name="estrategiaFacturacion">
             <option value="strategyEnCamino">En Camino</option>
             <option value="strategyPorDireccion">Por Direccion</option>
