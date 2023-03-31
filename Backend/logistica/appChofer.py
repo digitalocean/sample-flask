@@ -259,6 +259,8 @@ def cargar():
     nenvio = data["id"]
     chofer = data["chofer"]
     latlong = data["location"]
+    del data["chofer"]
+    del data["location"]
     try:
         threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "carga", "MMS", data, nenvio))
         threadActualizaLogixs.start()
