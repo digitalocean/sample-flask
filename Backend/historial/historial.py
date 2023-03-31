@@ -113,9 +113,9 @@ def busqueda():
     elif busqueda.lower() == "encaminoduplicado":
         sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'En Camino' group by Numero_envío having count(*) >1) and H.estado_envio = 'En Camino' {order}"
     elif busqueda.lower() == "segundasvueltas":
-        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en domicilio' and not estado_envio = 'Lista para Devolver' group by H.Numero_envío having count(*) >1) and H.estado_envio = 'Entregado' or H.motivo_noenvio = 'Nadie en domicilio' {order}"
+        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en domicilio' and not estado_envio = 'Lista para Devolver' group by H.Numero_envío having count(*) >1) and H.Fecha >= current_date()-30 and H.estado_envio = 'Entregado' or H.motivo_noenvio = 'Nadie en domicilio' {order}"
     elif busqueda.lower() == "tercerasvueltas":
-        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en domicilio' group by Numero_envío having count(*) >2) {order}"
+        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en domicilio' group by Numero_envío having count(*) >2) and H.Fecha >= current_date()-30 {order}"
     elif busqueda.lower() == "levantada":
         sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.estado_envio = 'Levantada' {order}"
     elif busqueda.lower() == "sinencamino":
