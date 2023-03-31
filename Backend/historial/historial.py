@@ -117,7 +117,7 @@ def busqueda():
     elif busqueda.lower() == "tercerasvueltas":
         sql = f"select {columnas} from historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' or motivo_noenvio = 'Nadie en domicilio' group by Numero_envío having count(*) >2) {order}"
     elif busqueda.lower() == "levantada":
-        sql = f"select {columnas} from historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.estado_envio = 'Levantada' {order}"
+        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.estado_envio = 'Levantada' {order}"
     elif busqueda.lower() == "sinencamino":
         sql = f"""
         select {columnas} from historial_estados as H inner join ViajesFlexs as V on H.Numero_envío = V.Numero_envío 
