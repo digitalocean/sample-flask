@@ -14,7 +14,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     print(str(contenido))
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute(f"select Vendedor,Scanner from ViajesFlexs where Numero_envío = '{id_ml}'")
+    cursor.execute(f"select V.Vendedor,ifnull(R.scanner,ifnull(S.scanner,ifnull(EC.scanner,V.Scanner))) as scanner from ViajesFlexs as V inner join retirado as R on V.Numero_envío = R.Numero_envío inner join sectorizado as S on V.Numero_envío = S.Numero_envío inner join en_camino as EC on V.Numero_envío = EC.Numero_envío where V.Numero_envío = '{id_ml}' limit 1")
     resultado = cursor.fetchone()
     print(resultado)
     if "sender_id" in contenido.keys():
