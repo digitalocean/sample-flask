@@ -107,7 +107,7 @@ def busqueda():
     cabezeras = ["Accion","Fecha","Hora","ID", "Numero de envio","Telefono","Direccion","Localidad","Vendedor","Chofer","estado_envio","Motivo","Observacion","Visita n°","Precio","Costo","Ubicacion","Modifico","Tiene foto","Monto a cobrar","Multiplicador","extra1","extra2","Modifico historial"]
     order = " order by H.Fecha desc, H.Numero_envío"
     if busqueda.lower() == "entregadoduplicado":
-        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(*) >1) and H.estado_envio = 'Entregado' and Fecha > '2022-09-01' {order}"
+        sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'Entregado' group by Numero_envío having count(*) >1) and H.estado_envio = 'Entregado' and H.Fecha > '2022-09-01' {order}"
     elif busqueda.lower() == "noentregadoduplicado":
         sql = f"select {columnas} from historial_estados as H left join ViajesFlexs as V on H.Numero_envío = V.Numero_envío where H.Numero_envío in (select Numero_envío from historial_estados where estado_envio = 'No Entregado' and not motivo_noenvio in ('Domicilio no visitado','Cancelado') and not estado_envio = 'Lista para Devolver' and tipo_envio = 2 group by Numero_envío having count(*) >1) and H.motivo_noenvio in ('Nadie en domicilio','Rechazado por el comprador') and estado_envio != 'Lista para Devolver' {order}"
     elif busqueda.lower() == "encaminoduplicado":
