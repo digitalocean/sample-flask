@@ -41,8 +41,6 @@ app.register_blueprint(tiendaNube.TN)
 #FACTURACION
 from Backend.facturacion import facturacion
 app.register_blueprint(facturacion.FcGeneral)
-from Backend.facturacion import flexs
-app.register_blueprint(flexs.fb)
 from Backend.facturacion import cobrados
 app.register_blueprint(cobrados.cb)
 from Backend.facturacion import gsolutions
