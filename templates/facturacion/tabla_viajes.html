@@ -24,8 +24,11 @@
             <option value="True">Si</option>
             <option value="False">No</option>
         </select>
-        <input type="submit" value="Descargar">
+        <input type="submit" value="Ver">
     </form>
+    {% if ruta_archivo %}
+    <a href="/descargaresumen/{{ruta_archivo}}"><input type="button" value="Descargar"></a>
+    {% endif %}
     {% if total %}
     <h4>Total: {{total}}</h4>
     {% endif %}

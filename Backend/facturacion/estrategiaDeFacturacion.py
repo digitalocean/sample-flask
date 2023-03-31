@@ -89,13 +89,15 @@ class PorVisitaStrategy(Strategy):
                     facturas[viaje.Numero_envío] = {"visitas": 1, "precio_unitario": viaje.Precio_Cliente, "precio_total": viaje.Precio_Cliente}
                     facturas[f"{viaje.Numero_envío}precio"] = viaje.Precio_Cliente
                     precio = viaje.Precio_Cliente
+                    cobrar = viaje.Cobrar
                 else:
                     alSetentaPorciento.append(viaje.id)
                     facturas[viaje.Numero_envío]["visitas"] += 1
                     facturas[viaje.Numero_envío]["precio_total"] += viaje.Precio_Cliente * 0.7
                     precio = facturas[f"{viaje.Numero_envío}precio"] * 0.7
+                    cobrar = 0
                 precio_viaje = viaje.Precio_Cliente if viaje.estado_envio == "Entregado" else viaje.Precio_Cliente * 0.7
-                informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador,viaje.Cobrar,viaje.valorDeclarado, viaje.estadoActual)
+                informacion_viaje = (viaje.Fecha, viaje.Numero_envío, viaje.Direccion, viaje.Localidad, precio, viaje.comprador,cobrar,viaje.valorDeclarado, viaje.estadoActual)
                 viajes2.append(informacion_viaje)
                 total_a_cobrar += precio_viaje
         if sobreEscribe:

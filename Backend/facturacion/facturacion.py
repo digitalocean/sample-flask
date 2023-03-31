@@ -6,8 +6,6 @@ from datetime import datetime,timedelta
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import PatternFill, Font,Alignment
-import io
-import xlsxwriter
 from Backend.auth import auth
 from .estrategiaDeFacturacion import *
 from Backend.database.database import connect_db
@@ -140,15 +138,16 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
         sheet["H"+str(contador)] = valorDeclarado
         sheet["I"+str(contador)] = estado
         viajes.append(viaje)
-    ruta_archivo = f"{_desde}-{_hasta} {_cliente}.xlsx"
+    ruta_archivo = f"{_cliente} {_desde} al {_hasta}.xlsx"
     book.save(ruta_archivo)
     return ruta_archivo
 
 
-@FcGeneral.route("/descargaresumen")
+@FcGeneral.route("/descargaresumen/<nombreArchivo>")
 @auth.login_required
-def descargaResumen():
-    return send_file('liquidacion.xlsx')
+def descargaResumen(nombreArchivo):
+    return send_file(nombreArchivo)
+
 
 
 @FcGeneral.route("/facturacion/facturar",methods = ["GET","POST"])
@@ -204,20 +203,20 @@ def facturar():
         total_viajes,viajesEnCamino = facturador.facturar_viajes(viajes,sobreEscribir)
         cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
         ruta = generarExcelLiquidacion(viajesEnCamino,desde,hasta,cliente)
-        return send_file(ruta,mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", as_attachment=True, attachment_filename=ruta)
-        # return render_template("facturacion/tabla_viajes.html",
-        #                     cliente=cliente,
-        #                     desde=desde,
-        #                     hasta=hasta,
-        #                     titulo="Facturacion", 
-        #                     cabeceras = cabeceras,
-        #                     tipo_facturacion="flex", 
-        #                     viajes=viajesEnCamino, 
-        #                     ruta_archivo = ruta,
-        #                     total=f"${total_viajes} y {0} viajes sin precio", 
-        #                     clientes = scriptGeneral.consultar_clientes(midb), 
-        #                     auth = session.get("user_auth")
-        #                     )
+        # return send_file(ruta,mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", as_attachment=True, attachment_filename=ruta)
+        return render_template("facturacion/tabla_viajes.html",
+                            cliente=cliente,
+                            desde=desde,
+                            hasta=hasta,
+                            titulo="Facturacion", 
+                            cabeceras = cabeceras,
+                            tipo_facturacion="flex", 
+                            viajes=viajesEnCamino, 
+                            ruta_archivo = ruta,
+                            total=f"${total_viajes} y {0} viajes sin precio", 
+                            clientes = scriptGeneral.consultar_clientes(midb), 
+                            auth = session.get("user_auth")
+                            )
     else:
         return render_template("facturacion/tabla_viajes.html",
                             titulo="Facturacion", 
