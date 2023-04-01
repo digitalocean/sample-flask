@@ -25,16 +25,16 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         else:
             print("No se Obtuvo el sender id")
 
-    if resultado != None:
-        nickname = resultado[0].title()
+    # if resultado != None:
+    #     nickname = resultado[0].title()
         
-    else:
-        info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
-        nickname = ""
-        for infoML in info:
-            if "nickname" in str(infoML):
-                nickname = (str(infoML).split(",")[1]).split(":")[1]
-                nickname = nickname.replace('"','')
+    # else:
+    info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
+    nickname = ""
+    for infoML in info:
+        if "nickname" in str(infoML):
+            nickname = (str(infoML).split(",")[1]).split(":")[1]
+            nickname = nickname.replace('"','')
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
         "MensajeroId": mensajero_id,
