@@ -10,7 +10,7 @@ from datetime import datetime,timedelta
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
-def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni="1234567", recibe_nombre="titular"):
+def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni="1234567", recibe_nombre="titular",estado=None):
     print(str(contenido))
     midb = connect_db()
     cursor = midb.cursor()
@@ -45,7 +45,8 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Nickname": nickname,
         "Sender_id": sender_id,
         "recibeDNI": recibe_dni,
-        "RecibeNombre": recibe_nombre
+        "RecibeNombre": recibe_nombre,
+        "EstadoEntrega":estado
     }
     print(data)
     response = requests.post(url, data=data)
@@ -333,7 +334,7 @@ def entregado():
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
     try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio))
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio,estado="Entregado"))
         threadActualizaLogixs.start()
     except:
         print("Fallo informe a logixs")
