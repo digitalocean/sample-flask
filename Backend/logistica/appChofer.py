@@ -50,6 +50,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
     }
     print(data)
     response = requests.post(url, data=data)
+    print(response.status_code)
     if response.status_code == 200:
         print(response.content)
         return "Estado actualizado con éxito en Logixs"
