@@ -391,6 +391,11 @@ def noEntregado():
     imagen = data["image"]
     observacion = None
     observacion = data["observacion"]
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio,motivo))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs")
     if "location" in data.keys():
         location = data["location"]
     else:
