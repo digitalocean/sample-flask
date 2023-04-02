@@ -24,6 +24,6 @@ def Todo():
         tarea = request.form.get("tarea")
         descripcion = request.form.get("descripcion")
         solicita = session.get("user_id")
-        cursor.execute("insert into tareas (tarea,descripcion,solicita,prioridad) values(%s,%s,%s,0);",(tarea,descripcion,solicita))
+        cursor.execute("insert into tareas (tarea,descripcion,solicita,prioridad,estado) values(%s,%s,%s,0,'Pendiente');",(tarea,descripcion,solicita))
         midb.commit()
         return redirect("/tareas")
