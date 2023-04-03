@@ -50,7 +50,7 @@ def carga_noml():
             producto=None
             cp = None
         tipo_envio = 2
-        if vendedor in ("Armin","Happe","Quality Shop","Universal Shop"):
+        if vendedor in ("Armin","Happe","Quality Shop","Universal Shop","Prince","e-Mentors S.R.L."):
             tipo_envio = 13
         viaje = Envio.Envio(direccion,localidad,vendedor,nro_envio,comprador,telefono,referencia,cp,cobrar=cobrar,estadoEnvio=estado,sku=producto,tipoEnvio=tipo_envio,zona=zona)
         nro_envio = viaje.toDB()
