@@ -1,6 +1,6 @@
 
 from flask import (
-    Blueprint, g, render_template, request, session,send_file,make_response
+    Blueprint, g, render_template, request, session,send_file
 )
 from datetime import datetime,timedelta
 from openpyxl import Workbook
@@ -89,7 +89,6 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
 
     sheet["H8"].value = "=H4+H7"
     
-    
     sheet["A9"] = "Fecha"
     sheet["B9"] = "Numero de envío"
     sheet["C9"] = "Comprador"
@@ -138,6 +137,11 @@ def generarExcelLiquidacion(envios,_desde,_hasta,_cliente):
         sheet["H"+str(contador)] = valorDeclarado
         sheet["I"+str(contador)] = estado
         viajes.append(viaje)
+
+
+    # Crear un objeto AutoFilter para el rango de celdas deseado
+    auto_filter = sheet.auto_filter
+    auto_filter.ref = 'A9:I3000'
     ruta_archivo = f"{_cliente} {_desde} al {_hasta}.xlsx"
     book.save(ruta_archivo)
     return ruta_archivo
