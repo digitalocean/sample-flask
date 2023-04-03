@@ -94,7 +94,7 @@ function searchTable() {
         <tr id="fila{{viaje.1}}">
             <td>
                 <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.1}}','{{viaje.2}}','{{viaje.4}}','{{viaje.5}}','{{viaje.7}}','{{viaje.9}}')">
-                {% if user == "MatyAcc" or user == "Josudavidg" or user == "Lucas Bustos" %}
+                {% if user == "MatyAcc" or user == "Josudavidg" or user == "Lucas Bustos" or user == "Tatiana" %}
                     <input type="button" value="Rendido" onclick="rendido('{{viaje.1}}','{{user}}')">
                 {% endif %}
             </td>
