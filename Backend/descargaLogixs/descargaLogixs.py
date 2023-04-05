@@ -54,13 +54,7 @@ def descargaLogixs(midatabase,dicNrosEnviosDB):
         sql_insert = f"INSERT IGNORE INTO ViajesFlexs (Fecha, Numero_envío, comprador, Telefono, Direccion, Referencia, Localidad, CP, Vendedor, Direccion_Completa, Latitud, Longitud,valordeclarado, estado_envio, tipo_envio) VALUES {enviosLogixsNuevos}"
         cursor.execute(sql_insert)
         midatabase.commit()
-    # if len(enviosLogixs) > 0:
-    #     enviosLogixs = enviosLogixs[0:-1]
-    #     sql_update = f"update ViajesFlexs set estado_envio = 'Retirado',Fecha = current_date() where Numero_envío in ({enviosLogixs})"
-    #     cursor.execute(sql_update)
-    #     midatabase.commit()
     print(f"{contadorAgregados} viajes agregados")
-    # print(f"{contadorActualizadosLogixs} actualizados desde logixs")
 
 
 

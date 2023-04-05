@@ -8,11 +8,11 @@ em = Blueprint('empleado', __name__, url_prefix='/')
 def empleado():
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select id,nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,direccion,fecha_alta,fecha_baja from empleado")
+    cursor.execute("select id,nombre,puesto,vehiculo,patente,correo,dni,cbu,telefono,telefono_alternativo,direccion,fecha_alta,fecha_baja from empleado")
     empleados = []
     for x in cursor.fetchall():
         empleados.append(x)
-    cabezeras = ["id","Nombre","Puesto","Vehiculo","Patente","Correo","dni","cbu","Telefono","Direccion","Fecha alta","Fecha baja","Accion"]
+    cabezeras = ["id","Nombre","Puesto","Vehiculo","Patente","Correo","dni","cbu","Telefono","Telefono alternativo","Direccion","Fecha alta","Fecha baja","Accion"]
     return render_template("empleado/VistaTabla.html", empleados = empleados,cabezeras=cabezeras, auth = session.get("user_auth"))
 
 @em.route("empleado/nuevoempleado",methods=["GET","POST"])
