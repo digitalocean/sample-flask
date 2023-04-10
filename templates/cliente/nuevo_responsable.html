@@ -2,18 +2,29 @@
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
 <form action="/clientes/nuevo_responsable" method="post">
-    <fieldset>
-        <input type="hidden" name="idCliente" id="idCliente" value="{{idCliente}}">
-        <legend>Datos del Responsable:</legend>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre"><br>
-        <label for="cargo">Puesto</label>
-        <input type="text" id="cargo" name="cargo"><br>
-        <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono"><br>
-        <label for="correo_electronico">Correo Electrónico</label>
-        <input type="email" id="correo_electronico" name="correo_electronico"><br>
-        <input type="submit" value="Agregar">
-      </fieldset>
+  <legend>Datos del Responsable:</legend>  
+  <table>
+      <input type="hidden" name="idCliente" id="idCliente" value="{{idCliente}}">
+      <tr>
+        <td>Nombre</td>
+        <td><input type="text" id="nombre" name="nombre" required></td>
+      </tr>
+      <tr>
+        <td>Puesto</td>
+        <td><input type="text" id="cargo" name="cargo"></td>
+      </tr>
+      <tr>
+        <td>Teléfono</td>
+        <td><input type="tel" id="telefono" name="telefono" required></td>
+      </tr>
+      <tr>
+        <td>Correo Electrónico</td>
+        <td><input type="email" id="correo_electronico" name="correo_electronico"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="Agregar"></td>
+      </tr>
+      </table>
 </form>
 {% endblock %}

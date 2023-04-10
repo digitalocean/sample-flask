@@ -14,6 +14,12 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 
 cl = Blueprint('cliente', __name__, url_prefix='/')
 
+@cl.route('clientes/nuevo_responsable/<idCliente>', methods=["GET"])
+@auth.login_required
+def crear_responsable_get(idCliente):
+    return render_template("cliente/nuevo_responsable.html",
+                        idCliente = idCliente,
+                        auth = session.get("user_auth"))
 
 @cl.route('clientes/nuevo_responsable/', methods=["POST"])
 @auth.login_required
@@ -30,7 +36,6 @@ def crear_responsable():
     `responsable_1_cargo`,`responsable_1_telefono`,`responsable_1_correo_electronico`)
     VALUES (current_timestamp(),%s,%s,%s,%s);"""
     values = (nombre,cargo,telefono,correo_electronico)
-    print(values)
     midb.start_transaction()
     try:
         cursor.execute(sql,values)
@@ -43,7 +48,6 @@ def crear_responsable():
             VALUES(%s,%s);
         """
         valuesRelacion = (idCliente,idResponsable)
-        print(valuesRelacion)
         cursor.execute(sqlRelacion,valuesRelacion)
         midb.commit()
     except:
@@ -75,32 +79,13 @@ def crear_prospecto():
                                 tarifas=tarifas,
                                 auth = session.get("user_auth"))
     elif request.method=="POST":
-        empresa=request.form.get("empresa")
-        razon_social=request.form.get("razon_social")
-        CUIT=request.form.get("CUIT")
-        rubro=request.form.get("rubro")
-        telefono=request.form.get("teléfono")
-        URL=request.form.get("URL")
-        correo_electronico=request.form.get("correo_electronico")
-        locales_cantidad=request.form.get("locales_cantidad")
-        direccion=request.form.get("direccion")
-        localidad=request.form.get("localidad")
-        piso=request.form.get("piso")
-        dpto=request.form.get("dpto")
-        como_nos_conocio=request.form.get("como_nos_conocio")
-        observaciones=request.form.get("observaciones")
-        # responsable_1_nombre=request.form.get("responsable_1_nombre")
-        # respobsable_1_cargo=request.form.get("responsable_1_cargo")
-        # responsable_1_telefono=request.form.get("responsable_1_telefono")
-        # responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
-        dpto=request.form.get("dpto")
+        
         midb=database.connect_db()
-        cursor=midb.cursor()
-        # midb.start_transaction()
-    
+        cursor=midb.cursor()    
         nombre_cliente=request.form.get("nombre_cliente")
         razon_social=request.form.get("razon_social")
         CUIT=request.form.get("CUIT")
+        rubro=request.form.get("rubro")
         direccion=request.form.get("direccion")
         localidad=request.form.get("localidad")
         piso=request.form.get("piso")
@@ -127,21 +112,24 @@ def crear_prospecto():
         else:
             mapa_cotizacion = "No File"
         modalidad_de_cobro=request.form.get("modalidad_de_cobro")
-        modifico = session.get("user_id")
         responsable_proxima_accion=request.form.get("responsable_proxima_accion")
         tarifa = request.form.get("tarifa")
+        bonificacion = request.form.get("bonificacion")
+        cantidad_retiros = request.form.get("cantidad_retiros")
+        modifico = session.get("user_id")
+        
         values=(nombre_cliente,razon_social,CUIT,direccion,localidad,piso,dpto,telefono,
                 modalidad_de_cobro,correo_electronico,rubro,estado_contacto,locales_cantidad,
                 como_nos_conocio,proxima_accion,fecha_proxima_accion,responsable_proxima_accion,
-                observaciones,presupuesto,mapa_cotizacion,modifico,URL,tarifa)
+                observaciones,presupuesto,mapa_cotizacion,modifico,URL,tarifa,bonificacion,cantidad_retiros)
         cursor.execute("""INSERT INTO `mmslogis_MMSPack`.`Clientes`(
                         `nombre_cliente`,`razon_social`,`CUIT`,`Direccion`,`localidad`,
                         `piso`,`departamento`,`Telefono`,`Modalidad_cobro`,`correo_electronico`,
                         `rubro`,`estado_contacto`,`locales_cantidad`,`como_nos_conocio`,
                         `proxima_accion`,`fecha_proxima_accion`,`responsable_proxima_accion`,
-                        `observaciones`,`presupuesto`,`mapa_cotizacion`,`modifico`,`URL`,`tarifa`)
+                        `observaciones`,`presupuesto`,`mapa_cotizacion`,`modifico`,`URL`,`tarifa`,bonificacion,cantidad_retiros)
                         VALUES
-                        (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",values)
+                        (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",values)
         midb.commit()           
         idClienteAgregado = cursor.lastrowid
         midb.close()
@@ -201,17 +189,46 @@ def crear_cliente():
                                auth = session.get("user_auth"),
                                urlForm = "/clientes/nuevo_cliente")
 
+@cl.route("/cliente/<idCliente>")
+@auth.login_required
+def verCliente(idCliente):
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select C.idClientes,C.nombre_cliente,C.razon_social,C.CUIT,C.CBU,C.Direccion,C.localidad,C.piso,C.departamento,C.Telefono,C.Telefono_Alternativo,C.password,C.fecha_carga,C.Fecha_Alta,C.Fecha_Baja,C.Modalidad_cobro,C.correo_electronico,C.tarifa,C.marca_temporal,C.rubro,C.estado_contacto,C.locales_cantidad,C.como_nos_conocio,C.proxima_accion,C.fecha_proxima_accion,C.responsable_proxima_accion,C.observaciones,C.presupuesto,C.mapa_cotizacion,C.modifico,C.URL,C.bonificacion,C.cantidad_retiros from Clientes as C where C.idClientes = %s;",(idCliente,))
+    clientes = []
+    responsables = []
+    columnas = [i[0] for i in cursor.description]
+    idCliente = 0
+    for x in cursor.fetchall():
+        idCliente = x[0]
+        clientes.append(x)
+    cursor.execute("select R.responsable_1_nombre as Nombre,R.responsable_1_cargo as Puesto,R.responsable_1_telefono as Telefono,R.responsable_1_correo_electronico as `Correo electronico` from Clientes as C left join responsable_cliente as RC on C.idClientes = RC.idCliente left join responsable as R on RC.id_responsable = R.id where C.idClientes = %s;",(idCliente,))
+    for y in cursor.fetchall():
+        responsables.append(y)
+    return render_template("cliente/VistaTabla.html",
+                           clientes=clientes,
+                           idCliente = idCliente,
+                           responsables = responsables,
+                           columnas=columnas, 
+                           auth = session.get("user_auth"))
+
+
 @cl.route("/clientes")
 @auth.login_required
 def verClientes():
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select * from Clientes as C left join responsable_cliente as RC on C.idClientes = RC.idCliente left join responsable as R on RC.id_responsable = R.id;")
+    cursor.execute("select idClientes,nombre_cliente,razon_social,CUIT from Clientes order by nombre_cliente")
+    # cursor.execute("select * from Clientes as C left join responsable_cliente as RC on C.idClientes = RC.idCliente left join responsable as R on RC.id_responsable = R.id order by C.nombre_cliente;")
     clientes = []
     for x in cursor.fetchall():
         clientes.append(x)
     columnas = [i[0] for i in cursor.description]
-    return render_template("cliente/VistaTabla.html",clientes=clientes,columnas=columnas, auth = session.get("user_auth"))
+    return render_template("cliente/VistaTabla.html",
+                           botonVerDatos = True,
+                           clientes=clientes,
+                           columnas=columnas, 
+                           auth = session.get("user_auth"))
 
 @cl.route("/cliente/baja/<id>")
 @auth.login_required
@@ -289,7 +306,6 @@ def modificarDatosClientes():
             """
         values = (nombre_cliente,razon_social,cuit,direccion,telefono,telefonoAlternativo,
                 password,modalidadCobro,correo,tarifa,idClientes)
-        print(values)
         cursor.execute(sql,values)
         midb.commit()
         midb.close()
