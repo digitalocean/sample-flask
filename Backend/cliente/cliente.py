@@ -34,22 +34,28 @@ def crear_responsable(idCliente):
         `responsable_1_cargo`,`responsable_1_telefono`,`responsable_1_correo_electronico`)
         VALUES (current_timestamp(),%s,%s,%s,%s);"""
         values = (nombre,cargo,telefono,correo_electronico)
+        print(values)
         midb.start_transaction()
-        cursor.execute(sql,values)
-        midb.commit()
-        idResponsable = cursor.lastrowid
+        try:
+            cursor.execute(sql,values)
+            midb.commit()
+            idResponsable = cursor.lastrowid
 
-        sqlRelacion = """
-        INSERT INTO `mmslogis_MMSPack`.`responsable_cliente`
-            (`id`,`idCliente`,`id_responsable`)
-            VALUES(%s,%s);
-        """
-        valuesRelacion = (idCliente,idResponsable)
-        cursor.execute(sqlRelacion,valuesRelacion)
-        midb.commit()
+            sqlRelacion = """
+            INSERT INTO `mmslogis_MMSPack`.`responsable_cliente`
+                (`id`,`idCliente`,`id_responsable`)
+                VALUES(%s,%s);
+            """
+            valuesRelacion = (idCliente,idResponsable)
+            print(valuesRelacion)
+            cursor.execute(sqlRelacion,valuesRelacion)
+            midb.commit()
+        except:
+            midb.rollback()
         midb.close()
-
-        return redirect("/clientes")
+        return render_template("cliente/VistaTabla.html", 
+                               auth = session.get("user_auth"))
+        # return redirect("/clientes")
 
 @cl.route('clientes/nuevo_prospecto', methods=["GET","POST"])
 @auth.login_required
@@ -110,10 +116,6 @@ def crear_prospecto():
         locales_cantidad=request.form.get("locales_cantidad")
         como_nos_conocio=request.form.get("como_nos_conocio")
         observaciones=request.form.get("observaciones")
-        # responsable_1_nombre=request.form.get("responsable_1_nombre")
-        # respobsable_1_cargo=request.form.get("responsable_1_cargo")
-        # responsable_1_telefono=request.form.get("responsable_1_telefono")
-        # responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
         estado_contacto=request.form.get("estado_contacto")
         proxima_accion=request.form.get("proxima_accion")
         fecha_proxima_accion=request.form.get("fecha_proxima_accion")
