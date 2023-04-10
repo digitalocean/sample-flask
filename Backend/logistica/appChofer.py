@@ -208,6 +208,11 @@ def scannerSectorizar():
         zona = zona[0]
         t = Thread(target=sectorizar, args=(connect_db(),data,zona))
         t.start()
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "retiro", "MMS", data, envio))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs (Retiro)")
     return jsonify({"Zona":zona})
 
 @pd.route("/pendienteschofer",methods=["POST"])
