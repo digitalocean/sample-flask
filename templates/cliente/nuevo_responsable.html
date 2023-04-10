@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
-<form action="/cliente/nuevo_responsable" method="post">
+<form action="/clientes/nuevo_responsable" method="post">
     <fieldset>
         <input type="hidden" name="idCliente" id="idCliente" value="{{idCliente}}">
         <legend>Datos del Responsable:</legend>
@@ -13,6 +13,7 @@
         <input type="tel" id="telefono" name="telefono"><br>
         <label for="correo_electronico">Correo Electrónico</label>
         <input type="email" id="correo_electronico" name="correo_electronico"><br>
+        <input type="submit" value="Agregar">
       </fieldset>
 </form>
 {% endblock %}

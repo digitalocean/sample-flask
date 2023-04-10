@@ -19,7 +19,7 @@ cl = Blueprint('cliente', __name__, url_prefix='/')
 @auth.login_required
 def crear_responsable(idCliente):
     if(request.method == "GET"):
-        render_template("cliente/nuevo_responsable",
+        render_template("cliente/nuevo_responsable.html",
                         auth = session.get("user_auth"))
     elif request.method=="POST":
         idCliente = request.form.get("idCliente")
@@ -117,15 +117,18 @@ def crear_prospecto():
         estado_contacto=request.form.get("estado_contacto")
         proxima_accion=request.form.get("proxima_accion")
         fecha_proxima_accion=request.form.get("fecha_proxima_accion")
-        print("pres")
         presupuesto=request.files["presupuesto"]
-        print("pres")
-        print(presupuesto)
         filenamePresupuesto = presupuesto.filename
-        presupuesto = upload("/presupuesto",presupuesto.read(),filenamePresupuesto)
+        if filenamePresupuesto != "":
+            presupuesto = upload("/presupuesto",presupuesto.read(),filenamePresupuesto)
+        else:
+            presupuesto = "No File"
         mapa_cotizacion=request.files["mapa_cotizacion"]
         filenameMapa_cotizacion = mapa_cotizacion.filename
-        mapa_cotizacion = upload("/mapa_cotizacion",mapa_cotizacion.read(),filenameMapa_cotizacion)
+        if filenameMapa_cotizacion != "":
+            mapa_cotizacion = upload("/mapa_cotizacion",mapa_cotizacion.read(),filenameMapa_cotizacion)
+        else:
+            mapa_cotizacion = "No File"
         modalidad_de_cobro=request.form.get("modalidad_de_cobro")
         modifico = session.get("user_id")
         responsable_proxima_accion=request.form.get("responsable_proxima_accion")
@@ -145,7 +148,7 @@ def crear_prospecto():
         midb.commit()           
         idClienteAgregado = cursor.lastrowid
         midb.close()
-        render_template("cliente/nuevo_responsable",
+        return render_template("cliente/nuevo_responsable.html",
                         idCliente = idClienteAgregado,
                         auth = session.get("user_auth"))
 

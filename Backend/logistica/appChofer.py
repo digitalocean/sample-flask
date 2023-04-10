@@ -10,7 +10,7 @@ from datetime import datetime,timedelta
 
 pd = Blueprint('pendientes', __name__, url_prefix='/')
 
-def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml,estado=None, recibe_dni="1234567", recibe_nombre="titular"):
+def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni="1234567", recibe_nombre="titular"):
     print(str(contenido))
     midb = connect_db()
     cursor = midb.cursor()
@@ -25,16 +25,16 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         else:
             print("No se Obtuvo el sender id")
 
-    # if resultado != None:
-    #     nickname = resultado[0].title()
+    if resultado != None:
+        nickname = resultado[0].title()
         
-    # else:
-    info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
-    nickname = ""
-    for infoML in info:
-        if "nickname" in str(infoML):
-            nickname = (str(infoML).split(",")[1]).split(":")[1]
-            nickname = nickname.replace('"','')
+    else:
+        info = set(requests.get("https://api.mercadolibre.com/users/"+str(sender_id)))
+        nickname = ""
+        for infoML in info:
+            if "nickname" in str(infoML):
+                nickname = (str(infoML).split(",")[1]).split(":")[1]
+                nickname = nickname.replace('"','')
     url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
     data = {
         "MensajeroId": mensajero_id,
@@ -45,12 +45,10 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Nickname": nickname,
         "Sender_id": sender_id,
         "recibeDNI": recibe_dni,
-        "RecibeNombre": recibe_nombre,
-        "EstadoEntrega":estado
+        "RecibeNombre": recibe_nombre
     }
     print(data)
     response = requests.post(url, data=data)
-    print(response.status_code)
     if response.status_code == 200:
         print(response.content)
         return "Estado actualizado con éxito en Logixs"
@@ -335,7 +333,7 @@ def entregado():
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
     try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio,"Entregado"))
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio))
         threadActualizaLogixs.start()
     except:
         print("Fallo informe a logixs")
@@ -392,11 +390,6 @@ def noEntregado():
     imagen = data["image"]
     observacion = None
     observacion = data["observacion"]
-    try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "entrega", "MMS", data, nroEnvio,motivo))
-        threadActualizaLogixs.start()
-    except:
-        print("Fallo informe a logixs")
     if "location" in data.keys():
         location = data["location"]
     else:

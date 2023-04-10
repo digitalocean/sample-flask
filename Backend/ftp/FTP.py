@@ -13,7 +13,7 @@ def generate_unique_filename(filename):
         unique_filename = str(uuid.uuid4()) + '.' + ext
         return unique_filename
     else:
-        return "c"
+        return "NoFile"
     # filename = str(uuid.uuid4())
     # return filename + ".pdf"
 
