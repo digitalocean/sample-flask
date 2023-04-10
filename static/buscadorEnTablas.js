@@ -5,7 +5,7 @@ function searchTable() {
       var rows = document.getElementById("myTable").getElementsByTagName("tr");
 
       // Recorrer cada fila
-      for (var i = 0; i < rows.length; i++) {
+      for (var i = 1; i < rows.length; i++) {
         // Obtener todas las celdas de la fila actual
         var cells = rows[i].getElementsByTagName("td");
         var found = false;

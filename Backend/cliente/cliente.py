@@ -26,7 +26,7 @@ def crear_responsable():
     midb = database.connect_db()
     cursor = midb.cursor()
     sql = """
-    INSERT INTO `mmslogis_MMSPack`.`Responsables`(`marca_temporal`,`responsable_1_nombre`,
+    INSERT INTO `mmslogis_MMSPack`.`responsable`(`marca_temporal`,`responsable_1_nombre`,
     `responsable_1_cargo`,`responsable_1_telefono`,`responsable_1_correo_electronico`)
     VALUES (current_timestamp(),%s,%s,%s,%s);"""
     values = (nombre,cargo,telefono,correo_electronico)
@@ -39,7 +39,7 @@ def crear_responsable():
 
         sqlRelacion = """
         INSERT INTO `mmslogis_MMSPack`.`responsable_cliente`
-            (`id`,`idCliente`,`id_responsable`)
+            (`idCliente`,`id_responsable`)
             VALUES(%s,%s);
         """
         valuesRelacion = (idCliente,idResponsable)
@@ -48,6 +48,7 @@ def crear_responsable():
         midb.commit()
     except:
         midb.rollback()
+        return "Se produjo un error al agregar el responsable, intente nuevamente"
     midb.close()
     return redirect("/clientes")
 
@@ -205,7 +206,7 @@ def crear_cliente():
 def verClientes():
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("select * from Clientes")
+    cursor.execute("select * from Clientes as C left join responsable_cliente as RC on C.idClientes = RC.idCliente left join responsable as R on RC.id_responsable = R.id;")
     clientes = []
     for x in cursor.fetchall():
         clientes.append(x)
