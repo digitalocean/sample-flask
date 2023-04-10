@@ -49,6 +49,7 @@ function imprimir() {
         border-color: #afafaf;
     }
 </style>
+<script src="{{url_for('static', filename='estados.js')}}"></script>
 <script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
 
@@ -104,7 +105,8 @@ function imprimir() {
         <tr id="fila{{viaje.2}}">
             {% if historial %}
                 <td>
-                    <input type="submit" value="anular" onclick="confirmar('{{viaje.2}}')">
+                    <input type="button" value="anular" onclick="confirmar('{{viaje.2}}')">
+                    <input type="button" value="Cancelar" onclick="cancelado('{{viaje.3}}')">
                     {% if viaje.17 != None and viaje.17 != "" %}
                     <form action="/image" method="post">
                         <input type="hidden" name="idFoto" value="{{viaje.17}}">

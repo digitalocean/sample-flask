@@ -129,7 +129,9 @@ def canceladoMapa():
     midb = database.connect_db()
     cursor = midb.cursor()
     envio = request.json["nro_envio"]
-    cursor.execute("""
+    midb.start_transaction()
+    try:
+        cursor.execute("""
                     update ViajesFlexs 
                         set 
                             estado_envio = "Cancelado",
@@ -139,8 +141,20 @@ def canceladoMapa():
                         where
                             Numero_envío = %s
                     """,(envio,))
-    midb.commit()
-    return ""
+        midb.commit()
+        cursor.execute("""
+                    UPDATE historial_estados 
+                    SET estado_envio = 'En Camino/anulado' 
+                    WHERE Numero_envío = %s 
+                    AND estado_envio = 'En Camino' 
+                    AND NOT EXISTS 
+                    (SELECT * FROM historial_estados WHERE Numero_envío = %s 
+                    AND motivo_noenvio in ("Buzon/bajo puerta","Entregado","Entregado sin novedades","Nadie en domicilio","Rechazado"));""",(envio,envio))
+        midb.commit()
+        midb.close()
+        return ""
+    except:
+        midb.rollback()
 
 @lgMapa.route("/logistica/mapa/novino", methods=["GET","POST"])
 @auth.login_required
