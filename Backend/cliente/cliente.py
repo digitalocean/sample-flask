@@ -17,7 +17,7 @@ cl = Blueprint('cliente', __name__, url_prefix='/')
 
 @cl.route('clientes/nuevo_responsable/', methods=["GET","POST"])
 @auth.login_required
-def crear_responsable(idCliente):
+def crear_responsable():
     if(request.method == "GET"):
         render_template("cliente/nuevo_responsable.html",
                         auth = session.get("user_auth"))
