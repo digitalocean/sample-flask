@@ -15,47 +15,41 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 cl = Blueprint('cliente', __name__, url_prefix='/')
 
 
-@cl.route('clientes/nuevo_responsable/', methods=["GET","POST"])
+@cl.route('clientes/nuevo_responsable/', methods=["POST"])
 @auth.login_required
 def crear_responsable():
-    if(request.method == "GET"):
-        render_template("cliente/nuevo_responsable.html",
-                        auth = session.get("user_auth"))
-    elif request.method=="POST":
-        idCliente = request.form.get("idCliente")
-        nombre = request.form.get("nombre")
-        cargo = request.form.get("cargo")
-        telefono = request.form.get("telefono")
-        correo_electronico = request.form.get("correo_electronico")
-        midb = database.connect_db()
-        cursor = midb.cursor()
-        sql = """
-        INSERT INTO `mmslogis_MMSPack`.`Responsables`(`marca_temporal`,`responsable_1_nombre`,
-        `responsable_1_cargo`,`responsable_1_telefono`,`responsable_1_correo_electronico`)
-        VALUES (current_timestamp(),%s,%s,%s,%s);"""
-        values = (nombre,cargo,telefono,correo_electronico)
-        print(values)
-        midb.start_transaction()
-        try:
-            cursor.execute(sql,values)
-            midb.commit()
-            idResponsable = cursor.lastrowid
+    idCliente = request.form.get("idCliente")
+    nombre = request.form.get("nombre")
+    cargo = request.form.get("cargo")
+    telefono = request.form.get("telefono")
+    correo_electronico = request.form.get("correo_electronico")
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    sql = """
+    INSERT INTO `mmslogis_MMSPack`.`Responsables`(`marca_temporal`,`responsable_1_nombre`,
+    `responsable_1_cargo`,`responsable_1_telefono`,`responsable_1_correo_electronico`)
+    VALUES (current_timestamp(),%s,%s,%s,%s);"""
+    values = (nombre,cargo,telefono,correo_electronico)
+    print(values)
+    midb.start_transaction()
+    try:
+        cursor.execute(sql,values)
+        midb.commit()
+        idResponsable = cursor.lastrowid
 
-            sqlRelacion = """
-            INSERT INTO `mmslogis_MMSPack`.`responsable_cliente`
-                (`id`,`idCliente`,`id_responsable`)
-                VALUES(%s,%s);
-            """
-            valuesRelacion = (idCliente,idResponsable)
-            print(valuesRelacion)
-            cursor.execute(sqlRelacion,valuesRelacion)
-            midb.commit()
-        except:
-            midb.rollback()
-        midb.close()
-        return render_template("cliente/VistaTabla.html", 
-                               auth = session.get("user_auth"))
-        # return redirect("/clientes")
+        sqlRelacion = """
+        INSERT INTO `mmslogis_MMSPack`.`responsable_cliente`
+            (`id`,`idCliente`,`id_responsable`)
+            VALUES(%s,%s);
+        """
+        valuesRelacion = (idCliente,idResponsable)
+        print(valuesRelacion)
+        cursor.execute(sqlRelacion,valuesRelacion)
+        midb.commit()
+    except:
+        midb.rollback()
+    midb.close()
+    return redirect("/clientes")
 
 @cl.route('clientes/nuevo_prospecto', methods=["GET","POST"])
 @auth.login_required
