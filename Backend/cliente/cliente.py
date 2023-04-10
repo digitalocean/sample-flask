@@ -14,7 +14,43 @@ fecha_hoy_db = str(ahora.year)+"-"+str(ahora.month)+"-"+str(ahora.day)
 
 cl = Blueprint('cliente', __name__, url_prefix='/')
 
-                                
+
+@cl.route('clientes/nuevo_responsable/', methods=["GET","POST"])
+@auth.login_required
+def crear_responsable(idCliente):
+    if(request.method == "GET"):
+        render_template("cliente/nuevo_responsable",
+                        auth = session.get("user_auth"))
+    elif request.method=="POST":
+        idCliente = request.form.get("idCliente")
+        nombre = request.form.get("nombre")
+        cargo = request.form.get("cargo")
+        telefono = request.form.get("telefono")
+        correo_electronico = request.form.get("correo_electronico")
+        midb = database.connect_db()
+        cursor = midb.cursor()
+        sql = """
+        INSERT INTO `mmslogis_MMSPack`.`Responsables`(`marca_temporal`,`responsable_1_nombre`,
+        `responsable_1_cargo`,`responsable_1_telefono`,`responsable_1_correo_electronico`)
+        VALUES (current_timestamp(),%s,%s,%s,%s);"""
+        values = (nombre,cargo,telefono,correo_electronico)
+        midb.start_transaction()
+        cursor.execute(sql,values)
+        midb.commit()
+        idResponsable = cursor.lastrowid
+
+        sqlRelacion = """
+        INSERT INTO `mmslogis_MMSPack`.`responsable_cliente`
+            (`id`,`idCliente`,`id_responsable`)
+            VALUES(%s,%s);
+        """
+        valuesRelacion = (idCliente,idResponsable)
+        cursor.execute(sqlRelacion,valuesRelacion)
+        midb.commit()
+        midb.close()
+
+        return redirect("/clientes")
+
 @cl.route('clientes/nuevo_prospecto', methods=["GET","POST"])
 @auth.login_required
 def crear_prospecto():
@@ -27,8 +63,15 @@ def crear_prospecto():
             id = x[0]
             localidad = x[1]
             localidades.append([id,localidad])
+        cursor.execute("select id, nombre from tarifa")
+        tarifas = []
+        for x in cursor.fetchall():
+            id = x[0]
+            tar = x[1]
+            tarifas.append([id,tar])
         return render_template("cliente/nuevo_prospecto.html",
                                 localidades=localidades,
+                                tarifas=tarifas,
                                 auth = session.get("user_auth"))
     elif request.method=="POST":
         empresa=request.form.get("empresa")
@@ -45,14 +88,14 @@ def crear_prospecto():
         dpto=request.form.get("dpto")
         como_nos_conocio=request.form.get("como_nos_conocio")
         observaciones=request.form.get("observaciones")
-        responsable_1_nombre=request.form.get("responsable_1_nombre")
-        respobsable_1_cargo=request.form.get("responsable_1_cargo")
-        responsable_1_telefono=request.form.get("responsable_1_telefono")
-        responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
+        # responsable_1_nombre=request.form.get("responsable_1_nombre")
+        # respobsable_1_cargo=request.form.get("responsable_1_cargo")
+        # responsable_1_telefono=request.form.get("responsable_1_telefono")
+        # responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
         dpto=request.form.get("dpto")
         midb=database.connect_db()
         cursor=midb.cursor()
-        midb.start_transaction()
+        # midb.start_transaction()
     
         nombre_cliente=request.form.get("nombre_cliente")
         razon_social=request.form.get("razon_social")
@@ -67,14 +110,17 @@ def crear_prospecto():
         locales_cantidad=request.form.get("locales_cantidad")
         como_nos_conocio=request.form.get("como_nos_conocio")
         observaciones=request.form.get("observaciones")
-        responsable_1_nombre=request.form.get("responsable_1_nombre")
-        respobsable_1_cargo=request.form.get("responsable_1_cargo")
-        responsable_1_telefono=request.form.get("responsable_1_telefono")
-        responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
+        # responsable_1_nombre=request.form.get("responsable_1_nombre")
+        # respobsable_1_cargo=request.form.get("responsable_1_cargo")
+        # responsable_1_telefono=request.form.get("responsable_1_telefono")
+        # responsable_1_correo_electronico=request.form.get("responsable_1_correo_electronico")
         estado_contacto=request.form.get("estado_contacto")
         proxima_accion=request.form.get("proxima_accion")
         fecha_proxima_accion=request.form.get("fecha_proxima_accion")
+        print("pres")
         presupuesto=request.files["presupuesto"]
+        print("pres")
+        print(presupuesto)
         filenamePresupuesto = presupuesto.filename
         presupuesto = upload("/presupuesto",presupuesto.read(),filenamePresupuesto)
         mapa_cotizacion=request.files["mapa_cotizacion"]
@@ -83,21 +129,25 @@ def crear_prospecto():
         modalidad_de_cobro=request.form.get("modalidad_de_cobro")
         modifico = session.get("user_id")
         responsable_proxima_accion=request.form.get("responsable_proxima_accion")
+        tarifa = request.form.get("tarifa")
         values=(nombre_cliente,razon_social,CUIT,direccion,localidad,piso,dpto,telefono,
                 modalidad_de_cobro,correo_electronico,rubro,estado_contacto,locales_cantidad,
                 como_nos_conocio,proxima_accion,fecha_proxima_accion,responsable_proxima_accion,
-                observaciones,presupuesto,mapa_cotizacion,modifico,URL)
+                observaciones,presupuesto,mapa_cotizacion,modifico,URL,tarifa)
         cursor.execute("""INSERT INTO `mmslogis_MMSPack`.`Clientes`(
                         `nombre_cliente`,`razon_social`,`CUIT`,`Direccion`,`localidad`,
                         `piso`,`departamento`,`Telefono`,`Modalidad_cobro`,`correo_electronico`,
                         `rubro`,`estado_contacto`,`locales_cantidad`,`como_nos_conocio`,
                         `proxima_accion`,`fecha_proxima_accion`,`responsable_proxima_accion`,
-                        `observaciones`,`presupuesto`,`mapa_cotizacion`,`modifico`,`URL`)
+                        `observaciones`,`presupuesto`,`mapa_cotizacion`,`modifico`,`URL`,`tarifa`)
                         VALUES
-                        (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",values)
+                        (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",values)
         midb.commit()           
+        idClienteAgregado = cursor.lastrowid
         midb.close()
-        return redirect("/clientes")
+        render_template("cliente/nuevo_responsable",
+                        idCliente = idClienteAgregado,
+                        auth = session.get("user_auth"))
 
 @cl.route('/clientes/nuevo_cliente', methods=["GET","POST"])
 @auth.login_required
@@ -113,7 +163,8 @@ def crear_cliente():
             tarifas.append([id,tar])
         return render_template("cliente/nuevo_cliente.html",
                                 auth = session.get("user_auth"),
-                                tarifas=tarifas,urlForm = "/clientes/nuevo_cliente")
+                                tarifas=tarifas,
+                                urlForm = "/clientes/nuevo_cliente")
     elif(request.method == "POST"):
         nombre = request.form.get("nombre")
         razon_social = request.form.get("razon_social")
@@ -145,7 +196,10 @@ def crear_cliente():
             modo_cobro,correo_electronico,tarifa))
         midb.commit()
         midb.close()
-        return render_template("cliente/nuevo_cliente.html",titulo="Nuevo Cliente", auth = session.get("user_auth"),urlForm = "/clientes/nuevo_cliente")
+        return render_template("cliente/nuevo_cliente.html",
+                               titulo="Nuevo Cliente", 
+                               auth = session.get("user_auth"),
+                               urlForm = "/clientes/nuevo_cliente")
 
 @cl.route("/clientes")
 @auth.login_required

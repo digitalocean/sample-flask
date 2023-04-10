@@ -8,24 +8,28 @@ from ftplib import FTP
 ftp = Blueprint('ftpFlask', __name__, url_prefix='/')
 
 def generate_unique_filename(filename):
-    ext = filename.rsplit('.', 1)[1].lower() # obtener la extensión del archivo original
-    unique_filename = str(uuid.uuid4()) + '.' + ext
-    return unique_filename
+    if "." in filename:
+        ext = filename.rsplit('.', 1)[1].lower() # obtener la extensión del archivo original
+        unique_filename = str(uuid.uuid4()) + '.' + ext
+        return unique_filename
+    else:
+        return "c"
     # filename = str(uuid.uuid4())
     # return filename + ".pdf"
 
 def upload(patch,file,filename):
     # unique_filename = str(uuid.uuid4()) + ".pdf"
     unique_filename = generate_unique_filename(filename)
-    ftp_server = os.environ.get("FTP_SERVER")
-    ftp_user = os.environ.get("FTP_USER")
-    ftp_password = os.environ.get("FTP_PASSWORD") 
-    ftp = FTP(ftp_server )
-    ftp.login(user=ftp_user, passwd=ftp_password)
-    ftp.cwd(patch) # directorio de destino en el servidor FTP
-    with BytesIO(file) as f:
-        ftp.storbinary('STOR ' + unique_filename, f)
-    ftp.quit()
+    if unique_filename != "NoFile":
+        ftp_server = os.environ.get("FTP_SERVER")
+        ftp_user = os.environ.get("FTP_USER")
+        ftp_password = os.environ.get("FTP_PASSWORD") 
+        ftp = FTP(ftp_server )
+        ftp.login(user=ftp_user, passwd=ftp_password)
+        ftp.cwd(patch) # directorio de destino en el servidor FTP
+        with BytesIO(file) as f:
+            ftp.storbinary('STOR ' + unique_filename, f)
+        ftp.quit()
     return unique_filename
 
 

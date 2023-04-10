@@ -3,130 +3,126 @@
 {% block content %}
 <link rel ="stylesheet" href="{{url_for('static', filename='nuevo_prospecto.css')}}">
 <div class="container">
-	<img src="https://raw.githubusercontent.com/Matyacc/digitalocean/main/images/mmspacklogo.png" alt="Descripción de la imagen">
+	<img src="{{url_for('static', filename='mmspacklogo.png')}}" alt="Logo">
 </div>
 <body>
 	
 	<form action="/clientes/nuevo_prospecto" enctype="multipart/form-data" method="POST">
         
-		<fieldset>
+		<table>
         <legend>Datos del Cliente:</legend>
-					
-			<label for="nombre_cliente">Empresa:</label><br>
-			<input type="text" name="nombre_cliente" id="nombre_cliente" required><br><br>
-						
-			<label for="Razon Social">Razon Social:</label><br>
-			<input type="text" name="razon_social" id="razon_social" required><br><br>
-					
-			<label for="CUIT">CUIT:</label><br>
-			<input type="text" placeholder="XX-XXXXXXXX-X" name="CUIT" id="CUIT" required><br><br>
-		
-			<label for="Rubro">Rubro</label><br>
-			<select name="Rubro" id="Rubro">
-			
-			<option value=""></option>
-			<option value="">Correo</option>
-			<option value="">Telecomunicaciones</option>
-			<option value="">Productos médicos y sanitarios</option>
-			<option value="">Maquinaria pesada y equipos</option>
-			<option value="">Productos químicos</option>
-			<option value="">Productos para el hogar</option>
-			<option value="">Juguetes y juegos</option>
-			<option value="">Suministros de oficina</option>
-			<option value="">Productos de limpieza y hogar</option>
-			<option value="">Productos deportivos y de recreación</option>
-			<option value="">Instrumentos musicales</option>
-			<option value="">Productos para mascotas</option>
-			<option value="">Joyería y accesorios</option>
-			<option value="">Suministros de jardinería y paisajismo</option>
-			<option value="">Equipos y suministros para la construcción</option>
-			<option value="">Productos de iluminación y eléctricos</option>
-			<option value="">Materiales para manualidades y arte</option>
-			<option value="">Electrónica</option>
-			<option value="">Computación</option>
-			<option value="">Autopartes</option>
-			<option value="">Productos de belleza y cuidado personal</option>
-			<option value="">Productos de papelería y artículos escolares</option>
-			<option value="">Productos de decoración del hogar</option>
-			<option value="">Productos para el cuidado del bebé</option>
-			</select><br><br>
+		<tr>
+			<td>Empresa</td>
+			<td><input type="text" name="nombre_cliente" id="nombre_cliente" required></td>
+		</tr>
+		<tr>
+			<td>Razon Social</td>
+			<td><input type="text" name="razon_social" id="razon_social" required></td>
+		</tr>
+		<tr>
+			<td>CUIT</td>
+			<td><input type="text" placeholder="XX-XXXXXXXX-X" name="CUIT" id="CUIT" required></td>
+		</tr>
+		<tr>
+			<td>Rubro</td>
+			<td><input type="text" name="Rubro" id="Rubro"></td>
+		</tr>
+		<tr>
+			<td>Telefono</td>
+			<td><input type="tel" name="telefono" id="telefono" value="+54011"></td>
+		</tr>			
+		<tr>
+			<td>URL</td>
+			<td><input type="url" name="url" id="url"></td>
+		</tr>
+		<tr>
+			<td>Correo electronico</td>
+			<td><input type="email" name="correo_electronico" id="correo_electronico"></td>
+		</tr>
+		<tr>
+			<td>Cantidad de locales</td>
+			<td><input type="number" name="locales_cantidad" placeholder="Seleccionar cantidad" id="locales_cantidad"></td>
+		</tr>
+		<tr>
+			<td>Dirección</td>
+			<td><input type="text" name="direccion" id="direccion"></td>
+		</tr>
+		<tr>
+			<td>Localidad</td>
+			<td><select name="localidad" id="localidad">
+				{% for localidad in localidades %}
+						<option value="{{localidad.0}}">{{localidad.1}}</option>
+				{% endfor %}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Piso</td>
+			<td><input type="text" name="piso" id="piso"></td>
+		</tr>
+		<tr>
+			<td>Departamento</td>
+			<td><input type="text" name="dpto" id="dpto"></td>
+		</tr>
+		<tr>
+			<td>Estado del contacto</td>
+			<td><input type="text" name="estado_contacto" id="estado_contacto"></td>
+		</tr>
+		<tr>
+			<td>Proxima Accion</td>
+			<td><input type="text" name="proxima_accion" id="proxima_accion"></td>
+		</tr>
+		<tr>
+			<td>Fecha de proxima accion</td>
+			<td><input type="date" name="fecha_proxima_accion" id="fecha_proxima_accion"></td>
+		</tr>
+		<tr>
+			<td>Presupuesto</td>
+			<td><input type="file" name="presupuesto" id="presupuesto"></td>
+		</tr>		
+		<tr>
+			<td>Mapa (cotizacion)</td>
+			<td><input type="file" name="mapa_cotizacion" id="mapa_cotizacion"></td>
+		</tr>
+		<tr>
+			<td>Modalidad de cobro</td>
+			<td><input type="text" name="modalidad_de_cobro" id="modalidad_de_cobro"></td>
+		</tr>
+		<tr>
+			<td>Responsable de próxima acción</td>
+			<td><input type="text" name="responsable_proxima_accion" id="responsable_proxima_accion"></td>
+		</tr>
+		<tr>
+			<td>Como nos conocio</td>
+			<td>
+				<select name="como_nos_conocio" id="como_nos_conocio">
+					<option value="Facebook">Facebook</option>
+					<option value="Correo electrónico">Correo electrónico</option>
+					<option value="Volantes">Volantes</option>
+					<option value="Google">Google</option>
+					<option value="Instagram">Instagram</option>
+					<option value="Llamado telefonico">Llamado telefonico</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Observaciones</td>
+			<td><input type="text" name="observaciones" placeholder="Agrega una observacion" id="observaciones"></td>
+		</tr>
+		<tr>
+			<td>Tarifa</td>
+			<td>
+				<select name="tarifa" required>
+            		<option value="{{tarifa}}">{{tarifa}}</option>
+					{% for tarifa in tarifas %}
+						<option value="{{tarifa.0}}">{{tarifa.1}}</option>
+					{% endfor %}
+				</select>
+			</td>
+		</tr>
+		</table>
 
-			<label for="telefono">Teléfono:</label><br>
-			<input type="tel" name="telefono" id="telefono" value="+54011"><br><br>
-
-			<label for="url">URL:</label><br>
-			<input type="url" name="url" id="url"><br><br>
-
-			<label for="correo_electronico">Correo electrónico:</label><br>
-			<input type="email" name="correo_electronico" id="correo_electronico"><br><br>
-
-			<label for="locales_cantidad">Cantidad de locales:</label><br>
-			<input type="number" name="locales_cantidad" placeholder="Seleccionar cantidad" id="locales_cantidad"><br><br>
-
-			<label for="direccion">Dirección:</label><br>
-			<input type="text" name="direccion" id="direccion"><br><br>
-
-			<label for="localidad">Localidad:</label><br>
-			<select name="localidad" id="localidad">
-		{% for localidad in localidades %}
-				<option value="{{localidad.0}}">{{localidad.1}}</option>
-		{% endfor %}
-			</select><br><br>
-
-			<label for="piso">Piso:</label><br>
-			<input type="text" name="piso" id="piso"><br><br>
-
-			<label for="dpto">Departamento:</label><br>
-			<input type="text" name="dpto" id="dpto"><br><br>
-
-
-			<label for="estado_contacto">Estado del contacto:</label><br>
-			<input type="text" name="estado_contacto" id="estado_contacto"><br><br>
-
-			<label for="proxima_accion">Proxima accion:</label><br>
-			<input type="text" name="proxima_accion" id="proxima_accion"><br><br>
-
-			<label for="fecha_proxima_accion">Fecha de proxima accion:</label><br>
-			<input type="text" name="fecha_proxima_accion" id="fecha_proxima_accion"><br><br>
-
-			<label for="presupuesto">Presupuesto:</label><br>
-			<input type="file" name="presupuesto" id="presupuesto"><br><br>
-
-			<label for="mapa_cotizacion">Mapa (cotizacion):</label><br>
-			<input type="file" name="mapa_cotizacion" id="mapa_cotizacion"><br><br>
-
-			<label for="modalidad_de_cobro">Modalida de cobro:</label><br>
-			<input type="text" name="modalidad_de_cobro" id="modalidad_de_cobro"><br><br>
-
-			<label for="responsable_proxima_accion">Responsable de próxima acción:</label><br>
-			<input type="text" name="responsable_proxima_accion" id="responsable_proxima_accion"><br><br>
-			
-		<label for="como_nos_conocio">Cómo nos conoció:</label><br>
-		<select name="como_nos_conocio" id="como_nos_conocio">
-				<option value="Facebook">Facebook</option>
-				<option value="Correo electrónico">Correo electrónico</option>
-				<option value="Volantes">Volantes</option>
-				<option value="Google">Google</option>
-				<option value="Instagram">Instagram</option>
-				<option value="Llamado telefonico">Llamado telefonico</option>
-			</select><br><br>
-		<label for="observaciones">Observaciones:</label><br>
-			<input type="text" name="observaciones" placeholder="Agrega una observacion" id="observaciones"><br><br>
-	
-        </fieldset>
-    <fieldset>
-        <legend>Datos del Responsable:</legend>
-        <label for="responsable_1_nombre">Nombre</label>
-        <input type="text" id="responsable_1_nombre" name="responsable_1_nombre"><br>
-        <label for="responsable_1_cargo">Puesto</label>
-        <input type="text" id="responsable_1_cargo" name="responsable_1_cargo"><br>
-        <label for="responsable_1_telefono">Teléfono</label>
-        <input type="tel" id="responsable_1_telefono" name="responsable_1_telefono"><br>
-        <label for="responsable_1_correo_electronico">Correo Electrónico</label>
-        <input type="email" id="responsable_1_correo_electronico" name="responsable_1_correo_electronico"><br>
-      </fieldset><br><br>
-	  <button type="submit">Agregar Responsable</button>
-      <button type="submit">Enviale por tu codigo</button>
+      <button type="submit">Guardar prospecto</button>
     </form>
   </body>
   {% endblock %}
