@@ -2,7 +2,7 @@
 {% block content %}
 
     <script>
-        function imprimir() {
+        function imprimir(urlRedirect) {
             var ficha = document.getElementById("printableArea");
             var ventimp = window.open(' ', 'popimpr');
             ventimp.document.write( ficha.innerHTML );
@@ -13,11 +13,11 @@
                 url:'/etiqueta/impresa',
                 type:'post',
                 data:$('#nEnvio').serialize()});
-                window.location.href = "/misenvios";
+                window.location.href = urlRedirect;
         }
     </script>
     <br><br><br>
-    <p><input type="button" value="Imprimir" id="printButton" onclick="imprimir()"></p>
+    <p><input type="button" value="Imprimir" id="printButton" onclick="imprimir('{{redirectUrl}}')"></p>
     <form action="" method="post" id="nEnvio">
     <input type="hidden" name="nroEnvio" value="{{nro_envio}}">
     </form>

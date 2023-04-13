@@ -233,7 +233,8 @@ var contenido = "<p>Envio: "+nro_env+
 "<br>Estado: "+est+
 "<br>Motivo: " + motivo+
 "<br>Monto a cobrar: $" + cobrar +
-`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+"','"+cobrar+`')">Modificar</button>`
+`<br><button onclick="modificarDatos('`+nro_env+"','"+dir+"','"+loc+"','"+vendedor+"','"+est+"','"+cobrar+`')">Modificar</button>
+<br><button onclick="redirect('/etiqueta/`+nro_env+`/vistamapa')">Generar etiqueta</button>`
 
 if(est == "Lista Para Retirar"){
   contenido = contenido + `<button onclick="noVino('`+nro_env+`')">No Vino</button>`

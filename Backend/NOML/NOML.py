@@ -65,6 +65,7 @@ def carga_noml():
                                 telefono = telefono,
                                 direccion = f"{direccion}, {localidad}",
                                 referencia = referencia,
+                                redirectUrl = "/carga_noml",
                                 cobrar = cobrar)
         else:
             return render_template("NOML/carga_noml.html",
@@ -113,6 +114,37 @@ def cancelarEnvio():
     return redirect("/envios")
 
 
+@NOML.route("/etiqueta/<envio>/<redirect>", methods = ["GET","POST"])
+@auth.login_required
+def generarEtiquetaGet(envio,redirect):
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    sql = "select Vendedor,Comprador,Telefono,Direccion,Localidad,Cobrar,Referencia,sku from ViajesFlexs where Numero_envío = %s"
+    values = (envio,)
+    cursor.execute(sql,values)
+    resultado = cursor.fetchone()
+    vendedor = resultado[0]
+    comprador = resultado[1]
+    telefono = resultado[2]
+    direccion_concatenada = resultado[3] + ", " + resultado[4]
+    cobrar = resultado[5]
+    referencia = resultado[6]
+    producto = resultado[7]
+    if str(producto) == "None":
+        producto = 0
+    return render_template("NOML/etiqueta.html",
+                        titulo="Envio agregado", 
+                        auth = session.get("user_auth"), 
+                        nro_envio=envio, 
+                        vendedor = vendedor,
+                        comprador = comprador,
+                        producto = producto,
+                        telefono = telefono,
+                        direccion = direccion_concatenada,
+                        referencia = referencia,
+                        redirectUrl = f"/{redirect}",
+                        cobrar = cobrar)    
+
 @NOML.route("/etiqueta/", methods = ["GET","POST"])
 @auth.login_required
 def generarEtiqueta():
@@ -143,9 +175,10 @@ def generarEtiqueta():
                             telefono = telefono,
                             direccion = direccion_concatenada,
                             referencia = referencia,
+                             redirectUrl = "/",
                             cobrar = cobrar)                        
     else:
-        return redirect("/envios")
+        return redirect("/")
 
 from Backend.database.database import connect_db
 @NOML.route("/etiquetaspendientes")

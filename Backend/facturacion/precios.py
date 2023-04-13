@@ -35,7 +35,7 @@ def obtenerPrecios(tarifa,db):
         id zona
     """
     cursor = db.cursor()
-    sql = f"select Z.nombre,ZP.precio,I.id_tarifa,I.id_zona from zona as Z join indicePrecio as I on Z.id = I.id_zona join zonaTarifaPrecio as ZP on I.id_zona = ZP.id_zona and ZP.id_tarifa = {tarifa} group by Z.nombre"
+    sql = f"select Z.nombre,ZP.precio,I.id_tarifa,I.id_zona from zona as Z left join indicePrecio as I on Z.id = I.id_zona left join zonaTarifaPrecio as ZP on I.id_zona = ZP.id_zona and ZP.id_tarifa = {tarifa} group by Z.nombre"
     cursor.execute(sql)
     zonas = []
     for x in cursor.fetchall():
@@ -125,7 +125,7 @@ def consultarPrecio():
                                 tarifas=obtenerIdTarifas(midb),
                                 auth = session.get("user_auth"))
 
-@pr.route('facturacion/cambioprecio/', methods=["POST","GET"])
+@pr.route('/facturacion/cambioprecio/', methods=["POST","GET"])
 @auth.login_required
 @auth.admin_required
 def cambiarprecio():
@@ -136,7 +136,8 @@ def cambiarprecio():
         zonaCambia = request.form["zona"]
         nuevoprecio = request.form["nuevoprecio"]
         nuevoprecio = float(str(nuevoprecio).replace(",","."))
-        sql = f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}"
+        # sql = f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}"
+        sql = f"INSERT IGNORE INTO zonaTarifaPrecio (id_tarifa, id_zona, precio) VALUES ({tarifa}, {zonaCambia}, {nuevoprecio}) ON DUPLICATE KEY UPDATE precio = {nuevoprecio};"
         print(sql)
         cursor.execute(sql)
         midb.commit()

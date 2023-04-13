@@ -40,7 +40,7 @@ def jsonPendientes():
     if request.method == "POST":
         tipoEnvio = request.form["tipoEnvio"]
         session["tipoEnvio"] = tipoEnvio
-        return redirect("/logistica/vistamapa")
+        return redirect("/vistamapa")
     else:
         jsonPendientes = {}
         midb = database.connect_db()
@@ -71,7 +71,7 @@ def jsonPendientes():
             }
         return jsonify(jsonPendientes)
 
-@lgMapa.route("/logistica/vistamapa")
+@lgMapa.route("/vistamapa")
 @auth.login_required
 def carga_mapa():
     midb = database.connect_db()
@@ -189,7 +189,7 @@ def cambioZona():
         sql = f"update ViajesFlexs set Zona = '{zona}' where Numero_envío = '{envio}'"
         cursor.execute(sql)
         midb.commit()
-        return redirect("/logistica/vistamapa")
+        return redirect("/vistamapa")
 
         
 @lgMapa.route("/logistica/cambiozonamasivo", methods=["GET","POST"])

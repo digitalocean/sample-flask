@@ -11,7 +11,7 @@ lg = Blueprint('logistica', __name__, url_prefix='/')
 @auth.login_required
 def descargaLogixsBoton():
     descargaDesdePlanillas()
-    return redirect ("logistica/vistamapa")
+    return redirect ("/vistamapa")
 
 @lg.route('/formularioEdicionLogistica')
 def mostrarFormulario():
@@ -92,7 +92,7 @@ def cambioTipoEnvio():
     cursor = midb.cursor()
     cursor.execute(sql,values)
     midb.commit()
-    return redirect("/logistica/vistamapa")
+    return redirect("/vistamapa")
 
 @lg.route("/bultosporenvio",methods = ["POST"])
 @auth.login_required
@@ -105,4 +105,4 @@ def bultosPorEnvio():
     cursor = midb.cursor()
     cursor.execute(sql,values)
     midb.commit()
-    return redirect("/logistica/vistamapa")
+    return redirect("/vistamapa")
