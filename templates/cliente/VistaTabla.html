@@ -11,19 +11,6 @@
         border-color: #afafaf;
     }
 </style>
-<script>
-    function confirmRedirect(url) {
-      if (confirm("¿Estás seguro de que quieres redirigir a esta URL?")) {
-        window.location.href = url;
-      }
-    }
-    function redirect(url,param=null){
-        if (param != null) {
-            url += param.toString();
-        }
-        window.location.href = url;
-    }
-    </script>
 <script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
 <br><br>
@@ -40,15 +27,21 @@
     {% for cliente in clientes %}
         <tr id="fila{{cliente.0}}">
             <td>
-                <form action="clientes/modificar" method="get">
+                <form action="/clientes/modificar" method="get">
                     <input type="hidden" name="idClientes" value="{{cliente.0}}">
                     <input type="submit" value="Modificar">
                 </form>
-                {% if cliente.14 == None %}
+                {% if cliente.13 == None %}
                     <button onclick="confirmRedirect('/cliente/baja/{{cliente.0}}')">Dar de baja</button>
                 {% endif %}
                 {% if botonVerDatos %}
                     <button onclick="redirect('/cliente/{{cliente.0}}')">Ver datos</button>
+                {% endif %}
+                {% if presupuesto != "No File" %}
+                    <button onclick="redirect('/archivoftp/presupuesto/{{presupuesto}}')" >Ver Presupuesto</button>
+                {% endif %}
+                {% if mapa != "No File" %}
+                    <button onclick="redirect('/archivoftp/mapa_cotizacion/{{mapa}}')">Ver Mapa</button>
                 {% endif %}
             </td>
             {% for x in cliente %}

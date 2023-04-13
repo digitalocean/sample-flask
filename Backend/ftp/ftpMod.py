@@ -5,7 +5,7 @@ import os
 
 
 from ftplib import FTP
-ftp = Blueprint('ftpFlask', __name__, url_prefix='/')
+ftpMod = Blueprint('ftpFlask', __name__, url_prefix='/')
 
 def generate_unique_filename(filename):
     if "." in filename:
@@ -32,15 +32,15 @@ def upload(patch,file,filename):
         ftp.quit()
     return unique_filename
 
-
-# LECTURA DE HOSTINGER FTP
-@ftp.route('/archivoftp/<patch>/<filename>')
-def imageFTP(patch,filename):
-    # filename = "Screenshot_1673795214.png"
-    ftp = FTP('109.106.251.113')
-    ftp.login(user='appChofer@mmslogistica.com', passwd='(15042020)_')
-    ftp.cwd('/foto_domicilio/')
-    # public_html/foto_domicilio/Screenshot_1673795214.png
-    image = ftp.retrbinary(f'RETR /{patch}/{filename}', open(filename, 'wb').write)
+@ftpMod.route('/archivoftp/<path>/<filename>')
+def lecturaFtp(path, filename):
+    server = os.environ.get("FTP_SERVER")
+    user = os.environ.get("FTP_USER")
+    passw = os.environ.get("FTP_PASSWORD")
+    ftp = FTP(server)
+    ftp.login(user=user, passwd=passw)
+    filedata = BytesIO()
+    ftp.retrbinary(f"RETR {path}/{filename}", filedata.write)
     ftp.quit()
-    return send_file(filename)
+    filedata.seek(0)
+    return send_file(filedata, attachment_filename=filename)

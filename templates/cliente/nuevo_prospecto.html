@@ -7,49 +7,56 @@
 </div>
 <body>
 	
-	<form action="/clientes/nuevo_prospecto" enctype="multipart/form-data" method="POST">
+	<form action="{{urlForm}}" enctype="multipart/form-data" method="POST">
+		<input type="hidden" value="{{idClientes}}" name="idClientes">
+
         
 		<table>
         <legend>Datos del Cliente:</legend>
 		<tr>
 			<td>Empresa</td>
-			<td><input type="text" name="nombre_cliente" id="nombre_cliente" required></td>
+			<td><input type="text" name="nombre_cliente" id="nombre_cliente" value="{{nombre_cliente}}" required></td>
 		</tr>
 		<tr>
 			<td>Razon Social</td>
-			<td><input type="text" name="razon_social" id="razon_social" required></td>
+			<td><input type="text" name="razon_social" id="razon_social"  value="{{razon_social}}" required></td>
 		</tr>
 		<tr>
 			<td>CUIT</td>
-			<td><input type="text" placeholder="XX-XXXXXXXX-X" name="CUIT" id="CUIT" required></td>
+			<td><input type="text" placeholder="XX-XXXXXXXX-X" name="CUIT" id="CUIT" value="{{cuit}}" required></td>
+		</tr>
+		<tr>
+			<td>Contraseña</td>
+			<td><input type="text" name="password" placeholder="Ingrese la contraseña" value="{{password}}" required></td>
 		</tr>
 		<tr>
 			<td>Rubro</td>
-			<td><input type="text" name="Rubro" id="Rubro"></td>
+			<td><input type="text" name="Rubro" id="Rubro" value="{{rubro}}"></td>
 		</tr>
 		<tr>
 			<td>Telefono</td>
-			<td><input type="tel" name="telefono" id="telefono" value="+54011"></td>
+			<td><input type="tel" name="telefono" id="telefono"  value="{{telefono}}"></td>
 		</tr>			
 		<tr>
 			<td>URL</td>
-			<td><input type="url" name="url" id="url"></td>
+			<td><input type="url" name="url" id="url" value="{{URL}}"></td>
 		</tr>
 		<tr>
 			<td>Correo electronico</td>
-			<td><input type="email" name="correo_electronico" id="correo_electronico"></td>
+			<td><input type="email" name="correo_electronico" id="correo_electronico" value="{{correo}}"></td>
 		</tr>
 		<tr>
 			<td>Cantidad de locales</td>
-			<td><input type="number" name="locales_cantidad" placeholder="Seleccionar cantidad" id="locales_cantidad"></td>
+			<td><input type="number" name="locales_cantidad" placeholder="Seleccionar cantidad" id="locales_cantidad" value="{{locales_cantidad}}"></td>
 		</tr>
 		<tr>
 			<td>Dirección</td>
-			<td><input type="text" name="direccion" id="direccion"></td>
+			<td><input type="text" name="direccion" id="direccion" value="{{direccion}}"></td>
 		</tr>
 		<tr>
 			<td>Localidad</td>
 			<td><select name="localidad" id="localidad">
+				<option value="{{localidad}}">{{localidad}}</option>
 				{% for localidad in localidades %}
 						<option value="{{localidad.0}}">{{localidad.1}}</option>
 				{% endfor %}
@@ -58,52 +65,63 @@
 		</tr>
 		<tr>
 			<td>Piso</td>
-			<td><input type="text" name="piso" id="piso"></td>
+			<td><input type="text" name="piso" id="piso" value="{{piso}}"></td>
 		</tr>
 		<tr>
 			<td>Departamento</td>
-			<td><input type="text" name="dpto" id="dpto"></td>
+			<td><input type="text" name="dpto" id="dpto" value="{{departamento}}"></td>
 		</tr>
 		<tr>
 			<td>Estado del contacto</td>
-			<td><input type="text" name="estado_contacto" id="estado_contacto"></td>
+			<td><input type="text" name="estado_contacto" id="estado_contacto" value="{{estado_contacto}}"></td>
 		</tr>
 		<tr>
 			<td>Proxima Accion</td>
-			<td><input type="text" name="proxima_accion" id="proxima_accion"></td>
+			<td><input type="text" name="proxima_accion" id="proxima_accion" value="{{proxima_accion}}"></td>
 		</tr>
 		<tr>
 			<td>Fecha de proxima accion</td>
-			<td><input type="date" name="fecha_proxima_accion" id="fecha_proxima_accion"></td>
+			<td><input type="date" name="fecha_proxima_accion" id="fecha_proxima_accion" value="{{fecha_proxima_accion}}"></td>
 		</tr>
+		{% if urlForm != "/clientes/modificar" %}
 		<tr>
+			
 			<td>Presupuesto</td>
-			<td><input type="file" name="presupuesto" id="presupuesto"></td>
+			<td><input type="file" name="presupuesto" id="presupuesto" value="{{presupuesto}}"></td>
+			
 		</tr>	
+		{% endif %}
 		<tr>
 			<td>bonificacion</td>
-			<td><input type="number" name="bonificacion" id="bonificacion"></td>
+			<td><input type="number" name="bonificacion" id="bonificacion" value="{{bonificacion}}"></td>
 		</tr>	
 		<tr>
 			<td>cantidad retiros minimo</td>
-			<td><input type="number" name="cantidad_retiros" id="cantidad_retiros"></td>
+			<td><input type="number" name="cantidad_retiros" id="cantidad_retiros" value="{{cantidad_retiros}}"></td>
 		</tr>	
+		{% if urlForm != "/clientes/modificar" %}
 		<tr>
 			<td>Mapa (cotizacion)</td>
-			<td><input type="file" name="mapa_cotizacion" id="mapa_cotizacion"></td>
+			<td>
+			{% if presupuesto != "NoFile" %}
+				<input type="button" value="Ver mapa" onclick="redirect('/archivoftp/presupuesto/{{presupuesto}}')">
+			{% endif %}
+			<input type="file" name="mapa_cotizacion" id="mapa_cotizacion" value="{{mapa_cotizacion}}"></td>
 		</tr>
+		{% endif %}
 		<tr>
 			<td>Modalidad de cobro</td>
-			<td><input type="text" name="modalidad_de_cobro" id="modalidad_de_cobro"></td>
+			<td><input type="text" name="modalidad_de_cobro" id="modalidad_de_cobro" value="{{modalidadCobro}}"></td>
 		</tr>
 		<tr>
 			<td>Responsable de próxima acción</td>
-			<td><input type="text" name="responsable_proxima_accion" id="responsable_proxima_accion"></td>
+			<td><input type="text" name="responsable_proxima_accion" id="responsable_proxima_accion" value="{{responsable_proxima_accion}}"></td>
 		</tr>
 		<tr>
 			<td>Como nos conocio</td>
 			<td>
 				<select name="como_nos_conocio" id="como_nos_conocio">
+					<option value="{{como_nos_conocio}}">{{como_nos_conocio}}</option>
 					<option value="Facebook">Facebook</option>
 					<option value="Correo electrónico">Correo electrónico</option>
 					<option value="Volantes">Volantes</option>
@@ -116,7 +134,11 @@
 		</tr>
 		<tr>
 			<td>Observaciones</td>
-			<td><input type="text" name="observaciones" placeholder="Agrega una observacion" id="observaciones"></td>
+			<td><input type="text" name="observaciones" placeholder="Agrega una observacion" id="observaciones" value="{{observaciones}}"></td>
+		</tr>
+		<tr>
+			<td>Fecha de alta</td>
+			<td><input type="date" name="fecha_alta" id="fecha_alta" value="{{fecha_alta}}"></td>
 		</tr>
 		<tr>
 			<td>Tarifa</td>

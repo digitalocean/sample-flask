@@ -19,8 +19,8 @@ app.register_blueprint(logistica.lg)
 from Backend.logistica import mapa
 app.register_blueprint(mapa.lgMapa)
 
-from Backend.ftp import FTP
-app.register_blueprint(FTP.ftp)
+from Backend.ftp import ftpMod
+app.register_blueprint(ftpMod.ftpMod)
 
 
 from Backend.cliente import cliente
