@@ -156,8 +156,21 @@ def scannerRetirar():
     cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
     resultado = cursor.fetchone()
     if resultado == None:
-        t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
-        t.start()
+        # t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
+        # t.start()
+        cursor.execute("""insert into retirado
+                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
+                            values(
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                %s,
+                                %s,
+                                'Retirado',
+                                %s,
+                                %s);""",
+                                (envio,chofer,str(data),location))
+        midb.commit()
+        midb.close()
         return jsonify(success=True,message="Retirado")
     else:
         midb.close()
