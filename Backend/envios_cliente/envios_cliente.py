@@ -22,7 +22,7 @@ def verEnvios(_vendedor,_desde,_hasta):
     midb = database.connect_db()
     cursor = midb.cursor()
     cabezeras = ["Fecha","Numero de envío","Numero de venta","Comprador","Telefono","Direccion","Estado","Motivo","Observación","Paquete","Monto a cobrar"]
-    cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,Telefono,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where Vendedor = %s and Fecha between %s and %s order by Fecha Desc", (_vendedor,_desde,_hasta))
+    cursor.execute("select Fecha, Numero_envío, nro_venta, comprador,Telefono,concat(Direccion,', ',Localidad), estado_envio,Motivo,Observacion,sku,Cobrar from ViajesFlexs where vendedor(Vendedor) = %s and Fecha between %s and %s order by Fecha Desc", (_vendedor,_desde,_hasta))
     paraRetirar = 0
     sectorizado = 0
     enCamino = 0
