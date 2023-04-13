@@ -36,12 +36,13 @@
                 {% endif %}
                 {% if botonVerDatos %}
                     <button onclick="redirect('/cliente/{{cliente.0}}')">Ver datos</button>
-                {% endif %}
-                {% if presupuesto != "No File" %}
-                    <button onclick="redirect('/archivoftp/presupuesto/{{presupuesto}}')" >Ver Presupuesto</button>
-                {% endif %}
-                {% if mapa != "No File" %}
-                    <button onclick="redirect('/archivoftp/mapa_cotizacion/{{mapa}}')">Ver Mapa</button>
+                {% else %}
+                    {% if presupuesto != "No File" %}
+                        <button onclick="redirect('/archivoftp/presupuesto/{{presupuesto}}')" >Ver Presupuesto</button>
+                    {% endif %}
+                    {% if mapa != "No File"%}
+                        <button onclick="redirect('/archivoftp/mapa_cotizacion/{{mapa}}')">Ver Mapa</button>
+                    {% endif %}
                 {% endif %}
             </td>
             {% for x in cliente %}
