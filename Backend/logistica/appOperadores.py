@@ -35,8 +35,10 @@ def loginAdmin():
 def consultaEmpleado():
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("select id,nombre,correo from empleado where Fecha_Baja is null")
+    cursor.execute("select id,nombre,correo from empleado where Fecha_Baja is null order by nombre")
     empleados = []
+    empleado = {"id":0,"nombre":"","correo":""}
+    empleados.append(empleado)
     for x in cursor.fetchall():
         empleado = {"id":x[0],"nombre":x[1],"correo":x[2]}
         empleados.append(empleado)
