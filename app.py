@@ -80,6 +80,8 @@ from Backend.logistica import devoluciones
 app.register_blueprint(devoluciones.devolucion)
 from Backend.logistica import appChofer
 app.register_blueprint(appChofer.pd)
+from Backend.logistica import appOperadores
+app.register_blueprint(appOperadores.OPLG)
 from Backend.logistica import rutaChofer
 app.register_blueprint(rutaChofer.lgMR)
 from Backend.logistica import vistaGeneral
