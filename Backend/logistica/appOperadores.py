@@ -45,11 +45,11 @@ def consultaEmpleado():
 @OPLG.route("/operadores/ingreso",methods=["POST"])
 def scannerIngreso():
     data = request.get_json()
+    print(data)
     envio = data["id"]
-    operador = data["user"]
+    operador = data["usser"]
     chofer = data["chofer"]
     location = data["location"]
-    print(data)
     del data["chofer"]
     del data["location"]
     midb = connect_db()
