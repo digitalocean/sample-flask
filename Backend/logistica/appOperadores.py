@@ -71,7 +71,7 @@ def scannerRetirarOP():
     envio = data["id"]
     operador = data["operador"]
     location = data["location"]
-    print(operador)
+    print(f"operador: {operador}")
     del data["operador"]
     del data["location"]
     try:
