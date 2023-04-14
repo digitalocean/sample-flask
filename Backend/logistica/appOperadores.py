@@ -64,6 +64,7 @@ def scannerIngreso():
         cursor.execute("""insert into ingresado 
                         (Numero_envío,operador,chofer,estado,scanner,Currentlocation)
                         values (%s,%s,%s,%s,%s,%s);""",values)
+        midb.commit()
         midb.close()
         return jsonify(success=False,message="No esta en lista")
     else:
@@ -73,6 +74,7 @@ def scannerIngreso():
         cursor.execute("""insert into ingresado 
                         (Numero_envío,operador,chofer,estado,scanner,Currentlocation)
                         values (%s,%s,%s,%s,%s,%s);""",values)
+        midb.commit()
         midb.close()
         if estado != "Retirado":
             return jsonify(success=False,message=f"Estado: {estado}, Motivo: {motivo}")
@@ -80,5 +82,44 @@ def scannerIngreso():
             return jsonify(success=True,message=f"Envio {envio} ingresado")
 
         
+def sectorizar(database,data,zona):
+    nenvio = data["id"]
+    chofer = data["operador"]
+    location = data["location"]
+    del data["operador"]
+    del data["location"]
 
-        
+    cursor = database.cursor()
+    cursor.execute(
+        """INSERT INTO `mmslogis_MMSPack`.`sectorizado`
+                (`id`,`zona`,`fecha`,`hora`,`Numero_envío`,`scanner`,`chofer`,Currentlocation)
+            VALUES
+                (UUID(),
+                %s,
+                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                %s,
+                %s,
+                %s,
+                %s);""",(zona,nenvio,str(data),chofer,location))
+
+    database.commit()
+    database.close()
+
+@OPLG.route("/operadores/sectorizar",methods=["POST"])
+def scannerSectorizar():
+    data = request.get_json()
+    envio = data["id"]
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("Select Zona from ViajesFlexs where Numero_envío = %s",(envio,))
+    zona = cursor.fetchone()
+    midb.close()
+    if zona == None:
+        zona = " No esta en lista "
+    else:
+        zona = zona[0]
+        t = Thread(target=sectorizar, args=(connect_db(),data,zona))
+        t.start()
+    return jsonify({"Zona":zona})
+
