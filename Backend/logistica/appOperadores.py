@@ -47,7 +47,7 @@ def scannerIngreso():
     data = request.get_json()
     print(data)
     envio = data["id"]
-    operador = data["usser"]
+    operador = data["operador"]
     chofer = data["chofer"]
     location = data["location"]
     del data["chofer"]
