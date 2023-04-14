@@ -30,6 +30,18 @@ def loginAdmin():
     else:
         return jsonify(success=False,message="password invalid",data=None)
     
+
+@OPLG.route("/operadores/consultaempleados",methods=["POST"])
+def consultaEmpleado():
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("select id,nombre,correo from empleado where Fecha_Baja is null")
+    empleados = []
+    for x in cursor.fetchall():
+        empleado = {"id":x[0],"nombre":x[1],"correo":x[2]}
+        empleados.append(empleado)
+    return jsonify(empleados)
+
 @OPLG.route("/operadores/ingreso",methods=["POST"])
 def scannerIngreso():
     data = request.get_json()
