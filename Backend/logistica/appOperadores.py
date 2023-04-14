@@ -81,7 +81,7 @@ def scannerRetirarOP():
         print("Fallo informe a logixs (Retiro)")
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
+    cursor.execute("SELECT fecha,ifnull(choferCorreo(chofer),chofer) from retirado where Numero_envío = %s limit 1",(envio,))
     resultado = cursor.fetchone()
     if resultado == None:
         cursor.execute("""insert into retirado
