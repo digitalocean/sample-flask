@@ -50,6 +50,7 @@ def scannerIngreso():
     operador = data["operador"]
     chofer = data["chofer"]
     location = data["location"]
+    del data["operador"]
     del data["chofer"]
     del data["location"]
     midb = connect_db()
@@ -57,12 +58,22 @@ def scannerIngreso():
     cursor.execute("SELECT Fecha,estado_envio,Motivo from ViajesFlexs where Numero_envío = %s ",(envio,))
     resultado = cursor.fetchone()
     print(resultado)
-    midb.close()
+    
     if resultado == None:
+        values = (envio,operador,chofer,"NO ESTA EN LISTA",str(data),location)
+        cursor.execute("""insert into ingresado 
+                        (Numero_envío,operador,chofer,estado,scanner,Currentlocation)
+                        values (%s,%s,%s,%s,%s,%s);""",values)
+        midb.close()
         return jsonify(success=False,message="No esta en lista")
     else:
         estado = resultado[1]
         motivo = resultado[2]
+        values = (envio,operador,chofer,f"Estado: {estado}, Motivo: {motivo}",str(data),location)
+        cursor.execute("""insert into ingresado 
+                        (Numero_envío,operador,chofer,estado,scanner,Currentlocation)
+                        values (%s,%s,%s,%s,%s,%s);""",values)
+        midb.close()
         if estado != "Retirado":
             return jsonify(success=False,message=f"Estado: {estado}, Motivo: {motivo}")
         else:
