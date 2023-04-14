@@ -107,7 +107,7 @@ function imprimir() {
                 <td>
                     <input type="button" value="anular" onclick="confirmar('{{viaje.2}}')">
                     <input type="button" value="Cancelar" onclick="cancelado('{{viaje.3}}')">
-                    <input type="button" value="Cancelar" onclick="zonaPeligrosa('{{viaje.3}}')">
+                    <input type="button" value="Zona zonaPeligrosa" onclick="zonaPeligrosa('{{viaje.3}}')">
                     {% if viaje.17 != None and viaje.17 != "" %}
                     <form action="/image" method="post">
                         <input type="hidden" name="idFoto" value="{{viaje.17}}">
