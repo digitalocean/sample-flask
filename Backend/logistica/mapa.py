@@ -109,18 +109,33 @@ def fueraDeZonaMapa():
 @lgMapa.route("/logistica/mapa/zonapeligrosa", methods=["GET","POST"])
 @auth.login_required
 def zonaPeligrosa():
+    envio = request.json["nro_envio"]
     midb = database.connect_db()
     cursor = midb.cursor()
-    cursor.execute("""
-                    update ViajesFlexs 
-                        set 
-                            estado_envio = "Cancelado",
-                            Motivo = "Zona Peligrosa",
-                            `Check` = null,
-                            Zona = null where Numero_envío = %s;
-                    """,(request.json["nro_envio"],))
-    midb.commit()
-    return ""
+    midb.start_transaction()
+    try:
+        cursor.execute("""
+                        update ViajesFlexs 
+                            set 
+                                estado_envio = "Cancelado",
+                                Motivo = "Zona Peligrosa",
+                                `Check` = null,
+                                Zona = null where Numero_envío = %s;
+                        """,(envio,))
+        midb.commit()
+        cursor.execute("""
+                    UPDATE historial_estados 
+                    SET estado_envio = 'En Camino/anulado' 
+                    WHERE Numero_envío = %s 
+                    AND estado_envio = 'En Camino' 
+                    AND NOT EXISTS 
+                    (SELECT * FROM historial_estados WHERE Numero_envío = %s 
+                    AND motivo_noenvio in ("Buzon/bajo puerta","Entregado","Entregado sin novedades","Nadie en domicilio","Rechazado"));""",(envio,envio))
+        midb.commit()
+        midb.close()
+        return ""
+    except:
+        midb.rollback()
 
 
 @lgMapa.route("/logistica/mapa/cancelado", methods=["GET","POST"])
