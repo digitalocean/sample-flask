@@ -43,10 +43,17 @@ def scannerIngreso():
     cursor.execute("SELECT Fecha,estado_envio,Motivo from ViajesFlexs where Numero_envío = %s ",(envio,))
     resultado = cursor.fetchone()
     print(resultado)
+    midb.close()
     if resultado == None:
         return jsonify(success=False,message="No esta en lista")
     else:
         estado = resultado[1]
         motivo = resultado[2]
-        midb.close()
-        return jsonify(success=False,message=f"Estado: {estado}, Motivo: {motivo}")
+        if estado != "Retirado":
+            return jsonify(success=False,message=f"Estado: {estado}, Motivo: {motivo}")
+        else:
+            return jsonify(success=True,message=f"Envio {envio} ingresado")
+
+        
+
+        
