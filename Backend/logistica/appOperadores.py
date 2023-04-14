@@ -46,8 +46,10 @@ def consultaEmpleado():
 def scannerIngreso():
     data = request.get_json()
     envio = data["id"]
+    operador = data["user"]
     chofer = data["chofer"]
     location = data["location"]
+    print(data)
     del data["chofer"]
     del data["location"]
     midb = connect_db()
