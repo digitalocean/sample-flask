@@ -65,27 +65,13 @@ def enviosRetiradosOP():
         envios.append(data)
     return jsonify(envios)
 
-def hiloRetirarOP(_midb,_cursor,_envio,_chofer,_data,_location):
-    _cursor.execute("""insert into retirado
-                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
-                            values(
-                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-                                %s,
-                                %s,
-                                'Retirado',
-                                %s,
-                                %s);""",
-                                (_envio,_chofer,str(_data),_location))
-    _midb.commit()
-    _midb.close()
-    
 @OPLG.route("/operadores/retirar",methods=["POST"])
 def scannerRetirarOP():
     data = request.get_json()
     envio = data["id"]
-    chofer = data["operador"]
+    operador = data["operador"]
     location = data["location"]
+    print(operador)
     del data["operador"]
     del data["location"]
     try:
@@ -98,8 +84,6 @@ def scannerRetirarOP():
     cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
     resultado = cursor.fetchone()
     if resultado == None:
-        # t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
-        # t.start()
         cursor.execute("""insert into retirado
                             (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
                             values(
@@ -110,7 +94,7 @@ def scannerRetirarOP():
                                 'Retirado',
                                 %s,
                                 %s);""",
-                                (envio,chofer,str(data),location))
+                                (envio,operador,str(data),location))
         midb.commit()
         midb.close()
         return jsonify(success=True,message="Retirado")
@@ -205,8 +189,10 @@ def enCaminar():
     data = request.get_json()
     nenvio = data["id"]
     chofer = data["chofer"]
+    operador = data["operador"]
     latlong = data["location"]
     del data["chofer"]
+    del data["operador"]
     del data["location"]
     try:
         threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "carga", "MMS", data, nenvio))
