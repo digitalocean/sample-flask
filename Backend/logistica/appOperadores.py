@@ -3,7 +3,8 @@ from flask import Blueprint, jsonify, request,send_file,redirect
 from threading import Thread
 import requests
 from Backend.database.database import connect_db
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta3
+from Backend.logistica.actualizarLogixs import actualizar_estado_logixs
 
 OPLG = Blueprint('operadoresLogisticos', __name__, url_prefix='/')
 
@@ -123,3 +124,36 @@ def scannerSectorizar():
         t.start()
     return jsonify({"Zona":zona})
 
+@OPLG.route("/operadores/encaminar", methods=["POST"])
+def enCaminar():
+    data = request.get_json()
+    nenvio = data["id"]
+    chofer = data["chofer"]
+    latlong = data["location"]
+    del data["chofer"]
+    del data["location"]
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "carga", "MMS", data, nenvio))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs (CARGA)")
+    status = False
+    message = ""
+    try:
+        midb = connect_db()
+        cursor = midb.cursor()
+        cursor.execute(
+            """INSERT INTO `mmslogis_MMSPack`.`en_camino`
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation)
+                VALUES
+                    (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
+                    ,%s,correoChofer(%s),%s,%s);""",(nenvio,chofer,str(data),latlong))
+        midb.commit()
+        midb.close()
+        status = True
+        message = "Cargado"
+    except Exception as err:
+        print(err)
+        status = False
+        message = err
+    return jsonify(success=status,message=message,envio=nenvio)
