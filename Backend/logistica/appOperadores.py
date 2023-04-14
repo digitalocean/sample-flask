@@ -31,7 +31,7 @@ def loginAdmin():
         return jsonify(success=False,message="password invalid",data=None)
     
 @OPLG.route("/operadores/ingreso",methods=["POST"])
-def scannerRetirar():
+def scannerIngreso():
     data = request.get_json()
     envio = data["id"]
     chofer = data["chofer"]
@@ -40,13 +40,13 @@ def scannerRetirar():
     del data["location"]
     midb = connect_db()
     cursor = midb.cursor()
-    cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
+    cursor.execute("SELECT Fecha,estado_envio,Motivo from ViajesFlexs where Numero_envío = %s ",(envio,))
     resultado = cursor.fetchone()
     print(resultado)
     if resultado == None:
-        t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
-        t.start()
-        return jsonify(success=True,message="Retirado")
+        return jsonify(success=False,message="No esta en lista")
     else:
+        estado = resultado[1]
+        motivo = resultado[2]
         midb.close()
-        return jsonify(success=False,message=f"Ya retirador por {resultado[1]} el {resultado[0]}")
+        return jsonify(success=False,message=f"Estado: {estado}, Motivo: {motivo}")
