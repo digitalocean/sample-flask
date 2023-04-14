@@ -3,7 +3,6 @@ from flask import Blueprint, jsonify, request,send_file,redirect
 from threading import Thread
 import requests
 from Backend.database.database import connect_db
-from datetime import datetime,timedelta3
 from Backend.logistica.actualizarLogixs import actualizar_estado_logixs
 
 OPLG = Blueprint('operadoresLogisticos', __name__, url_prefix='/')
@@ -42,6 +41,83 @@ def consultaEmpleado():
         empleado = {"id":x[0],"nombre":x[1],"correo":x[2]}
         empleados.append(empleado)
     return jsonify(empleados)
+
+@OPLG.route("/operadores/retirado",methods=["POST"])
+def enviosRetiradosOP():
+    sql = """select V.Numero_envío,V.Comprador,V.Telefono,V.Direccion,V.Localidad,V.Vendedor,V.Latitud,V.Longitud,V.tipo_envio,choferCorreo(R.chofer),R.fecha from retirado as R inner join ViajesFlexs as V on R.Numero_envío = V.Numero_envío"""
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    envios = []
+    for x in result:
+        nEnvio = x[0]
+        comprador = x[1]
+        telefono = x[2]
+        dirCompleta = f"{x[3]}, {x[4]}"
+        vendedor = x[5]
+        latitud = x[6]
+        longitud = x[7]
+        tipoEnvio = x[8]
+        chofer = x[9]
+        fecha = x[10]
+        data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio,"chofer":chofer,"fecha":fecha}
+        envios.append(data)
+    return jsonify(envios)
+
+def hiloRetirarOP(_midb,_cursor,_envio,_chofer,_data,_location):
+    _cursor.execute("""insert into retirado
+                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
+                            values(
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                %s,
+                                %s,
+                                'Retirado',
+                                %s,
+                                %s);""",
+                                (_envio,_chofer,str(_data),_location))
+    _midb.commit()
+    _midb.close()
+    
+@OPLG.route("/operadores/retirar",methods=["POST"])
+def scannerRetirarOP():
+    data = request.get_json()
+    envio = data["id"]
+    chofer = data["operador"]
+    location = data["location"]
+    del data["operador"]
+    del data["location"]
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, "retiro", "MMS", data, envio))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs (Retiro)")
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("SELECT fecha,choferCorreo(chofer) from retirado where Numero_envío = %s limit 1",(envio,))
+    resultado = cursor.fetchone()
+    if resultado == None:
+        # t = Thread(target=hiloRetirar, args=(midb,cursor,envio,chofer,data,location))
+        # t.start()
+        cursor.execute("""insert into retirado
+                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
+                            values(
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
+                                %s,
+                                %s,
+                                'Retirado',
+                                %s,
+                                %s);""",
+                                (envio,chofer,str(data),location))
+        midb.commit()
+        midb.close()
+        return jsonify(success=True,message="Retirado")
+    else:
+        midb.close()
+        return jsonify(success=False,message=f"Ya retirador por {resultado[1]} el {resultado[0]}")
+
 
 @OPLG.route("/operadores/ingreso",methods=["POST"])
 def scannerIngreso():
