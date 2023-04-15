@@ -6,7 +6,7 @@ import mysql.connector
 class Envio:
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
-                recibeOtro=None,fotoDni=None,cobrar=0,reprogramaciones=0,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,columna3=None,fromDB=False,geolocalizar=False,zona=None):
+                recibeOtro=None,fotoDni=None,cobrar=0,reprogramaciones=0,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,reprogramado=None,fromDB=False,geolocalizar=False,zona=None):
         midb = database.connect_db()
         if numeroEnvio == None:
             cursor = midb.cursor()
@@ -66,15 +66,15 @@ class Envio:
         self.valordeclarado = valorDeclarado
         self.SKU = sku
         self.Multiplicador = multiplicador
-        self.columna_2 = columna3
-        self.columna_3 = columna3
+        self.columna_2 = columna2
+        self.reprogramado = reprogramado
     def toDB(self):
         midb = database.connect_db()
         cursor = midb.cursor()
         sql = """insert into ViajesFlexs (`Check`,Zona,Fecha,Numero_envío,nro_venta,comprador,Telefono,
             Direccion,Referencia,Localidad,rendido,CP,Vendedor,Chofer,Observacion,Motivo,Direccion_Completa,Currentlocation,
             Timechangestamp,Latitud,Longitud,Precio_Cliente,Precio_Chofer,Scanner,estado_envio,Foto_domicilio,Firma_Entregado,
-            tipo_envio,Correo_chofer,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`valordeclarado`,`sku`,columna_1,columna_2,columna_3)
+            tipo_envio,Correo_chofer,Recibe_otro,Foto_dni,Cobrar,Reprogramaciones,`valordeclarado`,`sku`,columna_1,columna_2,reprogramado)
             values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         values = (self.Check,self.Zona,self.Fecha,self.Numero_envío,self.nro_venta,self.comprador,
                     self.Telefono,self.Direccion,self.Referencia,self.Localidad,self.rendido,self.CP,
@@ -82,7 +82,7 @@ class Envio:
                     self.Currentlocation,self.Timechangestamp,self.Latitud,self.Longitud,self.Precio_Cliente,
                     self.Precio_Chofer,self.Scanner,self.estado_envio,self.Foto_domicilio,self.Firma_Entregado,
                     self.tipo_envio,self.Correo_chofer,self.Recibe_otro,self.Foto_dni,self.Cobrar,
-                    self.Reprogramaciones,self.valordeclarado,self.SKU,self.Multiplicador,self.columna_2,self.columna_3)
+                    self.Reprogramaciones,self.valordeclarado,self.SKU,self.Multiplicador,self.columna_2,self.reprogramado)
         try:
             cursor.execute(sql,values)
             midb.commit()
