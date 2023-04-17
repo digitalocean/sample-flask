@@ -31,6 +31,7 @@ def descargaLogixs(midatabase,dicNrosEnviosDB):
             vendedor = str(x['Nickname_Vend']).replace("'"," ")
             if "zippin" in vendedor:
                 vendedor = vendedor.replace("zippin(","")[0:-1]
+                print(x)
             contadorAgregados +=1
             referencia = str(x['Comment']).replace("'"," ")
             comprador = str(x['Nombre_Destino']).replace("'"," ")

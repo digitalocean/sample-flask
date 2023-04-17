@@ -51,7 +51,11 @@
                 <td style="text-align: center;">Precio nuevo</td>
             </tr>
         {% for x in precios %}
-        <form action="/facturacion/cambioprecio" method="POST">
+        {% if x.1 == None %}
+            <form action="/facturacion/nuevoprecio" method="POST">
+        {% else %}
+            <form action="/facturacion/cambioprecio" method="POST">
+        {% endif %}
         <tr style="border: solid;">
             <input type="hidden" name="tarifa" value="{{tarifa}}">
             <input type="hidden" name="zona" value="{{x.3}}">

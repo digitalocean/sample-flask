@@ -136,6 +136,32 @@ def cambiarprecio():
         zonaCambia = request.form["zona"]
         nuevoprecio = request.form["nuevoprecio"]
         nuevoprecio = float(str(nuevoprecio).replace(",","."))
+        sql = f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}"
+        # sql = f"INSERT IGNORE INTO zonaTarifaPrecio (id_tarifa, id_zona, precio) VALUES ({tarifa}, {zonaCambia}, {nuevoprecio}) ON DUPLICATE KEY UPDATE precio = {nuevoprecio};"
+        print(sql)
+        cursor.execute(sql)
+        midb.commit()
+        return render_template("facturacion/tarifas.html",
+                                precios=obtenerPrecios(tarifa,midb),
+                                zonas = obtenerZonasId(midb),
+                                cant_columnas = 2,
+                                tarifa=tarifa,
+                                clientes = obtenerTarifaPorCliente(midb),
+                                tarifas=obtenerIdTarifas(midb),
+                                localidades = obtenerZonas(tarifa,midb),
+                                auth = session.get("user_auth"))
+    
+@pr.route('/facturacion/nuevoprecio/', methods=["POST","GET"])
+@auth.login_required
+@auth.admin_required
+def nuevoPrecio():
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    if request.method == "POST":
+        tarifa = request.form["tarifa"]
+        zonaCambia = request.form["zona"]
+        nuevoprecio = request.form["nuevoprecio"]
+        nuevoprecio = float(str(nuevoprecio).replace(",","."))
         # sql = f"update zonaTarifaPrecio set precio = {nuevoprecio} where id_tarifa = {tarifa} and id_zona = {zonaCambia}"
         sql = f"INSERT IGNORE INTO zonaTarifaPrecio (id_tarifa, id_zona, precio) VALUES ({tarifa}, {zonaCambia}, {nuevoprecio}) ON DUPLICATE KEY UPDATE precio = {nuevoprecio};"
         print(sql)
