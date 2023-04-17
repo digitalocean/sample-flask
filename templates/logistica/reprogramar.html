@@ -10,7 +10,7 @@
 </style>
 <script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
 <form action="/logistica/reprogramar" method="post">
-    <input type="hidden" name="nro_envio" id="nro_envio" value{{nro_envio}}>
+    <input type="hidden" name="nEnvio" id="nEnvio" value="{{nro_envio}}">
     <table>
         <tr>
             <td>Fecha</td>
