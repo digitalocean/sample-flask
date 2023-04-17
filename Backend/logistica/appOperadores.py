@@ -259,7 +259,6 @@ def egresar():
 def devolver():
     data = request.get_json()
     nenvio = data["id"]
-    chofer = data["chofer"]
     operador = data["operador"]
     latlong = data["location"]
     del data["chofer"]
@@ -275,7 +274,7 @@ def devolver():
                     (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation,estado)
                 VALUES
                     (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
-                    ,%s,correoChofer(%s),%s,%s,(select estado_envio from ViajesFlexs where Numero_envío = %s));""",(nenvio,chofer,str(data),latlong,operador,nenvio))
+                    ,%s,correoChofer(%s),%s,%s,(select estado_envio from ViajesFlexs where Numero_envío = %s));""",(nenvio,operador,str(data),latlong,nenvio))
         midb.commit()
         midb.close()
         status = True
