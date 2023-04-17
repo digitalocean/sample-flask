@@ -221,3 +221,67 @@ def enCaminar():
         status = False
         message = err
     return jsonify(success=status,message=message,envio=nenvio)
+
+
+@OPLG.route("/operadores/egreso", methods=["POST"])
+def egresar():
+    data = request.get_json()
+    nenvio = data["id"]
+    chofer = data["chofer"]
+    operador = data["operador"]
+    latlong = data["location"]
+    del data["chofer"]
+    del data["operador"]
+    del data["location"]
+    status = False
+    message = ""
+    try:
+        midb = connect_db()
+        cursor = midb.cursor()
+        cursor.execute(
+            """INSERT INTO `mmslogis_MMSPack`.`egreso`
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation,operador)
+                VALUES
+                    (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
+                    ,%s,correoChofer(%s),%s,%s,%s);""",(nenvio,chofer,str(data),latlong,operador))
+        midb.commit()
+        midb.close()
+        status = True
+        message = "Cargado"
+    except Exception as err:
+        print(err)
+        status = False
+        message = f"Ocurrio un error: {err}"
+    return jsonify(success=status,message=message,envio=nenvio)
+
+
+@OPLG.route("/operadores/devolucion", methods=["POST"])
+def devolver():
+    data = request.get_json()
+    nenvio = data["id"]
+    chofer = data["chofer"]
+    operador = data["operador"]
+    latlong = data["location"]
+    del data["chofer"]
+    del data["operador"]
+    del data["location"]
+    status = False
+    message = ""
+    try:
+        midb = connect_db()
+        cursor = midb.cursor()
+        cursor.execute(
+            """INSERT INTO `mmslogis_MMSPack`.`devoluciones`
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation,operador,estado)
+                VALUES
+                    (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
+                    ,%s,correoChofer(%s),%s,%s,%s,(select estado_envio from ViajesFlexs where Numero_envío = %s));""",(nenvio,chofer,str(data),latlong,operador,nenvio))
+        midb.commit()
+        midb.close()
+        status = True
+        message = "Cargado"
+    except Exception as err:
+        print(err)
+        status = False
+        message = f"Ocurrio un error: {err}"
+    return jsonify(success=status,message=message,envio=nenvio)
