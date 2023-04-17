@@ -240,14 +240,14 @@ def egresar():
         cursor = midb.cursor()
         cursor.execute(
             """INSERT INTO `mmslogis_MMSPack`.`egreso`
-                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation,operador)
+                    (`id`,`fecha`,`hora`,estado,`Numero_envío`,`chofer`,`scanner`,Currentlocation,operador)
                 VALUES
                     (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
-                    ,%s,correoChofer(%s),%s,%s,%s);""",(nenvio,chofer,str(data),latlong,operador))
+                    ,"Lista para Devolver",%s,correoChofer(%s),%s,%s,%s);""",(nenvio,chofer,str(data),latlong,operador))
         midb.commit()
         midb.close()
         status = True
-        message = "Cargado"
+        message = "Egreso registrado"
     except Exception as err:
         print(err)
         status = False
@@ -271,14 +271,14 @@ def devolver():
         cursor = midb.cursor()
         cursor.execute(
             """INSERT INTO `mmslogis_MMSPack`.`devoluciones`
-                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation,estado)
+                    (`id`,`fecha`,`hora`,`Numero_envío`,`chofer`,`scanner`,Currentlocation)
                 VALUES
                     (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR)
-                    ,%s,correoChofer(%s),%s,%s,(select estado_envio from ViajesFlexs where Numero_envío = %s));""",(nenvio,operador,str(data),latlong,nenvio))
+                    ,%s,ifnull(correoChofer(%s),%s),%s,%s);""",(nenvio,operador,operador,str(data),latlong))
         midb.commit()
         midb.close()
         status = True
-        message = "Cargado"
+        message = "Listo para devolver"
     except Exception as err:
         print(err)
         status = False
