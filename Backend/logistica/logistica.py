@@ -106,3 +106,27 @@ def bultosPorEnvio():
     cursor.execute(sql,values)
     midb.commit()
     return redirect("/vistamapa")
+
+@lg.route("/logistica/reprogramar/<nro_envio>")
+@auth.login_required
+def reprogramarEnvioGet(nro_envio):
+    return render_template("/logistica/reprogramar.html",
+                            titulo = "Reprogramar envio",
+                            nro_envio = nro_envio,
+                            auth = session.get("user_auth"))
+    
+
+@lg.route("/logistica/reprogramar",methods=["POST"])
+@auth.login_required
+def reprogramarEnvioPost():
+    fecha = request.form.get("fecha")
+    nro_envio = request.form.get("nEnvio")
+    sql = "update ViajesFlexs set reprogramado = %s where Numero_envío = %s;"
+    values = (fecha,nro_envio)
+    print(sql % values)
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cursor.execute(sql,values)
+    midb.commit()
+    midb.close()
+    return redirect("/logistica/ruteo")

@@ -6,7 +6,7 @@ from Backend.scriptGeneral.scriptGeneral import consultaChoferCorreo
 hsList = Blueprint('historialEnvios', __name__, url_prefix='/')
  
 
-columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Observacion,H.reprogramaciones,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.columna_3,H.modifico_historial"""
+columnas = """ H.Fecha, H.Hora, H.id, H.Numero_envío,V.Telefono,H.Direccion_completa,H.Localidad,vendedor(H.Vendedor),H.Chofer,H.estado_envio,H.motivo_noenvio,H.Observacion,H.reprogramaciones,H.Precio,H.Costo,H.Currentlocation,H.Correo_chofer,H.Foto_domicilio,V.Cobrar,V.columna_1,V.columna_2,V.reprogramado,H.modifico_historial"""
 def consultaPendientes(sql):
     viajes =[]
     midb = database.connect_db()

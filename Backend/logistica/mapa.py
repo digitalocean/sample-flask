@@ -22,7 +22,8 @@ consultaMapa = """
             CP,
             columna_1,
             Scanner,
-            Cobrar
+            Cobrar,
+            reprogramado
         from ViajesFlexs
         where 
             not (estado_envio = "Lista Para Retirar" and vendedor(Vendedor) in ("PF FERRETERIA"))
@@ -67,7 +68,8 @@ def jsonPendientes():
                 "tipoEnvio":x[12],
                 "CP":x[13],
                 "bultos":x[14],
-                "cobrar":x[16]
+                "cobrar":x[16],
+                "reprogramado":x[17]
             }
         return jsonify(jsonPendientes)
 

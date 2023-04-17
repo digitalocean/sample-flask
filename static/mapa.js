@@ -181,9 +181,10 @@ function numeroZona(zona){
         var tipoEnvio = data[x]["tipoEnvio"];
         var cp = data[x]["CP"];
         var bultos = data[x]["bultos"];
-        var cobrar = data[x]["cobrar"]
+        var cobrar = data[x]["cobrar"];
+        var reprogramado = data[x]["reprogramado"]
         ultimoEstado = fechaUltimoEstado + " " + horaUltimoEstado;
-        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp,bultos,cobrar)
+        addPoint(jsonEnvio,jsonLatitud,jsonLongitud,jsonDir,jsonLoc,jsonChofer,jsonEstado,jsonZona,jsonFecha,jsonVendedor,jsonmotivo,ultimoEstado,tipoEnvio,cp,bultos,cobrar,reprogramado)
       }  
     }
   });
@@ -208,7 +209,7 @@ for (let i = 0; i < iniciales.length; i++) {
     }
 }
   
-function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp,bultos,cobrar){
+function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo,ult_estado,tipo_envio,cp,bultos,cobrar,reprogramado){
     const marker = new google.maps.Marker({
       Paquete:nro_env,
       estado:est,
@@ -219,6 +220,7 @@ function addPoint(nro_env,lati,lng,dir,loc,chofer,est,zona,fecha,vendedor,motivo
       tipoEnvio:tipo_envio,
       cp:cp,
       bultos:bultos,
+      reprogramado:reprogramado,
       position: { lat: parseFloat(lati), lng:  parseFloat(lng)},
       icon: getPinIcon(zona),
       map: map,
