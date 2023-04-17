@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block content %}
+<style>
+    td{
+        border-left: solid;
+        border-top: solid ; 
+        border-color: #afafaf;
+    }
+</style>
+<script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
+<form action="/logistica/reprogramar" method="post">
+    <input type="hidden" name="nro_envio" id="nro_envio" value{{nro_envio}}>
+    <table>
+        <tr>
+            <td>Fecha</td>
+            <td><input type="date" name="fecha" id="fecha" required></td>
+            <td><input type="submit" value="Reprogramar"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

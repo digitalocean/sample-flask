@@ -1,0 +1,98 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<form action="/logistica/cargamensajeria" method="post">
+    <table>
+        <tr>
+            <td>Fecha</td>
+            <td><input type="date" name="fecha" id="fecha"></td>
+            
+        </tr>
+        <tr>
+            <td>Solicitante</td>
+            <td><input type="text" name="solicitante" id="solicitante"></td>
+            
+        </tr>
+        <tr>
+            <td>Horario</td>
+            <td><input type="text" name="horario" id="horario"></td>
+            
+        </tr>
+        <tr>
+            <td>Cliente</td>
+            <td><select name="cliente" id="cliente">
+                <option value=""></option>
+            {% for cliente in clientes %}
+            <option value="{{cliente}}">{{cliente}}</option>
+            {% endfor %}
+        </select></td>
+            
+        </tr>
+        <tr>
+            <td>Chofer</td>
+            <td><select name="chofer" id="chofer">
+                <option value=""></option>
+            {% for chofer in choferes %}
+            <option value="{{chofer}}">{{chofer}}</option>
+            {% endfor %}
+        </select></td>
+            
+      </tr>
+        <tr>
+            <td>Direccion</td>
+            <td><input type="text" name="direccion" id="direccion"></td>
+            
+        </tr>
+        <tr>
+            <td>Localidad</td>
+            <td><select name="localidad" id="localidad">
+                <option value=""></option>
+            {% for localidad in localidades %}
+            <option value="{{localidad}}">{{localidad}}</option>
+            {% endfor %}
+        </select></td>
+
+        <tr>
+            <td>Adicional</td>
+            <td><select name="adcicional" id="localidades">
+                <option value=""></option>
+            {% for adcicional in adicionales %}
+            <option value="{{adicional}}">{{adcicional}}</option>
+            {% endfor %}
+        </select></td>
+            
+      </tr>
+        <tr>
+            <td>Retorno</td>
+            <td>
+                <select name="retorno" id="retorno">
+                    <option value="no">No</option>
+                    <option value="caba">CABA</option>
+                    <option value="gba">GBA</option>
+                </select>
+            </td>
+            
+        </tr>
+        <tr>
+            <td>Lluvia</td>
+            <td>
+                <select name="lluvia" id="lluvia">
+                    <option value="no">No</option>
+                    <option value="si">Si</option>
+                </select>
+            </td>
+            
+        </tr>
+        <tr>
+            <td>Demora</td>
+            <td><input type="number" name="demora" id="demora"></td>
+        </tr>
+        <tr>
+            <td>Bulto</td>
+            <td><input type="number" name="bulto" id="bulto" min="0" max="5"></td>
+        </tr>
+        <tr>
+    </table> </form>
+
+{% endblock %}
