@@ -95,7 +95,7 @@ def alMapa(envio):
     print(sql)
     cursor.execute(sql)
     midb.commit()
-    return redirect("/logistica/pendientes/")
+    return redirect("/vistamapa")
 
 @hsList.route("/busquedaAdmin")
 @auth.login_required
