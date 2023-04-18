@@ -47,7 +47,9 @@ def descargaLogixs(midatabase,dicNrosEnviosDB):
             referencia = str(referencia).replace("\n", " ")
             ValorDeclarado = str(x["ValorDeclarado"]).replace("'","")
             direccionCompleta = f"{direccion}, {localidad}, Buenos aires"
-            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}',{ValorDeclarado}, 'Lista Para Retirar',2),"
+            if estado != "Lista Para Retirar":
+                estado = "Retirado"
+            enviosLogixsNuevos += f"('{fecha_entrega}', '{nroEnvio}', '{comprador}', '{telefono}', '{direccion}', '{referencia}', '{localidad}', '{cp}', '{vendedor}', '{direccionCompleta}', '{latitud}', '{longitud}',{ValorDeclarado}, '{estado}',2),"
             # viaje = Envio.Envio(direccion,localidad,vendedor,nroEnvio,comprador,fecha=fecha_entrega,telefono=telefono,referencia=referencia,cp=cp,latitud=latitud,longitud=longitud,tipoEnvio=2)
             # viaje.toDB()
     if len(enviosLogixsNuevos) > 0:
