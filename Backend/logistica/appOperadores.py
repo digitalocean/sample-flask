@@ -261,7 +261,6 @@ def devolver():
     nenvio = data["id"]
     operador = data["operador"]
     latlong = data["location"]
-    del data["chofer"]
     del data["operador"]
     del data["location"]
     status = False
