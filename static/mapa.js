@@ -281,13 +281,14 @@ options+
     google.maps.event.addListener(marker, "click", () => {
       infowindow.open(map, marker);
     });
-    if(reprogramado == null){
-      globales.markers.push(marker);
-    }else{
+    if(reprogramado !== null){
       if(new Date() <= new Date(reprogramado)){
-        console.log(nro_env)
+        marker.setVisible(false);
+        console.log(nro_env);
       }
+      
     }
+    globales.markers.push(marker);
     
 }
 
