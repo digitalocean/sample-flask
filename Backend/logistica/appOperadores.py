@@ -272,7 +272,7 @@ def devolver():
             """INSERT INTO `mmslogis_MMSPack`.`devoluciones`
                     (`id`,`fecha`,`hora`,`estado`,`Numero_envío`,`chofer`,`scanner`,Currentlocation)
                 VALUES
-                    (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR,"Lista para Devolver")
+                    (UUID(),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),"Lista para Devolver"
                     ,%s,ifnull(correoChofer(%s),%s),%s,%s);""",(nenvio,operador,operador,str(data),latlong))
         midb.commit()
         midb.close()
