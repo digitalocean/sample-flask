@@ -50,7 +50,7 @@ def RuteoPrimera():
     from .mapa import consultaMapa
     midb = database.connect_db()
     cursor = midb.cursor()
-    cabezeras = ["Acciones","Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Cobrar","Chofer","Estado","QR"]
+    cabezeras = ["Acciones","Zona","Fecha","Numero de envío","Direccion","Localidad","CP","vendedor","Cobrar","Chofer","Estado","Reprogramado","QR"]
     if "tipoEnvio" in session.keys():
         valueMapa = session["tipoEnvio"]
         cursor.execute(consultaMapa,(valueMapa,))
@@ -70,7 +70,8 @@ def RuteoPrimera():
         estado = x[8]
         qr = x[15]
         cobrar = x[16]
-        lista.append([zona,fecha,nEnvio,direccion,localidad,cp,vendedor,cobrar,chofer,estado,qr])
+        reprogramado = x[17]
+        lista.append([zona,fecha,nEnvio,direccion,localidad,cp,vendedor,cobrar,chofer,estado,reprogramado,qr])
     return render_template("logistica/ruteo.html", 
                             titulo="Ruteo",
                             viajes=lista,

@@ -45,7 +45,7 @@ def rendido():
     cursor.execute("""
                     update ViajesFlexs 
                         set 
-                            rendido = current_date(),
+                            rendido = current_timestamp(),
                             columna_2 = %s
                         where
                             Numero_envío = %s
