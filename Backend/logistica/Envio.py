@@ -4,6 +4,8 @@ from geopy.distance import geodesic
 from Backend.database import database
 import mysql.connector
 class Envio:
+    # def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,zona=None,comprador=None,telefono=None,referencia=None,cp=None,
+    #              fecha=datetime.now(),tipoEnvio=2,sku=None,fromDB=False,observacion=None,numeroVenta=None,valorDeclarado=None,estadoEnvio="Lista Para Retirar")
     def __init__(self,direccion,localidad,vendedor,numeroEnvio=None,comprador=None,telefono=None,referencia=None,cp=None,fecha=datetime.now(),numeroVenta=None,chofer=None,observacion=None,
                 motivo=None,precio=None,costo=None,scanner=None,estadoEnvio="Lista Para Retirar",fotoDomicilio=None,firma=None,tipoEnvio=2,latitud=None,longitud=None,correoChofer=None,
                 recibeOtro=None,fotoDni=None,cobrar=0,reprogramaciones=0,valorDeclarado=None,sku=None,multiplicador=1,columna2=None,reprogramado=None,fromDB=False,geolocalizar=False,zona=None):
