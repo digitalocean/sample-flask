@@ -3,72 +3,72 @@
 {% block content %}
 <script src="{{url_for('static', filename='estados.js')}}"></script>
 <script>
-    function confirmar(id){
-    if(confirm("¿Seguro?")){
-        // document.getElementById("fila"+id).outerHTML = "";
-        window.location.href = "/logistica/historial/anular/"+id;
-    }   
+  function confirmar(id){
+  if(confirm("¿Seguro?")){
+      // document.getElementById("fila"+id).outerHTML = "";
+      window.location.href = "/logistica/historial/anular/"+id;
+  }   
 }
 function imprimir() {
-	  var ficha = document.getElementById("printableArea");
-	  var ventimp = window.open(' ', 'popimpr');
-	  ventimp.document.write( ficha.innerHTML );
-	  ventimp.document.close();
-	  ventimp.print( );
-	  ventimp.close();
-	}
+  var ficha = document.getElementById("printableArea");
+  var ventimp = window.open(' ', 'popimpr');
+  ventimp.document.write( ficha.innerHTML );
+  ventimp.document.close();
+  ventimp.print( );
+  ventimp.close();
+}
 
 function rendido(nro_env,user){
-    if (confirm("¿seguro que es el envio "+nro_env+"?")) {
-        fetch(`/facturacion/rendido`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nro_envio: nro_env, user: user })
-        })
-  .then(response => {
-    if (response.status === 200) {
-      console.log(`${nro_env} Rendido`)
-      document.getElementById("fila"+nro_env).outerHTML = "";
-    
-    } else {
-      alert(`Se ha producido un error con ${nro_env}`);
-    }
-  });
+  if (confirm("¿seguro que es el envio "+nro_env+"?")) {
+      fetch(`/facturacion/rendido`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nro_envio: nro_env, user: user })
+      })
+.then(response => {
+  if (response.status === 200) {
+    console.log(`${nro_env} Rendido`)
+    document.getElementById("fila"+nro_env).outerHTML = "";
+  
+  } else {
+    alert(`Se ha producido un error con ${nro_env}`);
+  }
+});
 }
 }
 
 function searchTable() {
-      // Obtener el valor de búsqueda ingresado por el usuario
-      var total = document.getElementById("total")
-      // variable para almacenar la suma de la onceava columna
-      var sum = 0; 
-      var input = document.getElementById("searchInput").value;
-      // Obtener todas las filas de la tabla
-      var rows = document.getElementById("myTable").getElementsByTagName("tr");
-      // Recorrer cada fila, comenzando desde la segunda
-        for (var i = 1; i < rows.length; i++) {
-        // Obtener todas las celdas de la fila actual
-        var cells = rows[i].getElementsByTagName("td");
-        var found = false;
-        // Recorrer cada celda
-        for (var j = 0; j < cells.length; j++) {
-          // Comparar el valor de la celda con el valor de búsqueda
-          if (cells[j].innerHTML.toLowerCase().indexOf(input.toLowerCase()) > -1) {
-            found = true;
+    // Obtener el valor de búsqueda ingresado por el usuario
+    var total = document.getElementById("total")
+    // variable para almacenar la suma de la onceava columna
+    var sum = 0; 
+    var input = document.getElementById("searchInput").value;
+    // Obtener todas las filas de la tabla
+    var rows = document.getElementById("myTable").getElementsByTagName("tr");
+    // Recorrer cada fila, comenzando desde la segunda
+      for (var i = 1; i < rows.length; i++) {
+      // Obtener todas las celdas de la fila actual
+      var cells = rows[i].getElementsByTagName("td");
+      var found = false;
+      // Recorrer cada celda
+      for (var j = 0; j < cells.length; j++) {
+        // Comparar el valor de la celda con el valor de búsqueda
+        if (cells[j].innerHTML.toLowerCase().indexOf(input.toLowerCase()) > -1) {
+          found = true;
+        }
+        if ((j == 11 && found) || (j == 11 && input === '')) {
+          sum += parseFloat(cells[j].innerHTML);
           }
-          if ((j == 10 && found) || (j == 10 && input === '')) {
-            sum += parseFloat(cells[j].innerHTML);
-            }
-        }
-        if (found) {
-          rows[i].style.display = "";
-        } else {
-          rows[i].style.display = "none";
-        }
       }
-    // Escribir el resultado de la suma en el tag HTML con id "total"
-    total.innerHTML = "Total: " + sum;
+      if (found) {
+        rows[i].style.display = "";
+      } else {
+        rows[i].style.display = "none";
+      }
     }
+  // Escribir el resultado de la suma en el tag HTML con id "total"
+  total.innerHTML = "Total: " + sum;
+  }
 
 </script>
 <script src="{{url_for('static', filename='mapa.js')}}"></script>
