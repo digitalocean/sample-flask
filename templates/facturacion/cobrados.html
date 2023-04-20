@@ -3,50 +3,50 @@
 {% block content %}
 <script src="{{url_for('static', filename='estados.js')}}"></script>
 <script>
-  function confirmar(id){
-  if(confirm("¿Seguro?")){
+  function confirmar(id) {
+    if (confirm("¿Seguro?")) {
       // document.getElementById("fila"+id).outerHTML = "";
-      window.location.href = "/logistica/historial/anular/"+id;
-  }   
-}
-function imprimir() {
-  var ficha = document.getElementById("printableArea");
-  var ventimp = window.open(' ', 'popimpr');
-  ventimp.document.write( ficha.innerHTML );
-  ventimp.document.close();
-  ventimp.print( );
-  ventimp.close();
-}
-
-function rendido(nro_env,user){
-  if (confirm("¿seguro que es el envio "+nro_env+"?")) {
-      fetch(`/facturacion/rendido`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nro_envio: nro_env, user: user })
-      })
-.then(response => {
-  if (response.status === 200) {
-    console.log(`${nro_env} Rendido`)
-    document.getElementById("fila"+nro_env).outerHTML = "";
-  
-  } else {
-    alert(`Se ha producido un error con ${nro_env}`);
+      window.location.href = "/logistica/historial/anular/" + id;
+    }
   }
-});
-}
-}
+  function imprimir() {
+    var ficha = document.getElementById("printableArea");
+    var ventimp = window.open(' ', 'popimpr');
+    ventimp.document.write(ficha.innerHTML);
+    ventimp.document.close();
+    ventimp.print();
+    ventimp.close();
+  }
 
-function searchTable() {
+  function rendido(nro_env, user) {
+    if (confirm("¿seguro que es el envio " + nro_env + "?")) {
+      fetch(`/facturacion/rendido`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nro_envio: nro_env, user: user })
+      })
+        .then(response => {
+          if (response.status === 200) {
+            console.log(`${nro_env} Rendido`)
+            document.getElementById("fila" + nro_env).outerHTML = "";
+
+          } else {
+            alert(`Se ha producido un error con ${nro_env}`);
+          }
+        });
+    }
+  }
+
+  function searchTable() {
     // Obtener el valor de búsqueda ingresado por el usuario
     var total = document.getElementById("total")
     // variable para almacenar la suma de la onceava columna
-    var sum = 0; 
+    var sum = 0;
     var input = document.getElementById("searchInput").value;
     // Obtener todas las filas de la tabla
     var rows = document.getElementById("myTable").getElementsByTagName("tr");
     // Recorrer cada fila, comenzando desde la segunda
-      for (var i = 1; i < rows.length; i++) {
+    for (var i = 1; i < rows.length; i++) {
       // Obtener todas las celdas de la fila actual
       var cells = rows[i].getElementsByTagName("td");
       var found = false;
@@ -58,7 +58,7 @@ function searchTable() {
         }
         if ((j == 11 && found) || (j == 11 && input === '')) {
           sum += parseFloat(cells[j].innerHTML);
-          }
+        }
       }
       if (found) {
         rows[i].style.display = "";
@@ -66,53 +66,94 @@ function searchTable() {
         rows[i].style.display = "none";
       }
     }
-  // Escribir el resultado de la suma en el tag HTML con id "total"
-  total.innerHTML = "Total: " + sum;
+    // Escribir el resultado de la suma en el tag HTML con id "total"
+    total.innerHTML = "Total: " + sum;
   }
 
+  function seleccionarTodo() {
+    const seleccionTodo = document.getElementById('seleccionTodo');
+
+
+    function changeChecks(estado) {
+      var rows = document.getElementById("myTable").getElementsByTagName("tr");
+      // Recorrer cada fila, comenzando desde la segunda
+      for (var i = 1; i < rows.length; i++) {
+        // Obtener todas las celdas de la fila actual
+        var cells = rows[i].getElementsByTagName("td");
+        var found = false;
+        // Recorrer cada celda
+        console.log(estado)
+        // Obtener el checkbox por su atributo name
+        const checkbox = tempDiv.querySelector('input[name="seleccionados[]"]');
+        // Activar el checkbox
+        checkbox.checked = true;
+        console.log(cells[0])
+
+      }
+    }
+
+    seleccionTodo.addEventListener('change', function () {
+      // Aquí puedes realizar la función que necesites cada vez que el checkbox cambia de estado
+      if (seleccionTodo.checked) {
+        console.log('El checkbox ha sido seleccionado');
+        changeChecks("ok")
+      } else {
+        console.log('El checkbox ha sido deseleccionado');
+        changeChecks("no")
+      }
+    });
+
+  }
 </script>
 <script src="{{url_for('static', filename='mapa.js')}}"></script>
 <input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
 <div id="printableArea" class="table-responsive">
-<style>
-    td{
-        border-left: solid;
-        border-top: solid ; 
-        border-color: #afafaf;
+  <style>
+    td {
+      border-left: solid;
+      border-top: solid;
+      border-color: #afafaf;
     }
-</style>
-<input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
-<h3 id="total">Total: {{total}}</h3>
-<form method="post" action="/facturacion/rendidos">
-<input type="submit" value="RENDIDOS">
-<table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
-    <tr>
-      <td>CHECK</td>
-      <td>Acciones</td>
+  </style>
+  <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
+  <h3 id="total">Total: {{total}}</h3>
+  <form method="post" action="/facturacion/rendidos">
+    <input type="submit" value="RENDIDOS">
+    <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
+      <tr>
+        <td style="width: 45px; height: 45px;"><input type="checkbox" name="seleccionTodo" id="seleccionTodo"
+            onchange="seleccionarTodo()" style="transform: scale(2); margin-left: 15px;"></td>
+        <td>Seleccionar todos</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Acciones</td>
 
-    {% for columna in columnas %}
-      <td>{{columna}}</td>
-    {% endfor %}
-    </tr>
-    {% for viaje in viajes %}
-        <tr id="fila{{viaje.1}}">
-            <td><input type="checkbox" name="seleccionados[]" value="{{viaje.1}}" style="transform: scale(2); margin-left: 15px;"></td>
-            <td>
-                <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.1}}','{{viaje.2}}','{{viaje.4}}','{{viaje.5}}','{{viaje.7}}','{{viaje.9}}')">
-                {% if user == "MatyAcc" or user == "Josudavidg" or user == "Lucas Bustos" or user == "Tatiana" %}
-                    <input type="button" value="Rendido" onclick="rendido('{{viaje.1}}','{{user}}')">
-                {% endif %}
-            </td>
-            
-            {% for x in viaje %}
-                <td>{{x}}</td>
-            {% endfor %}
-        </tr>
-    {% endfor %}
+        {% for columna in columnas %}
+        <td>{{columna}}</td>
+        {% endfor %}
+      </tr>
+      {% for viaje in viajes %}
+      <tr id="fila{{viaje.1}}">
+        <td><input type="checkbox" name="seleccionados[]" value="{{viaje.1}}"
+            style="transform: scale(2); margin-left: 15px;"></td>
+        <td>
+          <input type="button" value="Modificar datos"
+            onclick="modificarDatos('{{viaje.1}}','{{viaje.2}}','{{viaje.4}}','{{viaje.5}}','{{viaje.7}}','{{viaje.9}}')">
+          {% if user == "MatyAcc" or user == "Josudavidg" or user == "Lucas Bustos" or user == "Tatiana" %}
+          <input type="button" value="Rendido" onclick="rendido('{{viaje.1}}','{{user}}')">
+          {% endif %}
+        </td>
+
+        {% for x in viaje %}
+        <td>{{x}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
     </table>
-    </form>
-    {% if cobra %}
-    <h4>A cobrar: {{cobra}}</h4>
-    {% endif %}
+  </form>
+  {% if cobra %}
+  <h4>A cobrar: {{cobra}}</h4>
+  {% endif %}
 </div>
 {% endblock %}
