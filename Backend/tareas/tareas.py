@@ -10,7 +10,7 @@ def Todo():
     midb = connect_db()
     cursor = midb.cursor()
     if request.method == "GET":
-        cursor.execute("Select fecha, tarea, descripcion, solicita from tareas where estado != 'Completo' order by prioridad desc")
+        cursor.execute("Select id,fecha, tarea, descripcion, solicita from tareas where estado != 'Completo' order by prioridad desc")
         resu = cursor.fetchall()
         columnas = [i[0] for i in cursor.description]
         listaTareas = []
@@ -27,3 +27,21 @@ def Todo():
         cursor.execute("insert into tareas (tarea,descripcion,solicita,prioridad,estado) values(%s,%s,%s,0,'Pendiente');",(tarea,descripcion,solicita))
         midb.commit()
         return redirect("/tareas")
+    
+@ToDo.route("/tareas/completa",methods=["POST"])
+@auth.login_required
+def tareaCompleta():
+    usuario = session['user_id']
+    idTarea = request.json["id"]
+    midb = connect_db()
+    cursor = midb.cursor()
+    cursor.execute("""
+                    update tareas 
+                        set 
+                            estado = "Completo",
+                            completo = %s
+                        where 
+                            id = %s
+                    """,(usuario,idTarea))
+    midb.commit()
+    return ""

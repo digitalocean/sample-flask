@@ -83,15 +83,20 @@ function searchTable() {
 </style>
 <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Buscar...">
 <h3 id="total">Total: {{total}}</h3>
+<form method="post" action="/facturacion/rendidos">
+<input type="submit" value="RENDIDOS">
 <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
     <tr>
-        <td>Acciones</td>
+      <td>CHECK</td>
+      <td>Acciones</td>
+
     {% for columna in columnas %}
-        <td>{{columna}}</td>
+      <td>{{columna}}</td>
     {% endfor %}
     </tr>
     {% for viaje in viajes %}
         <tr id="fila{{viaje.1}}">
+            <td><input type="checkbox" name="seleccionados[]" value="{{viaje.1}}" style="transform: scale(2); margin-left: 15px;"></td>
             <td>
                 <input type="button" value="Modificar datos" onclick="modificarDatos('{{viaje.1}}','{{viaje.2}}','{{viaje.4}}','{{viaje.5}}','{{viaje.7}}','{{viaje.9}}')">
                 {% if user == "MatyAcc" or user == "Josudavidg" or user == "Lucas Bustos" or user == "Tatiana" %}
@@ -105,6 +110,7 @@ function searchTable() {
         </tr>
     {% endfor %}
     </table>
+    </form>
     {% if cobra %}
     <h4>A cobrar: {{cobra}}</h4>
     {% endif %}

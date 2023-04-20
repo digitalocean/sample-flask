@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, g, render_template, request, session
+    Blueprint, g, render_template,redirect, request, session
 )
 from Backend.auth import auth
 from Backend.informeErrores import informeErrores
@@ -34,6 +34,31 @@ def busqueda():
                             total = suma, 
                             user = session.get("user_id"),
                             auth = session.get("user_auth"))
+
+
+@cb.route("/facturacion/rendidos",methods = ["POST"])
+@auth.admin_required
+def rendidos():
+    seleccionados = request.form.getlist('seleccionados[]')
+    user = session.get("user_id")
+    midb = database.connect_db()
+    cursor = midb.cursor()
+    cantidadRendidos = len(seleccionados)
+    if cantidadRendidos == 0:
+        print("no selecciono nada")
+    else:
+        for x in seleccionados:
+            cursor.execute("""
+                        update ViajesFlexs 
+                            set 
+                                rendido = current_timestamp(),
+                                columna_2 = %s
+                            where
+                                Numero_envío = %s
+                        """,(user,x))
+            midb.commit()
+            print(f"{x} Rendido")
+    return redirect("/facturacion/cobrados")
 
 @cb.route("/facturacion/rendido",methods = ["POST"])
 @auth.admin_required

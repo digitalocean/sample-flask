@@ -59,9 +59,28 @@ def informeEstados(vendedor):
 def ponerNoVisitados():
     midb = connect_db()
     cursor = midb.cursor()
+    cursor.execute("select Numero_envío from ViajesFlexs where estado_envio in ('En Camino','Reasignado')")
+    no_visitados = cursor.fetchall()
     cursor.execute("update ViajesFlexs set estado_envio = 'No Entregado',Motivo = 'Domicilio no visitado' where estado_envio in ('En Camino','Reasignado')")
     midb.commit()
     midb.close()
+    for x in no_visitados:
+        nro_envio = x[0]
+        midb2 = connect_db()
+        cursor2 = midb2.cursor()
+        sql = """
+                UPDATE historial_estados 
+                SET estado_envio = 'En Camino/anulado' 
+                WHERE Numero_envío = '%s'
+                AND estado_envio = 'En Camino'
+                AND NOT EXISTS 
+                (SELECT * FROM historial_estados WHERE Numero_envío = '%s'
+                AND motivo_noenvio in ("Buzon/bajo puerta","Entregado","Entregado sin novedades","Nadie en domicilio","Rechazado"));"""
+        values = (nro_envio,nro_envio)
+        print(sql % values)
+        cursor2.execute(sql,values)
+        midb2.commit()
+        midb2.close()
 
 def informeFinalDia():
     midb = connect_db()
