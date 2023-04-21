@@ -39,6 +39,8 @@ from Backend.tiendaNube import tiendaNube
 app.register_blueprint(tiendaNube.TN)
 
 #FACTURACION
+from Backend.facturacion import estadistica
+app.register_blueprint(estadistica.fcEstadistica)
 from Backend.facturacion import facturacion
 app.register_blueprint(facturacion.FcGeneral)
 from Backend.facturacion import cobrados

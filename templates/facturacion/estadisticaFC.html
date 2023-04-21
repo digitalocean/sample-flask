@@ -1,0 +1,82 @@
+{% extends "index.html" %}
+{% block title %}{{titulo}}{% endblock %}
+{% block content %}
+<script>
+function showSelect() {
+  var select = document.getElementById("mySelect");
+  select.size = 3;
+}
+function hideSelect() {
+  var select = document.getElementById("mySelect");
+  select.size = 1;
+}
+function filterOptions() {
+  // Obtiene el valor del input de búsqueda
+  var input, filter, options, texto;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  
+  // Obtiene las opciones del select
+  options = document.getElementById("mySelect").options;
+  
+  // Recorre las opciones y las oculta si no contienen la palabra buscada
+  for (var i = 0; i < options.length; i++) {
+    texto = options[i].textContent.toUpperCase();
+    if (texto.indexOf(filter) > -1) {
+      options[i].style.display = "";
+    } else {
+      options[i].style.display = "none";
+    }
+  }
+}
+</script>
+    <form action="/facturacion/ver" method="post" style="position: initial; width: 30%;">
+        <label>Desde</label><br>
+        <input type="date" name="desde" value="{{desde}}"><br>
+        <label>Hasta</label><br>
+        <input type="date" name="hasta" value="{{hasta}}"><br>
+        <input type="text" id="myInput" onkeyup="filterOptions()" onclick="showSelect()" placeholder="Buscar cliente..."><br>
+        <select name="cliente" onchange="hideSelect()" id="mySelect">
+            {% if cliente %}
+            <option value="{{cliente}}">{{cliente}}</option>
+            {% endif %}
+            {% for cliente in clientes %}
+            <option value="{{cliente}}">{{cliente}}</option>
+            {% endfor %}
+          </select>
+        <input type="submit" value="Ver">
+    </form>
+    {% if total %}
+    <h4>Total: {{total}}</h4>
+    {% endif %}
+    <h3>{{mensaje_error}}</h3>
+    <br><br>
+    <table style="width: 100%; border: solid ;">
+        <tr>
+            {%for x in cabeceras%}
+            <td>{{x}}</td>
+            {%endfor%}
+        </tr>
+    
+        {% for viaje in viajes %}
+            <form action="/facturacion/arreglolocalidad" method="post">
+                <tr>
+                    <input type="hidden" name="idReporte" value="{{viaje.0}}">
+                    <input type="hidden" name="numeroEnvio" value="{{viaje.2}}">
+                    {% for Y in viaje %}
+                    <td>{{Y}}</td>
+                    {% endfor %}
+                    {% if localidades %}
+                    <td><select name="localidad" id="localidad">
+                        <option value=""></option>
+                        {% for loc in localidades %}
+                        <option value="{{loc}}">{{loc}}</option>
+                        {% endfor %}
+                    </select></td>
+                    <td><input type="submit"value="Cambiar"></td>
+                    {% endif %}
+                </tr>
+            </form>
+        {% endfor %}
+    </table>
+{% endblock %}
