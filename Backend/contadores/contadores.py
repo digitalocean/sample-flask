@@ -8,7 +8,7 @@ cont = Blueprint('contadores', __name__, url_prefix='/')
 @cont.route("/logistica/contadores", methods=["GET","POST"])
 @auth.login_required
 def apodos():
-    sql = f"select chofer,count(*) from ingresado where fecha = current_date() group by chofer;"
+    sql = f"select chofer, count(distinct(Numero_envío)) from ingresado where fecha = current_date() group by Chofer;"
     midb = connect_db()
     cursor = midb.cursor()
     cursor.execute(sql)
@@ -17,7 +17,7 @@ def apodos():
     for x in cursor.fetchall():
         print(x)
         ingresado.append(x)
-    cursor.execute("select chofer,count(*) from retirado where fecha = current_date() group by Chofer")
+    cursor.execute("select ifnull(choferCorreo(chofer),chofer),count(*) from retirado where fecha = current_date() group by Chofer")
     for y in cursor.fetchall():
         retirado.append(y)
     midb.close()
