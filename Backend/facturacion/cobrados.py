@@ -25,7 +25,7 @@ def busqueda():
     for x in cursor.fetchall():
         suma += x[9]
         lista.append(x)
-    return render_template("facturacion/cobrados.html", 
+    return render_template("facturacion/cobrado.html", 
                             titulo="Busqueda", 
                             acciones = True,
                             viajes=lista,
