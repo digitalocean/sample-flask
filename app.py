@@ -86,6 +86,8 @@ from Backend.logistica import rutaChofer
 app.register_blueprint(rutaChofer.lgMR)
 from Backend.logistica import vistaGeneral
 app.register_blueprint(vistaGeneral.VG)
+from Backend.contadores import contadores
+app.register_blueprint(contadores.cont)
 
 #HISTORIAL
 from Backend.historial import historial

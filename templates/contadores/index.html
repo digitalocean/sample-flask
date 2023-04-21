@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block content %}
+<style>
+    .containerlv {
+        display: flex;
+        flex-direction: row;
+
+    }
+
+    .containerlv .box1 {
+        text-align: justify
+    }
+
+    .containerlv .box2 {
+        text-align: justify
+    }
+
+    .containerlv .box3 {
+        text-align: justify
+    }
+
+    td {
+        border-left: solid;
+        border-top: solid;
+        border-color: #afafaf;
+    }
+</style>
+<br><br>
+<div class="containerlv">
+    <div class="box1">
+        <h1>RETIRADOS</h1>
+        <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
+            <tr>
+                {% for columna in columnas %}
+                <td>{{columna}}</td>
+                {% endfor %}
+            </tr>
+            {% for ret in retirados %}
+            <tr>
+                {% for x in ret %}
+                <td>{{x}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="box2">
+        <h1><table><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></h1>
+    </div>
+    <div class="box3">
+        <h1>INGRESADO</h1>
+        <table>
+            <tr>
+                {% for columna in columnas %}
+                <td>{{columna}}</td>
+                {% endfor %}
+            </tr>
+            {% for ing in ingresados %}
+            <tr>
+                {% for y in ing %}
+                <td>{{y}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

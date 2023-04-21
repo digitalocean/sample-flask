@@ -72,37 +72,34 @@
 
   function seleccionarTodo() {
     const seleccionTodo = document.getElementById('seleccionTodo');
-
-
     function changeChecks(estado) {
       var rows = document.getElementById("myTable").getElementsByTagName("tr");
       // Recorrer cada fila, comenzando desde la segunda
       for (var i = 1; i < rows.length; i++) {
         // Obtener todas las celdas de la fila actual
         var cells = rows[i].getElementsByTagName("td");
-        var found = false;
-        // Recorrer cada celda
-        console.log(estado)
-        // Obtener el checkbox por su atributo name
-        const checkbox = tempDiv.querySelector('input[name="seleccionados[]"]');
-        // Activar el checkbox
-        checkbox.checked = true;
-        console.log(cells[0])
-
+        if (cells[0].style.display == "") {
+          // Obtener el checkbox por su atributo name
+          <!-- const check = cells[0].getElementsByTagName('input[name="seleccionados[]"]') as ; -->
+          const check = cells[0].getElementsByTagName("input")
+          // Activar el checkbox
+          check.checked = estado;
+          console.log(check)
+        }
       }
     }
 
     seleccionTodo.addEventListener('change', function () {
-      // Aquí puedes realizar la función que necesites cada vez que el checkbox cambia de estado
-      if (seleccionTodo.checked) {
-        console.log('El checkbox ha sido seleccionado');
-        changeChecks("ok")
-      } else {
-        console.log('El checkbox ha sido deseleccionado');
-        changeChecks("no")
+      var estado = seleccionTodo.checked
+      switch (estado) {
+        case true:
+          changeChecks(estado);
+          break;
+        case false:
+          changeChecks(estado);
+          break;
       }
     });
-
   }
 </script>
 <script src="{{url_for('static', filename='mapa.js')}}"></script>
@@ -120,11 +117,13 @@
   <form method="post" action="/facturacion/rendidos">
     <input type="submit" value="RENDIDOS">
     <table style="width: 100%; margin-top: 30px;" class="table" id="myTable">
-      <tr>
-        <td style="width: 45px; height: 45px;"><input type="checkbox" name="seleccionTodo" id="seleccionTodo"
-            onchange="seleccionarTodo()" style="transform: scale(2); margin-left: 15px;"></td>
+      <!-- <tr>
+        <td style="width: 45px; height: 45px;">
+          <input type="checkbox" name="seleccionTodo" id="seleccionTodo" onchange="seleccionarTodo()" checked
+            style="transform: scale(2); margin-left: 15px;">
+        </td>
         <td>Seleccionar todos</td>
-      </tr>
+      </tr> -->
       <tr>
         <td></td>
         <td>Acciones</td>
@@ -135,8 +134,9 @@
       </tr>
       {% for viaje in viajes %}
       <tr id="fila{{viaje.1}}">
-        <td><input type="checkbox" name="seleccionados[]" value="{{viaje.1}}"
-            style="transform: scale(2); margin-left: 15px;"></td>
+        <td><input type="checkbox" 
+          name="seleccionados[]" value="{{viaje.1}}"
+          style="transform: scale(2); margin-left: 15px;"></td>
         <td>
           <input type="button" value="Modificar datos"
             onclick="modificarDatos('{{viaje.1}}','{{viaje.2}}','{{viaje.4}}','{{viaje.5}}','{{viaje.7}}','{{viaje.9}}')">
