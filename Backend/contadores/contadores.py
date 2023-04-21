@@ -15,7 +15,6 @@ def apodos():
     retirado = []
     ingresado = []
     for x in cursor.fetchall():
-        print(x)
         ingresado.append(x)
     cursor.execute("select ifnull(choferCorreo(chofer),chofer),count(*) from retirado where fecha = current_date() group by Chofer")
     for y in cursor.fetchall():

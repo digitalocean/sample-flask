@@ -205,7 +205,7 @@ def facturar():
             estrategia = PorVisitaStrategy()    
         facturador = Facturador(estrategia)
         total_viajes,viajesEnCamino = facturador.facturar_viajes(viajes,sobreEscribir)
-        cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador"]
+        cabeceras = ["Fecha","Numero de envío","Direccion Completa","Localidad","Precio","Comprador","Monto a rendir","Valor declarado","Estado"]
         ruta = generarExcelLiquidacion(viajesEnCamino,desde,hasta,cliente)
         # return send_file(ruta,mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", as_attachment=True, attachment_filename=ruta)
         return render_template("facturacion/tabla_viajes.html",
