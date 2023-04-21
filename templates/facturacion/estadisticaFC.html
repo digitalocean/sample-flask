@@ -1,35 +1,7 @@
 {% extends "index.html" %}
 {% block title %}{{titulo}}{% endblock %}
 {% block content %}
-<script>
-function showSelect() {
-  var select = document.getElementById("mySelect");
-  select.size = 3;
-}
-function hideSelect() {
-  var select = document.getElementById("mySelect");
-  select.size = 1;
-}
-function filterOptions() {
-  // Obtiene el valor del input de búsqueda
-  var input, filter, options, texto;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  
-  // Obtiene las opciones del select
-  options = document.getElementById("mySelect").options;
-  
-  // Recorre las opciones y las oculta si no contienen la palabra buscada
-  for (var i = 0; i < options.length; i++) {
-    texto = options[i].textContent.toUpperCase();
-    if (texto.indexOf(filter) > -1) {
-      options[i].style.display = "";
-    } else {
-      options[i].style.display = "none";
-    }
-  }
-}
-</script>
+<script src="{{url_for('static', filename='estadisticaFC.js')}}"></script>
     <form action="/facturacion/ver" method="post" style="position: initial; width: 30%;">
         <label>Desde</label><br>
         <input type="date" name="desde" value="{{desde}}"><br>
@@ -54,7 +26,7 @@ function filterOptions() {
     <table style="width: 100%; border: solid ;">
         <tr>
             {%for x in cabeceras%}
-            <td>{{x}}</td>
+            <td><input type="text" placeholder="{{x}}" oninput="searchColumn(1)"></td>
             {%endfor%}
         </tr>
     

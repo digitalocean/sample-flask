@@ -47,10 +47,6 @@
         </table>
     </div>
     <div class="box2">
-        <h1><table><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></h1>
-    </div>
-    <br><br>
-    <div class="box3">
         <h1>INGRESADO</h1>
         <table>
             <tr>
@@ -61,6 +57,24 @@
             {% for ing in ingresados %}
             <tr>
                 {% for y in ing %}
+                <td>{{y}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br><br>
+    <div class="box3">
+        <h1>INGRESADO</h1>
+        <table>
+            <tr>
+                {% for columna in columnas %}
+                <td>{{columna}}</td>
+                {% endfor %}
+            </tr>
+            {% for sec in sectorizados %}
+            <tr>
+                {% for y in sec %}
                 <td>{{y}}</td>
                 {% endfor %}
             </tr>
