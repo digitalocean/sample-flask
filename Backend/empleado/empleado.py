@@ -87,4 +87,4 @@ def altaEmpleado():
     cursor = midb.cursor()
     cursor.execute(sql)
     midb.commit()
-    return redirect(url_for("empleado.empleado"),session.get("user_auth"))
+    return redirect("/empleado",session.get("user_auth"))
