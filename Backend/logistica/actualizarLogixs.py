@@ -8,6 +8,7 @@ def actualizar_estado_logixs(mensajero_id,
                              id_ml, 
                              estado=None,
                              observacion = None,
+                             foto=None,
                              recibe_dni="1234567", 
                              recibe_nombre="titular"):
     nickname = ""
@@ -44,7 +45,7 @@ def actualizar_estado_logixs(mensajero_id,
         "lng":None,
         "obs":observacion,
         "EstadoEntrega":estado,
-        "Foto":None
+        "Foto":foto
     }
     response = requests.post(url, data=data)
     print(data)
