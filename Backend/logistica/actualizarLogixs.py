@@ -1,7 +1,16 @@
 import requests
 import json
 from Backend.database.database import connect_db
-def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_ml, recibe_dni="1234567", recibe_nombre="titular"):
+def actualizar_estado_logixs(mensajero_id, 
+                             tipo_operacion, 
+                             path, 
+                             contenido, 
+                             id_ml, 
+                             estado=None,
+                             observacion = None,
+                             foto=None,
+                             recibe_dni="1234567", 
+                             recibe_nombre="titular"):
     nickname = ""
     resultado = None
     if "sender_id" in contenido.keys():
@@ -21,7 +30,7 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
             nickname = resultado[0].title()
         else:
             print("No se obtuvo sender_id")
-    url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR"
+    url = f"https://www.logixs.com.ar/{path}/envioflex/RecibirScanQR" 
     data = {
         "MensajeroId": mensajero_id,
         "EntregaOretiro": tipo_operacion,
@@ -31,7 +40,12 @@ def actualizar_estado_logixs(mensajero_id, tipo_operacion, path, contenido, id_m
         "Nickname": nickname,
         "Sender_id": sender_id,
         "recibeDNI": recibe_dni,
-        "RecibeNombre": recibe_nombre
+        "RecibeNombre": recibe_nombre,
+        "lat":None,
+        "lng":None,
+        "obs":observacion,
+        "EstadoEntrega":estado,
+        "Foto":foto
     }
     response = requests.post(url, data=data)
     print(data)

@@ -32,7 +32,6 @@ def loginEmpleado():
     else:
         return jsonify(success=False,message="password invalid",data=None)
 
-
 @pd.route("/store/apps/MMSPACK-Reparto")
 def descargaAppReparto():
     return send_file("static/debug/RepartoMMS.apk", as_attachment=True)
@@ -83,22 +82,7 @@ def enviosRetirados():
         data = {"nEnvio":nEnvio,"comprador":comprador,"telefono":telefono,"direccion":dirCompleta,"vendedor":vendedor,"Latitud":latitud,"Longitud":longitud,"tipoEnvio":tipoEnvio,"chofer":chofer,"fecha":fecha}
         envios.append(data)
     return jsonify(envios)
-
-def hiloRetirar(_midb,_cursor,_envio,_chofer,_data,_location):
-    _cursor.execute("""insert into retirado
-                            (fecha,hora,Numero_envío,chofer,estado,scanner,Currentlocation) 
-                            values(
-                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-                                DATE_SUB(current_timestamp(), INTERVAL 3 HOUR),
-                                %s,
-                                %s,
-                                'Retirado',
-                                %s,
-                                %s);""",
-                                (_envio,_chofer,str(_data),_location))
-    _midb.commit()
-    _midb.close()
-    
+  
 @pd.route("/retirar",methods=["POST"])
 def scannerRetirar():
     data = request.get_json()
@@ -305,11 +289,7 @@ def entregado():
         recibe = data["quienRecibe"] 
         dni = data["dni"]
         quienRecibe = f"{recibe} Dni: {dni}"
-    try:
-        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, " entrega", "MMS", data, nroEnvio))
-        threadActualizaLogixs.start()
-    except:
-        print("Fallo informe a logixs")
+    imagen = None
     if "image" in data.keys():
             imagen = data["image"]
             sql = """
@@ -352,6 +332,11 @@ def entregado():
     cursor.execute(sql,values)
     midb.commit()
     midb.close()
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, " entrega", "MMS", data, nroEnvio,"Entregado",observacion,imagen))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs")
     return jsonify(success=True,message="Envio Entregado",envio=nroEnvio)
 
 @pd.route("/noentregado",methods=["POST"])
@@ -404,7 +389,7 @@ def noEntregado():
                 Numero_envío = %s 
             and 
                 Chofer = choferCorreo(%s)
-             and estado_envio != "No Entregado"
+             and estado_envio in("En Camino","Reasignado") 
             """
     if motivo in ("Nadie en domicilio","Rechazado"):
         reprogramaciones = 1
@@ -421,6 +406,11 @@ def noEntregado():
     cursor.execute(sql,values)
     midb.commit()
     midb.close()
+    try:
+        threadActualizaLogixs = Thread(target=actualizar_estado_logixs, args=(1, " entrega", "MMS", data, nroEnvio,motivo,observacion,imagen))
+        threadActualizaLogixs.start()
+    except:
+        print("Fallo informe a logixs")
     return jsonify(success=False,message="Todavia no esta lista esta seccion",envio=nroEnvio)
 
 @pd.route("/imagen",methods = ["POST"])
