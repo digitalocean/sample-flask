@@ -74,7 +74,8 @@ def bajaEmpleado():
     cursor.execute(sql)
     midb.commit()
     return redirect("/empleado",session.get("user_auth"))
-
+# hola lala
+# .
 @em.route("/empleado/alta", methods=["POST"])
 @auth.login_required
 def altaEmpleado():
