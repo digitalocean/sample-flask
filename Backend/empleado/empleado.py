@@ -75,6 +75,7 @@ def bajaEmpleado():
     midb.commit()
     return redirect("/empleado",session.get("user_auth"))
 
+
 @em.route("/empleado/alta", methods=["POST"])
 @auth.login_required
 def altaEmpleado():
