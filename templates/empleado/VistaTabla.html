@@ -28,9 +28,9 @@
     {% endfor %}
     </tr>
     <tr>
-        {% for columna in cabezeras %}
-            <td>{{columna}}</td>
-        {% endfor %}
+        {% for x in cabezeras %}
+        <td><input type="text" placeholder="{{x}}" id="{{x}}" oninput="searchColumn({{ loop.index - 1}},'{{x}}')"></td>
+        {%endfor%}
     </tr>
     {% for empleado in empleados %}
         <tr>

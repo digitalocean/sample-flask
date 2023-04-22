@@ -96,9 +96,10 @@ function imprimir() {
     
     {% endif %}
     <tr>
-    {% for columna in columnas %}
-        <td>{{columna}}</td>
-    {% endfor %}
+        {%for x in columnas%}
+        <td><input type="text" placeholder="{{x}}" id="{{x}}" oninput="searchColumn({{ loop.index - 1}},'{{x}}')"></td>
+        {%endfor%}
+    </tr>
     </tr>
 
     {% for viaje in viajes %}

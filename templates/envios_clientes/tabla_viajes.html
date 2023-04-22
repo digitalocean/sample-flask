@@ -22,7 +22,7 @@
     <table style="width: 100%; border: solid ;" class="table" id="myTable">
         <tr>
             {%for x in cabezeras%}
-            <td>{{x}}</td>
+            <td><input type="text" placeholder="{{x}}" id="{{x}}" oninput="searchColumn({{ loop.index - 1}},'{{x}}')"></td>
             {%endfor%}
         </tr>
         {% for viaje in viajes %}

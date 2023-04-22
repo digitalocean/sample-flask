@@ -102,7 +102,7 @@
     });
   }
 </script>
-<script src="{{url_for('static', filename='mapa.js')}}"></script>
+<script src="{{url_for('static', filename='buscadorEnTablas.js')}}"></script>
 <input type="button" value="Imprimir" id="printButton" onclick="imprimir()">
 <div id="printableArea" class="table-responsive">
   <style>
@@ -127,10 +127,10 @@
       <tr>
         <td></td>
         <td>Acciones</td>
+        {%for x in columnas%}
+        <td><input type="text" placeholder="{{x}}" id="{{x}}" oninput="searchColumn({{ loop.index +1 }},'{{x}}')"></td>
+        {%endfor%}
 
-        {% for columna in columnas %}
-        <td>{{columna}}</td>
-        {% endfor %}
       </tr>
       {% for viaje in viajes %}
       <tr id="fila{{viaje.1}}">

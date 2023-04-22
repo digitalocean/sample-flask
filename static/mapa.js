@@ -470,4 +470,3 @@ function getPinIcon(zona){
   }
   
 }
-
