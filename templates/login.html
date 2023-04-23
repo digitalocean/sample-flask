@@ -18,13 +18,27 @@
     <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
  </head>
 
- 
-<body>
+ <header id="home" class="header">
+  
 
-  <nav class="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top" data-spy="affix" data-offset-top="10">
+  <div class="overlay text-white text-center">
+       <img class="img" src="{{url_for('static', filename='logo1.svg')}}" alt="Logo de MMS" width="20%" height="20%">
+       <li class="nav-item">
+       <a class="btn btn-lg btn-primary " href="#sesion">Empezar</a>
+
+  </div>
+</header>
+
+
+<body>
+  
+  <section class="navbar-nav" id="sesion">
+    <!-- Content of the section -->
+    <nav class="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top" data-spy="affix" data-offset-top="10">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -57,8 +71,8 @@
         </ul>
     </div>
 </nav>
-  
-  <nav class="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top" data-spy="affix" data-offset-top="10"></nav>
+
+  <nav class="custom-navbar navbar navbar-expand-lg  navbar-dark fixed-top" data-spy="affix" data-offset-top="10"></nav>
    <a class="navbar-brand m-auto" href="#">
     
     
@@ -92,7 +106,8 @@
       </a>
       <BR><BR>
       <h5 style="position: relative;"></h5>
-    <form class="ingreso " action="/login" method="POST">
+      
+    <form  class="ingreso " action="/login" method="POST">
      
         
     <LABEl for="usuario"></LABEl><br>
@@ -124,5 +139,6 @@
 </div>
     
 <h6 style="position: absolute; bottom: 0; color: rgb(0, 0, 0);"></h6>
+</section>
 </body>
 </html>
