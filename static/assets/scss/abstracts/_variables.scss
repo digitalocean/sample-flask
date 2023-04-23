@@ -1,0 +1,241 @@
+
+//
+// Color system
+//
+
+// stylelint-disable
+$white:    #fff;
+$gray-100: #f8f9fa;
+$gray-200: #eaf0fc;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+$grays: ();
+$grays: map-merge((
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "900": $gray-900
+), $grays);
+
+$blue:    #79A9F5;
+$indigo:  #C45F90;
+$purple:  #A16AE8;
+$pink:    #ff214f;
+$red:     #F85C70;
+$orange:  #FF8882;
+$yellow:  #FAD02C;
+$green:   #A3C14A;
+$teal:    #20c997;
+$cyan:    #47D8E0;
+
+$colors: ();
+$colors: map-merge((
+  "blue":       $blue,
+  "indigo":     $indigo,
+  "purple":     $purple,
+  "pink":       $pink,
+  "red":        $red,
+  "orange":     $orange,
+  "yellow":     $yellow,
+  "green":      $green,
+  "teal":       $teal,
+  "cyan":       $cyan,
+  "white":      $white,
+  "gray":       $gray-600,
+  "gray-dark":  $gray-800
+), $colors);
+
+$primary:       $pink;
+$secondary:     $gray-600;
+$success:       $green;
+$info:          $cyan;
+$warning:       $orange;
+$danger:        $red;
+$light:         $gray-100;
+$dark:          $gray-800;
+
+$theme-colors: ();
+
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+  ),
+  $theme-colors
+);
+
+
+
+
+
+
+// Define common padding and border radius sizes and more.
+$line-height-lg:              1.5;
+$line-height-sm:              1.5;
+
+$border-width:                1px;
+$border-color:                red;
+
+$border-radius:               .2rem;
+$border-radius-lg:            .15rem;
+$border-radius-sm:            .1rem;
+
+
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                   $dark;
+$body-color:                $light;
+
+
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+$font-size-base:              1rem; // Assumes the browser default, typically `16px`
+
+$h1-font-size:                $font-size-base * 3;
+$h2-font-size:                $font-size-base * 2.5;
+$h3-font-size:                $font-size-base * 1.85;
+$h4-font-size:                $font-size-base * 1.6;
+$h5-font-size:                $font-size-base * 1.3;
+$h6-font-size:                $font-size-base;
+
+$text-muted:                  $gray-500;
+
+$headings-font-family:        'Oswald', sans-serif;;
+$section-title-font-size:     4rem;
+
+
+// components
+//
+
+$component-active-color:      $white ;
+$component-active-bg:         theme-color("primary");
+
+
+// border
+$border-color:                $gray-700;
+
+
+
+// navbar
+$navbar-padding-y:                 1rem;
+$navbar-nav-link-padding-x:        .7rem;
+$navbar-nav-link-font-weight:      700;
+
+$navbar-dark-color:                $white;
+$navbar-light-color:               $gray-800;
+
+$navbar-dark-active-color:         $primary;
+$navbar-light-active-color:        $primary;
+
+
+// Links
+//
+// Style anchor elements.
+$link-hover-decoration:        none;
+
+
+
+// buttons and inputs
+$input-btn-padding-y:         .4rem;
+$input-btn-padding-x:         .78rem;
+
+$input-btn-padding-y-sm:      .25rem;
+$input-btn-padding-x-sm:      .5rem;
+
+$input-btn-padding-y-lg:      .8rem;
+$input-btn-padding-x-lg:      1.6rem;
+
+
+
+
+//forms
+//
+$input-bg:                              $gray-700;
+$input-disabled-bg:                     $gray-600;
+$input-border-color:                    $gray-800;
+$input-focus-border-color:              $primary;
+$input-color:                           $gray-300;
+$input-placeholder-color:               $gray-400;
+
+
+
+
+// custom forms
+$custom-form-control-bg:                     transparent;
+$custom-form-control-color: $white;
+$custom-form-control-border-width:           2px;
+$custom-form-control-active-border-color:    $primary;
+$custom-form-control-active-bg:              rgba($gray-800, .2);
+
+
+
+// Cards
+
+$card-border-color:                 $border-color;
+
+// testmonial-card
+$testmonial-border-width:           2px;
+$testmonial-border-radius:          $border-radius;
+$testmonial-subtitle-font-size:     .8rem;
+$testmonial-subtitle-opacity:       .8;
+$testmonial-subtitle-spacing:       1px;
+$testmonial-title-font-size:        $h3-font-size;
+$testmonial-body-padding:           1rem;
+$testmonial-top-spacer:             30px;
+
+
+// code
+$pre-bg:                            $gray-700;
+$pre-color:                         lighten($primary, 10%);
+$pre-border-radius:                 $border-radius;
+$pre-padding:                       1rem;
+$pre-scrollable-max-height:         300px;
+
+
+// hr
+$hr-border-color:             rgba($white, .1);
+$hr-border-width:             $border-width;
+
+
+
+
+// Tables
+$table-border-color:          $gray-700;
+
+
+// breadcrumb
+$breadcrumb-bg:               transparent;
+
+
+
+// Paginations
+$pagination-color:                  $white;
+$pagination-bg:                     $gray-800;
+$pagination-border-color:           $gray-700;
+
+$pagination-active-color:           $component-active-color;
+$pagination-active-bg:              $component-active-bg;

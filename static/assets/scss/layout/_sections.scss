@@ -1,0 +1,123 @@
+// root wrapper
+.root {
+    max-width: 1440px;
+}
+
+// About Section
+.has-img-bg {
+	background: url(../imgs/about-section.jpg) no-repeat center center;
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
+.has-bg-overlay {
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url(../imgs/book-table-img.jpg) no-repeat center center fixed;
+      	-webkit-background-size: cover;
+      	-moz-background-size: cover;
+      	-o-background-size: cover;
+      	background-size: cover;
+        z-index: -1;
+        opacity: .3;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: $gray-800;
+        z-index: -2;
+
+    }
+
+}
+
+// middle center
+.middle-items {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+// section title
+.section-title {
+    font-size: $section-title-font-size;
+}
+
+
+// section height
+.has-height-xs {
+    min-height: 75px;
+}
+.has-height-sm {
+    min-height: 150px;
+}
+.has-height-md {
+    min-height: 300px;
+}
+.has-height-lg {
+    min-height: 500px;
+}
+
+
+
+// gallary section
+.gallary {
+    margin: 0;
+
+    .gallary-item {
+        padding: 0;
+        border: 1px solid $gray-800;
+
+        .gallary-img {
+            width: 100%;
+        }
+
+        .gallary-overlay {
+            background: rgba($gray-800, .7);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: -webkit-flex;
+            display: -ms-flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            @include custom-transition(all, .2s, 0s);
+
+            .gallary-icon {
+                font-size: $h2-font-size;
+                font-weight: bold;
+                color: $white;
+            }
+        }
+
+        &:hover {
+
+            .gallary-overlay {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+}

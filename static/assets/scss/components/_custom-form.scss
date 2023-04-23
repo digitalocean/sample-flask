@@ -1,0 +1,16 @@
+.custom-form-control {
+    background: $custom-form-control-bg;
+    color: $custom-form-control-color;
+    border: $custom-form-control-border-width solid $custom-form-control-color;
+    border-radius: 0;
+
+    &::placeholder {
+        color: $custom-form-control-color;
+    }
+
+    &:focus {
+        border-color: $custom-form-control-active-border-color;
+        color: $custom-form-control-color;
+        background: $custom-form-control-active-bg;
+    }
+}

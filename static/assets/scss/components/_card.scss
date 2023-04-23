@@ -1,0 +1,43 @@
+.card {
+    border-color: $card-border-color;
+    overflow: hidden;
+}
+
+.testmonial-card {
+    position: relative;
+    text-align: center;
+
+    .testmonial-title {
+        font-size: $testmonial-title-font-size;
+    }
+
+    .testmonial-subtitle {
+        font-size: $testmonial-subtitle-font-size;
+        letter-spacing: $testmonial-subtitle-spacing;
+        opacity: $testmonial-subtitle-opacity;
+    }
+
+    .testmonial-body {
+        position: relative;
+        padding: $testmonial-body-padding;
+        border: $testmonial-border-width solid $border-color;
+        border-top-color: $pink;
+        border-radius: $testmonial-border-radius;
+        margin-top: $testmonial-top-spacer;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            border-color: $pink;
+            border-radius: $testmonial-border-radius 0 0 0 ;
+            border-style: solid;
+            border-width:  2px 0 0 2px;
+            transform: rotate(45deg) translateX(-50%);
+            background: $gray-800;
+        }
+    }
+}

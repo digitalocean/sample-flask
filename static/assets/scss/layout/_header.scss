@@ -1,0 +1,41 @@
+.header {
+    height: 100vh;
+    max-height: 900px;
+    background: url(../imgs/main.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 750px;
+
+    .overlay {
+        height: 100%;
+        background: rgba($gray-900, .85);
+        display: -webkit-flex;
+        display: -ms-flex;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    &-title {
+        font-size: 2.4rem;
+        font-weight: bold;
+        opacity: .8;
+        color: $dark;
+    }
+
+    // header mini
+    &-mini {
+        min-height: 24rem;
+        height: 24rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem;
+        background: lighten($primary, 25%) !important;
+    }
+}

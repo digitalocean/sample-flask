@@ -1,28 +1,128 @@
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{titulo}}{% endblock %}</title>
-    <link rel ="stylesheet" href="{{url_for('static', filename='login/login.css')}}">
-    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='login/logo.ico')}}"/>
-</head>
-
-<body>
-    <h3 style="text-align: center;">{{mensaje}}</h3>
-    <div class="Login"><img class="img" src="{{url_for('static', filename='login/logo.jpeg')}}" alt="Logo de MMS" width="30%" height="30%">
-    <h1 style="position: relative;">Iniciar sesión</h1>
-    <form class="ingreso" action="/login" method="POST">
+   <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Start your development with FoodHut landing page.">
+        <meta name="author" content="Devcrud">
+        <title>Iniciar Sesion MMS PACK</title>
+       
+        <!-- font icons -->
+        <link rel="stylesheet" href="{{url_for('static', filename='assets/vendors/themify-icons/css/themify-icons.css')}}">
     
-    <LABEl for="usuario">usuario:</LABEl><br>
-    <input type="text" name="user" placeholder="Ingrese su usuario" required>
+        <link rel="stylesheet" href="{{url_for('static', filename='assets/vendors/animate/animate.css')}}">
+    
+        <!-- Bootstrap + FoodHut main styles -->
+      <link rel="stylesheet" href="{{url_for('static', filename='assets/css/foodhut.css')}}">
+    </head>
+    <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+ </head>
+
+ 
+<body>
+
+  <nav class="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top" data-spy="affix" data-offset-top="10">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#home"></a>
+            </li>
+           <li class="nav-item">
+                <a class="nav-link" href="#gallary"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#book-table"></a>
+            </li>
+        </ul>
+        <a class="navbar-brand m-auto" href="#">
+
+        </a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#blog"><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/facturacion/facturar"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contact"></a>
+            </li>
+            <li class="nav-item">
+                <a href="/logout" class="btn btn-primary ml-xl-4"></a>
+                
+            </li>
+        </ul>
+    </div>
+</nav>
+  
+  <nav class="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top" data-spy="affix" data-offset-top="10"></nav>
+   <a class="navbar-brand m-auto" href="#">
+    
+    
+    <div class="img"><img class="img" src="{{url_for('static', filename='logo1.svg')}}" alt="Logo de MMS" width="50%" height="50%"></div>
+    
+    
+</a>
+    <div class="hero_area2">
+      
+      
+        <!-- header section strats -->
+        <header class="header_section">
+
+          <div class="container-fluid">
+            <div class="flex-column">
+              <div>
+              <div class="col-lg-8">
+              <nav class="navbar navbar-expand-lg custom_nav-container ">
+
+                          
+    <h3 style="text-align: center;"><!--{{mensaje}}--></h3>
+    
+  
+
+    <div class="containercito testmonial-card col-md-4">  
+      <BR><BR><BR>     
+      <a href="index.html">
+        
+
+        <img class="img" src="{{url_for('static', filename='logo1.svg')}}" alt="Logo de MMS" width=" 75%" height="45%">
+      </a>
+      <BR><BR>
+      <h5 style="position: relative;"></h5>
+    <form class="ingreso " action="/login" method="POST">
+     
+        
+    <LABEl for="usuario"></LABEl><br>
+    <input class= "form-control form-control form-control form-control-lg custom-form-control" type="text" name="user" placeholder="Ingrese su usuario" required>
     <BR>
     
-    <label for="contraseña">contraseña:</label><br>
-    <input type="password" name="password" placeholder="Ingrese Contraseña" required>
-    <BR><br>
-    <input type="submit" value="Ingresar">
+    <label for="contraseña"></label><br>
+    <input class= "form-control form-control form-control form-control-lg custom-form-control" type="password" name="password" placeholder="Ingrese Contraseña" required>
+    <BR>
+      </a>
+          
+            <a href="">
+                <input type="submit" class="btn btn-lg btn-primary" value="Ingresar">
+               
+                </a>
+                
+          </div>
     </form>
-    </div>
+    
+  </div>
+
+    
+    </div>    
+    </a> 
+  </div>
+</nav>
+</div>
+</div>
+</div>
+    
+<h6 style="position: absolute; bottom: 0; color: rgb(0, 0, 0);"></h6>
 </body>
 </html>
