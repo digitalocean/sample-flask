@@ -1,0 +1,51 @@
+{% extends "admin/interface/index.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <a href="{{url_for('admin.settings')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+
+<h1 class="mt-4">Round Settings</h1>
+
+<table class="table table-hover">
+    <tbody>
+    {% for round in rounds %}
+    <tr>
+        <td>
+            <h3>Round number {{round.number}}</h3>
+            <p>
+                Voting scheme: {{round.scheme}},
+                Pass limit: {{round.pass_limit}} {%if round.scheme == "yes-no"%}%{%else%}points{%endif%},
+                Active: {%if round.active%}Yes{%else%}No{%endif%},
+                Duration: {{round.duration}},
+                Optional piece: {{round.optional_piece}}
+            </p>
+
+        </td>
+        <td>
+            <div class="container">
+                <a href="/admin/round-edit/{{round.number}}">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </a>
+            </div>
+        </td>
+        <td>View field</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="container mt-4">
+    <a href="{{url_for('admin.settings')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+
+{% endblock%}
