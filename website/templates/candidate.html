@@ -1,0 +1,55 @@
+{% extends "/bootstrap/index.html" %}
+
+
+{% block content %}
+<!-- GO BACK BUTTON -->
+<div class="container mt-4">
+    <a href="{{url_for('admin.all_candidates')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+<!-- CANDIDATE INFO -->
+<h1 class="mt-4">Candidate number
+    {{candidate.candidate_number}}</h1>
+<div class="row">
+    <div class="col">
+        Candidate name:
+        {{candidate.first_name}}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+
+        Candidate surname:
+        {{candidate.last_name}}
+    </div>
+</div>
+
+<!-- SCORE AND COMMENTS -->
+<div class="container mt-4">
+    {% for round in rounds %}
+    {% if candidate.round >= round.number  %}
+
+    <div class="row">
+        <div class="col"><h3>Round {{round.number}}</h3></div>
+        <div class="col"><h4>{{ results.filter_by(candidate=candidate.candidate_number,
+            round=round.number).first().score }}
+            {%if round.scheme == "yes-no"%}%{%else%}points{%endif%}</h4></div>
+    </div>
+
+
+    {% endif %}
+    {% endfor %}
+</div>
+<!-- GO BACK BUTTON -->
+<div class="container mt-4">
+    <a href="{{url_for('admin.all_candidates')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+
+{% endblock %}
