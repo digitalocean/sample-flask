@@ -1,0 +1,110 @@
+{% extends "admin/interface/index.html" %}
+
+{% block title %}Candidate Drawing{%endblock%}
+
+{% block content%}
+<section name="header">
+    <div class="container overflow-hidden">
+    <div class="row align-items-center gx-5">
+        <div class="col-sm">
+            <!-- GO BACK BUTTON -->
+            <div class="p-3">
+                <a href="{{url_for('production.participants')}}">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    </button>
+                </a>
+            </div>
+            <h1>Candidate Draw</h1>
+        </div>
+    </div>
+    </div>
+</section>
+
+<div class="container">
+{% for participant in all_names %}
+{% if not participant.lot %}
+<div class="d-grid gap-2 d-lg-block col-4">
+    {% if participant.checked_in == True %}
+    <div class="card align-items-center">
+        <a type="button"
+           data-toggle="modal"
+           data-target="#{{participant.first_name}}{{participant.last_name}}">
+            <div class="card-body align-items-center">
+                <!-- Button trigger modal -->
+                {{participant.first_name}} {{participant.last_name}}
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% if participant.id % 3 == 0 %}
+    {% endif %}
+    <br>
+</div>
+
+    <!-- Modal -->
+<div class="modal fade" id="{{participant.first_name}}{{participant.last_name}}" tabindex="-1"
+     role="dialog"
+     aria-labelledby="{{participant.first_name}}{{participant.last_name}}"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="{{participant.first_name}}{{participant.last_name}}Title">
+                    {{participant.first_name}} {{participant.last_name}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST">
+                <div class="form-group">
+                    <input type="text" class="d-none form-contol" name="first_name" id="first_name"
+                           value="{{participant.first_name}}">
+                    <input type="text" class="d-none form-control" name="last_name" id="last_name"
+                           value="{{participant.last_name}}">
+                </div>
+                <div class="modal-body">
+
+                    <div class="d-grid gap-2 d-lg-block">
+                        {% for candidate in all_candidates.all() %}
+                        {% if candidate.lot != True %}
+                        <label class="btn btn-light btn-md">
+                            <input type="radio" name="number_selected"
+                                   id="{{candidate.candidate_number}}"
+                                   value="{{candidate.candidate_number}}"
+                                   autocomplete="off">
+                            {{candidate.candidate_number}}
+                        </label>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% if participant.id % 3 == 0 %}
+<div class="w-100"></div>
+{% endif %}
+{% endif %}
+{% endfor %}
+</div>
+
+
+<div class="container">
+    <form action="{{ url_for('admin.reset_draw') }}">
+        <button type="submit" class="btn btn-danger">Reset</button>
+    </form>
+</div>
+<!-- check if at the end of the form -->
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "bootstrap/index.html" %}
+
+{% block title %}Voting sheet{% endblock %}
+
+{% block content%}
+
+  <!--this html posts the data from form-->
+  <div class="container-md">
+  <form method='POST'>
+    <div class="form-group row">
+      <label for="candidate_number" class="col-sm-3 col-form-label">Candidate number</label>
+      <div class="col-sm-10">
+        <input type="number" name="candidate_number" id="candidate_number" class="form-control" />
+      </div>
+    </div>
+    <div class="container-md">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+  </form>
+</div>
+  {% endblock %}

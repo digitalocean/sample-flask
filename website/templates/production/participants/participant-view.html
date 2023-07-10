@@ -1,0 +1,136 @@
+{% extends "bootstrap/index.html" %}
+
+{% block title %} Candidate Edit {% endblock %}
+
+{% block content%}
+<!-- GO BACK BUTTON -->
+<div class="container">
+    <a href="{{url_for('production.participants')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+        </button>
+    </a>
+</div>
+<section name="header">
+    <div class="row align-items-center">
+        <div class="col-sm">
+
+            <h2>Participant View</h2>
+        </div>
+        <div class="col-sm">
+            {% if participant.photo %}
+
+            <img src="{{ url_for('static', filename='images/profile_pictures/' + participant.photo)}}"
+                 class="img-thumbnail">
+
+            {% else %}
+
+            <img src="{{ url_for('static', filename='images/default_profile.png')}}" class="img-thumbnail">
+
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+<br>
+
+<form method="POST" enctype="multipart/form-data">
+    <section name="initials">
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.first_name.label}}</label>
+                <input type="text"
+                       id="first_name"
+                       class="form-control"
+                       readonly
+                       placeholder="{{form.first_name.data}}">
+            </div>
+            <div class="col-sm">
+                <label>{{form.last_name.label}}</label>
+                <input type="text"
+                       id="last_name"
+                       class="form-control"
+                       readonly
+                       placeholder="{{form.last_name.data}}">
+            </div>
+        </div>
+    </section>
+    <section name="personal and contact details">
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.birth_date.label}}</label>
+                <input type="text"
+                       id="birth_date"
+                       class="form-control"
+                       readonly
+                       placeholder="{{form.birth_date.data}}">
+            </div>
+            <div class="col-sm">
+                <label>{{form.email.label}}</label>
+                <input type="text"
+                       id="email"
+                       class="form-control"
+                       readonly
+                       placeholder="{{form.email.data}}">
+            </div>
+            <div class="col-sm">
+
+                <label>{{form.phone.label}}</label>
+                <input type="text"
+                       id="phone"
+                       class="form-control"
+                       readonly
+                       placeholder="{{form.phone.data}}">
+            </div>
+        </div>
+    </section>
+    <br>
+    <section name="address">
+        <div class="row">
+            <div class="form-group">
+                <label>{{form.street_number.label}}</label>
+                <input type="text"
+                       readonly class="form-control-plaintext"
+                       id="street_number"
+                       value="{{form.street_number.data}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <label>{{form.city.label}}</label>
+                <input type="text"
+                       readonly class="form-control-plaintext"
+                       id="city"
+                       value="{{form.city.data}}">
+            </div>
+            <div class="form-group col-sm">
+                <label>{{form.country.label}}</label>
+                <input type="text"
+                       readonly class="form-control-plaintext"
+                       id="country"
+                       value="{{form.country.data}}">
+            </div>
+            <div class="form-group col-md-3">
+                <label>{{form.zip.label}}</label>
+                <input type="text"
+                       readonly class="form-control-plaintext"
+                       id="zip"
+                       value="{{form.zip.data}}">
+            </div>
+        </div>
+    </section>
+    <br>
+    <section name="BIO and photo">
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.bio.label}}</label>
+                <p class="text-justify">
+                    {{form.bio.data}}
+                </p>
+            </div>
+        </div>
+    </section>
+</form>
+
+{% endblock %}

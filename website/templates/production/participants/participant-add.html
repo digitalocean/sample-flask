@@ -1,0 +1,101 @@
+{% extends "bootstrap/index.html" %}
+
+{% block title %} Participant Add {% endblock %}
+
+{% block content%}
+
+
+<section name="header">
+    <div class="row align-items-center">
+        <div class="col-sm">
+            <!-- GO BACK BUTTON -->
+            <div class="form-group">
+                <a href="{{url_for('production.participants')}}">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    </button>
+                </a>
+            </div>
+            <h2 class="mt-4">Participant Add</h2>
+        </div>
+    </div>
+</section>
+
+<br>
+
+<form method="POST" enctype="multipart/form-data">
+    <section name="initials">
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.first_name.label}}</label>
+                {{form.first_name(class="form-control", placeholder="John")}}
+            </div>
+            <div class="col-sm">
+                <label>{{form.last_name.label}}</label>
+                {{form.last_name(class="form-control", placeholder="Doe")}}
+            </div>
+        </div>
+    </section>
+    <section name="personal and contact details">
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.birth_date.label}}</label>
+                {{form.birth_date(class="form-control")}}
+            </div>
+            <div class="col-sm">
+                <label>{{form.email.label}}</label>
+                {{form.email(class="form-control", type="email", placeholder="name@example.com")}}
+            </div>
+            <div class="col-sm">
+
+                <label>{{form.phone.label}}</label>
+                {{form.phone(class="form-control", placeholder="+420 703 589 746")}}
+            </div>
+        </div>
+    </section>
+    <br>
+    <section name="address">
+        <div class="row">
+            <div class="form-group">
+                <label>{{form.street_number.label}}</label>
+                {{form.street_number(class="form-control", placeholder="1234 Main St")}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm">
+                <label>{{form.city.label}}</label>
+                {{form.city(class="form-control", placeholder="New York")}}
+
+            </div>
+            <div class="form-group col-sm">
+                <label>{{form.country.label}}</label>
+                {{form.country(class="form-control", placeholder="Alabama")}}
+            </div>
+            <div class="form-group col-md-3">
+                <label>{{form.zip.label}}</label>
+                {{form.zip(class="form-control", placeholder="16845")}}
+            </div>
+        </div>
+    </section>
+    <br>
+    <section name="BIO and photo">
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.bio.label}}</label>
+                {{form.bio(class="form-control", placeholder="BIO comes here")}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <label>{{form.photo.label}}</label>
+                <br>
+                {{form.photo}}
+            </div>
+        </div>
+        deposit = db.Column(db.Boolean)
+        in_full = db.Column(db.Boolean)
+    </section>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+{% endblock %}

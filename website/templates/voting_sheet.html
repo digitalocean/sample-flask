@@ -1,0 +1,92 @@
+{% extends "bootstrap/index.html" %}
+
+{% block title %}Show all{%endblock%}
+
+{% block content%}
+
+
+{% for candidate in pagination.items %}
+<h2>Candidate number {{ candidate.candidate_number }}</h2>
+<form method='POST' action="{{ url_for('view.voting_sheet', page=pagination.next_num) }}">
+    <div class="form-group row">
+        <label for="staticJurorName" class="col-sm-3 col-form-label">Juror Name</label>
+        <div class="col-sm-3">
+            <input type="text"
+                   readonly class="form-control-plaintext"
+                   id="juror_name"
+                   value="{{ user.first_name }} {{ user.last_name }}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="staticCandidateNumber" class="col-sm-3 col-form-label">Candidate Number</label>
+        <div class="col-sm-3">
+            <input type="number" readonly name="candidate_number" id="candidate_number" class="form-control"
+                   value="{{ candidate.candidate_number }}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="staticRoundNumber" class="col-sm-3 col-form-label">Round Number</label>
+        <div class="col-sm-3">
+            <input type="text" name="round_number"
+                   id="round_number"
+                   readonly class="form-control-plaintext"
+                   value="{{current_round.number}}">
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="container">
+            <!-- score -->
+            {% if current_round.scheme == "yes-no" %}
+            <h4>Vote</h4>
+            {% else %}
+            <h4>Score</h4>
+            {% endif %}
+            {% if current_round.scheme == "yes-no" %}
+            <!-- YES/NO -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="score" id="inlineRadio1" value=100>
+                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="score" id="inlineRadio2" value=0>
+                    <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+            {% else %}
+            <!-- POINTS -->
+            <input type="number"
+                   name="score"
+                   id="score"
+                   class="form-control"/>
+        </div>
+        {% endif %}
+        <div class="container">
+            <!-- comment -->
+            <h4>Comment</h4>
+            <textarea name="comment"
+                      id="comment"
+                      class="form-control"
+                      rows="5"></textarea>
+        </div>
+    </div>
+    {%endfor%}
+    <br>
+    <!-- check if at the end of the form -->
+    {%if pagination.pages != pagination.page%}
+    <div class="form-group row">
+        <a class='page-number'>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </a>
+    </div>
+    {%endif%}
+    </div>
+    {%if pagination.pages == pagination.page%}
+    <div class="form-group row">
+        <a class='page-number' href="{{ url_for('view.home') }}">
+            <button type="submit" class="btn btn-primary" href="">Submit and end</button>
+        </a>
+    </div>
+    {%endif%}
+</form>
+
+
+{% endblock %}
