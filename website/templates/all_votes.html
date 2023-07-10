@@ -1,0 +1,38 @@
+{% extends "bootstrap/index.html" %}
+{% block title %}All votes{% endblock %}
+
+{% block content%}
+
+{{ pagination.info }}
+{{ pagination.links }}
+
+<div class="table-responsive">
+    <table class="table table-sm table-borderless mb-0">
+        <thead class="thead-dark">
+            <tr>
+                <th>S/N</th>
+                <th>Candidate Number</th>
+                <th>Round Number</th>
+                <th>Score</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vote in all_votes %}
+            <tr>
+                <td>{{ loop.index + pagination.skip }}</td>
+                <td>{{ vote.candidate_number }}</td>
+                <td>{{ vote.round_number }}</td>
+                <td>{{ vote.score }}</td>
+                <td>{{ vote.comment }}</td>
+                <td>{{ vote.date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ pagination.links }}
+</div>
+
+
+  {% endblock %}

@@ -1,0 +1,63 @@
+{% extends "admin/interface/index.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <button onclick="history.back()" class="btn btn-primary">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+</div>
+
+<h1 class="mt-4">Round startup voting</h1>
+
+<div class="container mt-4">
+    <div class="row">
+        {% for round in rounds %}
+        <div class="col">
+            <div class="container">
+                {% if round.number == rounds_started%}
+                {% if not round.ended %}
+                {% if round.active %}
+                <a href="{{url_for('admin.stop_round', rn = round.number)}}">
+                    <button class="btn btn-danger">
+                        End Round {{round.number}}
+                    </button>
+                </a>
+                {% else %}
+                <a href="{{url_for('admin.start_round', rn = round.number)}}">
+                    <button class="btn btn-success">
+                        Start Round {{round.number}}
+                    </button>
+                </a>
+                {% endif %}
+                {% else %}
+                <button class="btn btn-secondary disabled">
+                    Round {{round.number}}
+                </button>
+                {% endif %}
+
+                {% else %}
+                <button class="btn btn-secondary disabled">
+                    Round {{round.number}}
+                </button>
+                {% endif %}
+            </div>
+            <div class="container mt-4">
+                {% if check_round.filter_by(round_number=round.number).first() %}
+                <a href="{{url_for('admin.candidate_result', rn=round.number)}}">
+                    <button type="button" class="btn btn-outline-success">Results</button>
+                </a>
+                {% else %}
+                Nothing yet
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+<div class="container">
+    <button onclick="history.back()" class="btn btn-primary">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+</div>
+{% endblock %}

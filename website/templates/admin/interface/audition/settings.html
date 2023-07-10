@@ -1,0 +1,48 @@
+{% extends "admin/interface/index.html" %}
+{% block title %}Settings{% endblock %}
+
+{%block content%}
+<h1 class="mt-4">Audition Wizard</h1>
+
+<p>Begin the audition wizard by entering the count of participants and count of rounds:</p>
+<hr>
+<form method="POST">
+    {{ settings_begin.csrf_token }}
+    <div class="form-group">
+        <p>{{settings_begin.number_of_rounds.label(class="form-control-md")}}</p>
+        <p>{{settings_begin.number_of_rounds(class="form-control")}}</p>
+        <p>Currently set: {{count_of_rounds}}</p>
+        <p>Candidates currently present: {{count_of_candidates}}</p>
+    </div>
+
+    <br>
+    {{settings_begin.submit_settings_begin(class="btn btn-primary")}}
+
+</form>
+<hr>
+
+{% block roundsection %}
+
+
+<table class="table table-hover">
+    <tbody>
+    <tr>
+        <td>
+            <h3>Round settings</h3>
+        </td>
+        <td>
+            <div class="container">
+                <a href="{{url_for('admin.round_settings')}}">
+                    <button type="submit" class="btn btn-primary">Edit settings</button>
+                </a>
+            </div>
+        </td>
+        <td>View field</td>
+    </tr>
+    </tbody>
+</table>
+
+{% endblock%}
+
+
+{%endblock%}
