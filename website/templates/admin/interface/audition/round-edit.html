@@ -1,0 +1,68 @@
+{% extends "admin/interface/index.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{url_for('admin.round_settings')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <section id="round">
+
+                <form class="inline" method="POST">
+                    {{ settings_round.csrf_token }}
+                    <h1 class="mt-4">Round {{ round.number }} Settings</h1>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <input type="number" name="roundNumber" id="roundNumber" readonly class="d-none"
+                                   value="{{round.number}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p>{{settings_round.scheme.label(class="form-control-md")}}</p>
+                        <p>{{settings_round.scheme(class="form-control", placeholder=round.scheme)}}</p>
+                    </div>
+                    <div class="form-group">
+                        <p>{{settings_round.pass_limit.label(class="form-control-md")}}</p>
+                        <p>{{settings_round.pass_limit(class="form-control", placeholder=round.pass_limit)}}</p>
+                        <p>
+                            <b>For Yes/No system use percentage value
+                                <br>For point system in 25 use point value which
+                                makes the limit
+                            </b></p>
+                    </div>
+                    <div class="form-group">
+                        <p>{{settings_round.duration.label(class="form-control-md")}}</p>
+                        <p>{{settings_round.duration(class="form-control", placeholder=round.duration)}}</p>
+                    </div>
+                    <div class="form-group">
+                        <p>{{settings_round.optional_piece.label(class="form-control-md")}}</p>
+                        <p>{{settings_round.optional_piece(class="form-control", placeholder=round.optional_piece)}}</p>
+                    </div>
+
+                    {{settings_round.submit_round(class="btn btn-secondary")}}
+
+                </form>
+            </section>
+
+
+        </div>
+    </div>
+</div>
+<br>
+
+<br>
+<div class="container mt-4">
+    <a href="{{url_for('admin.round_settings')}}">
+        <button class="btn btn-primary">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+{% endblock %}

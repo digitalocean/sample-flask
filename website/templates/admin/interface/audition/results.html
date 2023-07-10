@@ -1,0 +1,46 @@
+{% extends "admin/interface/index.html" %}
+{% block title %}Settings{% endblock %}
+
+{%block content%}
+<h1 class="mt-4">Results for Round {{round}}</h1>
+
+<div class="container mt-4">
+    <div class="table-sm">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Order</th>
+                <th scope="col">Candidate Number</th>
+                <th scope="col">Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for result in results %}
+            {% if result.passed %}
+
+            <tr class="table-success">
+
+
+                <th scope="row">{{results.index(result)+1}}.</th>
+                <td>{{result.candidate}}</td>
+
+                <td>{{result.score}}</td>
+
+            </tr>
+            {% else%}
+            <tr class="table-danger">
+
+                <th scope="row">{{results.index(result)+1}}.</th>
+
+                <td>{{result.candidate}}</td>
+
+                <td>{{result.score}}</td>
+
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock%}
