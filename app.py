@@ -1,9 +1,9 @@
-from flask import Flask
-from flask import render_template
+from website import create_app
+from flask_bootstrap import Bootstrap
 
-app = Flask(__name__)
+app = create_app()
 
 
-@app.route("/")
-def hello_world():
-    return render_template("index.html")
+if __name__ == '__main__':
+    app.run(debug=True)
+    Bootstrap(app)
