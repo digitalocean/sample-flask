@@ -1,0 +1,36 @@
+{% extends "bootstrap/index.html" %}
+{% block title %}Show all{% endblock %}
+
+{% block content%}
+
+<div class="table-responsive">
+    <table class="table table-sm table-borderless mb-0">
+        <thead class="thead-dark">
+            <tr>
+                <th>Candidate Number</th>
+                <th>View</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidate in all_candidates %}
+            <tr>
+                <td>{{ candidate.candidate_number }}</td>
+                <td>
+                    <a href="{{url_for('admin.candidate', cid=candidate.candidate_number)}}">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </td>
+                <td>
+                <a href="#">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+  {% endblock %}

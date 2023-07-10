@@ -1,0 +1,19 @@
+{% extends "/bootstrap/index.html" %}
+
+{% block head %}
+<meta http-equiv="refresh" content="4">
+{% endblock %}
+
+{% block content %}
+
+{% if open_voting == True %}
+<p>
+    It is voting time
+</p>
+{% else %}
+<p>
+    Not yet, hang on
+</p>
+{% endif %}
+
+{% endblock %}
