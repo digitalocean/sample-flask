@@ -39,7 +39,6 @@ virtualenv==20.21.0
 visitor==0.1.3
 Werkzeug==2.2.3
 WTForms==3.0.1
-click==7.1.2
 gunicorn==20.0.4
 itsdangerous==1.1.0
 MarkupSafe==1.1.1
