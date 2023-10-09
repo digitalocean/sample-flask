@@ -8,8 +8,8 @@ from kb import KnowledgeBase, Translation, Person, Translator
 bp = Blueprint('translators', __name__, url_prefix='/translators')
 
 kb = KnowledgeBase()
-kb.import_data(Path("knowledge_graphs/rdf/DE_Translations.ttl"))
-kb.import_data(Path("knowledge_graphs/rdf/DE_Translators.ttl"))
+kb.import_data(Path("DE_Translations.ttl"))
+kb.import_data(Path("DE_Translators.ttl"))
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():

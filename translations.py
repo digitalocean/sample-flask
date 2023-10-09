@@ -7,8 +7,8 @@ from kb import KnowledgeBase, Translation
 bp = Blueprint('translations', __name__, url_prefix='/translations')
 
 kb = KnowledgeBase()
-kb.import_data(Path("knowledge_graphs/rdf/DE_Translations.ttl"))
-kb.import_data(Path("knowledge_graphs/rdf/DE_Translators.ttl"))
+kb.import_data(Path("DE_Translations.ttl"))
+kb.import_data(Path("DE_Translators.ttl"))
 
 # form = LanguageForm()
 source_language_facet = kb.source_language_facet()
