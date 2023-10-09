@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">   
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <link rel="stylesheet" href="/static/css/photos.css">
+    <script type="text/javascript"async defer src="//assets.pinterest.com/js/pinit.js" ></script>
+</head>
+<body>
+    <!-- announcement-->
+    <div id="announcement">
+        <span id="a-icon">🏖️ </span>Ownership is on vacation! We are not currently conducting trade-ins until <span class="bold-font"> August 8th, 2023.</span> <a id ="underline"> Learn More </a>
+     </div>
+        <!--nav bar-->
+    <div id="nav-container">
+        <div id="nav-grid">
+            <div id="boheme-logo" onClick="location.href='homepage.html'"><img src="/static/img/boheme-white-logo.png"></div>
+            <div class="nav-item" onClick="location.href='homepage.html'">HOME</div>
+            <div class="nav-item">ABOUT</div>
+            <div class="nav-item">BUY-SELL-TRADE</div>
+            <div class="nav-item">GIFT GUIDE</div>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                MEDIA
+                <i id="arrow-down"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#" onClick="location.href='photos.html'">FUN PHOTOS</a></li>
+                <li><a class="dropdown-item" href="#" onClick="location.href='videos.html'">VIBIN' VIDEOS</a></li>
+                <li><a class="dropdown-item" href="#" onClick="location.href='news.html'">IN THE NEWS</a></li>
+                <li><a class="dropdown-item" href="#" >BLOG</a></li>
+
+              </ul>
+          </div>
+            <button class="nav-button" id="get-in-touch" onClick="location.href='contact.html'">GET IN TOUCH</button>
+            <button id="visit-store">VISIT STORE <span id="arrow"></span></button>
+        </div>
+    </div>
+
+    <!-- fun photos -->
+    <div id="fun-photos"> 
+        <div id="fun-container">
+            <h1 style="color: #79955F; margin-bottom: 24px;"> Fun Photos </h1>
+            <h2> Browse some photos from members of our community </h2>
+        </div>
+    </div>
+
+    <!-- pinterest board -->
+    <div id="pinterest-board">
+      <h1 style="margin-top: 60px; margin-bottom:24px;"> Love From Our Community </h1>
+      <div id="board"> 
+        <a data-pin-do="embedBoard" data-pin-board-width="1090" data-pin-scale-height="800" data-pin-scale-width="160" href="https://www.pinterest.com/dearem1ly/fashion/"></a>
+      </div>
+      <h1 style="margin-top: 60px; margin-bottom:24px;"> The Boheme Vibe </h1>
+      <div id="board"> 
+        <a data-pin-do="embedBoard" data-pin-board-width="1090" data-pin-scale-height="800" data-pin-scale-width="160" href="https://www.pinterest.com/Sequoiafashion/outfit-inspiration/"></a>
+      </div>    
+    </div>
+   
+
+     <!--get in touch -->
+     <div id="get-in-touch-frame-bot">
+        <div id="get-in-touch-bot">
+          <p> Are you interested in our collaborating or any photo inquiries?  <a id="contact-bold"href='contact.html'>Get in touch</a> to learn more. </p>
+        </div>
+      </div>
+ 
+    <!--footer-->
+        <div id="footer">
+            <div id="footer-top">
+              <div id="footer-info">
+                <p class="bold-text-footer">Sign Up and Save</p>
+                <p class="text-footer">
+                  Be kept up-to-date on our sales, specials, and new product offerings
+                  by signing up for our newsletter.
+                </p>
+              </div>
+              <div id="email-footer">
+                <input id="email-input" type="text" placeholder="Email Address" />
+                <button id="email-button">Subscribe</button>
+              </div>
+            </div>
+            <div id="footer-bottom">
+              <div id="footer-logo-container">
+                <img id="footer-logo" src="/static/img/boheme-logo-full.png" />
+              </div>
+              <div id="footer-location-hours">
+                <p class="bold-text-footer">Location</p>
+                <p class="text-footer">409 3RD STREET, DAVIS, CA</p>
+                <p class="bold-text-footer">Hours</p>
+                <p class="text-footer">SUN - FRI: 11:00 - 6:00</p>
+                <p class="text-footer">SAT: 10:30 - 6:00</p>
+                <p class="bold-text-footer">Phone Number</p>
+                <p class="text-footer">530-341-2004</p>
+              </div>
+              <div id="footer-boheme">
+                <p class="bold-text-footer">Bohème</p>
+                <p style="padding-top: 1.875vw" class="text-footer text-footer-right">
+                  Home
+                </p>
+                <p class="text-footer text-footer-right">About</p>
+                <p style="cursor: pointer" class="text-footer">Contact</p>
+              </div>
+              <div id="footer-services">
+                <p style="cursor: auto" class="bold-text-footer text-footer-right">
+                  Services
+                </p>
+                <p class="text-footer text-footer-right">Our Store</p>
+                <p style="cursor: pointer" class="text-footer">Buy-Sell-Trade</p>
+              </div>
+              <div id="footer-media">
+                <p style="cursor: auto" class="bold-text-footer text-footer-right">
+                  Media
+                </p>
+                <p class="text-footer text-footer-right">Fun Photos</p>
+                <p class="text-footer text-footer-right">Vibin' Videos</p>
+                <p class="text-footer text-footer-right">In the News</p>
+                <p style="cursor: pointer" class="text-footer">Blog</p>
+              </div>
+              <div id="footer-follow-us">
+                <p style="cursor: auto" class="bold-text-footer text-footer-right">
+                  Follow Us
+                </p>
+                <a href="https://www.instagram.com/boheme.threads/?hl=en">
+                  <img
+                    style="cursor: pointer"
+                    src="/static/img/footer-instagram.png"
+                    class="footer-icon"
+                  />
+                </a>
+                <a href="https://www.facebook.com/BohemeThreads/">
+                  <img
+                    style="cursor: pointer"
+                    src="/static/img/footer-facebook.png"
+                    class="footer-icon"
+                  />
+                </a>
+              </div>
+            </div>
+            <div id="copyright-footer">2023. Bohème Used Clothing & Gifts</div>
+          </div>
+</body>
+</html>
