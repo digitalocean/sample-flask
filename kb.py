@@ -238,9 +238,9 @@ class KnowledgeBase():
             })
 
 
-    def import_data(self, data: Path) -> None:
+    def import_data(self, data:str) -> None:
         try:
-            self.graph.parse(data)
+            self.graph.parse(data, format="turtle")
         except FileNotFoundError:
             print("couldn't find file")
 
