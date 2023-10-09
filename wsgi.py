@@ -1,3 +1,5 @@
-from spatrem import create_app
+from app import app
 
-app = create_app()
+#from spatrem import create_app
+
+#app = create_app()
