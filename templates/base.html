@@ -1,0 +1,22 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Ezra</title>
+<link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+<header>
+    <h1>Spaces of Translation in European Magazines</h1>
+    <hr/>
+</header>
+<nav>
+    <a href="{{ url_for('index') }}">home</a>
+    <a href="{{ url_for('translations.index') }}">translations</a>
+    <a href="{{ url_for('translators.index') }}">translators</a>
+    <a href="{{ url_for('magazines.index') }}">magazines</a>
+</nav>
+<hr/>
+<section class="content">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+
+    {% block content %}{% endblock %}
+</section>

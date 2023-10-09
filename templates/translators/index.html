@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Translators{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class=""container"">
+    <div id="table"></div>
+</div>
+
+
+
+<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+<script>
+ new gridjs.Grid({
+     columns: [
+         { id: 'name', name: 'Name'},
+         { id: 'birthDate', name: 'Birth' },
+         { id: 'deathDate', name: 'Death' },
+         { id: 'gender', name: 'Gender' },
+         { id: 'nationality', name: 'Nationality'},
+     ],
+     data: [
+         {% for x in translators %}
+         {
+             name: "{{ x['label'] }}",
+             birthDate: "{{ x['birthDate'] }}",
+             deathDate: "{{ x['deathDate'] }}",
+             gender: "{{ x['gender'] }}",
+             nationality: "{{ x['nationality'] }}",
+         },
+         {% endfor %}
+     ],
+     search: {
+         selector: (cell, rowIndex, cellIndex) => [0, 1, 4].includes(cellIndex) ? cell : null,
+     },
+     sort: true,
+     pagination: {
+         enabled: true,
+         limit: 20,
+     },
+ }).render(document.getElementById('table'))
+</script>
+{% endblock %}

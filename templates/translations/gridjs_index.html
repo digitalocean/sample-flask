@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <title>Translations Table</title>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: Sans-Serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+        <h1>Translations</h1>
+        <hr>
+        <form>
+            <label>from source language</label>
+            <select name="source_language">
+                <option value="any" selected>any</option>
+                {% for item in source_language_facet %}
+                <option value="{{ item.lang }}">{{ item.label }}</option>
+                {% endfor %}
+            </select> to <label>translation language</label>
+            <select name="translation_language">
+                <option value="any" selected aria-selected="true">any</option>
+                {% for item in target_language_facet %}
+                <option value="{{ item.lang }}">{{ item.label }}</option>
+                {% endfor %}
+            </select>
+            <label>in magazine(s)</label>
+            <select name="magazine" multiple="multiple">
+                <option value="any" selected>any</option>
+                <option value="AD">Adam</option>
+                <option value="AR">Arena</option>
+                <option value="CR">Critique</option>
+                <option value="GT">Das Goldene Tor</option>
+                <option value="MO">Der Monat</option>
+                <option value="UM">Die Umschau</option>
+                <option value="WA">Die Wandlung</option>
+                <option value="EC">Encounter</option>
+                <option value="KA">Karussell</option>
+                <option value="LA">L‘Arche</option>
+                <option value="NE">La Nef</option>
+                <option value="TR">La Table Ronde</option>
+                <option value="TM">Les Temps Modernes</option>
+                <option value="LN">Lettres Nouvelles</option>
+                <option value="MA">Mandrake</option>
+                <option value="ME">Merkur</option>
+                <option value="NU">Neue Auslese</option>
+                <option value="NR">New Road</option>
+                <option value="NM">Nimbus</option>
+                <option value="NN">Nine</option>
+                <option value="PR">Preuves</option>
+                <option value="PA">Presence Africaine</option>
+                <option value="GA">The Gate</option>
+                <option value="LM">The London Magazine</option>
+                <option value="TC">Two Cities</option>
+                <option value="WW">Welt und Wort</option>
+                <option value="WT">Wort und Tat</option>
+            </select>
+             at <label>any time</label>
+            <input type="checkbox" id="anytime" name="anytime"> or <label>after
+                date</label>
+            <input type="date" id="after" name="after"> and <label>before date</label>
+            <input type="date" id="before" name="before">
+            <br />
+            <input type="submit" value="Submit" />
+        </form>
+<hr/>
+
+      <div id="table"></div>
+    </div>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script>
+      const updateUrl = (prev, query) => {
+        return prev + (prev.indexOf('?') >= 0 ? '&' : '?') + new URLSearchParams(query).toString();
+      };
+
+      new gridjs.Grid({
+          columns: [
+              { id: 'magazine', name: 'Mag' },
+              { id: 'issue', name: 'Iss' },
+              { id: 'pubDate', name: 'Year' },
+              { id: 'author', name: 'Auth' },
+              { id: 'title', name: "Title" },
+              { id: 'translator', name: "Trans" },
+              { id: 'genre', name: "Genre" },
+              { id: 'source_language', name: "SL" },
+              { id: 'target_language', name: "TL" },
+              { id: 'country', name: "Country" },
+          ],
+          server: {
+              url: 'api/translations',
+              then: results => results.data,
+              total: results => results.total,
+          },
+        pagination: {
+          enabled: true,
+          server: {
+            url: (prev, page, limit) => {
+              return updateUrl(prev, {start: page * limit, length: limit});
+            },
+          },
+        },
+      }).render(document.getElementById('table'));
+    </script>
+  </body>
+</html>

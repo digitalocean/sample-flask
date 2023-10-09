@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Translations{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div>
+        <table>
+        <form method="POST" action="">
+            {{ form.csrf_token }}
+            <tr>
+            <td>
+                {{ form.sl.label }}
+                {{ form.sl }}
+            </td>
+            <td>
+                {{ form.tl.label }}
+                {{ form.tl }}
+            </td>
+            </tr>
+            <tr>
+            <td>
+                {{ form.magazine.label }}
+                {{ form.magazine }}
+            </td>
+            <td>
+                {{ form.genre.label }}
+                {{ form.genre }}
+            </td>
+            </tr>
+            <tr>
+                <td>{{ form.any_date() }} {{ form.any_date.label }}</td>
+                <td></td>
+            </tr>
+            <tr>
+            <td>{{ form.after_date.label }} {{ form.after_date() }}</td>
+            <td>{{ form.before_date.label }} {{ form.before_date() }}</td>
+            </tr>
+            <tr>
+                <td><input type="submit"></td>
+                <td></td>
+            </tr>
+        </form>
+        </table>
+        </div>
+
+        <div id="table"></div>
+        </div>
+</div>
+
+        <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+        <script>
+         new gridjs.Grid({
+             columns: [
+                 { id: 'magazine', name: 'Mag' },
+                 { id: 'issue', name: 'Iss' },
+                 { id: 'pubDate', name: 'Year' },
+                 { id: 'author', name: 'Auth' },
+                 { id: 'title', name: "Title" },
+                 { id: 'translator', name: "Trans" },
+                 { id: 'genre', name: "Genre" },
+                 { id: 'source_language', name: "SL" },
+                 { id: 'target_language', name: "TL" },
+             ],
+             data: [
+                 {% for foo in translations %}
+                 {
+                     magazine: "{{ foo['magazine']}}",
+                     pubDate: {{ foo['pubDate']}},
+                     issue: "{{foo['issue'] }}",
+                     author: "{{ foo['author'] }}",
+                     title: "{{ foo['title'] }}",
+                     translator: "{{ foo['translator'] }}",
+                     genre: "{{ foo['genre']}}",
+                     source_language: "{{ foo['source_language' ]}}",
+                     target_language: "{{ foo['target_language' ]}}"
+                 },
+                 {% endfor %}
+             ],
+             search: {
+                 selector: (cell, rowIndex, cellIndex) => [0, 1, 4].includes(cellIndex) ? cell : null,
+             },
+             sort: true,
+             pagination: {
+                 enabled: true,
+                 limit: 20,
+             },
+         }).render(document.getElementById('table'));
+        </script>
+{% endblock %}
