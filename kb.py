@@ -1,5 +1,5 @@
 import re
-from rdflib import Graph, URIRef, Namespace
+from rdflib import Graph, URIRef, Namespace, Literal
 from rdflib.namespace._RDFS import RDFS
 from rdflib.namespace._RDF import RDF
 from rdflib.plugins.sparql import prepareQuery
@@ -361,3 +361,21 @@ class KnowledgeBase():
             for row in results:
                 self._translators.append(Translator(self.graph, row.person))
         return self._translators
+
+
+    def translator(self, uri: URIRef) -> dict:
+        """Returns data about a translator."""
+        query = prepareQuery("""
+        select ?work ?label
+        where {
+        ?person crm:P14i_performed ?creation .
+        ?creation lrm:R17_created ?expression .
+        ?expression lrm:R3_realises ?work .
+        ?work rdfs:label ?label .
+        }
+        """, initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
+        data = {}
+        result = self.graph.query(query, initBindings={'person': uri})
+        if result:
+            data = [{"work": str(row.work), "label": str(row.label)} for row in result]
+        return data

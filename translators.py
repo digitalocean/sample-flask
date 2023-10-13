@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask import render_template, url_for, request
 from forms import LanguageForm, TranslationForm
 from kb import KnowledgeBase, Translation, Person, Translator, PERSON
+from rdflib import URIRef
 
 
 bp = Blueprint('translators', __name__, url_prefix='/translators')
@@ -17,7 +18,6 @@ lookup = {}
 for x in translators:
     data = x.to_dict()
     key = data['key']
-    # key = x.id.toPython().split('/')[-1]
     lookup[key] = data
 
 
@@ -29,6 +29,8 @@ def index():
 
 @bp.route("/<personid>")
 def person(personid):
-    hit = lookup[personid]
+    uriref = URIRef(lookup[personid]['id'])
     # return hit.to_dict()
-    return hit
+    # return hit
+    data = kb.translator(uriref)
+    return data
