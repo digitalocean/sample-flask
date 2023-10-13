@@ -15,15 +15,22 @@
 <script>
  new gridjs.Grid({
      columns: [
-         { id: 'name', name: 'Name'},
-         { id: 'birthDate', name: 'Birth' },
-         { id: 'deathDate', name: 'Death' },
-         { id: 'gender', name: 'Gender' },
-         { id: 'nationality', name: 'Nationality'},
+         'id',
+         'key',
+         {
+             name: 'name',
+             formatter: (cell, row) => gridjs.html(`<a href="${row.cells[1].data}">${cell}</a>`),
+         },
+         'birthDate',
+         'deathDate',
+         'gender',
+         'nationality'
      ],
      data: [
          {% for x in translators %}
          {
+             id: "{{ x['id'] }}",
+             key: "{{ x['key']}}",
              name: "{{ x['label'] }}",
              birthDate: "{{ x['birthDate'] }}",
              deathDate: "{{ x['deathDate'] }}",

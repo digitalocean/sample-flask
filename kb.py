@@ -75,8 +75,11 @@ class Translator(Person):
             return None
 
     def to_dict(self)->dict:
+        id = str(self.id)
+        key = id.split('/')[-1]
         return {
-            "id": self.id,
+            "key": key,
+            "id": str(self.id),
             "label": self.label,
             "birthDate":  self.birthDate,
             "deathDate": self.deathDate,
