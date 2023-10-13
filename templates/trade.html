@@ -12,6 +12,129 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">   
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <link rel="stylesheet" href="/static/css/trade.css">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script
+      async
+      custom-element="amp-accordion"
+      src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"
+    ></script>
+    <meta
+      name="viewport"
+      content="width=device-width,
+					minimum-scale=1,
+					initial-scale=1"
+    />
+    <style amp-boilerplate>
+      body {
+        -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+      }
+      @-webkit-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-moz-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-ms-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-o-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+    </style>
+    <noscript>
+      <style amp-boilerplate>
+        body {
+          -webkit-animation: none;
+          -moz-animation: none;
+          -ms-animation: none;
+          animation: none;
+        }
+      </style>
+    </noscript>
+
+    <style amp-custom>
+      amp-accordion section[expanded] {
+        /* Add transition property for smooth animation */
+        transition: max-height 0.2s ease-out;
+        overflow: hidden;
+        max-height: 5000px; /* Set a reasonable max-height to avoid jumpy animation */
+      }
+
+      /* Update the styles for the expanded state to animate the '-' sign */
+      amp-accordion section[expanded] h4::after {
+        content: "\2212"; /* Minus sign */
+        color: #545859;
+        float: right;
+      }
+
+      /* Add styles for the collapsed state */
+      amp-accordion section:not([expanded]) h4::after {
+        content: "\002B"; /* Plus sign */
+        color: #545859;
+        float: right;
+      }
+
+      .sample h4,
+      .nested-accordion h4 {
+        background-color: #ffffff;
+        color: #545859;
+        cursor: pointer;
+        padding: 50px;
+        width: 90%;
+        margin-left: 25px;
+        border: none;
+        text-align: left;
+        padding-left: 0;
+        outline: none;
+        font-size: 24px;
+        font-family: "Readex Pro";
+      }
+
+      #content {
+        margin-left: 25px;
+        border-bottom: 1px solid #545859;
+        width: 90%;
+        font-family: "Readex Pro";
+        color: #878787;
+        font-size: 24px;
+      }
+
+      amp-accordion.hidden-header section[expanded] h4 {
+        border: none;
+      }
+    </style>
+    <meta name="robots" content="noindex, nofollow" />
 </head>
 <body>
   <!-- announcement-->
@@ -51,178 +174,285 @@
         </div>
     </div>
     <!--Condition, InSeason, Mens, Womens-->
-    <div style="padding-top: 4.375vw;" id="look-sell">
+    <div style="padding-top: 56px;" id="look-sell">
       <h3>Looking to sell?</h3>
-      <h1 style="margin-bottom:3.125vw">What we are looking for</h2>
+      <h1 style="margin-bottom:40px">What we are looking for</h2>
       <p>We are overstocked with women's jeans, pants & shoes, and will be extremely selective in what we purchase.
         We don't accepts brand such as...</p>
       </div>    
     <div id="condition">
-      <button id = "sell-collapse" type="button" class="collapsiblegrey">
-        <img id="sell-icon" src="/static/img/conditionicon.png"/> 
-        <div id="sell-subheader"> 
-          <h1> condition </h1>
-          <h2> new & gently used </h2>
-        </div>
-      </button>
-      <div class="content">
-        <div style="margin-bottom: 3.527vw;" class="flex-dropdown">
-          <div style="background: #E4F9EB;" class="dropdown-sub">
-            <h3 class="sell-dropdown-title">Accepted</h3>
-            <ul style="margin-left:0vw;"class="list">
-              <li> <p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> New or gently used </p> </li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> Smoke & Odor Free </p></li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> Wrinkle Free </p></li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> High Quality Brands</p></li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> Selective Fast Fashion</p></li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> New or “New like” shoes</p></li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> Women’s size 00-14 </p></li>
-              <li><p style="display:inline-block;"> <img id="accept" src="/static/img/accept.png"/> Men’s size S-XL (but only size 30-34 pants)</p></li>
-            </ul>
-          </div>
-          <div style="background: #F9E4E4;" class="dropdown-sub year-round">
-            <h3 class="sell-dropdown-title">Not Accepted</h3>
-            <div class="flex-dropdown">
-              <div style="margin-right: 3.125vw;">
-                <ul style="margin-left:0vw;" class="list">
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Holes </p></li>
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Rips </p></li>
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Stains </p></li>
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Odor</p></li>
+      <amp-accordion class="sample" disable-session-states>
+        <section>
+          <h4>
+            <img id="sell-icon" src="/static/img/conditionicon.png" />
+            <div id="sell-subheader">
+              <h1>condition</h1>
+              <h2>new & gently used</h2>
+            </div>
+          </h4>
+          <div id="content">
+            <div style="margin-bottom: 45.15px" class="flex-dropdown">
+              <div style="background: #e4f9eb" class="dropdown-sub">
+                <h3 class="sell-dropdown-title">Accepted</h3>
+                <ul style="margin-left: 0px" class="list">
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> New or
+                      gently used
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> Smoke &
+                      Odor Free
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> Wrinkle
+                      Free
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> High
+                      Quality Brands
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> Selective
+                      Fast Fashion
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> New or “New
+                      like” shoes
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> Women’s
+                      size 00-14
+                    </p>
+                  </li>
+                  <li>
+                    <p style="display: inline-block">
+                      <img id="accept" src="/static/img/accept.png" /> Men’s size
+                      S-XL (but only size 30-34 pants)
+                    </p>
+                  </li>
                 </ul>
               </div>
-              <div>
-                <ul style="margin-left:0vw;" class="list">
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Low-quality Fast Fashion Brands </p></li>
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Fair-Poor Condition Shoes </p></li>
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Men’s size XXL+ </p></li>
-                  <li><p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Men’s size 35+ pants </p></li>
+              <div style="background: #f9e4e4" class="dropdown-sub year-round">
+                <h3 class="sell-dropdown-title">Not Accepted</h3>
+                <div class="flex-dropdown">
+                  <div style="margin-right: 40px">
+                    <ul style="margin-left: 0px" class="list">
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Holes
+                        </p>
+                      </li>
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Rips
+                        </p>
+                      </li>
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Stains
+                        </p>
+                      </li>
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Odor
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <ul style="margin-left: 0px" class="list">
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Low-quality
+                          Fast Fashion Brands
+                        </p>
+                      </li>
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Fair-Poor
+                          Condition Shoes
+                        </p>
+                      </li>
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Men’s size
+                          XXL+
+                        </p>
+                      </li>
+                      <li>
+                        <p style="display: inline-block">
+                          <img id="deny" src="/static/img/deny.png" /> Men’s size
+                          35+ pants
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h4>
+            <img id="sell-icon" src="/static/img/seasonicon.png" />
+            <div id="sell-subheader">
+              <h1>in-season</h1>
+              <h2>year round + seasonal</h2>
+            </div>
+          </h4>
+          <amp-accordion class="nested-accordion">
+            <section>
+              <h4>
+                <div id="sell-subheader-drop">
+                  <h1>womens</h1>
+                </div>
+              </h4>
+              <div id="content">
+                <p class="sell-dropdown-title">
+                  *We are only accepting women sizes 00-14. Our most popular women
+                  size is medium.
+                </p>
+                <div style="margin-bottom: 45.15px" class="flex-dropdown">
+                  <div class="dropdown-sub">
+                    <h3 class="sell-dropdown-title">Seasonal</h3>
+                    <ul class="list">
+                      <li class="check">Skirts</li>
+                      <li class="check">Shorts</li>
+                      <li class="check">Tank Tops</li>
+                      <li class="check">Short Sleeve Dresses</li>
+                      <li class="check">Short Sleeve Blouses</li>
+                      <li class="check">Summer Dresses</li>
+                    </ul>
+                  </div>
+                  <div class="dropdown-sub year-round">
+                    <h3 class="sell-dropdown-title">Year Round</h3>
+                    <div class="flex-dropdown">
+                      <div style="margin-right: 40px">
+                        <ul class="list">
+                          <li class="check">Flare & Bell Bottom Jeans</li>
+                          <li class="check">Overalls</li>
+                          <li class="check">Authentic Leather Jackets</li>
+                          <li class="check">Jean Jackets</li>
+                          <li class="check">Rain Coats</li>
+                          <li class="check">Snow Pants & Suits</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <ul class="list">
+                          <li class="check">High-end, Funky Shoes & Boots</li>
+                          <li class="check">Costumes & Halloween Items</li>
+                          <li class="check">Festival & Burning Man Items</li>
+                          <li class="check">Ugly Christmas Sweaters</li>
+                          <li class="check">Jewelry</li>
+                          <li class="check">Vans, Converse, Skater Shoes</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h4>
+                  <div id="sell-subheader-drop"> 
+                  <h1> mens </h1>
+                </div>
+              </h4>
+              <div id="content">
+                  <p class="sell-dropdown-title">*We are only accepting men sizes S-XL, and pant waist sizes 30-32.</p>
+            <div style="margin-bottom: 45.15px;" class="flex-dropdown">
+              <div class="dropdown-sub">
+                <h3 class="sell-dropdown-title">Seasonal</h3>
+                <ul class="list">
+                  <li class="check">Short Sleeve Shirts</li>
+                  <li class="check">Shorts</li>
+                  <li class="check">Long Sleeve Button-Up Shirts</li>
+                  <li class="check">Pop Culture & Branded T-shirts</li>
                 </ul>
+                <div class="p-dropdown"> <p>Character, Movie/Show & Entertainment/ Music Band</p> </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button id = "sell-collapse" type="button" class="collapsiblegrey">
-        <img id="sell-icon" src="/static/img/seasonicon.png"/> 
-        <div id="sell-subheader"> 
-          <h1> in-season </h1>
-          <h2> year round + seasonal </h2>
-        </div>
-      </button>
-      <div class="content">
-        <button id = "sell-collapse" type="button" class="collapsiblegrey">
-          <div id="sell-subheader-drop"> 
-            <h1> womens </h1>
-          </div>
-        </button>
-        <div class="content">
-          <p class="sell-dropdown-title">*We are only accepting women sizes 00-14. Our most popular women size is medium.</p>
-          <div style="margin-bottom: 3.527vw;" class="flex-dropdown">
-            <div class="dropdown-sub">
-              <h3 class="sell-dropdown-title">Seasonal</h3>
-              <ul class="list">
-                <li class="check">Skirts</li>
-                <li class="check">Shorts</li>
-                <li class="check">Tank Tops</li>
-                <li class="check">Short Sleeve Dresses</li>
-                <li class="check">Short Sleeve Blouses</li>
-                <li class="check">Summer Dresses</li>
-              </ul>
-            </div>
-            <div class="dropdown-sub year-round">
-              <h3 class="sell-dropdown-title">Year Round</h3>
-              <div class="flex-dropdown">
-                <div style="margin-right: 3.125vw;">
-                  <ul class="list">
-                    <li class="check">Flare & Bell Bottom Jeans</li>
-                    <li class="check">Overalls</li>
-                    <li class="check">Authentic Leather Jackets</li>
-                    <li class="check">Jean Jackets</li>
-                    <li class="check">Rain Coats</li>
-                    <li class="check">Snow Pants & Suits</li>
-                  </ul>
-                </div>
-                <div>
-                  <ul class="list">
-                    <li class="check">High-end, Funky Shoes & Boots</li>
-                    <li class="check">Costumes & Halloween Items</li>
-                    <li class="check">Festival & Burning Man Items</li>
-                    <li class="check">Ugly Christmas Sweaters</li>
-                    <li class="check">Jewelry</li>
-                    <li class="check">Vans, Converse, Skater Shoes</li>
-                  </ul>
+              <div class="dropdown-sub year-round">
+                <h3 class="sell-dropdown-title">Year Round</h3>
+                <div class="flex-dropdown">
+                  <div style="margin-right: 40px;">
+                    <ul class="list">
+                      <li class="check">Hawaiian Shirts</li>
+                      <li class="check">Flannels</li>
+                      <li class="check">Jeans</li>
+                      <li class="check">Rain Coats</li>
+                      <li class="check">Suspenders</li>
+                      <li class="check">Bow & Skinny Ties</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <ul class="list">
+                      <li class="check">Snow Pants, Bibs, & Suits</li>
+                      <li class="check">Costumes & Halloween Items</li>
+                      <li class="check">Festival & Burning Man Items</li>
+                      <li class="check">Ugly Christmas Sweaters</li>
+                      <li class="check">Ray-Ban, Oakley, & Branded Sunglasses</li>
+                      <li class="check">Vans, Converse, Nike, Adidas, & Branded shoes</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <button id = "sell-collapse" type="button" class="collapsiblegrey">
-          <div id="sell-subheader-drop"> 
-            <h1> mens </h1>
-          </div>
-        </button>
-        <div class="content">
-          <p class="sell-dropdown-title">*We are only accepting men sizes S-XL, and pant waist sizes 30-32.</p>
-          <div style="margin-bottom: 3.527vw;" class="flex-dropdown">
-            <div class="dropdown-sub">
-              <h3 class="sell-dropdown-title">Seasonal</h3>
-              <ul class="list">
-                <li class="check">Short Sleeve Shirts</li>
-                <li class="check">Shorts</li>
-                <li class="check">Long Sleeve Button-Up Shirts</li>
-                <li class="check">Pop Culture & Branded T-shirts</li>
-              </ul>
-              <div class="p-dropdown"> <p>Character, Movie/Show & Entertainment/ Music Band</p> </div>
-            </div>
-            <div class="dropdown-sub year-round">
-              <h3 class="sell-dropdown-title">Year Round</h3>
-              <div class="flex-dropdown">
-                <div style="margin-right: 3.125vw;">
-                  <ul class="list">
-                    <li class="check">Hawaiian Shirts</li>
-                    <li class="check">Flannels</li>
-                    <li class="check">Jeans</li>
-                    <li class="check">Rain Coats</li>
-                    <li class="check">Suspenders</li>
-                    <li class="check">Bow & Skinny Ties</li>
-                  </ul>
-                </div>
-                <div>
-                  <ul class="list">
-                    <li class="check">Snow Pants, Bibs, & Suits</li>
-                    <li class="check">Costumes & Halloween Items</li>
-                    <li class="check">Festival & Burning Man Items</li>
-                    <li class="check">Ugly Christmas Sweaters</li>
-                    <li class="check">Ray-Ban, Oakley, & Branded Sunglasses</li>
-                    <li class="check">Vans, Converse, Nike, Adidas, & Branded shoes</li>
-                  </ul>
+          </section>
+          </amp-accordion>
+        </section>
+        <section>
+          <h4><img id="sell-icon" src="/static/img/needleicon.png"/> 
+              <div id="sell-subheader"> 
+                <h1> premium </h1>
+                <h2> high-end + limited edition </h2>
+              </div>
+          </h4>
+          <div id="content">
+              <div style="margin-bottom: 45.15px;" class="flex-dropdown">
+              <div class="dropdown-sub">
+                <h3 class="sell-dropdown-title">Premium</h3>
+                <p>We pay extra for most high quality premium labels (i.e. Chanel, Ralph Lauren, Gucci, DKNY, Marc Jacobs, etc.)  and vintage, boutique, or unique items.</p>
+              </div>
+              <div class="dropdown-sub year-round">
+                <h3 class="sell-dropdown-title">Non-Premium</h3>
+                <p>We resell most non-premium items between $6 - $12, so you will receive on average from $1.50 to $3 each in store credit or $.75 to $1.50 in cash for each piece.</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <button id = "sell-collapse" type="button" class="collapsiblegrey">
-        <img id="sell-icon" src="/static/img/needleicon.png"/> 
-        <div id="sell-subheader"> 
-          <h1> premium </h1>
-          <h2> high-end + limited edition </h2>
-        </div>
-      </button>
-      <div class="content">
-        <div style="margin-bottom: 3.527vw;" class="flex-dropdown">
-          <div class="dropdown-sub">
-            <h3 class="sell-dropdown-title">Premium</h3>
-            <p>We pay extra for most high quality premium labels (i.e. Chanel, Ralph Lauren, Gucci, DKNY, Marc Jacobs, etc.)  and vintage, boutique, or unique items.</p>
-          </div>
-          <div class="dropdown-sub year-round">
-            <h3 class="sell-dropdown-title">Non-Premium</h3>
-            <p>We resell most non-premium items between $6 - $12, so you will receive on average from $1.50 to $3 each in store credit or $.75 to $1.50 in cash for each piece.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        </section>
+      </amp-accordion>
+      <script>
+        var coll = document.getElementsByClassName("sample");
+        var i;
+  
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
+        }
+      </script>
+    </div>
       <script>
         var coll = document.getElementsByClassName("collapsiblegrey");
         var i;
@@ -241,7 +471,7 @@
       </script>
       <div id="schedule-div">
         <button class="schedule-button" onClick="window.open('https://squareup.com/appointments/book/3srvschplnsg15/DYX6Q6CE3GKAW/services','_blank')">Schedule a Trade in appointment</button>
-        <p style="font-style: italic; margin-bottom: 6.875vw;">We reserve the right to reject items deemed unsuitable.</p>
+        <p style="font-style: italic; margin-bottom: 88px;">We reserve the right to reject items deemed unsuitable.</p>
       </div>
     </div>
   <!--how does it work-->

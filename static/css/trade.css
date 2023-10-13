@@ -1,36 +1,36 @@
-html,body
-{
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0vw;
   padding: 0vw;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
 /*announcement starts*/
-.bold-font{
+.bold-font {
   font-weight: 700;
 }
 
-#announcement{
+#announcement {
   height: 5vw;
   width: 100%;
-  background-color: #FAF6F5;
+  background-color: #faf6f5;
   text-align: center;
-  padding-top: 1.250vw;
-  font-size:1.25vw;
+  padding-top: 1.25vw;
+  font-size: 1.25vw;
 }
 
-#announcement p{
+#announcement p {
   font-weight: 400;
   color: #192126;
 }
 
-#a-icon{
+#a-icon {
   margin-right: 0.938vw;
 }
 
-#underline{
+#underline {
   font-weight: 400;
   margin-left: 1.875vw;
   cursor: pointer;
@@ -41,12 +41,12 @@ html,body
 
 /*nav bar start*/
 #nav-container {
-  height: 6.250vw;
+  height: 6.25vw;
   width: 100%;
-  background-color: #F26C34;
-  color:#FAF6F5;
-  padding-left: 3.750vw;
-  padding-top: 1.250vw;
+  background-color: #f26c34;
+  color: #faf6f5;
+  padding-left: 3.75vw;
+  padding-top: 1.25vw;
   z-index: 1000;
 }
 
@@ -56,46 +56,44 @@ html,body
   cursor: pointer;
 }
 
-#boheme-logo img{
+#boheme-logo img {
   width: 9.609vw;
   height: auto;
-  margin-right: 3.750vw;
+  margin-right: 3.75vw;
 }
-
 
 .nav-item {
   font-family: "Arimo", sans-serif;
-  font-size: 1.250vw;
+  font-size: 1.25vw;
   padding-top: 0.938vw;
   margin-right: 2.813vw;
-  font-weight:700;
+  font-weight: 700;
 }
 
 .nav-button {
-  padding: 0.625vw 2.500vw;
+  padding: 0.625vw 2.5vw;
   border-radius: 4.844vw;
   font-family: "Arimo", sans-serif;
-  font-size: 1.250vw;
+  font-size: 1.25vw;
   cursor: pointer;
   font-weight: 700;
   margin-bottom: 0.938vw;
   outline: none;
-
 }
 
 #get-in-touch {
-  background-color: #F26C34;
-  border-color: #FAF6F5;
-  color: #FAF6F5;
+  background-color: #f26c34;
+  border-color: #faf6f5;
+  color: #faf6f5;
   margin-right: 1.25vw;
   border-style: solid;
 }
 
 #visit-store {
-  background-color: #FAF6F5;
+  background-color: #faf6f5;
   color: #192126;
   display: flex;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   align-items: center;
   text-align: center;
   border: none;
@@ -103,12 +101,11 @@ html,body
   border-radius: 4.844vw;
   font-family: "Arimo", sans-serif;
   font-size: 1.25vw;
-  border-color: #FAF6F5;
+  border-color: #faf6f5;
   cursor: pointer;
   font-weight: 700;
   margin-bottom: 0.938vw;
 }
-
 
 #visit-store > #arrow {
   width: 0.625vw;
@@ -118,7 +115,7 @@ html,body
   position: relative;
   transform: rotate(-45deg);
   margin: 0 0.469vw;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 #visit-store > #arrow::before {
@@ -131,7 +128,7 @@ html,body
   opacity: 0;
   bottom: calc(-0.156vw / 2);
   transform: rotate(45deg);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   content: "";
   right: 0;
 }
@@ -141,7 +138,7 @@ html,body
   border-color: text-hover-color;
 }
 
-.dropdown{
+.dropdown {
   overflow: visible;
   padding-top: 2px;
   margin-left: -10px;
@@ -149,29 +146,28 @@ html,body
   background-color: transparent;
 }
 
-#dropdownMenuButton1{
+#dropdownMenuButton1 {
   font-family: "Arimo", sans-serif;
-  font-size: 1.250vw;
-  font-weight:700;
-  line-height: 2.500vw;
+  font-size: 1.25vw;
+  font-weight: 700;
+  line-height: 2.5vw;
   letter-spacing: -0.024vw;
   border: none;
   outline: none;
-  color: #FAF6F5;
+  color: #faf6f5;
   background-color: inherit;
 }
 
-.dropdown-item{
+.dropdown-item {
   font-family: "Arimo", sans-serif;
-  font-size: 1.250vw;
-  font-weight:700;
-  line-height: 2.500vw;
+  font-size: 1.25vw;
+  font-weight: 700;
+  line-height: 2.5vw;
   letter-spacing: -0.024vw;
   color: black;
 }
 
-
-.dropdown-menu>a {
+.dropdown-menu > a {
   float: none;
   color: black;
   text-decoration: none;
@@ -187,8 +183,7 @@ html,body
 
 .dropdown-menu > a:hover {
   background-image: none;
-  background-color: #FDF5EB;
-  
+  background-color: #fdf5eb;
 }
 .dropdown-toggle::after {
   display: none;
@@ -197,12 +192,12 @@ html,body
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-#arrow-down{
-  border: solid #FAF6F5;
+#arrow-down {
+  border: solid #faf6f5;
   border-width: 0 0.234vw 0.234vw 0;
   display: inline-block;
   padding: 0.234vw;
-  margin-left:0.781vw;
+  margin-left: 0.781vw;
   margin-bottom: 0.234vw;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
@@ -537,7 +532,7 @@ h2 {
 
 #modal-content {
   border-radius: 2.344vw;
-  height: 33.125vw;
+  height: 33.125vh;
   width: 95.469vw;
   display: inline-flex;
   margin-left: 1.875vw;
@@ -549,7 +544,7 @@ h2 {
 
 #selling-frame {
   width: 27.5vw;
-  height: 33.125vw;
+  height: 33.125vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -569,14 +564,14 @@ h2 {
 
 #accept {
   background-image: url(/static/img/accept.png), no-repeat;
-  height: 0.938vw;
+  height: 0.938vh;
   width: 1.328vw;
   margin-right: 1.25vw;
 }
 
 #deny {
   background-image: url(/static/img/deny.png), no-repeat;
-  height: 1.563vw;
+  height: 1.563vh;
   width: 1.563vw;
   margin-right: 1.25vw;
 }
@@ -586,7 +581,7 @@ h2 {
   flex-direction: column;
   padding: 3.75vw 2.5vw;
   width: 40.625vw;
-  height: 33.125vw;
+  height: 33.125vh;
   border-radius: 0vw 2.344vw 2.344vw 0vw;
   align-items: flex-start;
   gap: 2.188vw;
@@ -689,7 +684,7 @@ h2 {
 }
 
 .deal-sub {
-  height: 23.906vw;
+  height: 23.906vh;
   text-align: center;
   border-radius: 1.284vw;
   margin-bottom: 3.75vw;
@@ -857,40 +852,42 @@ strong {
 
 /*footer start*/
 #footer {
-  background: #F26C34;    
+  background: #f26c34;
   color: #ffffff;
-  padding-left:3.750vw;
-  padding-top: 1.250vw;
-  padding-bottom: 1.250vw;
+  padding-left: 3.75vw;
+  padding-top: 1.25vw;
+  padding-bottom: 1.25vw;
   width: 100%;
 }
 
 #footer-top {
   padding-left: 1.875vw;
-  padding-bottom:2.500vw;
+  padding-bottom: 2.5vw;
   padding-top: 1.875vw;
   /* padding-top: 1.875vw; new change */
-  width:92.500vw;
+  width: 92.5vw;
   display: flex;
   flex-direction: row;
-  border-bottom:0.156vw solid white;
+  border-bottom: 0.156vw solid white;
 }
 
 #footer-info {
   width: 50%;
-  height:8.125vw;
+  height: 8.125vw;
 }
 
-a:hover {color:white}
+a:hover {
+  color: white;
+}
 
 /*changed font*/
 .bold-text-footer {
-  color: #FFF;
+  color: #fff;
   font-family: "Arimo", sans-serif;
   font-style: normal;
   font-size: 1.875vw;
   font-weight: 700;
-  line-height:2.500vw;
+  line-height: 2.5vh;
   letter-spacing: -0.036vw;
   text-align: left;
 }
@@ -911,27 +908,26 @@ a:hover {color:white}
   cursor: pointer;
 }
 
-
 #email-footer {
   width: 50%;
-  height:8.125vw;
+  height: 8.125vh;
   align-items: center;
   padding-top: 2.031vw;
 }
 
 #email-input {
-  background-color: #F26C34;
+  background-color: #f26c34;
   color: white;
   border: none;
-  border-bottom:0.156vw solid white;
+  border-bottom: 0.156vw solid white;
   width: 27.578vw;
-  height: 2.578vw;
-  margin-left:3.125vw;
+  height: 2.578vh;
+  margin-left: 3.125vw;
   margin-right: 1.563vw;
 }
 
 ::placeholder {
-  color: #FFF;
+  color: #fff;
   font-family: "Mukta", sans-serif;
   font-size: 1.563vw;
   font-style: normal;
@@ -940,48 +936,47 @@ a:hover {color:white}
 }
 
 #email-button {
-  color: #F26C34;
+  color: #f26c34;
   font-family: "Mukta", sans-serif;
   font-size: 1.563vw;
   font-style: normal;
   font-weight: 700;
   line-height: 2.5vw; /* 160% */
   letter-spacing: -0.03vw;
-  width:11.484vw;
-  height:3.750vw;
-  border-radius:4.844vw;
-  border-color: #F26C34;
+  width: 11.484vw;
+  height: 3.75vh;
+  border-radius: 4.844vw;
+  border-color: #f26c34;
   border-style: solid;
-  background: #FFF;
+  background: #fff;
   cursor: pointer;
   border: none;
- 
 }
 
 #footer-bottom {
-  margin-top:2.500vw;
+  margin-top: 2.5vw;
   display: flex;
   flex-direction: row;
-  padding-bottom:2.500vw;
+  padding-bottom: 2.5vw;
   /* padding-bottom:2.500vw;  new change */
 }
 
 #footer-logo-container {
-  color: #FAFAFA;
+  color: #fafafa;
   font-family: "Readex Pro", sans-serif;
-  font-size:2.500vw;
+  font-size: 2.5vw;
   font-weight: 400;
   display: flex;
   flex-direction: row;
-  margin-right:7.813vw;
+  margin-right: 7.813vw;
   align-items: center;
-  height: 7.031vw;
+  height: 7.031vh;
 }
 
 #footer-logo {
   width: 14.375vw;
   height: auto;
-  margin-right: 1.250vw;
+  margin-right: 1.25vw;
   filter: brightness(0) invert(1);
 }
 
@@ -990,15 +985,15 @@ a:hover {color:white}
 }
 
 #footer-boheme {
-  margin-right:3.125vw;
+  margin-right: 3.125vw;
 }
 
 #footer-services {
-  margin-right:3.125vw;
+  margin-right: 3.125vw;
 }
 
 #footer-media {
-  margin-right:3.125vw;
+  margin-right: 3.125vw;
 }
 
 .footer-follow-us {
@@ -1007,22 +1002,21 @@ a:hover {color:white}
 }
 
 .footer-icon {
-  width:3.906vw;
+  width: 3.906vw;
   height: auto;
 }
 
 /* new change */
-#copyright-footer{
+#copyright-footer {
   text-align: center;
-  font-family: "Mukta",sans-serif;
+  font-family: "Mukta", sans-serif;
   font-size: 1.406vw;
   font-style: normal;
   font-weight: 400;
   line-height: 2.5vw; /* 200% */
   letter-spacing: -0.024vw;
-  padding-bottom: 1.250vw;
+  padding-bottom: 1.25vw;
   text-transform: capitalize;
 }
-
 
 /*footer end*/
