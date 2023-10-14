@@ -28,7 +28,7 @@ def index():
                            translators=data)
 
 @bp.route("/<personid>")
-def person(personid):
+def translations_by(personid):
     uriref = URIRef(lookup[personid]['id'])
     # return hit.to_dict()
     # return hit

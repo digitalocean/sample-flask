@@ -41,6 +41,8 @@ class Person():
 class Translator(Person):
     def __init__(self, graph, uriref, **kwargs):
         super().__init__(graph, uriref)
+        self._translations = None
+
 
     @property
     def label(self):
@@ -73,6 +75,29 @@ class Translator(Person):
             return next(self.graph.objects(self.id, SCHEMA.nationality)).toPython()
         except StopIteration:
             return None
+
+
+
+
+    @property
+    def translations(self) -> dict | None:
+        if self._translations is None:
+            query = prepareQuery("""
+            select ?work ?label
+            where {
+            ?person crm:P14i_performed ?creation .
+            ?creation lrm:R17_created ?expression .
+            ?expression lrm:R3_realises ?work .
+            ?work rdfs:label ?label .
+            }
+            """, initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
+            data = {}
+            result = self.graph.query(query, initBindings={'person': self.id})
+            if result:
+                self._translations = [{"work": str(row.work), "label": str(row.label)} for row in result]
+
+        return self._translations
+
 
     def to_dict(self)->dict:
         id = str(self.id)
@@ -363,7 +388,7 @@ class KnowledgeBase():
         return self._translators
 
 
-    def translator(self, uri: URIRef) -> dict:
+    def translator_old(self, uri: URIRef) -> dict:
         """Returns data about a translator."""
         query = prepareQuery("""
         select ?work ?label
@@ -379,3 +404,8 @@ class KnowledgeBase():
         if result:
             data = [{"work": str(row.work), "label": str(row.label)} for row in result]
         return data
+
+    def translator(self, uri: str) -> dict:
+        """Returns data about a translator."""
+        uriref = URIRef(uri)
+        return Translator(self.graph, uriref)
