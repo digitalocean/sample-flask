@@ -26,6 +26,13 @@ class Person():
     def to_dict(self):
         return {"person": self.names[0]}
 
+    def __repr__(self):
+        return f"<Person: {self.label}>"
+
+    @property
+    def label(self):
+        return next(self.graph.objects(self.id, RDFS.label)).toPython()
+
     @property
     def names(self):
         if self._names is None:
@@ -114,6 +121,93 @@ class Translator(Person):
 
 
 class Translation():
+    def __init__(self, graph: Graph, expr: URIRef) -> None:
+        self.graph: graph = graph
+        self.expr = expr
+
+    def __repr__(self) -> str:
+        return f"<Translation: {self.title}>"
+
+
+    @property
+    def work(self):
+        return next(self.graph.objects(self.expr, LRM.R3_realises))
+
+    @property
+    def title(self):
+        work = next(self.graph.objects(self.expr, LRM.R3_realises))
+        return next(self.graph.objects(work, RDFS.label))
+
+    @property
+    def languages(self):
+        return self.graph.objects(self.expr, CRM.P72_has_language)
+
+    @property
+    def source_languages(self):
+        original_expr = next(self.graph.objects(self.expr, LRM.R76i_is_derivative_of))
+        original_language = next(self.graph.objects(original_expr, CRM.P72_has_language))
+        return original_language
+
+    @property
+    def authors(self):
+        query = prepareQuery("""
+        SELECT ?person
+        WHERE
+        {
+        ?expr lrm:R76i_is_derivative_of ?original .
+        ?original lrm:R17i_was_created_by ?creation .
+        ?person crm:P14i_performed ?creation .
+        }
+        """, initNs = {"lrm": LRM, "crm": CRM})
+        result = self.graph.query(query, initBindings={'expr': self.expr})
+        return [Person(self.graph, row.person) for row in result]
+
+    @property
+    def translators(self):
+        q = prepareQuery("""
+        SELECT ?person
+        WHERE
+        {
+        ?creation lrm:R17_created ?expr .
+        ?person crm:P14i_performed ?creation .
+        }
+        """, initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
+
+        result = self.graph.query(q, initBindings={'expr': self.expr})
+        return [Translator(self.graph, row.person) for row in result]
+
+    @property
+    def pubDate(self):
+        graph = self.graph
+        issue = next(graph.objects(self.work, LRM.R67i_is_part_of))
+        pub_expr = next(graph.objects(issue, LRM.R3i_is_realised_by))
+        manifestation = next(graph.objects(pub_expr, LRM.R4i_is_embodied_in))
+        manifestation_creation = next(graph.objects(manifestation, LRM.R24i_was_created_by))
+        time_span = next(graph.objects(manifestation_creation, CRM.P4_has_time_span))
+        date_label = next(graph.objects(time_span, RDFS.label))
+        return date_label.toPython()
+
+    @property
+    def magazine(self):
+        graph = self.graph
+        issue = next(graph.objects(self.work, LRM.R67i_is_part_of))
+        magazine = next(graph.objects(issue, LRM.R67i_is_part_of))
+        return next(graph.objects(magazine, RDFS.label)).toPython()
+
+    @property
+    def issue(self):
+        graph = self.graph
+        issue = next(graph.objects(self.work, LRM.R67i_is_part_of))
+        return next(graph.objects(issue, RDFS.label)).toPython()
+
+    @property
+    def genre(self):
+        graph = self.graph
+        genre = next(graph.objects(self.work, LRM.P2_has_type))
+        return genre.toPython()
+
+
+class TranslationOld():
     def __init__(self, graph: Graph, **kwargs):
         self.graph = graph
         self.work = kwargs['trans_work']
@@ -226,6 +320,38 @@ class Translation():
 
 
 class KnowledgeBase():
+    def __init__(self) -> None:
+        self.graph = Graph()
+
+    def import_data(self, data:str) -> None:
+        try:
+            self.graph.parse(data, format="turtle")
+        except FileNotFoundError:
+            print("couldn't find file")
+
+
+    def translations(self):
+        q = prepareQuery("""
+        PREFIX lrm: <http://iflastandards.info/ns/lrm/lrmer/>
+        PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+        SELECT ?trans_expr
+        WHERE {
+        ?trans_expr lrm:R76i_is_derivative_of ?original_expr.
+        ?original_expr crm:P72_has_language ?sl .
+        ?trans_expr crm:P72_has_language ?tl .
+        FILTER (?sl != ?tl) .
+        }""",
+        initNs = {
+            "lrm": "http://iflastandards.info/ns/lrm/lrmer/",
+            "crm": "http://www.cidoc-crm.org/cidoc-crm/",
+            "rdfs": RDFS,
+        })
+
+        results = self.graph.query(q)
+        return [Translation(self.graph, row.trans_expr) for row in results]
+
+
+class KnowledgeBaseOld():
     def __init__(self) -> None:
         self.graph = Graph()
         self._translations = None
