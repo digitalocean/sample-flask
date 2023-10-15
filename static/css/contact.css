@@ -270,7 +270,6 @@ p {
   font-style: normal;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: "seravekmedium";
   font-weight: bold;
   width: 15.391vw;
   height: 3.75vw;
@@ -282,7 +281,6 @@ p {
   cursor: pointer;
   border: none;
   margin-top: 2.5vw;
-  padding: 0.625vw 2.5vw;
 }
 
 #stop-by-left iframe {
@@ -376,6 +374,11 @@ input[type="checkbox"] {
   display: none !important;
 }
 
+.captcha-submit {
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+
 #submit-button {
   color: #fafafa;
   font-family: "Arimo", sans-serif;
@@ -383,7 +386,6 @@ input[type="checkbox"] {
   font-style: normal;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: "seravekmedium";
   font-weight: bold;
   width: 9.688vw;
   height: 3.75vw;
@@ -394,7 +396,7 @@ input[type="checkbox"] {
   font-size: 1.25vw;
   cursor: pointer;
   border: none;
-  margin-top: 2.5vw;
+  margin-top: 5vw;
   padding: 0.625vw 2.5vw;
 }
 
