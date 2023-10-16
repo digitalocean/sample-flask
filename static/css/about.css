@@ -320,7 +320,8 @@ html,body
 .story-btn {
   position: relative;
   margin-left: 4%;
-  margin-top: 5%;
+  margin-top: 2%;
+  margin-bottom: 4%;
   background-color: #f26c34;
   border-radius: 4.844vw;
   height: 3.75vw;
@@ -430,11 +431,16 @@ h2 {
 }
 
 /* yelp start */
+
 .yelp-reviews-flex {
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  margin: auto 80px;
+  gap: 20px;
+  margin-top: 1vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-bottom: 2vw;
+  padding: 30px;
 }
 
 .yelp-review {
