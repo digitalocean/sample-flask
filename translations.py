@@ -44,28 +44,30 @@ def index():
 
         before_date = form.before_date.data
         if before_date != 'any':
-            translations = list(filter(lambda x: int(x.pubDate) < int(before_date), translations))
+            translations = list(filter(lambda x:  int(x.pubDate) < int(before_date), translations))
 
         after_date = form.after_date.data
         if after_date != 'any':
-            translations = list(filter(lambda x: int(x.pubDate) < int(after_date), translations))
+            translations = list(filter(lambda x: int(x.pubDate) > int(after_date), translations))
 
 
 
     form.sl.choices = [(l['lang'], l['label']) for l in source_language_facet]
     form.sl.choices.append(('any', 'any'))
+
     form.tl.choices = [(l['lang'], l['label']) for l in target_language_facet]
     form.tl.choices.append(('any', 'any'))
+
     form.magazine.choices = [(m['magazine'], m['label']) for m in magazine_facet]
     form.magazine.choices.append(('any', 'any'))
 
     form.genre.choices = [(item['genre'], item['label']) for item in genre_facet]
     form.genre.choices.append(('any', 'any'))
 
-    form.after_date.choices = [(item['label'], item['label']) for item in pubdate_facet]
+    form.after_date.choices = [(item['pubDate'], item['label']) for item in pubdate_facet]
     form.after_date.choices.append(('any', 'any'))
 
-    form.before_date.choices = [(item['label'], item['label']) for item in pubdate_facet]
+    form.before_date.choices = [(item['pubDate'], item['label']) for item in pubdate_facet]
     form.before_date.choices.append(('any', 'any'))
 
 
