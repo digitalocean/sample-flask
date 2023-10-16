@@ -90,8 +90,9 @@ class Issue():
         return Magazine(self.graph, next(self.graph.objects(self.id, LRM.R67i_is_part_of)))
 
     def to_dict(self) -> dict:
-        return {"issue": self.id,
-                "label": self.label }
+        return { "key": self.id.split('/')[-1],
+                 "id": self.id,
+                 "label": self.label }
 
 
 class Translator(Person):
@@ -470,7 +471,9 @@ class KnowledgeBase():
         uriref = URIRef(uri)
         return Magazine(self.graph, uriref)
         
-
+    def issue(self, uri) -> Issue:
+        uriref = URIRef(uri)
+        return Issue(self.graph, uriref)
 
     def facets(self):
         """Return facets for UI.
