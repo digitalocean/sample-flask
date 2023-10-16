@@ -139,14 +139,14 @@ class Translation():
 
     @property
     def languages(self):
-        return self.graph.objects(self.expr, CRM.P72_has_language)
+        return list(self.graph.objects(self.expr, CRM.P72_has_language))
 
     @property
     def source_languages(self):
         original_expr = next(self.graph.objects(self.expr, LRM.R76i_is_derivative_of))
         # original_language = next(self.graph.objects(original_expr, CRM.P72_has_language))
         # return original_language
-        return self.graph.objects(original_expr, CRM.P72_has_language)
+        return list(self.graph.objects(original_expr, CRM.P72_has_language))
 
     @property
     def authors(self):
@@ -220,8 +220,8 @@ class Translation():
             "title": self.title,
             "translator": self.translators[0].names[0],
             "genre": self.genre,
-            "source_language": self.languages,
-            "target_language": self.tl
+            "sl": self.source_languages,
+            "tl": self.languages
         }
 
 
@@ -423,7 +423,7 @@ class KnowledgeBase():
         initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
 
         result = self.graph.query(query)
-        return [{"lang": row.sl.toPython(),
+        return [{"lang": row.sl,
                  "label": row.label.toPython(),
                  "count": row.n.toPython()} for row in result]
 
@@ -442,7 +442,7 @@ class KnowledgeBase():
         initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
 
         result = self.graph.query(query)
-        return [{"lang": row.tl.toPython(),
+        return [{"lang": row.tl,
                  "label": row.label.toPython(),
                  "count": row.n.toPython()} for row in result]
 

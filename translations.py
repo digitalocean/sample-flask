@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask import render_template, url_for, request
 from forms import LanguageForm, TranslationForm
 from kb import KnowledgeBase, Translation
+from rdflib import URIRef
 
 bp = Blueprint('translations', __name__, url_prefix='/translations')
 
@@ -27,11 +28,11 @@ def index():
 
         sl = form.sl.data
         if sl != 'any':
-            translations = list(filter(lambda x: x.sl == sl, translations))
+            translations = list(filter(lambda x: sl in map(lambda x: str(x), x.source_languages), translations))
 
         tl = form.tl.data
         if tl != 'any':
-            translations = list(filter(lambda x: x.tl == tl, translations))
+            translations = list(filter(lambda x: tl in map(lambda x: str(x), x.languages), translations))
 
         magazine = form.magazine.data
         if magazine != 'any':
@@ -39,7 +40,7 @@ def index():
 
         genre = form.genre.data
         if genre != 'any':
-            translations = list(filter(lambda x: x.genre == genre, translations))
+            translations = list(filter(lambda x: str(x.genre) == genre, translations))
 
         before_date = form.before_date.data
         if before_date != 'any':
@@ -51,14 +52,14 @@ def index():
 
 
 
-    form.sl.choices = [(l['label'], l['label']) for l in source_language_facet]
+    form.sl.choices = [(l['lang'], l['label']) for l in source_language_facet]
     form.sl.choices.append(('any', 'any'))
-    form.tl.choices = [(l['label'], l['label']) for l in target_language_facet]
+    form.tl.choices = [(l['lang'], l['label']) for l in target_language_facet]
     form.tl.choices.append(('any', 'any'))
-    form.magazine.choices = [(m['label'], m['label']) for m in magazine_facet]
+    form.magazine.choices = [(m['magazine'], m['label']) for m in magazine_facet]
     form.magazine.choices.append(('any', 'any'))
 
-    form.genre.choices = [(item['label'], item['label']) for item in genre_facet]
+    form.genre.choices = [(item['genre'], item['label']) for item in genre_facet]
     form.genre.choices.append(('any', 'any'))
 
     form.after_date.choices = [(item['label'], item['label']) for item in pubdate_facet]
