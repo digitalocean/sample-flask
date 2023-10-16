@@ -83,6 +83,10 @@ class Issue():
     def label(self) -> str:
         return next(self.graph.objects(self.id, RDFS.label))
 
+    @property
+    def articles(self) -> list:
+        articles = self.graph.objects(self.id, LRM.R67_has_part)
+        return [Article(self.graph, article) for article in articles]
 
     @property
     def magazine(self):
@@ -92,7 +96,28 @@ class Issue():
     def to_dict(self) -> dict:
         return { "key": self.id.split('/')[-1],
                  "id": self.id,
-                 "label": self.label }
+                 "label": self.label,
+                 "articles": [a.to_dict() for a in self.articles] }
+
+
+class Article():
+    def __init__(self, graph, uriref) -> None:
+        self.graph = graph
+        self.id = uriref
+
+    @property
+    def label(self) -> str:
+        return next(self.graph.objects(self.id, RDFS.label)).toPython()
+        
+
+
+    def to_dict(self) -> dict:
+        return { "key": self.id.split('/')[-1],
+                 "id": self.id,
+                 "label": self.label, }
+                 
+
+        
 
 
 class Translator(Person):
