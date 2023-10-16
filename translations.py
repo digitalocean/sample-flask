@@ -36,7 +36,7 @@ def index():
 
         magazine = form.magazine.data
         if magazine != 'any':
-            translations = list(filter(lambda x: x.magazine == magazine, translations))
+            translations = list(filter(lambda x: str(x.magazine) == magazine, translations))
 
         genre = form.genre.data
         if genre != 'any':

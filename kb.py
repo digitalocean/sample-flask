@@ -213,7 +213,7 @@ class Translation():
     def to_dict(self):
         magazine = next(self.graph.objects(self.magazine, RDFS.label))
         return {
-            "magazine": magazine.toPython(),
+            "magazine": magazine,
             "issue": self.issue,
             "pubDate": self.pubDate,
             "author": self.authors[0].names[0],
@@ -458,7 +458,7 @@ class KnowledgeBase():
         """, initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
 
         result = self.graph.query(query)
-        return [{"magazine": row.magazine.toPython(),
+        return [{"magazine": row.magazine,
                  "label": row.label.toPython()} for row in result]
 
 
