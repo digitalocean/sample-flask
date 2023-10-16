@@ -33,4 +33,4 @@ def translations_by(personid):
     # return hit.to_dict()
     # return hit
     data = kb.translator(uriref)
-    return data
+    return data.to_dict()
