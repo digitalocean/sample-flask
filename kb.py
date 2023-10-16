@@ -212,16 +212,22 @@ class Translation():
 
     def to_dict(self):
         magazine = next(self.graph.objects(self.magazine, RDFS.label))
+        issue = next(self.graph.objects(self.issue, RDFS.label))
+        s_langs = ";".join([str(next(self.graph.objects(l, RDFS.label)))
+                            for l in self.source_languages])
+        t_langs = ";".join([str(next(self.graph.objects(l, RDFS.label)))
+                            for l in self.languages])
+
         return {
             "magazine": magazine,
-            "issue": self.issue,
+            "issue": issue,
             "pubDate": self.pubDate,
             "author": self.authors[0].names[0],
             "title": self.title,
             "translator": self.translators[0].names[0],
             "genre": self.genre,
-            "sl": self.source_languages,
-            "tl": self.languages
+            "sl": s_langs,
+            "tl": t_langs,
         }
 
 
