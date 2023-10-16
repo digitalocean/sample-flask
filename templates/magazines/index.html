@@ -5,5 +5,11 @@
 {% endblock %}
 
 {% block content %}
-<p>Hello from the magazines blueprint.</p>
+<div clas="container">
+  <ul>
+    {% for magazine in magazines %}
+    <li><a href="{{ magazine.label }}">{{ magazine.label }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

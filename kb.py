@@ -45,6 +45,55 @@ class Person():
 
 
 
+class Magazine():
+    def __init__(self, graph, uriref) -> None:
+        self.graph: Graph = graph
+        self.id = uriref
+
+
+    def __repr__(self) -> str:
+        return f"<Magazine: {self.label}>"
+
+
+    @property
+    def label(self) -> str:
+        return next(self.graph.objects(self.id, RDFS.label)).toPython()
+
+    @property
+    def issues(self) -> list:
+        issues = self.graph.objects(self.id, LRM.R67_has_part)
+        return [Issue(self.graph, issue) for issue in issues]
+
+
+    def to_dict(self) -> dict:
+        return { "key": self.id.split('/')[-1],
+                 "id": self.id,
+                 "label" : self.label,
+                 "issues": [i.to_dict() for i in self.issues] }
+
+class Issue():
+    def __init__(self, graph, uriref) -> None:
+        self.graph = graph
+        self.id = uriref
+
+    def __repr__(self) -> str:
+        return f"<Issue: {self.label}>"
+
+    @property
+    def label(self) -> str:
+        return next(self.graph.objects(self.id, RDFS.label))
+
+
+    @property
+    def magazine(self):
+        # return Magazine(self.graph, next(self.graph.subjects(self.id, LRM.R67_has_part)))
+        return Magazine(self.graph, next(self.graph.objects(self.id, LRM.R67i_is_part_of)))
+
+    def to_dict(self) -> dict:
+        return {"issue": self.id,
+                "label": self.label }
+
+
 class Translator(Person):
     def __init__(self, graph, uriref, **kwargs):
         super().__init__(graph, uriref)
@@ -84,7 +133,7 @@ class Translator(Person):
             return None
 
     @property
-    def translations(self) -> dict | None:
+    def translations(self) -> list | None:
         if self._translations is None:
             query = prepareQuery("""
             select ?work ?label
@@ -398,12 +447,31 @@ class KnowledgeBase():
         return [Translator(self.graph, row.person) for row in results]
 
 
-    def translator(self, uri: str) -> dict:
+    def translator(self, uri: str) -> Translator:
         """Returns data about a translator."""
         uriref = URIRef(uri)
         return Translator(self.graph, uriref)
 
     
+    def magazines(self) -> list:
+        q = prepareQuery("""
+        SELECT distinct ?magazine
+        WHERE
+        {
+        ?magazine a lrm:F18_Serial_Work .
+        }
+        """, initNs = {"lrm": LRM, "crm": CRM, "rdfs": RDFS})
+
+        result = self.graph.query(q)
+        return [Magazine(self.graph, m.magazine) for m in result]
+
+
+    def magazine(self, uri) -> Magazine:
+        uriref = URIRef(uri)
+        return Magazine(self.graph, uriref)
+        
+
+
     def facets(self):
         """Return facets for UI.
 

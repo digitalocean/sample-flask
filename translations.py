@@ -78,20 +78,11 @@ def index():
     page_count = (count // length)
     current = int((start - 1) / length) + 1
 
-    # data = [x.to_dict() for x in translations[start:start+length]]
     data = [x.to_dict() for x in translations]
-    # data = translations
     return render_template("translations/index.html",
                            form=form,
                            translations=data,
                            )
-
-# @bp.route("/", methods=['GET', 'POST'])
-# def index():
-#     return render_template("translations/index.html",
-#                            source_language_facet=source_language_facet,
-#                            target_language_facet=target_language_facet,
-#                            )
 
 
 @bp.route("/foo", methods=['GET', 'POST'])
