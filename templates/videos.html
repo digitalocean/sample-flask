@@ -11,38 +11,89 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">   
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <link rel="stylesheet" href="/static/css/videos.css">
+    <link rel="stylesheet" href="/static/css/shared.css">
 </head>
 <body>
     <!-- announcement-->
     <div id="announcement">
         <span id="a-icon">🏖️ </span>Ownership is on vacation! We are not currently conducting trade-ins until <span class="bold-font"> August 8th, 2023.</span> <a id ="underline"> Learn More </a>
      </div>
-        <!--nav bar-->
-    <div id="nav-container">
-        <div id="nav-grid">
-            <div id="boheme-logo" onClick="location.href='homepage.html'"><img src="/static/img/boheme-white-logo.png"></div>
-            <div class="nav-item" onClick="location.href='homepage.html'">HOME</div>
-            <div class="nav-item">ABOUT</div>
-            <div class="nav-item">BUY-SELL-TRADE</div>
-            <div class="nav-item">GIFT GUIDE</div>
-            <div class="dropdown">
+ <!--nav bar-->
+ <div id="nav-container">
+  <div id="nav-grid">
+      <div id="boheme-logo" onClick="location.href='index.html'"><img src="/static/img/boheme-white-logo.png"></div>
+      <div class="nav-span">
+          <div class="dropdowns">
+              <button onclick="myFunction()" class="dropbutn"></button>
+              <div id="myDropdown" class="dropdown-content">
+                <a href="index.html">HOME</a>
+                <a href="about.html">ABOUT</a>
+                <a href="trade.html">BUY-SELL-TRADE</a>
+                <a href="gift.html">GIFT GUIDE</a>
+                <a href="contact.html">CONTACT</a>
+                <a >VISIT STORE</a>
+              </div>
+            </div>
+            
+            <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function myFunction() {
+              document.getElementById("myDropdown").classList.toggle("show");
+            }
+            
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+              if (!event.target.matches('.dropbutn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                  var openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+              var dropdown = document.getElementsByClassName("dropdown-mobile");
+                  var i;
+                  
+                  for (i = 0; i < dropdown.length; i++) {
+                    dropdown[i].addEventListener("click", function() {
+                      this.classList.toggle("active");
+                      var dropdownContent = this.nextElementSibling;
+                      if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                      } else {
+                        dropdownContent.style.display = "block";
+                      }
+                    });
+                  }
+            }
+            </script>
+      </div>
+      <div class="hiddens">
+          <div class="nav-item" onClick="location.href='index.html'">HOME</div>
+          <div class="nav-item" onClick="location.href='about.html'">ABOUT</div>
+          <div class="nav-item" onClick="location.href='trade.html'">BUY-SELL-TRADE</div>
+          <div class="nav-item" onClick="location.href='gift.html'">GIFT GUIDE</div>
+          <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                MEDIA
-                <i id="arrow-down"></i>
-              </button>
+                  MEDIA
+               <i id="arrow-down"></i>
+           </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#" onClick="location.href='photos.html'">FUN PHOTOS</a></li>
-                <li><a class="dropdown-item" href="#" onClick="location.href='videos.html'">VIBIN' VIDEOS</a></li>
-                <li><a class="dropdown-item" href="#" onClick="location.href='news.html'">IN THE NEWS</a></li>
-                <li><a class="dropdown-item" href="#" >BLOG</a></li>
-
+                  <li><a class="dropdown-item" href="#" onClick="location.href='photos.html'">FUN PHOTOS</a></li>
+                  <li><a class="dropdown-item" href="#" onClick="location.href='videos.html'">VIBIN' VIDEOS</a></li>
+                  <li><a class="dropdown-item" href="#" onClick="location.href='news.html'">IN THE NEWS</a></li>
+               <li><a class="dropdown-item" href="#" >BLOG</a></li>
               </ul>
           </div>
-            <button class="nav-button" id="get-in-touch" onClick="location.href='contact.html'">GET IN TOUCH</button>
-            <button id="visit-store">VISIT STORE <span id="arrow"></span></button>
-        </div>
-    </div>
-
+          <button class="nav-button" id="get-in-touch" onClick="location.href='contact.html'">GET IN TOUCH</button>
+          <button id="visit-store">VISIT STORE <span id="arrow"></span></button>
+      </div>
+      
+  </div>
+</div>
      <!-- vibin videos -->
      <div id="vibin-videos"> 
         <div id="vibin-container">
@@ -155,79 +206,103 @@
         </div>
     </div>
  
-    <!--footer-->
-        <div id="footer">
-            <div id="footer-top">
+ <!--footer-->
+ <div id="footer">
+  <div id="mc_embed_shell">
+      <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css"><style type="text/css">
+      </style>
+  <div id="mc_embed_signup">
+    <form action="https://ucdavis.us21.list-manage.com/subscribe/post?u=af8aadebafa2a2c6c86573e59&amp;id=eddb197b4c&amp;f_id=000ee5e6f0" method="post" 
+    id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+        <div id="mc_embed_signup_scroll">
+          <div id="footer-top">
               <div id="footer-info">
-                <p class="bold-text-footer">Sign Up and Save</p>
-                <p class="text-footer">
-                  Be kept up-to-date on our sales, specials, and new product offerings
-                  by signing up for our newsletter.
-                </p>
+                  <p class="bold-text-footer">Sign Up and Save</p>
+                  <p class="text-footer">Be kept up-to-date on our sales, specials, and new product offerings by signing up for our newsletter.</p>
               </div>
               <div id="email-footer">
-                <input id="email-input" type="text" placeholder="Email Address" />
-                <button id="email-button">Subscribe</button>
+                  <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address" required="" value="">
+                  <input id="email-button" type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                  <div id="mce-responses" class="clear foot">
+                      <div class="response" id="mce-error-response" style="display: none;"></div>
+                      <div class="response" id="mce-success-response" style="display: none;"></div>
+                  </div>
               </div>
-            </div>
-            <div id="footer-bottom">
-              <div id="footer-logo-container">
-                <img id="footer-logo" src="/static/img/boheme-logo-full.png" />
-              </div>
-              <div id="footer-location-hours">
-                <p class="bold-text-footer">Location</p>
-                <p class="text-footer">409 3RD STREET, DAVIS, CA</p>
-                <p class="bold-text-footer">Hours</p>
-                <p class="text-footer">SUN - FRI: 11:00 - 6:00</p>
-                <p class="text-footer">SAT: 10:30 - 6:00</p>
-                <p class="bold-text-footer">Phone Number</p>
-                <p class="text-footer">530-341-2004</p>
-              </div>
-              <div id="footer-boheme">
-                <p class="bold-text-footer">Bohème</p>
-                <p style="padding-top: 1.875vw" class="text-footer text-footer-right">
-                  Home
-                </p>
-                <p class="text-footer text-footer-right">About</p>
-                <p style="cursor: pointer" class="text-footer">Contact</p>
-              </div>
-              <div id="footer-services">
-                <p style="cursor: auto" class="bold-text-footer text-footer-right">
-                  Services
-                </p>
-                <p class="text-footer text-footer-right">Our Store</p>
-                <p style="cursor: pointer" class="text-footer">Buy-Sell-Trade</p>
-              </div>
-              <div id="footer-media">
-                <p style="cursor: auto" class="bold-text-footer text-footer-right">
-                  Media
-                </p>
-                <p class="text-footer text-footer-right">Fun Photos</p>
-                <p class="text-footer text-footer-right">Vibin' Videos</p>
-                <p class="text-footer text-footer-right">In the News</p>
-                <p style="cursor: pointer" class="text-footer">Blog</p>
-              </div>
-              <div id="footer-follow-us">
-                <p style="cursor: auto" class="bold-text-footer text-footer-right">
-                  Follow Us
-                </p>
-                <a href="https://www.instagram.com/boheme.threads/?hl=en">
-                  <img
-                    style="cursor: pointer"
-                    src="/static/img/footer-instagram.png"
-                    class="footer-icon"
-                  />
-                </a>
-                <a href="https://www.facebook.com/BohemeThreads/">
-                  <img
-                    style="cursor: pointer"
-                    src="/static/img/footer-facebook.png"
-                    class="footer-icon"
-                  />
-                </a>
-              </div>
-            </div>
-            <div id="copyright-footer">2023. Bohème Used Clothing & Gifts</div>
           </div>
-</body>
+    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+        /* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
+        <input type="text" name="b_af8aadebafa2a2c6c86573e59_eddb197b4c" tabindex="-1" value="">
+    </div>
+        <!-- <div class="optionalParent">
+            <div class="clear foot">
+                <input id="email-button" type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                <p style="margin: 0px auto;"><a href="http://eepurl.com/iBMPv-" title="Mailchimp - email marketing made easy and fun">
+              <span style="display: inline-block; background-color: black; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;">
+                  <img class="refferal_badge" src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-light.svg" 
+                  alt="Intuit Mailchimp" style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span></a></p>
+            </div>
+        </div> -->
+    </div>
+</form>
+</div>
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+<script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';
+ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';}
+(jQuery));var $mcj = jQuery.noConflict(true);</script></div>
+<div id="footer-bottom">
+    <div id="footer-logo-container">
+        <img id="footer-logo" src="/static/img/boheme-logo-full.png">
+    </div>
+    <div id="footer-location-hours">
+        <p class="bold-text-footer">Location</p>
+        <p class="text-footer">409 3RD STREET, DAVIS, CA</p>
+        <p class="bold-text-footer">Hours</p>
+        <p class="text-footer">SUN - FRI: 11:00 - 6:00</p>
+        <p class="text-footer">SAT: 10:30 - 6:00</p>
+        <p class="bold-text-footer">Phone Number</p>
+        <p class="text-footer">530-341-2004</p>
+    </div>
+    <div id="footer-boheme">
+        <p class="bold-text-footer" onClick="location.href='index.html'">Bohème</p>
+        <p style="padding-top:1.875vw;"class="text-footer text-footer-right" onClick="location.href='index.html'">Home</p>
+        <p class="text-footer text-footer-right"  onClick="location.href='about.html'">About</p>
+        <p style="cursor: pointer;" class="text-footer"  onClick="location.href='contact.html'">Contact</p>
+    </div>
+    <div id="footer-services">
+        <p style="cursor: auto;" class="bold-text-footer text-footer-right">Services</p>
+        <p class="text-footer text-footer-right" >Our Store</p>
+        <p class="text-footer text-footer-right"  onClick="location.href='trade.html'">Buy-Sell-Trade</p>
+        <p style="cursor: pointer;" class="text-footer"  onClick="location.href='gift.html'">Gift Guide</p>
+    </div>
+    <div id="footer-media">
+        <p style="cursor: auto;"class="bold-text-footer text-footer-right">Media</p>
+        <p class="text-footer text-footer-right" onClick="location.href='photos.html'">Fun Photos</p>
+        <p class="text-footer text-footer-right"  onClick="location.href='videos.html'">Vibin' Videos</p>
+        <p class="text-footer text-footer-right"  onClick="location.href='news.html'">In the News</p>
+        <p style="cursor: pointer;" class="text-footer" >Blog</p>
+    </div>
+    <div id="footer-follow-us">
+        <p style="cursor: auto;" class="bold-text-footer text-footer-right">Follow Us</p>
+        <a style="margin-right:0.938vw;"href="https://www.instagram.com/boheme.threads/?hl=en">
+            <img style="cursor: pointer;" src="/static/img/footer-instagram.png" class="footer-icon">
+        </a>
+        <a href="https://www.facebook.com/BohemeThreads/">
+            <img style="cursor: pointer;" src="/static/img/footer-facebook.png" class="footer-icon">
+        </a>
+        </br>
+        </br style="line-height:0.5em"/>
+        <a style="margin-right:0.938vw;" href="https://www.instagram.com/boheme.threads/?hl=en">
+            <img style="cursor: pointer;" src="/static/img/footer-pinterest.png" class="footer-icon">
+        </a>
+        <a href="https://www.facebook.com/BohemeThreads/">
+            <img style="cursor: pointer;" src="/static/img/footer-youtube.png" class="footer-icon">
+        </a>
+    </div>
+</div>
+<div id="copyright-footer">
+    <div style="display:inline-block"> 
+        <img id="copyright" src="/static/img/copyright.png"/>
+        2023. Bohème Used Clothing & Gifts </div>
+</div>
+</div>
 </html>
