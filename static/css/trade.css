@@ -109,6 +109,7 @@ h2 {
   list-style-image: url("../img/check.png");
   /*background: url('../img/check.png') no-repeat left top;*/
   height: 1.148vw;
+  width: auto;
   padding-left: 1.25vw;
   color: #5b6278;
   font-family: "Mukta", sans-serif;
