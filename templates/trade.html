@@ -96,14 +96,22 @@
       amp-accordion section[expanded] h4::after {
         content: "\2212"; /* Minus sign */
         color: #545859;
+        position: absolute;
         float: right;
+        top: 45%; /* Adjust this value to vertically center it */
+        left: 90%;
+        /*transform: translateY(-100%);*/
       }
 
       /* Add styles for the collapsed state */
       amp-accordion section:not([expanded]) h4::after {
         content: "\002B"; /* Plus sign */
         color: #545859;
+        position: absolute;
         float: right;
+        top: 45%; /* Adjust this value to vertically center it */
+        left: 90%;
+        /*transform: translateY(-100%);*/
       }
 
       .sample h4,
