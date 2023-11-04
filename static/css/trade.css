@@ -322,7 +322,7 @@ h2 {
 
 #modal-content {
   border-radius: 2.344vw;
-  height: 33.125vh;
+  height: 75%;
   width: 95.469vw;
   display: inline-flex;
   margin-left: 1.875vw;
@@ -334,7 +334,7 @@ h2 {
 
 #selling-frame {
   width: 27.5vw;
-  height: 33.125vh;
+  /* height: 33.125vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -348,20 +348,20 @@ h2 {
   flex-direction: column;
   background: #e4f9eb;
   width: 27.344vw;
-  height: 33.125vw;
+  /* height: 33.125vw; */
   padding: 3.75vw 2.5vw;
 }
 
 #accept {
   background-image: url(/static/img/accept.png), no-repeat;
-  height: 0.938vh;
+  height: 0.938vw;
   width: 1.328vw;
   margin-right: 1.25vw;
 }
 
 #deny {
   background-image: url(/static/img/deny.png), no-repeat;
-  height: 1.563vh;
+  height: 1.563vw;
   width: 1.563vw;
   margin-right: 1.25vw;
 }
@@ -371,7 +371,7 @@ h2 {
   flex-direction: column;
   padding: 3.75vw 2.5vw;
   width: 40.625vw;
-  height: 33.125vh;
+  /* height: 33.125vh; */
   border-radius: 0vw 2.344vw 2.344vw 0vw;
   align-items: flex-start;
   gap: 2.188vw;

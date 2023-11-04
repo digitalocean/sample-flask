@@ -110,3 +110,22 @@ letter-spacing: -0.036vw;
   #padding{
     padding: 3.75vw;
   }
+
+  @media (max-width:720px){
+    .pinterest-mobile{
+      display: none !important;
+    }
+    #board{
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      margin-right: auto;
+      width: 300px;
+    }
+  }
+
+  @media (min-width:720px){
+    .pinterest-desktop{
+      display: none;
+    }
+  }
