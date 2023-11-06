@@ -107,7 +107,6 @@ h2 {
 }
 .check {
   list-style-image: url("../img/check.png");
-  /*background: url('../img/check.png') no-repeat left top;*/
   height: 1.148vw;
   width: auto;
   padding-left: 1.25vw;

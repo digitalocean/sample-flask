@@ -54,15 +54,20 @@
 .sustainable-styles {
   background-color: #ffffff;
   display: flex;
+  padding-top: 3.125vw;
+  padding-bottom: 6.25vw;
 }
 
 .sustainableimg {
   margin: 2%;
   /*display: inline-block;*/
   float: left;
+  height:58.594vw;
+  width: 51.484vw;
 }
 
 .our-story {
+  height:58.594vw;
   margin: 2%;
   border-radius: 0.469vw;
   /*float: right;*/
@@ -107,8 +112,8 @@
   margin-bottom: 4%;
   background-color: #f26c34;
   border-radius: 4.844vw;
-  height: 3.75vw;
-  width: 27.188vw;
+  height: 4.063vw;
+  width: 31.25vw;
   border: none;
   color: #FAF9F5;;
   font-family: "Arimo";
@@ -223,24 +228,24 @@ h2 {
   margin-left: 5vw;
   margin-right: 5vw;
   margin-bottom: 2vw;
-  padding: 30px;
+  padding: 2.344vw;
 }
 
 .yelp-review {
   display: flex;
   width: 20vw;
-  padding: 24px 32px;
+  padding: 1.875vw 2.5vw;
   flex-direction: column;
-  gap: 5px;
-  border-radius: 20px;
+  gap: 0.391vw;
+  border-radius: 1.563vw;
   border: black;
   border-width: 1;
   background: #f6f0e8;
 }
 
 .yelp-img {
-  width: 100px;
-  height: 40.43px;
+  width: 7.813vw;
+  height: 3.159vw;
   margin-left: 60%;
 }
 
@@ -249,12 +254,12 @@ h2 {
   color: #878787;
   text-overflow: ellipsis;
   font-family: "Seravek", sans-serif;
-  font-size: 24px;
+  font-size: 1.875vw;
   font-style: normal;
   font-weight: 400;
 }
 
 .yelp-content p {
-  margin: 16px 0;
+  margin: 1.25vw 0;
 }
 /* yelp end */

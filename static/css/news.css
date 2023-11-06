@@ -280,7 +280,7 @@ text-transform: uppercase;
 cursor: pointer;
 }
 
-.nav-tabs>li>a:hover, .tab-all>.tab-control>a:hover{
+.nav-tabs>li>a:hover, .tab-all>.tab-control>a:hover, .nav-tabs>li>.active{
 text-decoration: none;
 color: #545859;
 font-family: Arimo;
@@ -307,6 +307,7 @@ padding-right: 1.172vw;
 }
 
 .nav-tabs>li.active>.override, .nav-tabs>li.active>.override:focus, .nav-tabs>li.active>.override:hover{
+color: #555;
 border: none;
 border-bottom-color: none;
 border-color: none;
@@ -367,6 +368,7 @@ width: 100% !important;
 display: flex !important;
 }
 
+
 .card{
 border: none;
 }
@@ -374,6 +376,7 @@ border: none;
 .card__img {
 display: block;
 height: 17.422vw;
+width: 25.313vw;
 object-fit: cover;
 margin-bottom: 1.875vw;
 border-radius: 1.25vw;
