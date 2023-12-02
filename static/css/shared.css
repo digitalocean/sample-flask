@@ -377,6 +377,10 @@ html,body
 
 #mc_embed_signup div#mce-responses{
     height: 3.125vw;
+    color: white !important;
+    font-family: "Mukta", sans-serif;
+    font-size: 1.563vw !important;
+    width: 31.25vw;
 }
 
 ::placeholder {
