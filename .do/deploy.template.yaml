@@ -1,7 +1,7 @@
 spec:
-  name: sample-flask
+  name: cutsheet_stamp_tool
   services:
   - name: web
     git:
       branch: main
-      repo_clone_url: https://github.com/digitalocean/sample-flask.git
+      repo_clone_url: https://github.com/EosLightmedia/cutsheet_stamp_tool.git
