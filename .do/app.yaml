@@ -1,6 +1,6 @@
-name: sample-flask
+name: cutsheet_stamp_tool
 services:
 - name: web
   github:
-    repo: digitalocean/sample-flask
+    repo: EosLightmedia / cutsheet_stamp_tool
     branch: main
