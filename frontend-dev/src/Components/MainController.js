@@ -7,16 +7,24 @@ import StampButton from "./StampButton";
 import Footer from "./Footer";
 
 function MainController() {
-  const [projectName, setProjectName] = useState("");
-  const [jobCode, setJobCode] = useState("");
-  const [client, setClient] = useState("");
+  const [project, setProject] = useState("");
+  const [projectNumber, setProjectNumber] = useState("");
+  const [preparedFor, setPreparedFor] = useState("");
   const [preparedBy, setPreparedBy] = useState("");
-  const [issuedDate, setIssuedDate] = useState("");
-  const [dateFormat, setDateFormat] = useState("YYYY/MM/DD");
-  const [productType, setProductType] = useState("");
-  const [pageNumber, setPageNumber] = useState(1);
   const [revisionNumber, setRevisionNumber] = useState("");
-  const [revisionDate, setRevisionDate] = useState("");
+  const [jobPhase, setJobPhase] = useState("");
+  const [dateFormat, setDateFormat] = useState("");
+  const [showRevisionDate, setShowRevisionDate] = useState(true);
+  const [issueDate, setIssueDate] = useState({
+    year: new Date().getFullYear().toString(),
+    month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
+    day: new Date().getDate().toString().padStart(2, "0"),
+  });
+  const [revisionDate, setRevisionDate] = useState({
+    year: new Date().getFullYear().toString(),
+    month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
+    day: new Date().getDate().toString().padStart(2, "0"),
+  });
 
   return (
     <div className="all-content-div">
@@ -26,40 +34,39 @@ function MainController() {
       <div className="inner-content-div">
         <div className="left-col-div">
           <StampForm
-            projectName={projectName}
-            setProjectName={setProjectName}
-            jobCode={jobCode}
-            setJobCode={setJobCode}
-            client={client}
-            setClient={setClient}
+            project={project}
+            setProject={setProject}
+            projectNumber={projectNumber}
+            setProjectNumber={setProjectNumber}
+            preparedFor={preparedFor}
+            setPreparedFor={setPreparedFor}
             preparedBy={preparedBy}
             setPreparedBy={setPreparedBy}
-            issuedDate={issuedDate}
-            setIssuedDate={setIssuedDate}
-            dateFormat={dateFormat}
-            setDateFormat={setDateFormat}
-            productType={productType}
-            setProductType={setProductType}
-            pageNumber={pageNumber}
-            setPageNumber={setPageNumber}
-            revisionNumber={revisionNumber}
-            setRevisionNumber={setRevisionNumber}
+            issueDate={issueDate}
+            setIssueDate={setIssueDate}
             revisionDate={revisionDate}
             setRevisionDate={setRevisionDate}
+            revisionNumber={revisionNumber}
+            setRevisionNumber={setRevisionNumber}
+            jobPhase={jobPhase}
+            setJobPhase={setJobPhase}
+            dateFormat={dateFormat}
+            setDateFormat={setDateFormat}
+            showRevisionDate={showRevisionDate}
+            setShowRevisionDate={setShowRevisionDate}
           />
         </div>
         <div className="right-col-div">
           <StampPreview
-            projectName={projectName}
-            jobCode={jobCode}
-            client={client}
+            project={project}
+            projectNumber={projectNumber}
+            preparedFor={preparedFor}
             preparedBy={preparedBy}
-            issuedDate={issuedDate}
-            dateFormat={dateFormat}
-            productType={productType}
-            pageNumber={pageNumber}
-            revisionNumber={revisionNumber}
+            issueDate={issueDate}
             revisionDate={revisionDate}
+            revisionNumber={revisionNumber}
+            jobPhase={jobPhase}
+            dateFormat={dateFormat}
           />
           <FileUploader />
           <StampButton />

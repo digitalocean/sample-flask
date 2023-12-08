@@ -1,47 +1,64 @@
 import React from "react";
 
 function StampPreview({
-  projectName,
-  jobCode,
-  client,
-  issuedDate,
-  dateFormat,
-  productType,
-  pageNumber,
-  revisionNumber,
+  project,
+  projectNumber,
+  preparedFor,
+  preparedBy,
+  issueDate,
   revisionDate,
+  revisionNumber,
+  jobPhase,
+  dateFormat,
 }) {
+  const formatDate = (date) => {
+    if (!date) return "";
+    const { day, month, year } = date;
+    switch (dateFormat) {
+      case "YYYY/MM/DD":
+        return `${year}/${month}/${day}`;
+      case "MM/DD/YYYY":
+        return `${month}/${day}/${year}`;
+      case "DD/MM/YYYY":
+        return `${day}/${month}/${year}`;
+      default:
+        return `${month} ${day}, ${year}`;
+    }
+  };
+
   return (
     <div className="stamp-preview-div">
       <h2>Stamp Preview</h2>
       <div className="stamp-preview-content">
         <div className="stamp-preview-column">
           <p>
-            <span className="label">Project Name:</span> {projectName}
+            <span className="label">Project:</span> {project}
           </p>
           <p>
-            <span className="label">Job Code:</span> {jobCode}
+            <span className="label">Project #:</span> {projectNumber}
           </p>
           <p>
-            <span className="label">Prepared for/Client:</span> {client}
+            <span className="label">Prepared for:</span> {preparedFor}
           </p>
         </div>
         <div className="stamp-preview-column">
           <p>
-            <span className="label">Issued Date:</span> {issuedDate} (Format:{" "}
-            {dateFormat})
+            <span className="label">Prepared by:</span> {preparedBy}
           </p>
           <p>
-            <span className="label">Product Type:</span> {productType}
-          </p>
-          <p>
-            <span className="label">Page Number:</span> {pageNumber}
+            <span className="label">Issue Date:</span> {formatDate(issueDate)}
           </p>
           <p>
             <span className="label">Revision Number:</span> {revisionNumber}
           </p>
+          {revisionDate && (
+            <p>
+              <span className="label">Revision Date:</span>{" "}
+              {formatDate(revisionDate)}
+            </p>
+          )}
           <p>
-            <span className="label">Revision Date:</span> {revisionDate}
+            <span className="label">Job Phase:</span> {jobPhase}
           </p>
         </div>
         <div className="stamp-preview-column">{/* Reserved for logo */}</div>
