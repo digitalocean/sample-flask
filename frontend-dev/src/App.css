@@ -1,0 +1,108 @@
+body {
+  font-family: "Karla", sans-serif;
+}
+
+.all-content-div {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: bisque;
+}
+
+.header-div,
+.footer-div {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-div h1,
+.footer-div h1 {
+  margin: 0;
+}
+
+.inner-content-div {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  padding: 20px;
+  width: 1200px;
+
+  margin: 0 auto;
+}
+
+.left-col-div,
+.right-col-div {
+  flex-basis: 48%;
+}
+
+.stamp-form-div {
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+}
+
+.stamp-preview-div {
+  width: 100%;
+  background-color: lightgrey;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.file-uploader-div {
+  width: 100%;
+  background-color: lightgrey;
+  height: 200px;
+  padding: 20px;
+}
+
+.stamp-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: darkblue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.stamp-button:hover {
+  background-color: #9900ff;
+}
+
+.stamp-button:active {
+  background-color: #0022ff;
+}
+
+.stamp-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.5);
+}
+
+.stamp-preview-div .label {
+  font-weight: lighter;
+  margin-right: 5px;
+}
+
+.stamp-preview-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stamp-preview-column {
+  flex: 1; /* Each column takes equal space */
+}
