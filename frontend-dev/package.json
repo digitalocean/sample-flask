@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && shx rm -rf ../frontend-dist && shx cp -r build ../frontend-dist",
+    "build": "react-scripts build && rm -rf ../frontend-dist && mkdir ../frontend-dist && cp -r build/* ../frontend-dist/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
