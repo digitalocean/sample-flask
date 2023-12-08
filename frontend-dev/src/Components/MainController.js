@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Header from "./Header";
 import StampForm from "./StampForm";
 import StampPreview from "./StampPreview";
@@ -25,6 +26,30 @@ function MainController() {
     month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
     day: new Date().getDate().toString().padStart(2, "0"),
   });
+
+  const submitFormData = () => {
+    const formData = {
+      project,
+      projectNumber,
+      preparedFor,
+      preparedBy,
+      revisionNumber,
+      jobPhase,
+      dateFormat,
+      showRevision,
+      issueDate,
+      revisionDate,
+    };
+    console.log(formData);
+    axios
+      .post("/", formData)
+      .then((response) => {
+        console.log("Data submitted successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error submitting the form:", error);
+      });
+  };
 
   return (
     <div className="all-content-div">
@@ -70,7 +95,7 @@ function MainController() {
             showRevision={showRevision}
           />
           <FileUploader />
-          <StampButton />
+          <StampButton onClick={submitFormData} />
         </div>
       </div>
       <footer>
