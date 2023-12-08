@@ -142,9 +142,9 @@ h3 {
 
 .form-section label {
   display: grid;
-  grid-template-columns: 250px 2fr; /* Fixed width for label text and remaining space for input */
+  grid-template-columns: 250px 2fr;
   align-items: center;
-  gap: 10px; /* Space between label text and input */
+  gap: 10px;
   margin-bottom: 10px;
 }
 
@@ -187,7 +187,7 @@ input#format3 {
 }
 
 .radio-group input[type="radio"] {
-  margin-right: 5px; /* Space between radio button and label text */
+  margin-right: 5px;
 }
 
 .image-button-group {
@@ -251,11 +251,69 @@ input::placeholder {
 .stamp-preview-div {
   width: 100%;
   background-color: lightgrey;
-  padding: 20px;
+
   margin-bottom: 30px;
   padding: 25px;
   background-color: #e0e0e0;
   border-radius: 10px;
+}
+
+.stamp-preview-content {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 6px;
+  line-height: 0.8;
+  margin-top: 12px;
+}
+
+.stamp-preview-column p {
+  font-size: 0.9em;
+  margin: 4px;
+  margin-bottom: 10px;
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.7em;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.type-title {
+  font-weight: 500;
+}
+
+.stamp-preview-column:last-child {
+  position: relative; /* Needed for absolute positioning of children */
+  border: 2px solid black; /* As previously discussed */
+  display: flex; /* Using Flexbox for layout */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically */
+  align-items: center; /* Center children horizontally */
+  height: 150px; /* Adjust height as needed */
+}
+
+.type-title {
+  position: absolute;
+  top: 3px; /* Adjust as needed */
+  left: 3px; /* Adjust as needed */
+  font-size: 0.8em; /* Adjust as needed */
+}
+
+.type-number {
+  font-weight: bold; /* Heavy weight font */
+  font-size: 1.5em; /* Larger font size */
+  flex-grow: 1; /* Allows it to take up most of the div */
+  text-align: center; /* Center text */
+  top: 50px;
+}
+
+.page-number {
+  position: absolute;
+  bottom: 3px !important; /* Adjust as needed */
+  right: 3px !important; /* Adjust as needed */
+  font-size: 0.8em !important; /* Smaller font size */
 }
 
 /* File Uploader Div **************************************************/
@@ -263,7 +321,6 @@ input::placeholder {
   width: 100%;
   background-color: lightgrey;
   height: 200px;
-  padding: 20px;
   padding: 25px;
   background-color: #e0e0e0;
   border-radius: 10px;

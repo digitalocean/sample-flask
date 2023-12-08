@@ -17,8 +17,9 @@ function StampForm({
   setRevisionNumber,
   revisionDate,
   setRevisionDate,
-  showRevisionDate,
-  setShowRevisionDate,
+  showRevision,
+  setShowRevision,
+
   jobPhase,
   setJobPhase,
   dateFormat,
@@ -172,8 +173,8 @@ function StampForm({
           Show Revision Date?
           <input
             type="checkbox"
-            checked={showRevisionDate}
-            onChange={(e) => setShowRevisionDate(e.target.checked)}
+            checked={showRevision}
+            onChange={(e) => setShowRevision(e.target.checked)}
           />
         </label>
         <label>

@@ -13,8 +13,8 @@ function MainController() {
   const [preparedBy, setPreparedBy] = useState("");
   const [revisionNumber, setRevisionNumber] = useState("");
   const [jobPhase, setJobPhase] = useState("");
-  const [dateFormat, setDateFormat] = useState("");
-  const [showRevisionDate, setShowRevisionDate] = useState(true);
+  const [dateFormat, setDateFormat] = useState("YYYY/MM/DD");
+  const [showRevision, setShowRevision] = useState(false);
   const [issueDate, setIssueDate] = useState({
     year: new Date().getFullYear().toString(),
     month: (new Date().getMonth() + 1).toString().padStart(2, "0"),
@@ -52,8 +52,8 @@ function MainController() {
             setJobPhase={setJobPhase}
             dateFormat={dateFormat}
             setDateFormat={setDateFormat}
-            showRevisionDate={showRevisionDate}
-            setShowRevisionDate={setShowRevisionDate}
+            showRevision={showRevision}
+            setShowRevision={setShowRevision}
           />
         </div>
         <div className="right-col-div">
@@ -67,6 +67,7 @@ function MainController() {
             revisionNumber={revisionNumber}
             jobPhase={jobPhase}
             dateFormat={dateFormat}
+            showRevision={showRevision}
           />
           <FileUploader />
           <StampButton />
