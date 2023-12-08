@@ -11,10 +11,12 @@ oauth2 = OAuth2(CLIENT_ID, CLIENT_SECRET, access_token=ACCESS_TOKEN)
 client = Client(oauth2)
 
 
-def stamp(stamp_data: dict):
+def run_stamp(stamp_data: dict):
     # Stamp variables
     pass
 
+def generate_pdf():
+    pass
 
 def generate_graphics():
     pass

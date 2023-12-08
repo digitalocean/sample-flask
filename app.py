@@ -18,7 +18,7 @@ def serve(path):
 @app.route('/post-stamp', methods=['POST'])
 def post_stamp():
     data = request.get_json()
-    cs.stamp(data)
+    cs.run_stamp(data)
 
 
 if __name__ == "__main__":
