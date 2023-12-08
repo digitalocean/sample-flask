@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, send_from_directory, request
 import cutsheet_module as cs
 
@@ -18,8 +20,10 @@ def serve(path):
 @app.route('/post-stamp', methods=['POST'])
 def post_stamp():
     data = request.get_json()
+    print(data)
     cs.run_stamp(data)
+    return 'Success!', 200
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8000, debug=False)
