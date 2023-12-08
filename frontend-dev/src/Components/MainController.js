@@ -42,7 +42,7 @@ function MainController() {
     };
     console.log(formData);
     axios
-      .post("/", formData)
+      .post("/post-stamp", formData)
       .then((response) => {
         console.log("Data submitted successfully:", response.data);
       })
