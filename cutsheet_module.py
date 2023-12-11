@@ -20,10 +20,9 @@ def run_stamp(stamp_data: dict):
     client: str = stamp_data["client"]
     is_revision: bool = stamp_data["isRevision"]
     revision_number: int = stamp_data["revisionNumber"]
-
     date_format: int = stamp_data["dateFormat"]
-
     job_phase_int: int = stamp_data["jobPhase"]
+
     issued_date_dict: dict = stamp_data["issuedDate"]
     revision_date_dict: dict = stamp_data["revisionDate"]
 

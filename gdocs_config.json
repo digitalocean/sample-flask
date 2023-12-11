@@ -1,0 +1,17 @@
+{
+  "client_id": "your_client_id",
+  "project_id": "your_project_id",
+  "auth_uri": "your_auth_uri",
+  "token_uri": "your_token_uri",
+  "auth_provider_x509_cert_url": "your_auth_provider_x509_cert_url",
+  "client_secret": "your_client_secret",
+  "redirect_uris": [
+      "urn:ietf:wg:oauth:2.0:oob",
+      "http://localhost"
+  ],
+  "javascript_origins": [
+      "http://localhost"
+  ],
+  "client_x509_cert_url": "your_client_x509_cert_url"
+}
+
