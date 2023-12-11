@@ -1,10 +1,11 @@
 from reportlab.pdfgen import canvas
-from boxsdk import JWTAuth, Client as boxClient
+import re
+from boxsdk import JWTAuth
+from boxsdk import Client as boxClient
 from datetime import datetime
 
 box_config = JWTAuth.from_settings_file('box_config.json')
 box_client = boxClient(box_config)
-folder_id = 'your-folder-id'
 
 
 def run_stamp(stamp_data: dict):
@@ -28,6 +29,7 @@ def run_stamp(stamp_data: dict):
 
     issued_date: str = date_to_string(issued_date_dict, date_format)
     revision_date: str = date_to_string(revision_date_dict, date_format)
+    folder_id: str = get_folder_id_from_url(box_url)
 
 
 def date_to_string(date_dict: dict, format_code: int):
@@ -50,8 +52,20 @@ def generate_pdf():
     pass
 
 
-def get_folder_contents():
-    global folder_id, box_client
-    folder = box_client.folder(folder_id).get()
+def get_folder_contents(folder_url):
+    global box_client
+    folder_id = get_folder_id_from_url(folder_url)
+    folder = box_client.folder(folder_id=folder_id).get()
     items = folder.get_items()
+    for i in items:
+        print(i)
     return items
+
+
+def get_folder_id_from_url(url):
+    folder_id = url.split('/')[-1]
+    return str(folder_id)
+
+
+if __name__ == "__main__":
+    print(get_folder_contents('https://eoslightmedia.app.box.com/folder/0'))
