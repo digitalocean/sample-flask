@@ -1,0 +1,25 @@
+<!--sample_form.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>sample_form</title>
+</head>
+<body>
+  <form action="/sample_form" method="post" enctype="multipart/form-data">
+      <label for="input1">Input 1:</label><br>
+      <input type="text" id="input1" name="input1"><br>
+      <label for="input2">Input 2:</label><br>
+      <input type="text" id="input2" name="input2"><br>
+      <label for="checkbox">Checkbox:</label><br>
+      <input type="checkbox" id="checkbox" name="checkbox"><br>
+      <input type="submit" name="submit" value="stamp">
+  </form>
+
+  <form action="/sample_form" method="post" enctype="multipart/form-data">
+      <label for="file">Upload a PDF:</label><br>
+      <input type="file" id="file" name="file" accept="application/pdf"><br>
+      <input type="submit" name="submit" value="pdf">
+  </form>
+</body>
+</html>

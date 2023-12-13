@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d4df9e99.css",
+    "main.js": "/static/js/main.c4afd719.js",
+    "static/js/787.792a50db.chunk.js": "/static/js/787.792a50db.chunk.js",
+    "static/media/ald-logo.png": "/static/media/ald-logo.806a074968cb61a2122e.png",
+    "static/media/eos-logo.png": "/static/media/eos-logo.873d2ac513d2cd277f60.png",
+    "index.html": "/index.html",
+    "main.d4df9e99.css.map": "/static/css/main.d4df9e99.css.map",
+    "main.c4afd719.js.map": "/static/js/main.c4afd719.js.map",
+    "787.792a50db.chunk.js.map": "/static/js/787.792a50db.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d4df9e99.css",
+    "static/js/main.c4afd719.js"
+  ]
+}

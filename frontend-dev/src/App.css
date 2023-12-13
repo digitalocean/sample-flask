@@ -1,0 +1,371 @@
+/* Global Styles **************************************************/
+body {
+  font-family: "Karla", sans-serif;
+  background-color: #f2f2f2;
+  color: #333333;
+}
+
+/* All Content Div **************************************************/
+.all-content-div {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header and Footer **************************************************/
+header,
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+header {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 150, 1) 0%,
+    rgba(0, 204, 255, 1) 50%,
+    rgb(24, 42, 156, 1) 100%
+  );
+  background-size: 200% 200%;
+  width: 100%;
+  animation: Gradient 20s ease infinite, fadeIn 0.25s ease-in-out;
+  width: 100%;
+  height: 60px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  align-items: center;
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header and Footer Inner Div **************************************************/
+.header-div,
+.footer-div {
+  max-width: 1400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 50px;
+  font-size: 0.8em;
+}
+
+/* Header and Footer Titles **************************************************/
+.header-div h1,
+.footer-div h1 {
+  margin: 0;
+  color: white;
+  font-weight: 400;
+}
+
+/* Fonts and Titles **************************************************/
+
+h2 {
+  text-align: center;
+  font-size: 1em;
+  color: rgb(89, 89, 89);
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+  color: #003366; /* Navy blue for headers and titles */
+}
+
+.form-section label > span {
+  color: #4a4a4a; /* Dark grey for labels */
+}
+
+/* Inner Content Div **************************************************/
+.inner-content-div {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  padding: 40px;
+  width: 1400px;
+  margin: 0 auto;
+}
+
+/* Left and Right Column Divs **************************************************/
+.left-col-div,
+.right-col-div {
+  flex-basis: 47%;
+}
+
+/* Stamp Form Div **************************************************/
+.stamp-form-div {
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.form-section {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #d0d0d0;
+  padding-bottom: 20px;
+}
+
+.form-section h3 {
+  font-size: 0.8em;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.form-section label {
+  display: grid;
+  grid-template-columns: 250px 2fr;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-section label > input,
+.form-section label > select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.radio-group {
+  display: flex;
+}
+
+.date-format-div {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  width: 410px;
+}
+
+input#format1 {
+  margin-top: -8px;
+}
+
+input#format2 {
+  margin-top: -8px;
+  margin-left: 10px;
+}
+
+input#format3 {
+  margin-top: -8px;
+  margin-left: 10px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-family: "Karla", sans-serif;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+}
+
+.image-button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.image-button {
+  width: 48%;
+  height: 80px;
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 10px;
+  opacity: 0.7;
+}
+
+.image-button.selected {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border: solid 1px grey;
+  opacity: 1;
+}
+
+input[type="date"] {
+  font-family: "Karla", sans-serif;
+  font-size: 1em;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="text" i] {
+  font-family: "Karla", sans-serif;
+  font-size: 1em;
+}
+
+input[type="number" i] {
+  font-family: "Karla", sans-serif;
+  font-size: 1em;
+}
+
+.form-section label > select {
+  font-family: "Karla", sans-serif;
+  font-size: 1em;
+}
+
+input::placeholder {
+  color: #888888;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Stamp Preview Div **************************************************/
+.stamp-preview-div {
+  width: 100%;
+  background-color: lightgrey;
+
+  margin-bottom: 30px;
+  padding: 25px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.stamp-preview-content {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 6px;
+  line-height: 0.8;
+  margin-top: 12px;
+}
+
+.stamp-preview-column p {
+  font-size: 0.9em;
+  margin: 4px;
+  margin-bottom: 10px;
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.7em;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.type-title {
+  font-weight: 500;
+}
+
+.stamp-preview-column:last-child {
+  position: relative; /* Needed for absolute positioning of children */
+  border: 2px solid black; /* As previously discussed */
+  display: flex; /* Using Flexbox for layout */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically */
+  align-items: center; /* Center children horizontally */
+  height: 150px; /* Adjust height as needed */
+}
+
+.type-title {
+  position: absolute;
+  top: 3px; /* Adjust as needed */
+  left: 3px; /* Adjust as needed */
+  font-size: 0.8em; /* Adjust as needed */
+}
+
+.type-number {
+  font-weight: bold; /* Heavy weight font */
+  font-size: 1.5em; /* Larger font size */
+  flex-grow: 1; /* Allows it to take up most of the div */
+  text-align: center; /* Center text */
+  top: 50px;
+}
+
+.page-number {
+  position: absolute;
+  bottom: 3px !important; /* Adjust as needed */
+  right: 3px !important; /* Adjust as needed */
+  font-size: 0.8em !important; /* Smaller font size */
+}
+
+/* File Uploader Div **************************************************/
+.file-uploader-div {
+  width: 100%;
+  background-color: lightgrey;
+  height: 200px;
+  padding: 25px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+/* Stamp Button **************************************************/
+.stamp-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: darkblue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+/* Stamp Button States **************************************************/
+.stamp-button:hover {
+  background-color: #9900ff;
+}
+
+.stamp-button:active {
+  background-color: #0022ff;
+}
+
+.stamp-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.5);
+}
+
+/* Stamp Preview Label **************************************************/
+.stamp-preview-div .label {
+  font-weight: lighter;
+  margin-right: 5px;
+}
+
+/* Stamp Preview Content **************************************************/
+.stamp-preview-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Stamp Preview Columns **************************************************/
+.stamp-preview-column {
+  flex: 1;
+}
