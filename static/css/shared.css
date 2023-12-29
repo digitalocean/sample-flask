@@ -213,7 +213,8 @@ html,body
 }
 
 .hiddens{
-  display: flex !important
+  display: flex !important;
+  z-index: 1000;;
 }
 
 .nav-span{
@@ -243,11 +244,11 @@ html,body
   display: none;
   position: absolute;
   background-color: white;
-  width: 500px;
+  width: 300px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   right: 0;
-  z-index: 1;
+  z-index: 1000;
   font-family: "Arimo", sans-serif;
   line-height: 2.500vw;
   letter-spacing: -0.024vw;
@@ -293,8 +294,6 @@ html,body
   width: 50%;
   height:8.125vw;
 }
-
-
 
 /*changed font*/
 .bold-text-footer {
@@ -477,5 +476,17 @@ html,body
   @media (min-width:720px){
     .nav-span{
       display: none;
+    }
+  }
+
+  @media (max-width:480px) {
+    .nav-span{
+      margin-left: 200px !important;
+    }
+    .dropdown-content{
+      width: 150px !important;
+    }
+    #nav-container{
+      height: 36px !important;
     }
   }

@@ -1,8 +1,8 @@
 /*carousel start*/
 .carousel-body{
     max-height: 37.500vw;
-    overflow: hidden;
-    z-index: -1000;
+    overflow:hidden;
+    z-index: -100;
 }
 
 .carousel-inner {
@@ -10,10 +10,12 @@
     max-height: 37.500vw;
     width: 100%;
     overflow: hidden;
+    z-index: -100;
  }
  
  .carousel-inner > .item > img {
      margin: 0 auto;
+     z-index: -100;
  }
 
  #indicators{
@@ -21,6 +23,8 @@
     height: 0.938vw;
     border-radius: 78.047vw;
     margin: 95vh 0.469vw 0 0.469vw;
+    overflow: hidden;
+    z-index: -100;
  } 
 
  .carousel-control-prev {
@@ -40,6 +44,8 @@
     left: 0;
     padding-left: 0.938vw;
     border-radius: 0 2.5vw 2.5vw 0;
+    overflow: hidden;
+    z-index: -100;
 }
 
 #prev-arrow{
@@ -49,6 +55,8 @@
     padding: 0.234vw;
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
+    overflow: hidden;
+    z-index: -100;
 }
 
 #next-arrow{
@@ -59,6 +67,8 @@
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
     margin-right: 0.469vw;
+    overflow: hidden;
+    z-index: -100;
 }
 
 .carousel-control-next{
@@ -78,6 +88,8 @@
     right: 0;
     padding-left: 0.938vw;
     border-radius: 2.5vw 0 0 2.5vw;
+    overflow: hidden;
+    z-index: -100;
 }
 
 .carousel-control-prev:hover,

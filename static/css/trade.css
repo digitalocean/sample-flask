@@ -73,6 +73,7 @@ h2 {
 
 .dropdown-sub h3 {
   text-transform: uppercase;
+  font-size: 1.875vw;
 }
 
 .dropdown-sub p {
