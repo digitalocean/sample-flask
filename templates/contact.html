@@ -95,7 +95,7 @@
         
     </div>
   </div>
-    <div id="contact-img-containter"> <img src="/static/img/contact-img.png"/></div>
+    <div id="contact-img-containter"> <img src="/static/img/contact-img.jpg"/></div>
     <div id="stop-by-title">
         <h1>Stop by and say hello!</h1>
         <p>Buy, sell and discover new and secondhand style items everyday at super affordable prices.</p>
@@ -129,26 +129,26 @@
     <div id="get-in-touch-container">
         <h4>Get in Touch!</h4>
         <p>Ask us anything! We'll get back to you in 24-48 hours.</p>
-        <form method="post">
+        <form action="contact.php" method="post">
             <div class="input-div">
-                <h2>First Name</h2>
-                <input type="text" name="first name" required>
+                <h2 for="firstName">First Name</h2>
+                <input type="text" name="firstName"  id="firstName" required>
             </div>
             <div class="input-div">
-                <h2>Last Name</h2>
-                <input type="text" name="last name" required>
+                <h2 for="lastName">Last Name</h2>
+                <input type="text" name="lastName" id="lastName" required>
             </div>
             <div class="input-div">
-                <h2>Email</h2>
-                <input type="email" name="email" required>
+                <h2 for="email">Email</h2>
+                <input type="email" name="email" id=="email" required>
             </div>
             <div class="input-div">
-                <h2>How did you hear about us?</h2>
-                <input type="text" name="reference" required>
+                <h2 for="reference">How did you hear about us?</h2>
+                <input type="text" name="reference" id="reference" required>
             </div>
             <div class="input-div">
-                <h2>Message</h2>
-                <textarea placeholder="How can we help?" name="message"></textarea>
+                <h2 for="message">Message</h2>
+                <textarea placeholder="How can we help?" id="message" name="message"></textarea>
             </div>
             <div class="input-div">
                 <div class="captcha-submit">

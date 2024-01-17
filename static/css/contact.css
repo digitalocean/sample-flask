@@ -1,6 +1,7 @@
 #contact-img-containter img {
   width: 100%;
   height: 23.438vw;
+  object-fit: cover;
 }
 
 /*Stop By Start*/
