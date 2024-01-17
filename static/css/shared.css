@@ -252,6 +252,9 @@ html,body
   letter-spacing: -0.024vw;
   color: black;
   font-size: 1.406vw;
+  @media (max-width:720px){
+    font-size: 12px;
+  }
 }
 
 .dropdown-content a {
