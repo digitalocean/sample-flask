@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/static/css/gift.css">
     <link rel="stylesheet" href="/static/css/shared.css">
     <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+    <title>Gift Guide</title>
 </head>
 <body>
  <!--nav bar-->
@@ -235,10 +236,16 @@
       coll[i].addEventListener("click", function () {
         this.classList.toggle("collap");
         var content = this.nextElementSibling;
+        var whole = document.getElementById("gift-background");
         if (content.style.maxHeight) {
           content.style.maxHeight = null;
         } else {
           content.style.maxHeight = content.scrollHeight + "px";
+        }
+        if(whole.style.maxHeight) {
+          whole.style.maxHeight = null;
+        } else {
+          whole.style.maxHeight = whole.scrollHeight + "px";
         }
       });
     }
