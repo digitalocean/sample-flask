@@ -151,17 +151,8 @@
                 <textarea placeholder="How can we help?" name="message"></textarea>
             </div>
             <div class="input-div">
-                <h2>Be the first to know! Subscribe to our newsletter.</h2>
-                <div class="subscribe">
-                    <input type="checkbox" name="subscribe">
-                    <p style="margin-bottom: 1.406vw">
-                        I consent to receive news, offers, style tips and other promotional 
-                        materials from Bohème via email. You can opt out at any time. 
-                        For more information, please see our <a href="">Privacy Policy</a>. 
-                    </p>
-                </div>
                 <div class="captcha-submit">
-                    <div class="g-recaptcha" data-sitekey="Your site key goes here"></div>
+                    <!-- <div class="g-recaptcha" data-sitekey="Your site key goes here"></div> -->
                     <button id="submit-button" type="submit" name="submit">Submit</button>
                 </div>
             </div>
@@ -169,13 +160,6 @@
     </div>
     <div id="faq">
         <h1 class="faqh">Frequently Asked Questions</h1>
-        <button type="button" class="collapsible">
-          Does your store buy clothes?
-        </button>
-        <div class="content">
-          <p>Sample text, content, or links to be placed here.</p>
-        </div>
-        <div style = "border-bottom: 0.078vw solid #545859;"> </div>
         <button type="button" class="collapsible">
           Can I come into the store to sell or trade-in clothes?
         </button>
@@ -290,22 +274,22 @@ ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3
         <p style="cursor: pointer;" class="text-footer" >Blog</p>
     </div>
     <div id="footer-follow-us">
-        <p style="cursor: auto;" class="bold-text-footer text-footer-right">Follow Us</p>
-        <a style="margin-right:0.938vw;"href="https://www.instagram.com/boheme.threads/?hl=en">
-            <img style="cursor: pointer;" src="/static/img/footer-instagram.png" class="footer-icon">
-        </a>
-        <a href="https://www.facebook.com/BohemeThreads/">
-            <img style="cursor: pointer;" src="/static/img/footer-facebook.png" class="footer-icon">
-        </a>
-        </br>
-        </br style="line-height:0.5em"/>
-        <a style="margin-right:0.938vw;" href="https://www.pinterest.com/BohemeThreads/">
-          <img style="cursor: pointer;" src="/static/img/footer-pinterest.png" class="footer-icon">
+      <p style="cursor: auto;" class="bold-text-footer text-footer-right">Follow Us</p>
+      <a style="margin-right:0.938vw;">
+          <img style="cursor: pointer;" src="/static/img/footer-instagram.png" class="footer-icon" onclick="window.open('https://www.instagram.com/boheme.threads/?hl=en', '_blank');">
       </a>
-      <a href="https://www.youtube.com/@BohemeThreads">
-          <img style="cursor: pointer;" src="/static/img/footer-youtube.png" class="footer-icon">
+      <a>
+          <img style="cursor: pointer;" src="/static/img/footer-facebook.png" class="footer-icon" onclick="window.open('https://www.facebook.com/BohemeThreads/', '_blank');">
       </a>
-    </div>
+      </br>
+      </br style="line-height:0.5em"/>
+      <a style="margin-right:0.938vw;">
+        <img style="cursor: pointer;" src="/static/img/footer-pinterest.png" class="footer-icon" onclick="window.open('https://www.pinterest.com/BohemeThreads', '_blank');">
+    </a>
+    <a>
+        <img style="cursor: pointer;" src="/static/img/footer-youtube.png" class="footer-icon" onclick="window.open('https://www.youtube.com/@BohemeThreads', '_blank');">
+    </a>
+  </div>
 </div>
 <div id="copyright-footer">
     <div style="display:inline-block"> 

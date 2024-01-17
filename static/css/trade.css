@@ -150,6 +150,9 @@ h2 {
   border: none;
   padding: 1.406vw 2.5vw;
   margin-top: 6.25vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 /* looking to sell */
@@ -284,6 +287,9 @@ h2 {
   justify-content: left;
   align-items: center;
   gap: 1.25vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 #store-hr,
@@ -304,6 +310,9 @@ h2 {
   letter-spacing: -0.024vw;
   cursor: pointer;
   margin-top: 1.875vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 #modal {
@@ -360,21 +369,36 @@ h2 {
 }
 
 #deny {
+  display: block;
   background-image: url(/static/img/deny.png), no-repeat;
   height: 1.563vw;
   width: 1.563vw;
   margin-right: 1.25vw;
 }
 
+@media (max-width:720px){
+  .check{
+    list-style-image: none;
+    padding-left: 0px;
+  }
+  .list{
+    padding-left: 0px;
+  }
+}
+
 #deny-frame {
   background: #f9e4e4;
-  flex-direction: column;
+  flex-direction: row;
   padding: 3.75vw 2.5vw;
   width: 40.625vw;
   /* height: 33.125vh; */
   border-radius: 0vw 2.344vw 2.344vw 0vw;
   align-items: flex-start;
   gap: 2.188vw;
+}
+
+#deny-style{
+  display: inline-block; flex-direction:row; display:flex; justify-content: center; align-items: center;
 }
 
 #frame-a {
@@ -406,6 +430,9 @@ h2 {
   letter-spacing: -0.027vw;
   margin-top: 1.875vw;
   cursor: pointer;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 #number-work h1 {

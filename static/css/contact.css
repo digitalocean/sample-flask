@@ -68,6 +68,9 @@ p {
   cursor: pointer;
   border: none;
   margin-top: 2.5vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 #stop-by-left iframe {
@@ -184,8 +187,10 @@ input[type="checkbox"] {
   font-size: 1.25vw;
   cursor: pointer;
   border: none;
-  margin-top: 5vw;
   padding: 0.625vw 2.5vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 /* Get in Touch End */

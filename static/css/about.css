@@ -122,6 +122,9 @@
   padding: 0.625vw 2.5vw;
   cursor: pointer;
   letter-spacing: -0.027vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 /*what we believe in*/

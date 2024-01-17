@@ -36,6 +36,9 @@
     letter-spacing: -0.027vw;
     margin-top: 1.875vw;
     cursor: pointer;
+    @media (max-width:720px) {
+      font-weight: 500;
+  }
   }
 
   /* gift header section end */
@@ -174,6 +177,9 @@
     cursor: pointer;
     margin-top: 2.5vw;
     margin-bottom: 2.5vw;
+    @media (max-width:720px) {
+      font-weight: 500;
+  }
   }
 
   .list{
@@ -317,6 +323,9 @@
     align-self: stretch;
     width: 58.906vw;
     margin-left: 5.078vw;
+    @media (max-width:720px) {
+      font-weight: 500;
+  }
   }
 
   #side1{
@@ -352,6 +361,9 @@
       line-height: 2.5vw; /* 200% */
       letter-spacing: -0.024vw;
       cursor: pointer;
+      @media (max-width:720px) {
+        font-weight: 500;
+    }
   }
 
   #donate-button{
@@ -369,6 +381,9 @@
     line-height: 2.5vw; /* 177.778% */
     letter-spacing: -0.027vw;
     cursor: pointer;
+    @media (max-width:720px) {
+      font-weight: 500;
+  }
 }
 
 .collapsible {
@@ -389,6 +404,9 @@
   font-weight: 700;
   line-height: 2.5vw; /* 133.333% */
   letter-spacing: -0.036vw;
+  @media (max-width:720px) {
+    font-weight: 500;
+}
 }
 
 

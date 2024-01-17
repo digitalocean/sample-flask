@@ -54,7 +54,6 @@ p {
   position: relative;
   overflow: hidden;
   width: 100vw;
-  height: 100vh;
 }
 
 #iframe-container iframe {
@@ -215,22 +214,29 @@ p {
 
 #filter-other2 {
   position: relative;
-  font-size: 32px;
+  font-size: 2.5vw;
   font-family: "Arimo";
   font-weight: bold;
   left: -85px;
 }
 
 .channel {
-  position: relative;
-  left: 40%;
-  font-size: 32px;
+  font-size: 2.5vw;
   border: none;
   font-family: "Arimo";
   color: #ffffff;
   background-color: #f26c34;
   border-radius: 30px;
-  padding: 1%;
+  padding: 0.781vw 1.563vw;
+  cursor: pointer;
+}
+
+#channel-visit{
+  margin: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* video results end */

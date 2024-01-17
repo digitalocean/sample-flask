@@ -45,12 +45,10 @@
     padding-left: 0.938vw;
     border-radius: 0 2.5vw 2.5vw 0;
     overflow: hidden;
-    z-index: -100;
+    
 }
 
 #prev-arrow{
-    border: solid black;
-    border-width: 0 0.234vw 0.234vw 0;
     display: inline-block;
     padding: 0.234vw;
     transform: rotate(135deg);
@@ -60,8 +58,6 @@
 }
 
 #next-arrow{
-    border: solid black;
-    border-width: 0 0.234vw 0.234vw 0;
     display: inline-block;
     padding: 0.234vw;
     transform: rotate(-45deg);
@@ -89,7 +85,6 @@
     padding-left: 0.938vw;
     border-radius: 2.5vw 0 0 2.5vw;
     overflow: hidden;
-    z-index: -100;
 }
 
 .carousel-control-prev:hover,
@@ -250,6 +245,9 @@ gap: 1.250vw;
     line-height: 2.500vw; /* 200% */
     letter-spacing: -0.024vw;
     cursor: pointer;
+    @media (max-width:720px) {
+        font-weight: 500;
+    }
 }
 
 #visitbttn{
@@ -268,6 +266,9 @@ gap: 1.250vw;
     line-height:2.500vw; /* 200% */
     letter-spacing: -0.024vw;
     cursor: pointer;
+    @media (max-width:720px) {
+        font-weight: 500;
+    }
 }
 /* store title end */
 
@@ -321,8 +322,18 @@ gap: 1.250vw;
   }
   .grid2-container {
     column-gap:1.953vw;
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Mukta", sans-serif;
+    font-size: 1.875vw;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2.5vw; /* 133.333% */
+    letter-spacing: -0.009vw;
+    color: #545859;
+    text-align: center;
   }
   .left-grid-item {
     font-family: "Mukta", sans-serif;
@@ -373,6 +384,9 @@ gap: 1.250vw;
     line-height:2.500vw; /* 177.778% */
     letter-spacing: -0.024vw;
     cursor: pointer;
+    @media (max-width:720px) {
+        font-weight: 500;
+    }
 
   }
   .buttonpos {
@@ -680,7 +694,7 @@ display: flex;
     display: flex;
     flex-direction: row;
     border-radius: 0.469vw;
-    width:24.219vw;
+    width:100%;
     height:24.219vw;
 }
 
