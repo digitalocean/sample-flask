@@ -132,7 +132,8 @@
     display: flex;
     padding: 0vw 6.25vw;
     flex-direction: row;
-    margin-top: 5.625vw;  
+    margin-top: 5.625vw; 
+    margin-bottom: 1.625vw;  
     align-items: flex-start;
     align-self: stretch;
   }

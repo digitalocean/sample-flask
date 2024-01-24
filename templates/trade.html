@@ -122,7 +122,7 @@
         color: #545859;
         cursor: pointer;
         padding: 50px;
-        width: 90%;
+        width: 100%;
         margin-left: 25px;
         border: none;
         text-align: left;
@@ -164,7 +164,7 @@
                 <a href="videos.html">VIBIN' VIDEOS</a>
                 <a href="news.html">IN THE NEWS</a>
                 <a href="contact.html">CONTACT</a>
-                <a >VISIT STORE</a>
+                <a >VISIT ONLINE STORE</a>
               </div>
             </div>
             
@@ -218,11 +218,10 @@
                   <li><a class="dropdown-item" href="#" onClick="location.href='photos.html'">FUN PHOTOS</a></li>
                   <li><a class="dropdown-item" href="#" onClick="location.href='videos.html'">VIBIN' VIDEOS</a></li>
                   <li><a class="dropdown-item" href="#" onClick="location.href='news.html'">IN THE NEWS</a></li>
-               <li><a class="dropdown-item" href="#" >BLOG</a></li>
               </ul>
           </div>
           <button class="nav-button" id="get-in-touch" onClick="location.href='contact.html'">GET IN TOUCH</button>
-          <button id="visit-store">VISIT STORE <span id="arrow"></span></button>
+          <button id="visit-store">VISIT ONLINE STORE<span id="arrow"></span></button>
       </div>
       
   </div>
@@ -245,10 +244,12 @@
       <amp-accordion class="sample" disable-session-states>
         <section>
           <h4>
-            <img id="sell-icon" src="/static/img/conditionicon.png" />
-            <div id="sell-subheader">
-              <h1>condition</h1>
-              <h2>new & gently used</h2>
+            <div id="content-header">
+              <img id="sell-icon" src="/static/img/conditionicon.png" />
+              <div id="sell-subheader">
+                <h1>condition</h1>
+                <h2>new & gently used</h2>
+              </div>
             </div>
           </h4>
           <div id="content">
@@ -368,10 +369,12 @@
         </section>
         <section>
           <h4>
-            <img id="sell-icon" src="/static/img/seasonicon.png" />
-            <div id="sell-subheader">
-              <h1>in-season</h1>
-              <h2>year round + seasonal</h2>
+            <div id="content-header">
+              <img id="sell-icon" src="/static/img/seasonicon.png" />
+              <div id="sell-subheader">
+                <h1>in-season</h1>
+                <h2>year round + seasonal</h2>
+              </div>
             </div>
           </h4>
           <amp-accordion class="nested-accordion">
@@ -477,11 +480,14 @@
           </amp-accordion>
         </section>
         <section>
-          <h4><img id="sell-icon" src="/static/img/needleicon.png"/> 
+          <h4>
+            <div id="content-header">
+              <img id="sell-icon" src="/static/img/needleicon.png"/> 
               <div id="sell-subheader"> 
                 <h1> premium </h1>
                 <h2> high-end + limited edition </h2>
               </div>
+            </div>
           </h4>
           <div id="content">
               <div style="margin-bottom: 45.15px;" class="flex-dropdown">
@@ -599,16 +605,16 @@
                       <h1 style="margin-bottom: 1.875vw; color: #5B6278;"> Not Accepted </h1>
                       <div style="height: 13.75vw; width: 35.625vw;"id="frame-a">
                         <div style="margin-right:2.188vw; width: 10.156vw;"id="frame-a1"> 
-                          <p style="display:inline-block;"><img id="deny"src="/static/img/deny.png"/> Holes </p>
-                          <p style="display:inline-block;"><img id="deny"src="/static/img/deny.png"/> Rips </p>
-                          <p style="display:inline-block;"> <img id="deny"src="/static/img/deny.png"/> Stains </p> 
-                          <p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Odor</p>      
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny"src="/static/img/deny.png"/> Holes </p>
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny"src="/static/img/deny.png"/> Rips </p>
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"> <img id="deny"src="/static/img/deny.png"/> Stains </p> 
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny" src="/static/img/deny.png"/> Odor</p>      
                         </div>
                         <div style="width: 25.469vw;"id="frame-a2"> 
-                          <p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Fast Fashion Brands* </p>
-                          <p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Fair-Poor Condition Shoes</p>  
-                          <p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Men Size XXL+ </p> 
-                          <p style="display:inline-block;"><img id="deny" src="/static/img/deny.png"/> Men pants 36+ </p>                                                 
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny" src="/static/img/deny.png"/> Fast Fashion Brands* </p>
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny" src="/static/img/deny.png"/> Fair-Poor Condition Shoes</p>  
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny" src="/static/img/deny.png"/> Men Size XXL+ </p> 
+                          <p style="display: inline-block; flex-direction:row; display:flex; align-items: center;"><img id="deny" src="/static/img/deny.png"/> Men pants 36+ </p>                                                 
                         </div>
                       </div>
                     </div>

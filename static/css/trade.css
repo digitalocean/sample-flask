@@ -155,6 +155,11 @@ h2 {
 }
 }
 
+#content-header{
+  display: flex;
+  flex-direction: row;
+}
+
 /* looking to sell */
 #look-sell {
   text-align: center;

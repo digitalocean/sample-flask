@@ -33,7 +33,7 @@
                   <a href="videos.html">VIBIN' VIDEOS</a>
                   <a href="news.html">IN THE NEWS</a>
                   <a href="contact.html">CONTACT</a>
-                  <a >VISIT STORE</a>
+                  <a >VISIT ONLINE STORE</a>
                 </div>
               </div>
               
@@ -87,11 +87,10 @@
                     <li><a class="dropdown-item" href="#" onClick="location.href='photos.html'">FUN PHOTOS</a></li>
                     <li><a class="dropdown-item" href="#" onClick="location.href='videos.html'">VIBIN' VIDEOS</a></li>
                     <li><a class="dropdown-item" href="#" onClick="location.href='news.html'">IN THE NEWS</a></li>
-                 <li><a class="dropdown-item" href="#" >BLOG</a></li>
                 </ul>
             </div>
             <button class="nav-button" id="get-in-touch" onClick="location.href='contact.html'">GET IN TOUCH</button>
-            <button id="visit-store">VISIT STORE <span id="arrow"></span></button>
+            <button id="visit-store">VISIT ONLINE STORE<span id="arrow"></span></button>
         </div>
         
     </div>
@@ -105,7 +104,7 @@
         <div id="stop-by-left">
             <!--        <img src="/static/img/Mapsicle Map.png">        -->
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3120.5392583237094!2d-121.74323559999999!3d38.5443877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085290b387f42a5%3A0xb87cfed569def292!2sBoh%C3%A8me%20Hip%20Used%20Clothing!5e0!3m2!1sen!2sus!4v1691091227970!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <a href="https://goo.gl/maps/3aHUUmi1s2r5HkWD6"><button class="directions">GET DIRECTIONS</button></a>
+            <a href="https://goo.gl/maps/3aHUUmi1s2r5HkWD6" target="_blank"><button class="directions">GET DIRECTIONS</button></a>
             <p>We're only <strong>0.4 mi</strong> away from University of California, Davis.</p>
         </div>
         <div id="stop-by-right">
@@ -121,16 +120,21 @@
                 <p style="font-style: italic;">On holidays, these times are subject to change.</p>
             </div>
             <div id="contact-icons">
-                <img id="icon-c" src="/static/img/mailicon.png" onClick="location.href='mailto:yelena@bohemethreads.com'">
-                <img id="icon-c" src="/static/img/instagramicon.png" onClick="location.href='https://www.instagram.com/boheme.threads/?hl=en'">
-                <img id="icon-c" src="/static/img/facebookicon.png" onClick="location.href='https://www.facebook.com/BohemeThreads/'">
+              <img id="icon-c" src="/static/img/mailicon.png" onClick="openInNewTab('mailto:yelena@bohemethreads.com')">
+              <img id="icon-c" src="/static/img/instagramicon.png" onClick="openInNewTab('https://www.instagram.com/boheme.threads/?hl=en')">
+              <img id="icon-c" src="/static/img/facebookicon.png" onClick="openInNewTab('https://www.facebook.com/BohemeThreads/')">
             </div>
+            <script>
+              function openInNewTab(url) {
+                  window.open(url, '_blank');
+              }
+          </script>
         </div>
     </div>
     <div id="get-in-touch-container">
         <h4>Get in Touch!</h4>
         <p>Ask us anything! We'll get back to you in 24-48 hours.</p>
-        <form action="contact.php" method="post">
+        <form method="post" action="https://formsubmit.co/yelena@bohemethreads.com">
             <div class="input-div">
                 <h2 for="firstName">First Name</h2>
                 <input type="text" name="firstName"  id="firstName" required>
