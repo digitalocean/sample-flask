@@ -1,0 +1,129 @@
+/* Reset some default styles */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-size: 20px;
+}
+
+/* Light mode styles */
+@media (prefers-color-scheme: light) {
+    body {
+        background-image: url('../img/bg8.png');
+        background-color: #f4f4f4;
+    }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-image: url('../img/bg6.png');
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    header {
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    }
+}
+
+.logo img {
+    height: 40px;
+}
+
+.company-name h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 35px auto;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .container {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
+
+/* Footer styles */
+footer {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    footer {
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 -2px 4px rgba(255, 255, 255, 0.1);
+    }
+}
+
+footer nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+footer nav ul li {
+    margin: 0 10px;
+}
+
+footer nav ul li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Blur background image */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 18px;
+}
+
+p {
+    margin-bottom: 20px;
+}
