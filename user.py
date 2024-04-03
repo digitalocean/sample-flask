@@ -1,6 +1,9 @@
 from flask_login import UserMixin
 
-from db import get_db
+try:
+    from db import get_db
+except ImportError:
+    pass
 
 
 class User(UserMixin):
@@ -12,24 +15,30 @@ class User(UserMixin):
 
     @staticmethod
     def get(user_id):
-        db = get_db()
-        user = db.execute(
-            "SELECT * FROM user WHERE id = ?", (user_id,)
-        ).fetchone()
-        if not user:
+        try:
+            db = get_db()
+            user = db.execute(
+                "SELECT * FROM user WHERE id = ?", (user_id,)
+            ).fetchone()
+            if not user:
+                return None
+    
+            user = User(
+                id_=user[0], name=user[1], email=user[2], profile_pic=user[3]
+            )
+            return user
+        except:
             return None
-
-        user = User(
-            id_=user[0], name=user[1], email=user[2], profile_pic=user[3]
-        )
-        return user
-
+            
     @staticmethod
     def create(id_, name, email, profile_pic):
-        db = get_db()
-        db.execute(
-            "INSERT INTO user (id, name, email, profile_pic)"
-            " VALUES (?, ?, ?, ?)",
-            (id_, name, email, profile_pic),
-        )
-        db.commit()
+        try:
+            db = get_db()
+            db.execute(
+                "INSERT INTO user (id, name, email, profile_pic)"
+                " VALUES (?, ?, ?, ?)",
+                (id_, name, email, profile_pic),
+            )
+            db.commit()
+        except:
+            return None
